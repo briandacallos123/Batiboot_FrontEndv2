@@ -20,7 +20,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-export default function ServicesSecond() {
+export default function ServicesThird() {
   return (
     <RootStyle sx={{ backgroundColor: '#fff' }}>
       <Container component={MotionViewport}>
