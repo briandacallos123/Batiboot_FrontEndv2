@@ -43,7 +43,7 @@ export default function ServicesSecond() {
 
         <Grid container spacing={2} sx={{ alignItems: 'center' }}>
           <Grid item md={9}>
-            <m.div variants={varFade().inRight}>
+            <m.div variants={varFade().inLeft}>
               <Typography
                 align="right"
                 sx={{
@@ -64,7 +64,7 @@ export default function ServicesSecond() {
           <Grid item md={3}>
             <Grid container spacing={2}>
               <Grid item xs={7}>
-                <m.div align="right" variants={varFade().inRight}>
+                <m.div align="right" variants={varFade().inLeft}>
                   <Typography variant="h4" sx={{ mt: 4 }}>
                     Importing
                   </Typography>
