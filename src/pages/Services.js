@@ -6,10 +6,14 @@ import { _mapContact } from '../_mock';
 // components
 import Page from '../components/Page';
 import {
-    ServicesHero,
-    ServicesGrid,
-    ServicesSecond
-  } from '../sections/services';
+  ServicesHero,
+  ServicesGrid,
+  ServicesSecond,
+  ServicesThird,
+  ServicesFourth,
+  ServicesFifth,
+  ServicesSixth
+} from '../sections/services';
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +30,13 @@ export default function Services() {
   return (
     <Page title="Our Services">
       <RootStyle>
-        <ServicesHero/>
+        <ServicesHero />
         <ServicesGrid />
         <ServicesSecond />
+        <ServicesThird />
+        <ServicesFourth />
+        <ServicesFifth />
+        <ServicesSixth />
       </RootStyle>
     </Page>
   );

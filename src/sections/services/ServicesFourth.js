@@ -24,23 +24,6 @@ export default function ServicesSecond() {
   return (
     <RootStyle sx={{ backgroundColor: '#f7f7f7' }}>
       <Container component={MotionViewport}>
-        {/* <Grid container direction="row" justifyContent="flex-end" alignItems="center">
-          <Grid item xs={6} md={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={5}>
-                <Image src="\assets\Logo2\ship.png" variants={varFade().inRight} />
-              </Grid>
-              <Grid item xs={7}>
-                <m.div variants={varFade().inRight}>
-                  <Typography variant="h4" sx={{ mt: 4}}>
-                    Importing
-                  </Typography>
-                </m.div>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid> */}
-
         <Grid container spacing={2} sx={{ alignItems: 'center' }}>
           <Grid item md={9}>
             <m.div variants={varFade().inRight}>
@@ -64,14 +47,14 @@ export default function ServicesSecond() {
           <Grid item md={3}>
             <Grid container spacing={2}>
               <Grid item xs={7}>
-                <m.div align="right" variants={varFade().inRight}>
-                  <Typography variant="h4" sx={{ mt: 4 }}>
-                    Importing
+                <m.div variants={varFade().inRight}>
+                  <Typography align="right" variant="h4" sx={{ mt: 4 }}>
+                    Private Label
                   </Typography>
                 </m.div>
               </Grid>
               <Grid item xs={5}>
-                <Image src="\assets\Logo2\ship.png" variants={varFade().inRight} />
+                <Image src="\assets\Logo2\label.png" variants={varFade().inRight} />
               </Grid>
             </Grid>
           </Grid>

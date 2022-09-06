@@ -22,18 +22,18 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function ServicesSecond() {
   return (
-    <RootStyle sx={{ backgroundColor: '#f7f7f7' }}>
+    <RootStyle sx={{ backgroundColor: '#fff' }}>
       <Container component={MotionViewport}>
-        {/* <Grid container direction="row" justifyContent="flex-end" alignItems="center">
+        {/* <Grid container spacing={2}>
           <Grid item xs={6} md={3}>
             <Grid container spacing={2}>
               <Grid item xs={5}>
-                <Image src="\assets\Logo2\ship.png" variants={varFade().inRight} />
+                <Image src="\assets\Logo2\container.png" variants={varFade().inRight} />
               </Grid>
               <Grid item xs={7}>
                 <m.div variants={varFade().inRight}>
-                  <Typography variant="h4" sx={{ mt: 4}}>
-                    Importing
+                  <Typography variant="h4" sx={{ mt: 4 }}>
+                    Warehousing
                   </Typography>
                 </m.div>
               </Grid>
@@ -42,10 +42,23 @@ export default function ServicesSecond() {
         </Grid> */}
 
         <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+          <Grid item md={3}>
+            <Grid container spacing={2}>
+              <Grid item xs={5}>
+                <Image src="\assets\Logo2\container.png" variants={varFade().inRight} />
+              </Grid>
+              <Grid item xs={7}>
+                <m.div variants={varFade().inRight}>
+                  <Typography variant="h4" sx={{ mt: 4 }}>
+                    Warehousing
+                  </Typography>
+                </m.div>
+              </Grid>
+            </Grid>
+          </Grid>
           <Grid item md={9}>
             <m.div variants={varFade().inRight}>
               <Typography
-                align="right"
                 sx={{
                   color: (theme) => (theme.palette.mode === 'light' ? 'text.secondary' : 'common.white'),
                 }}
@@ -54,26 +67,10 @@ export default function ServicesSecond() {
                 nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate.
                 Voluptatum ducimus voluptates voluptas?
               </Typography>
-              <Grid item container direction="column" alignItems="flex-end" justify="flex-end">
-                <Button size="large" variant="contained" sx={{ mt: 1 }}>
-                  Order Now
-                </Button>
-              </Grid>
+              <Button size="large" variant="contained" sx={{ mt: 1 }}>
+                Order Now
+              </Button>
             </m.div>
-          </Grid>
-          <Grid item md={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={7}>
-                <m.div align="right" variants={varFade().inRight}>
-                  <Typography variant="h4" sx={{ mt: 4 }}>
-                    Importing
-                  </Typography>
-                </m.div>
-              </Grid>
-              <Grid item xs={5}>
-                <Image src="\assets\Logo2\ship.png" variants={varFade().inRight} />
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
       </Container>
