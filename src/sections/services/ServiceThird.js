@@ -8,7 +8,8 @@ import Image from '../../components/Image';
 import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
-  padding: theme.spacing(9, 0),
+  padding: theme.spacing(8, 0),
+  backgroundColor: '#fff',
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -23,28 +24,29 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function ServicesThird() {
   return (
-    <RootStyle sx={{ backgroundColor: '#FFFFFF' }}>
+    <RootStyle>
       <Container component={MotionViewport}>
-        <Grid container alignItems="center" justifyContent="space-between" spacing={12}>
-          <Grid item container md={7}>
+        <Grid container direction="row" alignItems="center" paddingX={{ xs: 2, md: 0 }}>
+          <Grid item container align="left" md={7} sx={{ paddingRight: 4 }}>
             <Grid item>
-              <m.div align="left" variants={varFade().inLeft}>
+              <m.div variants={varFade().inLeft}>
                 <Typography variant="h5">EFFECTIVE SOLUTIONS</Typography>
               </m.div>
             </Grid>
             <Grid item sx={{ mt: 2 }}>
-              <m.div align="left" variants={varFade().inLeft}>
+              <m.div variants={varFade().inLeft}>
                 <Typography variant="p">
-                  You benefit from our experience in delivering effective solutions to the complex global supply chains
-                  of some of the world’s biggest corporations. You benefit from every innovation, whether it involves a
-                  simple extension to our Air and Ocean Freight products, whether it means a development in warehousing,
-                  or whether it requires a completely new integrated supply chain model.
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae natus
+                  eveniet ratione temporibus aperiam harum alias officiis assumenda officia quibusdam deleniti eos
+                  cupiditate dolore doloribus! Ad dolore dignissimos asperiores dicta facere optio quod commodi nam
+                  tempore recusandae. Rerum sed nulla eum vero expedita ex delectus voluptates rem at neque quos facere
+                  sequi unde optio aliquam!
                 </Typography>
               </m.div>
             </Grid>
           </Grid>
-          <Grid item align="right" md={5}>
-            <Image src="\assets\mockups\importing.jpg" sx={{ width: 400, height: 170 }} variants={varFade().inRight} />
+          <Grid item align="right" md={5} marginTop={{ xs: 4, md: 0 }} paddingRight={{ xs: 0, md: 4 }}>
+            <Image src="\assets\mockups\importing.jpg" sx={{ width: '100%', height: 200 }} variants={varFade().inRight} />
           </Grid>
         </Grid>
       </Container>
