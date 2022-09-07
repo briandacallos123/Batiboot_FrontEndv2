@@ -8,11 +8,6 @@ import Page from '../components/Page';
 import {
   ServicesHero,
   ServicesGrid,
-  ServicesSecond,
-  ServicesThird,
-  ServicesFourth,
-  ServicesFifth,
-  ServicesSixth
 } from '../sections/services';
 
 // ----------------------------------------------------------------------
@@ -32,11 +27,6 @@ export default function Services() {
       <RootStyle>
         <ServicesHero />
         <ServicesGrid />
-        <ServicesSecond />
-        <ServicesThird />
-        <ServicesFourth />
-        <ServicesFifth />
-        <ServicesSixth />
       </RootStyle>
     </Page>
   );
