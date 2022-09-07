@@ -35,12 +35,12 @@ export default function ServicesFourth() {
       <RootStyle component={MotionViewport}>
         {/* <Container component={MotionViewport}> */}
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid align="center" xs={12} md={4} sx={{ backgroundColor: '#FFDB99' }}>
+          <Grid md={4} align="center" sx={{ backgroundColor: '#FFDB99' }}>
             <Article>
               <Grid item xs={5} md={3}>
                 <ShieldOutlinedIcon sx={{ fontSize: 70 }} />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item>
                 <m.div variants={varFade().inRight}>
                   <Typography variant="h4" sx={{ mt: 2 }}>
                     SAFE & SECURE
@@ -63,12 +63,12 @@ export default function ServicesFourth() {
             </Article>
           </Grid>
 
-          <Grid xs={12} md={4} align="center" sx={{ backgroundColor: '#FFC14D' }}>
+          <Grid md={4} align="center" sx={{ backgroundColor: '#FFC14D' }}>
             <Article>
               <Grid item xs={5} md={3}>
                 <TimerOutlinedIcon sx={{ fontSize: 70 }} />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item>
                 <m.div variants={varFade().inRight}>
                   <Typography variant="h4" sx={{ mt: 2 }}>
                     FAST DELIVERY
@@ -91,12 +91,12 @@ export default function ServicesFourth() {
             </Article>
           </Grid>
 
-          <Grid xs={12} md={4} align="center" sx={{ backgroundColor: '#FFA500' }}>
+          <Grid md={4} align="center" sx={{ backgroundColor: '#FFA500' }}>
             <Article>
               <Grid item xs={5} md={3}>
                 <PermPhoneMsgOutlinedIcon sx={{ fontSize: 70 }} />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item>
                 <m.div variants={varFade().inRight}>
                   <Typography variant="h4" sx={{ mt: 2 }}>
                     24/7 SUPPORT

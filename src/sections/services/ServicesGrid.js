@@ -23,7 +23,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 const Article = styled('div')(({ theme }) => ({
   color: '#fff',
-  padding: theme.spacing(4),
+  padding: theme.spacing(4, 6),
 }));
 
 export default function ServicesGrid() {
