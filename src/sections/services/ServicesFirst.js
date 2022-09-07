@@ -27,7 +27,7 @@ export default function ServicesSecond() {
     <RootStyle>
       <Container component={MotionViewport}>
         <Grid container direction="row">
-          <Grid item md={4} paddingX={{ xs: 2, md: 0 }} sx={{ py: 1, color: 'orange' }}>
+          <Grid item md={4} paddingX={{ xs: 2, md: 0 }} sx={{ py: 1, color: 'primary.main' }}>
             <m.div variants={varFade().inUp}>
               <Typography variant="h3">QUALITY AND PERFORMANCE AT THE RIGHT PRICE</Typography>
             </m.div>

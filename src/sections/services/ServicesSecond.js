@@ -38,10 +38,11 @@ export default function ServicesSecond() {
               variant="contained"
               sx={{
                 borderRadius: 3,
-                backgroundColor: 'Orange',
+                backgroundColor: 'primary',
                 boxShadow: 'none',
               }}
               endIcon={<ArrowForwardIcon />}
+              href="./contact-us"
             >
               Contact Now
             </Button>

@@ -34,7 +34,7 @@ export default function ServicesFourth() {
       <RootStyle>
         {/* <Container component={MotionViewport}> */}
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid md={4} align="center" sx={{ backgroundColor: '#FFDB99' }}>
+          <Grid md={4} align="center" sx={{ backgroundColor: 'primary.main', opacity: '50%' }}>
             <Article>
               <Grid item xs={5} md={3}>
                 <ShieldOutlinedIcon sx={{ fontSize: 70 }} />
@@ -62,7 +62,7 @@ export default function ServicesFourth() {
             </Article>
           </Grid>
 
-          <Grid md={4} align="center" sx={{ backgroundColor: '#FFC14D' }}>
+          <Grid md={4} align="center" sx={{ backgroundColor: 'primary.main', opacity: '75%' }}>
             <Article>
               <Grid item xs={5} md={3}>
                 <TimerOutlinedIcon sx={{ fontSize: 70 }} />
@@ -90,7 +90,7 @@ export default function ServicesFourth() {
             </Article>
           </Grid>
 
-          <Grid md={4} align="center" sx={{ backgroundColor: '#FFA500' }}>
+          <Grid md={4} align="center" sx={{ backgroundColor: 'primary.main' }}>
             <Article>
               <Grid item xs={5} md={3}>
                 <PermPhoneMsgOutlinedIcon sx={{ fontSize: 70 }} />
