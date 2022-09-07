@@ -8,7 +8,7 @@ import Image from '../../components/Image';
 import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
-  padding: theme.spacing(12, 0),
+  padding: theme.spacing(9, 0),
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -23,36 +23,28 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function ServicesThird() {
   return (
-    <RootStyle sx={{ backgroundColor: '#f7f7f7' }}>
+    <RootStyle sx={{ backgroundColor: '#FFFFFF' }}>
       <Container component={MotionViewport}>
-        <Grid container alignItems="center" justifyContent="space-between" sx={{ px: 20 }} spacing={12}>
-          <Grid item md={8}>
-            <m.div align="left" variants={varFade().inLeft}>
-              <Typography variant="h5" sx={{ mt: 4 }}>
-                Not sure which solution fits your business needs?
-              </Typography>
-              <Typography variant="p">
-                You benefit from our experience in delivering effective solutions to the complex global supply chains of
-                some of the world’s biggest corporations. You benefit from every innovation, whether it involves a
-                simple extension to our Air and Ocean Freight products, whether it means a development in warehousing,
-                or whether it requires a completely new integrated supply chain model.
-              </Typography>
-            </m.div>
+        <Grid container alignItems="center" justifyContent="space-between" spacing={12}>
+          <Grid item container md={7}>
+            <Grid item>
+              <m.div align="left" variants={varFade().inLeft}>
+                <Typography variant="h5">EFFECTIVE SOLUTIONS</Typography>
+              </m.div>
+            </Grid>
+            <Grid item sx={{ mt: 2 }}>
+              <m.div align="left" variants={varFade().inLeft}>
+                <Typography variant="p">
+                  You benefit from our experience in delivering effective solutions to the complex global supply chains
+                  of some of the world’s biggest corporations. You benefit from every innovation, whether it involves a
+                  simple extension to our Air and Ocean Freight products, whether it means a development in warehousing,
+                  or whether it requires a completely new integrated supply chain model.
+                </Typography>
+              </m.div>
+            </Grid>
           </Grid>
-          <Grid item align="right" md={4}>
-            <Button
-              size="large"
-              variant="contained"
-              sx={{
-                mt: 3,
-                borderRadius: 3,
-                backgroundColor: 'Orange',
-                boxShadow: 'none',
-              }}
-              endIcon={<ArrowForwardIcon />}
-            >
-              Contact Now
-            </Button>
+          <Grid item align="right" md={5}>
+            <Image src="\assets\mockups\importing.jpg" sx={{ width: 400, height: 170 }} variants={varFade().inRight} />
           </Grid>
         </Grid>
       </Container>
