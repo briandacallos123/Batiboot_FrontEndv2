@@ -5,7 +5,7 @@ import { Grid, Container } from '@mui/material';
 import { _mapContact } from '../_mock';
 // components
 import Page from '../components/Page';
-import { ServicesHero, ServicesGrid, ServicesSecond } from '../sections/services';
+import { ServicesHero, ServicesGrid, ServicesSecond, ServicesThird } from '../sections/services';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +25,7 @@ export default function Services() {
         <ServicesHero />
         <ServicesGrid />
         <ServicesSecond />
+        <ServicesThird />
       </RootStyle>
     </Page>
   );
