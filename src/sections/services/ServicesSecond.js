@@ -26,13 +26,13 @@ export default function ServicesSecond() {
   return (
     <RootStyle>
       <Container component={MotionViewport}>
-        <Grid container alignItems="center" justifyContent="space-between" spacing={12} sx={{ px: 10 }}>
+        <Grid container direction="row" alignItems="center" paddingX={{ xs: 2, md: 10 }} sx={{ pt: 6 }}>
           <Grid item align="left" md={8}>
             <m.div variants={varFade().inLeft}>
               <Typography variant="h4">Not sure which solution fits your business needs?</Typography>
             </m.div>
           </Grid>
-          <Grid item align="right" md={4}>
+          <Grid item align="right" md={4} marginTop={{ xs: 2, md: 0 }} sx={{ pr: 4 }}>
             <Button
               size="large"
               variant="contained"
