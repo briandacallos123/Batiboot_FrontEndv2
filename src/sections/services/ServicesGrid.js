@@ -7,7 +7,7 @@ import Image from '../../components/Image';
 import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
-  backgroundColor: '#fff',
+  backgroundColor: '#f7f7f7',
   marginTop: 55,
 }));
 
