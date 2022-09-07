@@ -89,7 +89,7 @@ export default function ServicesGrid() {
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
                     <Button size="large" variant="contained" sx={{ mt: 2 }}>
-                      Order Now
+                      Ship Now
                     </Button>
                   </m.div>
                 </Grid>
@@ -185,7 +185,7 @@ export default function ServicesGrid() {
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
                     <Button size="large" variant="contained" sx={{ mt: 2 }}>
-                      Order Now
+                      Register Now
                     </Button>
                   </m.div>
                 </Grid>
@@ -217,7 +217,7 @@ export default function ServicesGrid() {
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
                     <Button size="large" variant="contained" sx={{ mt: 2 }}>
-                      Order Now
+                      Register Now
                     </Button>
                   </m.div>
                 </Grid>

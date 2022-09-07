@@ -11,7 +11,6 @@ import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
   backgroundColor: '#f7f7f7',
-  marginTop: 55,
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -32,7 +31,7 @@ const Article = styled('div')(({ theme }) => ({
 export default function ServicesFourth() {
   return (
     <>
-      <RootStyle component={MotionViewport}>
+      <RootStyle>
         {/* <Container component={MotionViewport}> */}
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid md={4} align="center" sx={{ backgroundColor: '#FFDB99' }}>
