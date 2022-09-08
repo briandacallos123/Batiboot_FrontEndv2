@@ -34,7 +34,7 @@ export const _carouselsMembers = [...Array(5)].map((_, index) => ({
 
 // ----------------------------------------------------------------------
 
-export const _faqs = [...Array(4)].map((_, index) => ({
+export const _faqs = [...Array(6)].map((_, index) => ({
   id: _mock.id(index),
   value: `panel${index + 1}`,
   heading: `Questions ${index + 1}`,

@@ -56,7 +56,7 @@ export default function ServicesGrid() {
                       nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
-                    <Button size="large" variant="contained" sx={{ mt: 2 }}>
+                    <Button size="large" variant="contained" sx={{ mt: 2 }} href="./Quotation">
                       Order Now
                     </Button>
                   </m.div>
@@ -88,7 +88,7 @@ export default function ServicesGrid() {
                       nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
-                    <Button size="large" variant="contained" sx={{ mt: 2 }}>
+                    <Button size="large" variant="contained" sx={{ mt: 2 }} href="./Quotation">
                       Ship Now
                     </Button>
                   </m.div>
@@ -120,7 +120,7 @@ export default function ServicesGrid() {
                       nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
-                    <Button size="large" variant="contained" sx={{ mt: 2 }}>
+                    <Button size="large" variant="contained" sx={{ mt: 2 }} href="./Quotation">
                       Order Now
                     </Button>
                   </m.div>
@@ -152,7 +152,7 @@ export default function ServicesGrid() {
                       nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
-                    <Button size="large" variant="contained" sx={{ mt: 2 }}>
+                    <Button size="large" variant="contained" sx={{ mt: 2 }} href="./Quotation">
                       Order Now
                     </Button>
                   </m.div>
@@ -184,7 +184,7 @@ export default function ServicesGrid() {
                       nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
-                    <Button size="large" variant="contained" sx={{ mt: 2 }}>
+                    <Button size="large" variant="contained" sx={{ mt: 2 }} href="./Quotation">
                       Register Now
                     </Button>
                   </m.div>
@@ -216,7 +216,7 @@ export default function ServicesGrid() {
                       nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
                       cupiditate. Voluptatum ducimus voluptates voluptas?
                     </Typography>
-                    <Button size="large" variant="contained" sx={{ mt: 2 }}>
+                    <Button size="large" variant="contained" sx={{ mt: 2 }} href="./Quotation">
                       Register Now
                     </Button>
                   </m.div>
