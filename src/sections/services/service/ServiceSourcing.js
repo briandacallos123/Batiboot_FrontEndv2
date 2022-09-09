@@ -1,11 +1,31 @@
 import { m } from 'framer-motion';
 import * as React from 'react';
 // @mui
-import { Button, Container, Typography, Grid, Box, Modal, Fade, Backdrop } from '@mui/material';
+import {
+  Button,
+  Container,
+  Typography,
+  Grid,
+  Box,
+  Modal,
+  Fade,
+  Backdrop,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+} from '@mui/material';
 import { alpha, useTheme, styled } from '@mui/material/styles';
 // components
 import Image from '../../../components/Image';
 import { varFade } from '../../../components/animate';
+
+import IMG1 from '../../../assets/services/ProductSourcing-Instruct1.png';
+import IMG2 from '../../../assets/services/ProductSourcing-Instruct2.png';
+import IMG3 from '../../../assets/services/ProductSourcing-Instruct3.png';
+import IMG4 from '../../../assets/services/ProductSourcing-Instruct4.png';
+import IMG5 from '../../../assets/services/ProductSourcing-Instruct5.png';
+import IMG6 from '../../../assets/services/ProductSourcing-Instruct6.png';
+import './service.css';
 
 const modalStyle = {
   position: 'absolute',
@@ -76,7 +96,7 @@ export default function ServiceSourcing() {
                       Product Sourcing Services
                     </Typography>
 
-                    <Grid
+                    {/* <Grid
                       container
                       direction="row"
                       alignItems="center"
@@ -131,6 +151,25 @@ export default function ServiceSourcing() {
                           height={{ xs: 200, md: 240 }}
                         />
                       </Grid>
+                    </Grid> */}
+
+                    <Grid item marginTop={{ xs: 2, md: 1 }}>
+                      <ImageList
+                        sx={{
+                          gridAutoFlow: 'column',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr)) !important',
+                          gridAutoColumns: 'minmax(280px, 1fr)',
+                        }}
+                      >
+                        {images.map((image) => (
+                          <Grid align="center" backgroundColor="primary.main" borderRadius="5%">
+                            <Image src={image.img} variants={varFade().inRight} sx={{ borderRadius: '5% 5% 0 0' }} />
+                            <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
+                              {image.caption}
+                            </Typography>
+                          </Grid>
+                        ))}
+                      </ImageList>
                     </Grid>
 
                     <Grid item align="center" marginTop={2}>
@@ -148,3 +187,30 @@ export default function ServiceSourcing() {
     </Grid>
   );
 }
+
+const images = [
+  {
+    img: IMG1,
+    caption: 'Step 1',
+  },
+  {
+    img: IMG2,
+    caption: 'Step 2',
+  },
+  {
+    img: IMG3,
+    caption: 'Step 3',
+  },
+  {
+    img: IMG4,
+    caption: 'Step 4',
+  },
+  {
+    img: IMG5,
+    caption: 'Step 5',
+  },
+  {
+    img: IMG6,
+    caption: 'Step 6',
+  },
+];
