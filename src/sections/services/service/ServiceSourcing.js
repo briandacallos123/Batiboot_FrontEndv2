@@ -75,6 +75,7 @@ export default function ServiceSourcing() {
                     <Typography id="transition-modal-title" variant="h4" sx={{ color: 'primary.main' }}>
                       Product Sourcing Services
                     </Typography>
+
                     <Grid
                       container
                       direction="row"
@@ -84,11 +85,16 @@ export default function ServiceSourcing() {
                       marginTop={{ xs: 2, md: 1 }}
                     >
                       <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Instruct1.png"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
+                        <Grid align="center" backgroundColor="primary.main" borderRadius="5%">
+                          <Image
+                            src="\assets\services\ProductSourcing-Instruct1.png"
+                            variants={varFade().inRight}
+                            sx={{ borderRadius: '5% 5% 0 0' }}
+                          />
+                          <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
+                            Step 1
+                          </Typography>
+                        </Grid>
                       </Grid>
                       <Grid item width={{ xs: '100%', md: 1 / 3 }}>
                         <Image
@@ -126,6 +132,7 @@ export default function ServiceSourcing() {
                         />
                       </Grid>
                     </Grid>
+
                     <Grid item align="center" marginTop={2}>
                       <Button size="large" variant="contained" href="./Quotation">
                         Order Now

@@ -14,7 +14,7 @@ import {
   ServiceLabel,
   ServiceWarehousing,
   ServiceFullfilment,
-} from './grid-service';
+} from './service';
 
 const RootStyle = styled('div')(({ theme }) => ({
   backgroundColor: '#f7f7f7',
