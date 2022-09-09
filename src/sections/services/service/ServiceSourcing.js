@@ -1,9 +1,11 @@
 import { m } from 'framer-motion';
 import * as React from 'react';
+import { useRef } from 'react';
+import Slider from 'react-slick';
 // @mui
 import {
   Button,
-  Container,
+  Paper,
   Typography,
   Grid,
   Box,
@@ -12,12 +14,13 @@ import {
   Backdrop,
   ImageList,
   ImageListItem,
-  ImageListItemBar,
+  Stack,
 } from '@mui/material';
 import { alpha, useTheme, styled } from '@mui/material/styles';
 // components
 import Image from '../../../components/Image';
 import { varFade } from '../../../components/animate';
+import { CarouselArrows } from '../../../components/carousel';
 
 import IMG1 from '../../../assets/services/ProductSourcing-Instruct1.png';
 import IMG2 from '../../../assets/services/ProductSourcing-Instruct2.png';
@@ -46,6 +49,44 @@ export default function ServiceSourcing() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const carouselRef = useRef(null);
+  const theme = useTheme();
+
+  const settings = {
+    dots: false,
+    arrows: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    rtl: Boolean(theme.direction === 'rtl'),
+    responsive: [
+      {
+        breakpoint: theme.breakpoints.values.lg,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: theme.breakpoints.values.md,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: theme.breakpoints.values.sm,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  const handlePrevious = () => {
+    carouselRef.current?.slickPrev();
+  };
+
+  const handleNext = () => {
+    carouselRef.current?.slickNext();
+  };
 
   return (
     <Grid xs={12} md={6} sx={{ backgroundColor: '#5bc5cd' }}>
@@ -96,86 +137,49 @@ export default function ServiceSourcing() {
                       Product Sourcing Services
                     </Typography>
 
-                    {/* <Grid
-                      container
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="center"
-                      spacing="1%"
-                      marginTop={{ xs: 2, md: 1 }}
-                    >
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Grid align="center" backgroundColor="primary.main" borderRadius="5%">
-                          <Image
-                            src="\assets\services\ProductSourcing-Instruct1.png"
-                            variants={varFade().inRight}
-                            sx={{ borderRadius: '5% 5% 0 0' }}
-                          />
-                          <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
-                            Step 1
-                          </Typography>
+                    <Grid container direction="row" marginTop={{ xs: 1, md: 0 }} spacing={2}>
+                      <Grid item md={6} sx={{ height: { xs: 250, md: 450 } }}>
+                        <ImageList sx={{ width: '100%', height: '100%' }} variant="quilted" cols={4} rowHeight={121}>
+                          {itemData.map((item) => (
+                            <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
+                              <Image
+                                borderRadius={2}
+                                {...srcset(item.img, 121, item.rows, item.cols)}
+                                alt={item.title}
+                                loading="lazy"
+                              />
+                            </ImageListItem>
+                          ))}
+                        </ImageList>
+                      </Grid>
+
+                      <Grid item md={6} sx={{ height: { xs: 250, md: 450 } }}>
+                        <Box sx={{ position: 'relative' }}>
+                          <CarouselArrows filled onNext={handleNext} onPrevious={handlePrevious}>
+                            <Slider ref={carouselRef} {...settings}>
+                              {intruct.map((slide) => (
+                                <Grid key={slide.img} align="center" paddingX={1}>
+                                  <Image
+                                    src={slide.img}
+                                    variants={varFade().inRight}
+                                    sx={{ borderRadius: '2vw 2vw 0 0' }}
+                                  />
+                                  <Grid backgroundColor="primary.main" sx={{ borderRadius: '0 0 2vw 2vw' }}>
+                                    <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
+                                      {slide.caption}
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              ))}
+                            </Slider>
+                          </CarouselArrows>
+                        </Box>
+                        <Grid align="right" marginTop={3}>
+                          <Button size="large" variant="contained" href="./Quotation">
+                            Order Now
+                          </Button>
                         </Grid>
                       </Grid>
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Instruct2.png"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
-                      </Grid>
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Instruct3.png"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
-                      </Grid>
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Instruct4.png"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
-                      </Grid>
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Instruct5.png"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
-                      </Grid>
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Instruct6.png"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
-                      </Grid>
-                    </Grid> */}
-
-                    <Grid item marginTop={{ xs: 2, md: 1 }}>
-                      <ImageList
-                        sx={{
-                          gridAutoFlow: 'column',
-                          gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr)) !important',
-                          gridAutoColumns: 'minmax(280px, 1fr)',
-                        }}
-                      >
-                        {images.map((image) => (
-                          <Grid align="center" backgroundColor="primary.main" borderRadius="5%">
-                            <Image src={image.img} variants={varFade().inRight} sx={{ borderRadius: '5% 5% 0 0' }} />
-                            <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
-                              {image.caption}
-                            </Typography>
-                          </Grid>
-                        ))}
-                      </ImageList>
-                    </Grid>
-
-                    <Grid item align="center" marginTop={2}>
-                      <Button size="large" variant="contained" href="./Quotation">
-                        Order Now
-                      </Button>
                     </Grid>
                   </Box>
                 </Fade>
@@ -188,7 +192,14 @@ export default function ServiceSourcing() {
   );
 }
 
-const images = [
+function srcset(image, size, rows = 1, cols = 1) {
+  return {
+    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+    srcSet: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format&dpr=2 2x`,
+  };
+}
+
+const intruct = [
   {
     img: IMG1,
     caption: 'Step 1',
@@ -212,5 +223,66 @@ const images = [
   {
     img: IMG6,
     caption: 'Step 6',
+  },
+];
+
+const itemData = [
+  {
+    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+    title: 'Breakfast',
+    rows: 2,
+    cols: 2,
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+    title: 'Burger',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+    title: 'Camera',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+    title: 'Coffee',
+    cols: 2,
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+    title: 'Hats',
+    cols: 2,
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+    title: 'Honey',
+    author: '@arwinneil',
+    rows: 2,
+    cols: 2,
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
+    title: 'Basketball',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+    title: 'Fern',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
+    title: 'Mushrooms',
+    rows: 2,
+    cols: 2,
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
+    title: 'Tomato basil',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
+    title: 'Sea star',
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
+    title: 'Bike',
+    cols: 2,
   },
 ];
