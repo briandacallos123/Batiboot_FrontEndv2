@@ -6,6 +6,7 @@ import { alpha, useTheme, styled } from '@mui/material/styles';
 // components
 import Image from '../../../components/Image';
 import { varFade } from '../../../components/animate';
+import { ServiceFulfillmentGallery, ServiceFulfillmentSlider } from '.';
 
 const modalStyle = {
   position: 'absolute',
@@ -73,36 +74,20 @@ export default function ServiceFullfilment() {
                 <Fade in={open}>
                   <Box borderRadius={4} width={{ xs: '90%', md: '70%' }} sx={modalStyle}>
                     <Typography id="transition-modal-title" variant="h4" sx={{ color: 'primary.main' }}>
-                      Product Sourcing Services
+                      Fulfillment
                     </Typography>
-                    <Grid
-                      container
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="center"
-                      spacing="1%"
-                      marginTop={{ xs: 2, md: 1 }}
-                    >
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Picture1.jpg"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
+                    <Grid container spacing={2} height={{ xs: 620, md: 450 }} marginTop={1}>
+                      <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
+                        <ServiceFulfillmentGallery />
                       </Grid>
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Picture2.jpg"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
-                      </Grid>
-                      <Grid item width={{ xs: '100%', md: 1 / 3 }}>
-                        <Image
-                          src="\assets\services\ProductSourcing-Picture3.jpg"
-                          variants={varFade().inRight}
-                          height={{ xs: 200, md: 240 }}
-                        />
+
+                      <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
+                        <ServiceFulfillmentSlider />
+                        <Grid align="right" marginTop={2}>
+                          <Button size="large" variant="contained" href="./Quotation">
+                            Order Now
+                          </Button>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Box>

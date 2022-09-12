@@ -5,19 +5,19 @@ import Slider from 'react-slick';
 import { Typography, Grid, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // components
-import Image from '../../../components/Image';
-import { varFade } from '../../../components/animate';
-import { CarouselArrows } from '../../../components/carousel';
+import Image from '../../../../components/Image';
+import { varFade } from '../../../../components/animate';
+import { CarouselArrows } from '../../../../components/carousel';
 
-import IMG1 from '../../../assets/services/ProductSourcing-Instruct1.png';
-import IMG2 from '../../../assets/services/ProductSourcing-Instruct2.png';
-import IMG3 from '../../../assets/services/ProductSourcing-Instruct3.png';
-import IMG4 from '../../../assets/services/ProductSourcing-Instruct4.png';
-import IMG5 from '../../../assets/services/ProductSourcing-Instruct5.png';
-import IMG6 from '../../../assets/services/ProductSourcing-Instruct6.png';
-import './service.css';
+import IMG1 from '../../../../assets/services/ProductSourcing-Instruct1.png';
+import IMG2 from '../../../../assets/services/ProductSourcing-Instruct2.png';
+import IMG3 from '../../../../assets/services/ProductSourcing-Instruct3.png';
+import IMG4 from '../../../../assets/services/ProductSourcing-Instruct4.png';
+import IMG5 from '../../../../assets/services/ProductSourcing-Instruct5.png';
+import IMG6 from '../../../../assets/services/ProductSourcing-Instruct6.png';
+import './sliderCSS.css';
 
-export default function ServiceSourcingSlider() {
+export default function ServiceImportingSlider() {
   const carouselRef = useRef(null);
   const theme = useTheme();
 
@@ -43,11 +43,7 @@ export default function ServiceSourcingSlider() {
         <Slider ref={carouselRef} {...settings}>
           {data.map((slide) => (
             <Grid key={slide.img} align="center" paddingX={1}>
-              <Image
-                src={slide.img}
-                variants={varFade().inRight}
-                sx={{ borderRadius: '2vw 2vw 0 0' }}
-              />
+              <Image src={slide.img} variants={varFade().inRight} sx={{ borderRadius: '2vw 2vw 0 0' }} />
               <Grid backgroundColor="primary.main" sx={{ borderRadius: '0 0 2vw 2vw' }}>
                 <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
                   {slide.caption}

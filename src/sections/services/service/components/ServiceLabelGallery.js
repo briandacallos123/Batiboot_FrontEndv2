@@ -2,9 +2,9 @@ import * as React from 'react';
 // @mui
 import { ImageList, ImageListItem } from '@mui/material';
 // components
-import Image from '../../../components/Image';
+import Image from '../../../../components/Image';
 
-export default function ServiceSourcingGallery() {
+export default function ServiceLabelGallery() {
   return (
     <ImageList sx={{ height: '100%' }} variant="quilted" cols={4}>
       {data.map((item) => (
