@@ -4,7 +4,7 @@ import { ImageList, ImageListItem } from '@mui/material';
 // components
 import Image from '../../../../components/Image';
 
-export default function ServiceFulfillmentgGallery() {
+export default function ServiceFulfillmentGallery() {
   return (
     <ImageList sx={{ height: '100%' }} variant="quilted" cols={4}>
       {data.map((item) => (

@@ -13,7 +13,7 @@ import {
   ServiceRebranding,
   ServiceLabel,
   ServiceWarehousing,
-  ServiceFullfilment,
+  ServiceFulfillment,
 } from './service';
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -62,7 +62,7 @@ export default function ServicesGrid() {
             <ServiceRebranding />
             <ServiceLabel />
             <ServiceWarehousing />
-            <ServiceFullfilment />
+            <ServiceFulfillment />
           </Grid>
         </Container>
       </RootStyle>

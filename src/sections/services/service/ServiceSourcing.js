@@ -76,8 +76,7 @@ export default function ServiceSourcing() {
                     <Typography id="transition-modal-title" variant="h4" sx={{ color: 'primary.main' }}>
                       Product Sourcing Services
                     </Typography>
-
-                    <Grid container spacing={2} height={{xs: 620, md: 450}} marginTop={1}>
+                    <Grid container spacing={2} height={{ xs: 620, md: 450 }} marginTop={1}>
                       <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
                         <ServiceSourcingGallery />
                       </Grid>

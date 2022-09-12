@@ -23,7 +23,7 @@ const Article = styled('div')(({ theme }) => ({
   padding: theme.spacing(4, 6),
 }));
 
-export default function ServiceFullfilment() {
+export default function ServiceFulfillment() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -37,7 +37,7 @@ export default function ServiceFullfilment() {
         <Grid item xs={12}>
           <m.div variants={varFade().inRight}>
             <Typography variant="h4" sx={{ mt: 2 }}>
-              FULLFILMENT
+              FULFILLMENT
             </Typography>
           </m.div>
         </Grid>
@@ -74,7 +74,7 @@ export default function ServiceFullfilment() {
                 <Fade in={open}>
                   <Box borderRadius={4} width={{ xs: '90%', md: '70%' }} sx={modalStyle}>
                     <Typography id="transition-modal-title" variant="h4" sx={{ color: 'primary.main' }}>
-                      Fulfillment
+                      Fulfillment Services
                     </Typography>
                     <Grid container spacing={2} height={{ xs: 620, md: 450 }} marginTop={1}>
                       <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
