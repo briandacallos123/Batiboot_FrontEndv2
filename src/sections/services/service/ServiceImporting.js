@@ -86,7 +86,7 @@ export default function ServiceImporting() {
                         <ServiceImportingSlider />
                         <Grid align="right" marginTop={2}>
                           <Button size="large" variant="contained" href="./Quotation">
-                            Order Now
+                            Ship Now
                           </Button>
                         </Grid>
                       </Grid>

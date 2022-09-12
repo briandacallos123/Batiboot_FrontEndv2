@@ -85,7 +85,7 @@ export default function ServiceFullfilment() {
                         <ServiceFulfillmentSlider />
                         <Grid align="right" marginTop={2}>
                           <Button size="large" variant="contained" href="./Quotation">
-                            Order Now
+                            Register Now
                           </Button>
                         </Grid>
                       </Grid>
