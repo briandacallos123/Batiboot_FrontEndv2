@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useRef } from 'react';
 import Slider from 'react-slick';
 // @mui
-import { Typography, Grid, Box } from '@mui/material';
+import { Typography, Grid, Box, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // components
 import Image from '../../../../components/Image';
@@ -15,7 +15,7 @@ import IMG3 from '../../../../assets/services/ProductSourcing-Instruct3.png';
 import IMG4 from '../../../../assets/services/ProductSourcing-Instruct4.png';
 import IMG5 from '../../../../assets/services/ProductSourcing-Instruct5.png';
 import IMG6 from '../../../../assets/services/ProductSourcing-Instruct6.png';
-import './sliderCSS.css';
+import './slider.css';
 
 export default function ServiceSourcingSlider() {
   const carouselRef = useRef(null);
