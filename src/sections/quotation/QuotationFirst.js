@@ -186,7 +186,7 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
 
   const calculate = (input1, input2, input3, input4) => {
     let total = 0;
-    total = input1 * input2 * input3;
+    total = (input1 * input2 * input3) / 1000000;
 
     setTotalCBM(total);
 
