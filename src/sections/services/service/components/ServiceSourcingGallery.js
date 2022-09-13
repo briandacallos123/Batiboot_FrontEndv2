@@ -1,15 +1,32 @@
 import * as React from 'react';
 // @mui
-import { ImageList, ImageListItem } from '@mui/material';
+import { ImageList, ImageListItem, Skeleton } from '@mui/material';
 // components
 import Image from '../../../../components/Image';
 
-export default function ServiceSourcingGallery() {
+export default function ServiceSourcingGallery(props) {
+  const { loading = false } = props;
+
   return (
     <ImageList sx={{ height: '100%' }} variant="quilted" cols={4}>
       {data.map((item) => (
         <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
-          <Image borderRadius="1vw" {...srcset(item.img, 121, item.rows, item.cols)} alt={item.title} loading="lazy" />
+          {loading ? (
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              {...srcset(item.img, 121, item.rows, item.cols)}
+              height="100%"
+              sx={{ borderRadius: 2 }}
+            />
+          ) : (
+            <Image
+              borderRadius="1vw"
+              {...srcset(item.img, 121, item.rows, item.cols)}
+              alt={item.title}
+              loading="lazy"
+            />
+          )}
         </ImageListItem>
       ))}
     </ImageList>
