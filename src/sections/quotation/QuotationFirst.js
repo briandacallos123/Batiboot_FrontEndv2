@@ -6,6 +6,7 @@ import { useCallback, useEffect, ChangeEvent, useState, useMemo } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
@@ -180,6 +181,11 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
     setEstCost('');
   };
 
+  const formatNum = (number) => {
+    const val = (number / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   // const setLength = (input) => {
   //   state.length = input;
   // };
@@ -192,19 +198,22 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
 
     if (total > 0 && total <= 10) {
       // costCBM = 8500;
-      setCostCBM(8500);
-      setEstCost(input4 * 8500);
+      setCostCBM(formatNum(8500));
+
+      setEstCost(formatNum(input4 * 8500));
       // estCost = input4 * 8500;
     } else if (total > 10 && total <= 20) {
       // costCBM = 8000;
       // estCost = input4 * 8000;
-      setCostCBM(8000);
-      setEstCost(input4 * 8000);
+      setCostCBM(formatNum(8000));
+      setEstCost(formatNum(input4 * 8000));
     } else if (total > 20) {
       // costCBM = 7500;
       // estCost = input4 * 7500;
-      setCostCBM(7500);
-      setEstCost(input4 * 7500);
+      setCostCBM(formatNum(7500));
+      setEstCost(formatNum(input4 * 7500));
+    } else {
+      setTotalCBM('');
     }
   };
 
@@ -213,7 +222,7 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
       <Typography variant="h3" sx={{ mb: 2 }}>
         Get Quotation
       </Typography>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={() => calculate(length, width, height, quantity)}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
@@ -271,6 +280,7 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                       <TextField
                         name="Quantity"
                         defaultValue={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
                         onBlur={(e) => setQuantity(e.target.value)}
                         label="Quantity"
                       />
@@ -282,7 +292,12 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                   </Typography>
                   <Grid container spacing={2} sx={{ mb: 3 }}>
                     <Grid item xs={12} md={10}>
-                      <TextField name="CBM" defaultValue={totalCBM} label="Total Cubic Meter" />
+                      <TextField
+                        name="CBM"
+                        inputProps={{ readOnly: true }}
+                        defaultValue={totalCBM}
+                        label="Total Cubic Meter"
+                      />
                     </Grid>
                   </Grid>
 
@@ -291,10 +306,26 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                   </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={6} md={3}>
-                      <TextField name="CostCBM" defaultValue={costCBM} label="Cost per CBM" />
+                      <TextField
+                        name="CostCBM"
+                        defaultValue={costCBM}
+                        label="Cost per CBM"
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">₱</InputAdornment>,
+                          readOnly: true,
+                        }}
+                      />
                     </Grid>
                     <Grid item xs={6} md={3}>
-                      <TextField name="EST" defaultValue={estCost} label="Estimated Costing" />
+                      <TextField
+                        name="EST"
+                        defaultValue={estCost}
+                        label="Estimated Costing"
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">₱</InputAdornment>,
+                          readOnly: true,
+                        }}
+                      />
                     </Grid>
                   </Grid>
 
@@ -304,17 +335,13 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                         onClick={() => calculate(length, width, height, quantity)}
                         variant="contained"
                         size="large"
+                        type="submit"
                       >
                         Get Quote
                       </Button>
                     </Grid>
                     <Grid item xs={5} md={2} sx={{ mt: 5 }}>
-                      <LoadingButton
-                        onClick={(e) => resetState()}
-                        type="submit"
-                        size="large"
-                        loading={isSubmitting}
-                      >
+                      <LoadingButton onClick={(e) => resetState()} size="large" loading={isSubmitting}>
                         {!isEdit ? 'Reset' : 'Save Changes'}
                       </LoadingButton>
                     </Grid>
