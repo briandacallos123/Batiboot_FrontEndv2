@@ -82,7 +82,7 @@ export default function ServiceFulfillment(props) {
                 }}
               >
                 <Fade in={open}>
-                  <Box borderRadius={4} width={{ xs: '90%', md: '70%' }} sx={modalStyle}>
+                  <Box borderRadius={1} width={{ xs: '90%', md: '70%' }} sx={modalStyle}>
                     <Typography id="transition-modal-title" variant="h4" sx={{ color: 'primary.main' }}>
                       Fulfillment Services
                     </Typography>
