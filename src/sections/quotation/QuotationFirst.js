@@ -301,7 +301,7 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                   <Grid direction="row" container sx={{ mt: 5 }}>
                     <Grid item xs={7} md={2} sx={{ mt: 5 }}>
                       <Button
-                        onClick={(e) => calculate(length, width, height, quantity)}
+                        onClick={() => calculate(length, width, height, quantity)}
                         variant="contained"
                         size="large"
                       >
@@ -312,7 +312,6 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                       <LoadingButton
                         onClick={(e) => resetState()}
                         type="submit"
-                        variant="contained"
                         size="large"
                         loading={isSubmitting}
                       >
