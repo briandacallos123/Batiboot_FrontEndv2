@@ -10,7 +10,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment, Button } from '@mui/material';
+import {
+  Card,
+  Chip,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+  Autocomplete,
+  InputAdornment,
+  Button,
+  Alert,
+} from '@mui/material';
 
 // components
 import {
@@ -220,9 +231,9 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
   return (
     <RootStyle>
       <Typography variant="h3" sx={{ mb: 2 }}>
-        Get Quotation
+        Freight Calculator
       </Typography>
-      <FormProvider methods={methods} onSubmit={() => calculate(length, width, height, quantity)}>
+      <FormProvider methods={methods}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
@@ -257,6 +268,9 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                         name="length"
                         defaultValue={length}
                         label="Length (cm)"
+                        type="number"
+                        error={length === ''}
+                        helperText={length === '' ? 'Must not be empty.' : ' '}
                         onBlur={(e) => setLength(e.target.value)}
                       />
                     </Grid>
@@ -264,6 +278,9 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                       <TextField
                         name="Width"
                         defaultValue={width}
+                        type="number"
+                        error={width === ''}
+                        helperText={width === '' ? 'Must not be empty.' : ' '}
                         onBlur={(e) => setWidth(e.target.value)}
                         label="Width (cm)"
                       />
@@ -272,6 +289,9 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                       <TextField
                         name="Height"
                         defaultValue={height}
+                        type="number"
+                        error={height === ''}
+                        helperText={height === '' ? 'Must not be empty.' : ' '}
                         onBlur={(e) => setHeight(e.target.value)}
                         label="Height (cm)"
                       />
@@ -280,7 +300,9 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                       <TextField
                         name="Quantity"
                         defaultValue={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
+                        type="number"
+                        error={quantity === ''}
+                        helperText={quantity === '' ? 'Must not be empty.' : ' '}
                         onBlur={(e) => setQuantity(e.target.value)}
                         label="Quantity"
                       />
@@ -335,15 +357,14 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                         onClick={() => calculate(length, width, height, quantity)}
                         variant="contained"
                         size="large"
-                        type="submit"
                       >
                         Get Quote
                       </Button>
                     </Grid>
                     <Grid item xs={5} md={2} sx={{ mt: 5 }}>
-                      <LoadingButton onClick={(e) => resetState()} size="large" loading={isSubmitting}>
-                        {!isEdit ? 'Reset' : 'Save Changes'}
-                      </LoadingButton>
+                      <Button onClick={() => resetState()} size="large">
+                        Reset
+                      </Button>
                     </Grid>
                   </Grid>
                 </div>
