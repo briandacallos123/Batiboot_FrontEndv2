@@ -1,8 +1,7 @@
-import * as React from 'react';
 import { useRef } from 'react';
 import Slider from 'react-slick';
 // @mui
-import { Typography, Grid, Box } from '@mui/material';
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // components
 import Image from '../../../../components/Image';
@@ -17,7 +16,9 @@ import IMG5 from '../../../../assets/services/ProductSourcing-Instruct5.png';
 import IMG6 from '../../../../assets/services/ProductSourcing-Instruct6.png';
 import './slider.css';
 
-export default function ServiceRebrandingSlider() {
+export default function ServiceRebrandingSlider(props) {
+  const { loading = false } = props;
+
   const carouselRef = useRef(null);
   const theme = useTheme();
 
@@ -43,8 +44,17 @@ export default function ServiceRebrandingSlider() {
         <Slider ref={carouselRef} {...settings}>
           {data.map((slide) => (
             <Grid key={slide.img} align="center" paddingX={1}>
-              <Image src={slide.img} variants={varFade().inRight} sx={{ borderRadius: '2vw 2vw 0 0' }} />
-              <Grid backgroundColor="primary.main" sx={{ borderRadius: '0 0 2vw 2vw' }}>
+              {loading ? (
+                <Skeleton variant="rectangular" animation="wave" height={180} sx={{ borderRadius: '20px 20px 0 0' }} />
+              ) : (
+                <Image
+                  src={slide.img}
+                  variants={varFade().inRight}
+                  sx={{ borderRadius: '20px 20px 0 0' }}
+                  loading="lazy"
+                />
+              )}
+              <Grid backgroundColor="primary.main" sx={{ borderRadius: '0 0 20px 20px' }}>
                 <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
                   {slide.caption}
                 </Typography>

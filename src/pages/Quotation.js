@@ -5,9 +5,7 @@ import { Grid, Container } from '@mui/material';
 import { _mapContact } from '../_mock';
 // components
 import Page from '../components/Page';
-import {
-    QuotationFirst,
-  } from '../sections/quotation';
+import { QuotationFirst } from '../sections/quotation';
 
 // ----------------------------------------------------------------------
 
@@ -24,9 +22,8 @@ export default function Quotation() {
   return (
     <Page title="Quotation">
       <RootStyle>
-        <QuotationFirst/>
+        <QuotationFirst />
       </RootStyle>
     </Page>
   );
 }
-

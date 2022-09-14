@@ -1,7 +1,7 @@
 import { m } from 'framer-motion';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container } from '@mui/material';
 // components
 import { MotionContainer, TextAnimate, varFade } from '../../components/animate';
 
@@ -33,7 +33,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 export default function ServicesHero() {
   return (
     <RootStyle>
-      
       <Container component={MotionContainer} sx={{ position: 'relative', height: '100%' }}>
         <ContentStyle>
           <TextAnimate text="Our" sx={{ color: 'primary.main' }} variants={varFade().inRight} />
@@ -42,8 +41,8 @@ export default function ServicesHero() {
             <TextAnimate text="Services" sx={{ mr: 2 }} />
           </Box>
 
-          <m.div variants={varFade().inRight}>
-            {/* <Typography
+          {/* <m.div variants={varFade().inRight}>
+            <Typography
               variant="h4"
               sx={{
                 mt: 5,
@@ -53,8 +52,8 @@ export default function ServicesHero() {
             >
               Let's work together and
               <br /> make awesome site easily
-            </Typography> */}
-          </m.div>
+            </Typography>
+          </m.div> */}
         </ContentStyle>
       </Container>
     </RootStyle>
