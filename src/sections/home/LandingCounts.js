@@ -10,11 +10,13 @@ import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(5, 0),
+  backgroundColor: 'primary.main',
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
   width: '100%',
   textAlign: 'center',
+
   marginBottom: theme.spacing(10),
   [theme.breakpoints.up('md')]: {
     textAlign: 'left',
@@ -79,74 +81,74 @@ export default function LandingCounts() {
   const screenRightAnimate = variantScreenRight;
 
   return (
-    <RootStyle>
-        <Grid container spacing={2}>
-          <Grid item xs={6} md={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={5}>
-                <Image src="\assets\countLogos\done.svg" variants={varFade().inRight} />
-              </Grid>
-              <Grid item xs={7}>
-                <m.div variants={varFade().inRight}>
-                  <Typography variant="h3" sx={{ mt: 2 }}>
-                    320
-                  </Typography>
-                  <Typography>Projects Done</Typography>
-                </m.div>
-              </Grid>
+    <RootStyle backgroundColor="primary.main">
+      <Grid container spacing={2}>
+        <Grid item xs={6} md={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={5}>
+              <Image src="\assets\countLogos\done.svg" variants={varFade().inRight} />
             </Grid>
-          </Grid>
-
-          <Grid item xs={6} md={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={5}>
-                <Image src="\assets\countLogos\worldwide.svg" variants={varFade().inRight} />
-              </Grid>
-              <Grid item xs={7}>
-                <m.div variants={varFade().inRight}>
-                  <Typography variant="h3" sx={{ mt: 2 }}>
-                    72
-                  </Typography>
-                  <Typography>Client's WorldWide</Typography>
-                </m.div>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={6} md={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={5}>
-                <Image src="\assets\countLogos\truck.svg" variants={varFade().inRight} />
-              </Grid>
-              <Grid item xs={7}>
-                <m.div variants={varFade().inRight}>
-                  <Typography variant="h3" sx={{ mt: 2 }}>
-                    153
-                  </Typography>
-
-                  <Typography>Owned Vehicles</Typography>
-                </m.div>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={6} md={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={5}>
-                <Image src="\assets\countLogos\people.svg" variants={varFade().inRight} />
-              </Grid>
-              <Grid item xs={7}>
-                <m.div variants={varFade().inRight}>
-                  <Typography variant="h3" sx={{ mt: 2 }}>
-                    112
-                  </Typography>
-
-                  <Typography>People in Team</Typography>
-                </m.div>
-              </Grid>
+            <Grid item xs={7}>
+              <m.div variants={varFade().inRight}>
+                <Typography variant="h3" sx={{ mt: 2 }}>
+                  320
+                </Typography>
+                <Typography>Projects Done</Typography>
+              </m.div>
             </Grid>
           </Grid>
         </Grid>
+
+        <Grid item xs={6} md={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={5}>
+              <Image src="\assets\countLogos\worldwide.svg" variants={varFade().inRight} />
+            </Grid>
+            <Grid item xs={7}>
+              <m.div variants={varFade().inRight}>
+                <Typography variant="h3" sx={{ mt: 2 }}>
+                  72
+                </Typography>
+                <Typography>Client's WorldWide</Typography>
+              </m.div>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={6} md={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={5}>
+              <Image src="\assets\countLogos\truck.svg" variants={varFade().inRight} />
+            </Grid>
+            <Grid item xs={7}>
+              <m.div variants={varFade().inRight}>
+                <Typography variant="h3" sx={{ mt: 2 }}>
+                  153
+                </Typography>
+
+                <Typography>Owned Vehicles</Typography>
+              </m.div>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={6} md={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={5}>
+              <Image src="\assets\countLogos\people.svg" variants={varFade().inRight} />
+            </Grid>
+            <Grid item xs={7}>
+              <m.div variants={varFade().inRight}>
+                <Typography variant="h3" sx={{ mt: 2 }}>
+                  112
+                </Typography>
+
+                <Typography>People in Team</Typography>
+              </m.div>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </RootStyle>
   );
 }

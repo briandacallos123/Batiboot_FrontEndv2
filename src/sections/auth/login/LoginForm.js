@@ -17,7 +17,6 @@ import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 
-
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -46,6 +45,7 @@ export default function LoginForm() {
 
   const {
     reset,
+    resetField,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -54,13 +54,12 @@ export default function LoginForm() {
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.password);
-      
-      enqueueSnackbar('Login success!');
 
+      enqueueSnackbar('Login success!');
+      reset();
     } catch (error) {
       console.error(error);
-
-      reset();
+      resetField('password');
 
       if (isMountedRef.current) {
         setError('afterSubmit', { ...error, message: error.message });

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 // form
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import { useSelector } from 'react-redux';
 // @mui
 import {Stack, IconButton, InputAdornment, Alert} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
@@ -24,6 +25,7 @@ import {FormProvider, RHFTextField} from '../../../components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+
     const { register } = useAuth();
 
     const { enqueueSnackbar } = useSnackbar();
@@ -51,22 +53,24 @@ export default function RegisterForm() {
         handleSubmit,
         formState: {
             errors,
-            isSubmitting
+            isSubmitting,
+
         }
     } = methods;
 
     const onSubmit = async (data) => {
         try {
-            await register(data.email, data.password, data.firstName, data.lastName);
+          
+           await register(data.email, data.password, data.firstName, data.lastName)
 
             reset();
 
             enqueueSnackbar('Register success!');
-            navigate(PATH_AUTH.login)
+            // navigate(PATH_AUTH.login)
 
         } catch (error) {
             console.error(error);
-            reset();
+            // reset();
             if (isMountedRef.current) {
                 setError('afterSubmit', {
                     ...error,

@@ -7,6 +7,7 @@ import useLocales from '../../../hooks/useLocales';
 //
 import { NavListRoot } from './NavList';
 
+import useAuth from '../../../hooks/useAuth';
 // ----------------------------------------------------------------------
 
 export const ListSubheaderStyle = styled((props) => <ListSubheader disableSticky disableGutters {...props} />)(
@@ -31,20 +32,20 @@ NavSectionVertical.propTypes = {
 
 export default function NavSectionVertical({ navConfig, isCollapse = false, ...other }) {
   const { translate } = useLocales();
-
+  const { user } = useAuth();
   return (
     <Box {...other}>
       {navConfig.map((group) => (
         <List key={group.subheader} disablePadding sx={{ px: 2 }}>
-          <ListSubheaderStyle
+          {/* <ListSubheaderStyle
             sx={{
               ...(isCollapse && {
                 opacity: 0,
               }),
             }}
-          >
-            {translate(group.subheader)}
-          </ListSubheaderStyle>
+          > 
+            {(user.user_role === 0 && group.subheader === "management") || (user.user_role === 0 && group.subheader === "miscellaneous")  ? "" :translate(group.subheader)}
+          </ListSubheaderStyle> */}
 
           {group.items.map((list) => (
             <NavListRoot key={list.title + list.path} list={list} isCollapse={isCollapse} />

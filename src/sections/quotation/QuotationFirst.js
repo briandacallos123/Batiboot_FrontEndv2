@@ -2,14 +2,26 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, ChangeEvent, useState, useMemo } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment, Button } from '@mui/material';
+import {
+  Card,
+  Chip,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+  Autocomplete,
+  InputAdornment,
+  Button,
+  Alert,
+} from '@mui/material';
 
 // components
 import {
@@ -162,12 +174,66 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
     setValue('images', filteredItems);
   };
 
+  const [length, setLength] = useState();
+  const [width, setWidth] = useState();
+  const [height, setHeight] = useState();
+  const [quantity, setQuantity] = useState();
+  const [totalCBM, setTotalCBM] = useState();
+  const [costCBM, setCostCBM] = useState();
+  const [estCost, setEstCost] = useState();
+
+  const resetState = () => {
+    setLength('');
+    setWidth('');
+    setHeight('');
+    setQuantity('');
+    setTotalCBM('');
+    setCostCBM('');
+    setEstCost('');
+  };
+
+  const formatNum = (number) => {
+    const val = (number / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  // const setLength = (input) => {
+  //   state.length = input;
+  // };
+
+  const calculate = (input1, input2, input3, input4) => {
+    let total = 0;
+    total = (input1 * input2 * input3) / 1000000;
+
+    setTotalCBM(total);
+
+    if (total > 0 && total <= 10) {
+      // costCBM = 8500;
+      setCostCBM(formatNum(8500));
+
+      setEstCost(formatNum(input4 * 8500));
+      // estCost = input4 * 8500;
+    } else if (total > 10 && total <= 20) {
+      // costCBM = 8000;
+      // estCost = input4 * 8000;
+      setCostCBM(formatNum(8000));
+      setEstCost(formatNum(input4 * 8000));
+    } else if (total > 20) {
+      // costCBM = 7500;
+      // estCost = input4 * 7500;
+      setCostCBM(formatNum(7500));
+      setEstCost(formatNum(input4 * 7500));
+    } else {
+      setTotalCBM('');
+    }
+  };
+
   return (
     <RootStyle>
-      <Typography variant="h3" sx={{ mb: 2}}>
-        Get Quotation
+      <Typography variant="h3" sx={{ mb: 2 }}>
+        Freight Calculator
       </Typography>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
@@ -198,16 +264,48 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                     sx={{ mb: 3 }}
                   >
                     <Grid item xs={6} md={3}>
-                      <TextField name="Length" label="Length (cm)" />
+                      <TextField
+                        name="length"
+                        defaultValue={length}
+                        label="Length (cm)"
+                        type="number"
+                        error={length === ''}
+                        helperText={length === '' ? 'Must not be empty.' : ' '}
+                        onBlur={(e) => setLength(e.target.value)}
+                      />
                     </Grid>
                     <Grid item xs={6} md={3}>
-                      <TextField name="Width" label="Width (cm)" />
+                      <TextField
+                        name="Width"
+                        defaultValue={width}
+                        type="number"
+                        error={width === ''}
+                        helperText={width === '' ? 'Must not be empty.' : ' '}
+                        onBlur={(e) => setWidth(e.target.value)}
+                        label="Width (cm)"
+                      />
                     </Grid>
                     <Grid item xs={6} md={3}>
-                      <TextField name="Height" label="Height (cm)" />
+                      <TextField
+                        name="Height"
+                        defaultValue={height}
+                        type="number"
+                        error={height === ''}
+                        helperText={height === '' ? 'Must not be empty.' : ' '}
+                        onBlur={(e) => setHeight(e.target.value)}
+                        label="Height (cm)"
+                      />
                     </Grid>
                     <Grid item xs={6} md={3}>
-                      <TextField name="Quantity" label="Quantity" />
+                      <TextField
+                        name="Quantity"
+                        defaultValue={quantity}
+                        type="number"
+                        error={quantity === ''}
+                        helperText={quantity === '' ? 'Must not be empty.' : ' '}
+                        onBlur={(e) => setQuantity(e.target.value)}
+                        label="Quantity"
+                      />
                     </Grid>
                   </Grid>
 
@@ -216,7 +314,12 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                   </Typography>
                   <Grid container spacing={2} sx={{ mb: 3 }}>
                     <Grid item xs={12} md={10}>
-                      <TextField name="CBM" label="Total Cubic Meter" />
+                      <TextField
+                        name="CBM"
+                        inputProps={{ readOnly: true }}
+                        defaultValue={totalCBM}
+                        label="Total Cubic Meter"
+                      />
                     </Grid>
                   </Grid>
 
@@ -225,21 +328,41 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                   </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={6} md={3}>
-                      <TextField name="CostCBM" label="Cost per CBM" />
+                      <TextField
+                        name="CostCBM"
+                        defaultValue={costCBM}
+                        label="Cost per CBM"
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">₱</InputAdornment>,
+                          readOnly: true,
+                        }}
+                      />
                     </Grid>
                     <Grid item xs={6} md={3}>
-                      <TextField name="EST" label="Estimated Costing" />
+                      <TextField
+                        name="EST"
+                        defaultValue={estCost}
+                        label="Estimated Costing"
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">₱</InputAdornment>,
+                          readOnly: true,
+                        }}
+                      />
                     </Grid>
                   </Grid>
 
-                  <Grid container sx={{ mt: 5 }}>
-                    <Grid item xs={12} md={2} sx={{mt: 5}}>
-                      <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
-                        {!isEdit ? 'Get Quote' : 'Save Changes'}
-                      </LoadingButton>
+                  <Grid direction="row" container sx={{ mt: 5 }}>
+                    <Grid item xs={7} md={2} sx={{ mt: 5 }}>
+                      <Button
+                        onClick={() => calculate(length, width, height, quantity)}
+                        variant="contained"
+                        size="large"
+                      >
+                        Get Quote
+                      </Button>
                     </Grid>
-                    <Grid item xs={12} md={2} sx={{mt: 5}}>
-                      <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
+                    <Grid item xs={5} md={2} sx={{ mt: 5 }}>
+                      <LoadingButton onClick={(e) => resetState()} type="submit" size="large" loading={isSubmitting}>
                         {!isEdit ? 'Reset' : 'Save Changes'}
                       </LoadingButton>
                     </Grid>
@@ -252,23 +375,36 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
           <Grid item xs={12} md={4}>
             <Stack spacing={3}>
               <Card sx={{ p: 3 }}>
-                <Typography variant='h6' sx={{mb: 5}}>CBM - cubic meter is calculated by multiplying length, width and height of your packages.</Typography>
-                
-                
-                <Typography variant='h4' sx={{mb: 1}}>For Example: </Typography>
-                
-                <Typography variant='body1' sx={{mb: 1}}>If the length, height and width of a cargo is 2.3 meters, 1.4 meters and 2 meters respectively, the volume of
-                cargo is </Typography>
-                
-                <Typography variant='h6' sx={{mb: 3}}>2.3 X 1.4 X 2.0 = 6.44 CBM. </Typography>
-                
-                <Typography variant='body1' sx={{mb: 1}}>If we convert the measurement to cm </Typography>
-                
-                <Typography variant='h6' sx={{mb: 3}}>230 x 140 x 200 = 6,400,000/1,000,000,</Typography>
-                
-                <Typography variant='body1' sx={{mb: 1}}>the result is the same </Typography>
-                
-                <Typography variant='h6'>6.44 CBM</Typography>
+                <Typography variant="h6" sx={{ mb: 5 }}>
+                  CBM - cubic meter is calculated by multiplying length, width and height of your packages.
+                </Typography>
+
+                <Typography variant="h4" sx={{ mb: 1 }}>
+                  For Example:{' '}
+                </Typography>
+
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  If the length, height and width of a cargo is 2.3 meters, 1.4 meters and 2 meters respectively, the
+                  volume of cargo is{' '}
+                </Typography>
+
+                <Typography variant="h6" sx={{ mb: 3 }}>
+                  2.3 X 1.4 X 2.0 = 6.44 CBM.{' '}
+                </Typography>
+
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  If we convert the measurement to cm{' '}
+                </Typography>
+
+                <Typography variant="h6" sx={{ mb: 3 }}>
+                  230 x 140 x 200 = 6,400,000/1,000,000,
+                </Typography>
+
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  the result is the same{' '}
+                </Typography>
+
+                <Typography variant="h6">6.44 CBM</Typography>
               </Card>
             </Stack>
           </Grid>

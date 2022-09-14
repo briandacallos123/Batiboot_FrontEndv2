@@ -88,6 +88,7 @@ export function NavItemRoot({ item, isCollapse, open = false, active, onOpen }) 
   }
 
   return isExternalLink(path) ? (
+    // <ListItem component={Link} href={path} target="_blank" rel="noopener" disabled={disabled} roles={roles}>
     <ListItem component={Link} href={path} target="_blank" rel="noopener" disabled={disabled} roles={roles}>
       {renderContent}
     </ListItem>

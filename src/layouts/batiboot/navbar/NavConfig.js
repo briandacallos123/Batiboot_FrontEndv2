@@ -1,5 +1,5 @@
 // routes
-import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_BATIBOOT, PATH_BATIBOOT_USER, PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -27,60 +27,52 @@ const ICONS = {
   delivery: getIcon('ic_delivery'),
   order: getIcon('ic_order'),
   inquire: getIcon('ic_inquire'),
-  help: getIcon('ic_help')
+  help: getIcon('ic_help'),
+  information: getIcon('ic_information'),
 };
 
 const navConfig = [
+ 
+
   // GENERAL
   // ----------------------------------------------------------------------
   {
     subheader: 'general',
     items: [
-      { title: 'Dashboard', path: PATH_BATIBOOT.general.dashboard, icon: ICONS.dashboard },
+      { title: 'Dashboard', roles: ['admin'], path: PATH_BATIBOOT.general.dashboard, icon: ICONS.dashboard },
+
+      // user
+      { title: 'Dashboard', roles: ['user'], path: PATH_BATIBOOT_USER.general.dashboard, icon: ICONS.dashboard },
+
       {
         title: 'Billing',
+        roles: ['admin'],
         path: PATH_BATIBOOT.invoice.root,
         icon: ICONS.invoice,
-        children: [
-          { title: 'Invoice', path: PATH_BATIBOOT.invoice.list },
-       /*    { title: 'details', path: PATH_DASHBOARD.invoice.demoView },
-          { title: 'create', path: PATH_DASHBOARD.invoice.new },
-          { title: 'edit', path: PATH_DASHBOARD.invoice.demoEdit }, */
-        ],
+        children: [{ title: 'Invoice', path: PATH_BATIBOOT.invoice.list }],
       },
       {
         title: 'Orders',
+        roles: ['admin'],
         path: PATH_BATIBOOT.order.root,
         icon: ICONS.order,
         children: [
           { title: 'List', path: PATH_BATIBOOT.order.list },
           { title: 'Tracking', path: PATH_BATIBOOT.order.shipment },
-       /*    { title: 'details', path: PATH_DASHBOARD.invoice.demoView },
-          { title: 'create', path: PATH_DASHBOARD.invoice.new },
-          { title: 'edit', path: PATH_DASHBOARD.invoice.demoEdit }, */
         ],
       },
       {
         title: 'Inquire & Quotation',
+        roles: ['admin'],
         path: PATH_BATIBOOT.inquire.root,
         icon: ICONS.inquire,
-        children: [
-          { title: 'List', path: PATH_BATIBOOT.inquire.list },
-       /*    { title: 'details', path: PATH_DASHBOARD.invoice.demoView },
-          { title: 'create', path: PATH_DASHBOARD.invoice.new },
-          { title: 'edit', path: PATH_DASHBOARD.invoice.demoEdit }, */
-        ],
+        children: [{ title: 'List', path: PATH_BATIBOOT.inquire.list }],
       },
       {
         title: 'Message',
+        roles: ['admin'],
         path: PATH_BATIBOOT.mail.root,
         icon: ICONS.mail,
-        /* children: [
-          { title: 'Mail', path: PATH_BATIBOOT.mail.message },
-          { title: 'details', path: PATH_DASHBOARD.invoice.demoView },
-          { title: 'create', path: PATH_DASHBOARD.invoice.new },
-          { title: 'edit', path: PATH_DASHBOARD.invoice.demoEdit }, 
-        ], */
       },
     ],
   },
@@ -89,6 +81,7 @@ const navConfig = [
     items: [
       {
         title: 'user & role',
+        roles: ['admin'],
         path: PATH_BATIBOOT.user.root,
         icon: ICONS.user,
         children: [
@@ -98,8 +91,6 @@ const navConfig = [
           { title: 'roles & permissions', path: PATH_BATIBOOT.user.role },
         ],
       },
-      
-      
     ],
   },
   {
@@ -107,22 +98,19 @@ const navConfig = [
     items: [
       {
         title: 'Help & Assistance',
+        roles: ['admin'],
         path: PATH_BATIBOOT.help.root,
         icon: ICONS.help,
-        children: [
-          { title: 'Help', path: PATH_BATIBOOT.help.faq },
-       /*    { title: 'details', path: PATH_DASHBOARD.invoice.demoView },
-          { title: 'create', path: PATH_DASHBOARD.invoice.new },
-          { title: 'edit', path: PATH_DASHBOARD.invoice.demoEdit }, */
-        ],
+        children: [{ title: 'Help', path: PATH_BATIBOOT.help.faq }],
       },
 
       {
         title: 'Rules & Regulations',
+        roles: ['admin'],
         path: PATH_BATIBOOT.rules,
-        icon: ICONS.help,
-      }
-    ]
+        icon: ICONS.information,
+      },
+    ],
   },
 
   /* items: [

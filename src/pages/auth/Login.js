@@ -32,7 +32,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   alignItems: 'center',
   position: 'absolute',
   padding: theme.spacing(3),
-  justifyContent: 'space-between',
+  // justifyContent: 'space-between',
   [theme.breakpoints.up('md')]: {
     alignItems: 'flex-start',
     padding: theme.spacing(7, 5, 0, 7),
@@ -72,6 +72,8 @@ export default function Login() {
       <RootStyle>
         <HeaderStyle>
           <Logo />
+          <Typography variant="body1"  sx={{ml: 1.5, mt: 1, fontWeight:"bold"}}>Batiboot</Typography>
+          <Box sx={{flexGrow:1}}/>
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Don’t have an account? {''}

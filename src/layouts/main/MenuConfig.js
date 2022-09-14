@@ -21,25 +21,25 @@ const menuConfig = [
 
   {
     title: 'About Us',
-    icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
+    icon: <Iconify icon={'ep:question-filled'} {...ICON_SIZE} />,
     path: '/about-us',
   },
   {
     title: 'Our Services',
-    icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
+    icon: <Iconify icon={'bxs:box'} {...ICON_SIZE} />,
     path: '/services',
   },
 
   {
     title: 'Contact Us',
-    icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
+    icon: <Iconify icon={'bxs:phone-call'} {...ICON_SIZE} />,
     path: '/contact-us',
   },
 
   { 
     title: 'Sign-in',
     path: '/',
-    icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
+    icon: <Iconify icon={'bxs:user-circle'} {...ICON_SIZE} />,
     children: [
       {
         items: [

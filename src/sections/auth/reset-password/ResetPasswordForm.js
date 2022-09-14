@@ -20,6 +20,7 @@ import { FormProvider, RHFTextField } from '../../../components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function ResetPasswordForm() {
+ 
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { forgot } = useAuth();
@@ -62,7 +63,7 @@ export default function ResetPasswordForm() {
       sessionStorage.setItem('email-recovery', data.email);
 
       enqueueSnackbar('Request code sent!');
-      navigate(PATH_AUTH.verify);
+      // navigate(PATH_AUTH.newPassword());
 
     } catch (error) {
       console.error(error);

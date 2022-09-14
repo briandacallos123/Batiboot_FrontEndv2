@@ -26,7 +26,8 @@ const LinkStyle = styled(Link)(({ theme }) => ({
 
 const SubLinkStyle = styled((props) => (
   <ListItem sx={{ p: 0 }}>
-    <Link target="_blank" rel="noopener" {...props}>
+     {/* <Link target="_blank" rel="noopener" {...props}> */}
+    <Link  {...props}>
       {props.children}
     </Link>
   </ListItem>

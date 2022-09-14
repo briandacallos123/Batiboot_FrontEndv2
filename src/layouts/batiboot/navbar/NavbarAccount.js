@@ -56,10 +56,10 @@ export default function NavbarAccount({ isCollapse }) {
             }),
           }}
         >
-          <Typography variant="subtitle2" noWrap>
+          <Typography variant="subtitle2" noWrap sx={{ textTransform: "capitalize"}}>
             {user?.name}
           </Typography>
-          <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" noWrap sx={{ color: 'text.secondary', textTransform: "capitalize" }}>
             {user?.user_role}
           </Typography>
         </Box>

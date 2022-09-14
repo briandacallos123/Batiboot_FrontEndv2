@@ -22,15 +22,11 @@ import { RequestLinkInvalid } from '../request-link';
 
 
 
-
 // ----------------------------------------------------------------------
-function useQuery() {
-  const { search } = useLocation();
 
-  return useMemo(() => new URLSearchParams(search), [search]);
-}
 
 export default function NewPasswordForm() {
+
   const [temp, setTemp] = useState([])
 
   const navigate = useNavigate();
@@ -39,7 +35,8 @@ export default function NewPasswordForm() {
   
   const { enqueueSnackbar } = useSnackbar();
 
-  const email = useQuery();
+
+  const { token, email } = useParams();
 
   const isMountedRef = useIsMountedRef();
   
@@ -142,14 +139,15 @@ export default function NewPasswordForm() {
 
   const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      await changePassword(user.email, data.password);
+      
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      await changePassword(token,email,data.password);
 
-      console.log('data:', {
-        email: data.email,
-      /*   code: `${data.code1}${data.code2}${data.code3}${data.code4}${data.code5}${data.code6}`, */
-        password: data.password,
-      });
+      // console.log('data:', {
+      //   email: data.email,
+      // /*   code: `${data.code1}${data.code2}${data.code3}${data.code4}${data.code5}${data.code6}`, */
+      //   password: data.password,
+      // });
 
       sessionStorage.removeItem('email-recovery');
 
@@ -158,7 +156,7 @@ export default function NewPasswordForm() {
       /* navigate(PATH_DASHBOARD.root, { replace: true }); */
       navigate(PATH_AUTH.login, { replace: true });
     } catch (error) {
-      console.error(error);
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
 

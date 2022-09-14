@@ -5,7 +5,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
 // routes
-import { PATH_DASHBOARD, PATH_AUTH, PATH_BATIBOOT } from '../../../routes/paths';
+import { PATH_DASHBOARD, PATH_AUTH,  PATH_BATIBOOT_USER } from '../../../routes/paths';
 // hooks
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
@@ -23,11 +23,11 @@ const MENU_OPTIONS = [
   },
   {
     label: 'Profile',
-    linkTo: PATH_BATIBOOT.user.profile,
+    linkTo: PATH_BATIBOOT_USER.user.profile,
   },
   {
     label: 'Settings',
-    linkTo: PATH_BATIBOOT.user.account,
+    linkTo: PATH_BATIBOOT_USER.user.account,
   },
 ];
 

@@ -1,28 +1,29 @@
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, } from 'react';
 
 // form
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, OutlinedInput, FormHelperText, Button } from '@mui/material';
+import { Stack, OutlinedInput, FormHelperText, Button, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
-import { PATH_DASHBOARD, PATH_AUTH } from '../../../routes/paths';
+import { PATH_DASHBOARD, PATH_AUTH, PATH_BATIBOOT, PATH_BATIBOOT_USER } from '../../../routes/paths';
 
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import { FormProvider } from '../../../components/hook-form';
 
-
 // ----------------------------------------------------------------------
 
 export default function VerifyCodeForm() {
-  const { checkEmailCode, user } = useAuth()
-  const [temp, setTemp] = useState([])
+  const { newUserEmailVerification, user } = useAuth();
+  const currentRole = user?.user_role;
+  const { token, email } = useParams();
+  const [temp, setTemp] = useState([]);
   const navigate = useNavigate();
 
   const isMountedRef = useIsMountedRef();
@@ -72,9 +73,20 @@ export default function VerifyCodeForm() {
     return () => {
       target?.removeEventListener('paste', handlePaste);
     };
+   
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // not fix when code is not empty set error email set to empty
+  // useEffect(() => {
+  //   if(errors.code6?.message !== 'Code is required') {
+  //   setError("");
+  //   console.log(!errors.code6);
+  //   console.log(errors);
+  //   }
+  // }, [temp]);
+  
 
   const handlePaste = (event) => {
     let data = event.clipboardData.getData('text');
@@ -92,7 +104,7 @@ export default function VerifyCodeForm() {
     event.preventDefault();
   };
 
-  const handleChangeWithNextField =  async (event, handleChange) => {
+  const handleChangeWithNextField = async (event, handleChange) => {
     const { maxLength, value, name } = event.target;
 
     const fieldIndex = name.replace('code', '');
@@ -108,7 +120,7 @@ export default function VerifyCodeForm() {
         }
       }
     }
-    setTemp([...temp, value])
+    setTemp([...temp, value]);
     /* if(fieldIntIndex >= 6){
       try {
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -130,28 +142,44 @@ export default function VerifyCodeForm() {
 
   const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      await checkEmailCode(temp.join(""));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      const code = Object.values(data).join('');
+      await newUserEmailVerification(token, email, code);
+
      
-    
-      navigate(PATH_AUTH.newPassword);
-
-      console.log('data', Object.values(data).join(''));
-      
-
+      reset();
+      setTemp('');
       enqueueSnackbar('Verify success!');
+      
+      // if(currentRole){
+      //   navigate(PATH_BATIBOOT_USER.general.dashboard);
+      // } else {
+      //   navigate(PATH_BATIBOOT.general.dashboard);
+      // }
+      
+      navigate(PATH_BATIBOOT.general.dashboard);
+      window.location.reload();
 
     } catch (error) {
       console.error(error);
 
-      reset();
-      setTemp("");
+      // reset();
+      // setTemp("");
+
+      if (isMountedRef.current) {
+        setError('afterSubmit', { ...error, message: error.message });
+      }
     }
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
+        {(!!errors.code1 || !!errors.code2 || !!errors.code3 || !!errors.code4 || !!errors.code5 || !!errors.code6) || !!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
+        {(!!errors.code1 || !!errors.code2 || !!errors.code3 || !!errors.code4 || !!errors.code5 || !!errors.code6) && (
+          <Alert severity="error"> Code is required</Alert>
+        )}
+
         <Stack direction="row" spacing={2} justifyContent="center">
           {Object.keys(values).map((name, index) => (
             <Controller
@@ -181,22 +209,14 @@ export default function VerifyCodeForm() {
           ))}
         </Stack>
 
-        {(!!errors.code1 || !!errors.code2 || !!errors.code3 || !!errors.code4 || !!errors.code5 || !!errors.code6) && (
-          <FormHelperText error sx={{ px: 2 }}>
-            Code is required
-          </FormHelperText>
-        )}
-
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting} sx={{ mt: 3 }}>
           Verify
         </LoadingButton>
-        {
-        /*
+        {/*
         <Button fullWidth size="large" component={RouterLink} to={PATH_AUTH.resetPassword} sx={{ mt: 1 }}>
           Back
         </Button>
-        */
-        }
+        */}
       </Stack>
     </FormProvider>
   );
