@@ -86,16 +86,16 @@ export default function ServiceFulfillment(props) {
                     <Typography id="transition-modal-title" variant="h4" sx={{ color: 'primary.main' }}>
                       Fulfillment Services
                     </Typography>
-                    <Grid container spacing={2} height={{ xs: 620, md: 450 }} marginTop={1}>
-                      <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
+                    <Grid container spacing={2} marginTop={1}>
+                      <Grid item xs={12} sm={6} height={{ xs: '30vh', md: '65vh' }}>
                         <ServiceFulfillmentGallery />
                       </Grid>
 
-                      <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
+                      <Grid item xs={12} sm={6}>
                         <ServiceFulfillmentSlider />
                         <Grid align="right" marginTop={2}>
                           <Button size="large" variant="contained" href="./Quotation">
-                            Register Now
+                            Order Now
                           </Button>
                         </Grid>
                       </Grid>

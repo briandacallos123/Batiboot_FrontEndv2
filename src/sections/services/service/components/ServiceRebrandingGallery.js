@@ -8,7 +8,7 @@ export default function ServiceRebrandingGallery(props) {
   const { loading = false } = props;
 
   return (
-    <ImageList sx={{ height: '100%' }} variant="quilted" cols={4}>
+    <ImageList variant="quilted" cols={4} sx={{ height: '100%', width: '100%' }}>
       {data.map((item) => (
         <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
           {loading ? (
