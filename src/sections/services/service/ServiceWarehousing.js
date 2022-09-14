@@ -68,7 +68,12 @@ export default function ServiceWarehousing(props) {
               <Button size="large" variant="contained" href="./Quotation">
                 Register Now
               </Button>
-              <Button size="large" c onClick={handleOpen} sx={{ ml: 1 }}>
+              <Button
+                size="large"
+                variant="outlined"
+                onClick={handleOpen}
+                sx={{ ml: 1, border: 1, background: 'rgba(253, 169, 43, 0.2)' }}
+              >
                 Learn More
               </Button>
               <Modal

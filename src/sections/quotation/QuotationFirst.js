@@ -314,6 +314,8 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                         type="submit"
                         size="large"
                         loading={isSubmitting}
+                        variant="outlined"
+                        sx={{ ml: 1, border: 1, background: 'rgba(253, 169, 43, 0.2)' }}
                       >
                         {!isEdit ? 'Reset' : 'Save Changes'}
                       </LoadingButton>

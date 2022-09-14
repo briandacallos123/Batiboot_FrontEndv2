@@ -68,7 +68,12 @@ export default function ServiceRebranding(props) {
               <Button size="large" variant="contained" href="./Quotation">
                 Order Now
               </Button>
-              <Button size="large" onClick={handleOpen} sx={{ ml: 1 }}>
+              <Button
+                size="large"
+                variant="outlined"
+                onClick={handleOpen}
+                sx={{ ml: 1, border: 1, background: 'rgba(253, 169, 43, 0.2)' }}
+              >
                 Learn More
               </Button>
               <Modal
