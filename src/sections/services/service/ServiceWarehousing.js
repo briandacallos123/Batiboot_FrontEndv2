@@ -68,7 +68,12 @@ export default function ServiceWarehousing(props) {
               <Button size="large" variant="contained" href="./Quotation">
                 Register Now
               </Button>
-              <Button size="large" onClick={handleOpen} sx={{ ml: 1 }}>
+              <Button
+                size="large"
+                variant="outlined"
+                onClick={handleOpen}
+                sx={{ ml: 1, border: 1, background: 'rgba(253, 169, 43, 0.2)' }}
+              >
                 Learn More
               </Button>
               <Modal
@@ -83,20 +88,20 @@ export default function ServiceWarehousing(props) {
                 }}
               >
                 <Fade in={open}>
-                  <Box borderRadius={4} width={{ xs: '90%', md: '70%' }} sx={modalStyle}>
+                  <Box borderRadius={1} width={{ xs: '90%', md: '70%' }} sx={modalStyle}>
                     <Typography id="transition-modal-title" variant="h4" sx={{ color: 'primary.main' }}>
                       Warehousing Services
                     </Typography>
-                    <Grid container spacing={2} height={{ xs: 620, md: 450 }} marginTop={1}>
-                      <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
+                    <Grid container spacing={2} marginTop={1}>
+                      <Grid item xs={12} sm={6} height={{ xs: '30vh', md: '65vh' }}>
                         <ServiceWarehousingGallery />
                       </Grid>
 
-                      <Grid item xs={12} sm={6} sx={{ height: { xs: '50%', sm: '100%' } }}>
+                      <Grid item xs={12} sm={6}>
                         <ServiceWarehousingSlider />
                         <Grid align="right" marginTop={2}>
                           <Button size="large" variant="contained" href="./Quotation">
-                            Register Now
+                            Order Now
                           </Button>
                         </Grid>
                       </Grid>

@@ -45,16 +45,16 @@ export default function ServiceWarehousingSlider(props) {
           {data.map((slide) => (
             <Grid key={slide.img} align="center" paddingX={1}>
               {loading ? (
-                <Skeleton variant="rectangular" animation="wave" height={180} sx={{ borderRadius: '2vw 2vw 0 0' }} />
+                <Skeleton variant="rectangular" animation="wave" height={180} sx={{ borderRadius: '20px 20px 0 0' }} />
               ) : (
                 <Image
                   src={slide.img}
                   variants={varFade().inRight}
-                  sx={{ borderRadius: '2vw 2vw 0 0' }}
+                  sx={{ borderRadius: '20px 20px 0 0' }}
                   loading="lazy"
                 />
               )}
-              <Grid backgroundColor="primary.main" sx={{ borderRadius: '0 0 2vw 2vw' }}>
+              <Grid backgroundColor="primary.main" sx={{ borderRadius: '0 0 20px 20px' }}>
                 <Typography id="transition-modal-title" sx={{ py: 1, color: '#fff' }}>
                   {slide.caption}
                 </Typography>

@@ -14,11 +14,11 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 export default function ServicesSecond(props) {
   const { loading = false } = props;
-  
+
   return (
     <RootStyle>
       <Container component={MotionViewport}>
-        <Grid container direction="row" columnSpacing={4} rowSpacing={2} paddingX={{ xs: 2, md: 0 }}>
+        <Grid container direction="row" columnSpacing={4} rowSpacing={2} paddingRight={{ xs: 0, md: 4 }}>
           <Grid item xs={12} md={4} sx={{ color: 'primary.main' }}>
             <m.div variants={varFade().inUp}>
               <Typography variant="h3">

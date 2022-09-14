@@ -362,9 +362,9 @@ export default function QuotationFirst({ isEdit, currentProduct }) {
                       </Button>
                     </Grid>
                     <Grid item xs={5} md={2} sx={{ mt: 5 }}>
-                      <Button onClick={() => resetState()} size="large">
-                        Reset
-                      </Button>
+                      <LoadingButton onClick={(e) => resetState()} type="submit" size="large" loading={isSubmitting}>
+                        {!isEdit ? 'Reset' : 'Save Changes'}
+                      </LoadingButton>
                     </Grid>
                   </Grid>
                 </div>
