@@ -176,12 +176,12 @@ function AuthProvider({ children }) {
     initialize();
   }, []);
 
-  const login = async (uemail, upass) => {
+  const login = async (email, pass) => {
     const response = await axios.post(
       '/api/account/login',
       {
-        uemail,
-        upass,
+        email,
+        pass,
       },
       {
         headers: {
@@ -201,11 +201,11 @@ function AuthProvider({ children }) {
     });
   };
 
-  const forgot = async (uemail) => {
+  const forgot = async (email) => {
     const response = await axios.post(
       '/api/email/send-link-api',
       {
-        uemail,
+        email,
       },
       {
         headers: {
