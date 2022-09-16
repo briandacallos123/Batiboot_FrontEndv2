@@ -72,7 +72,7 @@ export default function ServiceRebranding(props) {
                 size="large"
                 variant="outlined"
                 onClick={handleOpen}
-                sx={{ ml: 1, border: 1, background: 'rgba(253, 169, 43, 0.2)' }}
+                sx={{ ml: 1, border: 1, background: 'rgba(0, 0, 0, 0.05)' }}
               >
                 Learn More
               </Button>
