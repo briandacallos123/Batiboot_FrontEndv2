@@ -19,11 +19,11 @@ import { FormProvider, RHFSwitch, RHFSelect, RHFTextField, RHFUploadAvatar } fro
 // ----------------------------------------------------------------------
 
 export default function AccountGeneral() {
-  const [fileParts, setfileParts] = useState(null)
+  const [fileParts, setfileParts] = useState(null);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { user , updateProfile } = useAuth();
+  const { user, updateProfile } = useAuth();
 
   const UpdateUserSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
@@ -57,52 +57,45 @@ export default function AccountGeneral() {
   const onSubmit = async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-     // alert(fileParts)
+      // alert(fileParts)
       const photo = !fileParts ? user.photoURL : fileParts;
-      await updateProfile(data.displayName, data.email, data.phoneNumber, photo, data.address)
-    
-      
-
-
+      await updateProfile(data.displayName, data.email, data.phoneNumber, photo, data.address);
 
       enqueueSnackbar('Update success!');
     } catch (error) {
       console.error(error);
     }
   };
-  
-  
+
   const handleDrop = useCallback(
-    
     (acceptedFiles) => {
       const file = acceptedFiles[0];
-      if ((file.type).toString() === 'image/png' ||
-          (file.type).toString() === 'image/jpg' ||
-          (file.type).toString() === 'image/jpeg' ||
-          (file.type).toString() === 'image/gif'
-      ){
-        
-          setValue(
-            'photoURL',
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          );
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onloadend = (e) => {
-          setfileParts(reader.result)
+      if (
+        file.type.toString() === 'image/png' ||
+        file.type.toString() === 'image/jpg' ||
+        file.type.toString() === 'image/jpeg' ||
+        file.type.toString() === 'image/gif'
+      ) {
+        setValue(
+          'photoURL',
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        );
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = (e) => {
+          setfileParts(reader.result);
           setValue(
             'photoURL',
             Object.assign(e, {
               preview: URL.createObjectURL(e.target.files),
             })
           );
-            /* fileParts.push({
+          /* fileParts.push({
               data64: [reader.result],
             }) */
-         
-        } 
+        };
       }
     },
     [setValue]
@@ -152,7 +145,7 @@ export default function AccountGeneral() {
               <RHFTextField name="displayName" label="Name" />
               <RHFTextField name="email" label="Email Address" />
 
-              <RHFTextField name="phoneNumber" label="Phone Number" />
+              <RHFTextField type="number" name="phoneNumber" label="Phone Number" />
               <RHFTextField name="address" label="Address" />
 
               <RHFSelect name="country" label="Country" placeholder="Country">
@@ -167,7 +160,7 @@ export default function AccountGeneral() {
               <RHFTextField name="state" label="State/Region" />
 
               <RHFTextField name="city" label="City" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
+              <RHFTextField type="number" name="zipCode" label="Zip/Code" />
             </Box>
 
             <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
