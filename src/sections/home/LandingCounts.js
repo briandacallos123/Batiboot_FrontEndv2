@@ -9,8 +9,8 @@ import { MotionViewport, varFade } from '../../components/animate';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
-  padding: theme.spacing(5, 0),
-  backgroundColor: 'primary.main',
+  // padding: theme.spacing(0, 0),
+  // backgroundColor: 'primary.main',
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -81,8 +81,8 @@ export default function LandingCounts() {
   const screenRightAnimate = variantScreenRight;
 
   return (
-    <RootStyle backgroundColor="primary.main">
-      <Grid container spacing={2}>
+    <RootStyle>
+      <Grid container spacing={2} backgroundColor="primary.main" sx={{ py: 5, px: 3 }}>
         <Grid item xs={6} md={3}>
           <Grid container spacing={2}>
             <Grid item xs={5}>
@@ -90,10 +90,10 @@ export default function LandingCounts() {
             </Grid>
             <Grid item xs={7}>
               <m.div variants={varFade().inRight}>
-                <Typography variant="h3" sx={{ mt: 2 }}>
+                <Typography variant="h3" sx={{ color: 'white', mt: 2 }}>
                   320
                 </Typography>
-                <Typography>Projects Done</Typography>
+                <Typography sx={{ color: 'white' }}>Projects Done</Typography>
               </m.div>
             </Grid>
           </Grid>
@@ -106,10 +106,10 @@ export default function LandingCounts() {
             </Grid>
             <Grid item xs={7}>
               <m.div variants={varFade().inRight}>
-                <Typography variant="h3" sx={{ mt: 2 }}>
+                <Typography variant="h3" sx={{ color: 'white', mt: 2 }}>
                   72
                 </Typography>
-                <Typography>Client's WorldWide</Typography>
+                <Typography sx={{ color: 'white' }}>Client's WorldWide</Typography>
               </m.div>
             </Grid>
           </Grid>
@@ -122,11 +122,11 @@ export default function LandingCounts() {
             </Grid>
             <Grid item xs={7}>
               <m.div variants={varFade().inRight}>
-                <Typography variant="h3" sx={{ mt: 2 }}>
+                <Typography variant="h3" sx={{ color: 'white', mt: 2 }}>
                   153
                 </Typography>
 
-                <Typography>Owned Vehicles</Typography>
+                <Typography sx={{ color: 'white' }}>Owned Vehicles</Typography>
               </m.div>
             </Grid>
           </Grid>
@@ -139,11 +139,11 @@ export default function LandingCounts() {
             </Grid>
             <Grid item xs={7}>
               <m.div variants={varFade().inRight}>
-                <Typography variant="h3" sx={{ mt: 2 }}>
+                <Typography variant="h3" sx={{ color: 'white', mt: 2 }}>
                   112
                 </Typography>
 
-                <Typography>People in Team</Typography>
+                <Typography sx={{ color: 'white' }}>People in Team</Typography>
               </m.div>
             </Grid>
           </Grid>

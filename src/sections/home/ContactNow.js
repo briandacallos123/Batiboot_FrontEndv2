@@ -122,7 +122,7 @@ export default function ContactNow() {
 
   return (
     <RootStyle sx={{}}>
-       <Box
+      <Box
         sx={{
           top: 0,
           width: '100%',
@@ -149,12 +149,13 @@ export default function ContactNow() {
                   </Typography>
                 </m.div>
                 <Button
+                  size="large"
                   variant="contained"
                   sx={{
-                    mt: 2,
-                    backgroundColor: '#02c4f0',
-                    borderRadius: '20px',
-                    p: '10px',
+                    borderRadius: 3,
+                    backgroundColor: 'primary',
+                    boxShadow: 'none',
+                    marginTop: 2,
                   }}
                 >
                   CONTACT NOW

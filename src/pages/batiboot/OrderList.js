@@ -50,11 +50,12 @@ import UserModal from '../../sections/@batiboot/modal/UserModal';
 
 const SERVICE_OPTIONS = [
   'all',
-  'full stack development',
-  'backend development',
-  'ui design',
-  'ui/ux design',
-  'front end development',
+  'Product Sourcing',
+  'Importing',
+  'Product Rebranding',
+  'Private Label',
+  'Warehousing',
+  'Fulfillment',
 ];
 
 const TABLE_HEAD = [
@@ -76,7 +77,7 @@ export default function OrderList() {
 
   const navigate = useNavigate();
 
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   const {
     dense,
@@ -109,9 +110,9 @@ export default function OrderList() {
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
 
-  const [isEdit, setIsEdit] = useState(false)
-  const [isView, setIsView] = useState(false)
-  const [identifier, setIdentifier] = useState('')
+  const [isEdit, setIsEdit] = useState(false);
+  const [isView, setIsView] = useState(false);
+  const [identifier, setIdentifier] = useState('');
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -135,18 +136,18 @@ export default function OrderList() {
   };
 
   const handleEditRow = (id) => {
-    setIsEdit(!isEdit)
+    setIsEdit(!isEdit);
     // setIdentifier(id)
-    handleOpenModal()
+    handleOpenModal();
   };
 
   const handleViewRow = (id) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
- 
-      setIsView(!isView)
+
+    setIsView(!isView);
     //  setIdentifier(id)
-      handleOpenViewModal()
-   };
+    handleOpenViewModal();
+  };
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
@@ -171,9 +172,8 @@ export default function OrderList() {
   const getTotalPriceByStatus = (orderStatus) =>
     sumBy(
       tableData.filter((item) => item.orderStatus === orderStatus),
-      "amount"
+      'amount'
     );
-
 
   const getPercentByStatus = (orderStatus) => (getLengthByStatus(orderStatus) / tableData.length) * 100;
 
@@ -185,19 +185,19 @@ export default function OrderList() {
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
 
-  const [openModal , setOpenModal] = React.useState(false)
-  const [openViewModal , setOpenViewModal] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState(false);
+  const [openViewModal, setOpenViewModal] = React.useState(false);
 
-  const handleOpenModal = () => setOpenModal(!openModal)
-  const handleOpenViewModal = () => setOpenViewModal(!openViewModal)
-  
+  const handleOpenModal = () => setOpenModal(!openModal);
+  const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
+
   const handleCloseModal = () => {
-    setIsEdit(false)
-    setIsView(false)
-    setOpenModal(false)
-    setOpenViewModal(false)
-    setIdentifier('')
-  }
+    setIsEdit(false);
+    setIsView(false);
+    setOpenModal(false);
+    setOpenViewModal(false);
+    setIdentifier('');
+  };
 
   return (
     <Page title="Batiboot: Order List">
@@ -222,15 +222,15 @@ export default function OrderList() {
           }
         />
         <Box>
-          <UserModal 
+          <UserModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
-            identifier={identifier}      
-            pathname={pathname}    
+            identifier={identifier}
+            pathname={pathname}
             nameLink={'Order List'}
           />
-         {/*  <OrderCreateModal 
+          {/*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
            edit={isEdit}

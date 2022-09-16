@@ -50,11 +50,12 @@ import UserModal from '../../sections/@batiboot/modal/UserModal';
 
 const SERVICE_OPTIONS = [
   'all',
-  'full stack development',
-  'backend development',
-  'ui design',
-  'ui/ux design',
-  'front end development',
+  'Product Sourcing',
+  'Importing',
+  'Product Rebranding',
+  'Private Label',
+  'Warehousing',
+  'Fulfillment',
 ];
 
 const TABLE_HEAD = [
@@ -75,7 +76,7 @@ export default function ShipmentTracking() {
   const { themeStretch } = useSettings();
 
   const navigate = useNavigate();
-  const { pathname } = useLocation()  
+  const { pathname } = useLocation();
 
   const {
     dense,
@@ -107,9 +108,9 @@ export default function ShipmentTracking() {
   const [filterEndDate, setFilterEndDate] = useState(null);
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
-  const [isEdit, setIsEdit] = useState(false)
-  const [isView, setIsView] = useState(false)
-  const [identifier, setIdentifier] = useState('')
+  const [isEdit, setIsEdit] = useState(false);
+  const [isView, setIsView] = useState(false);
+  const [identifier, setIdentifier] = useState('');
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -133,17 +134,17 @@ export default function ShipmentTracking() {
   };
 
   const handleEditRow = (id) => {
-    setIsEdit(!isEdit)
-    setIdentifier(id)
-    handleOpenModal()
+    setIsEdit(!isEdit);
+    setIdentifier(id);
+    handleOpenModal();
   };
 
   const handleViewRow = (id) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
- 
-      setIsView(!isView)
+
+    setIsView(!isView);
     //  setIdentifier(id)
-      handleOpenViewModal()
+    handleOpenViewModal();
   };
 
   const dataFiltered = applySortFilter({
@@ -165,34 +166,40 @@ export default function ShipmentTracking() {
 
   const denseHeight = dense ? 56 : 76;
 
-  const getLengthByStatus = (trackingStatus) => tableData.filter((item) => item.trackingStatus === trackingStatus).length;
+  const getLengthByStatus = (trackingStatus) =>
+    tableData.filter((item) => item.trackingStatus === trackingStatus).length;
 
   const getTotalPriceByStatus = (trackingStatus) =>
     sumBy(
       tableData.filter((item) => item.trackingStatus === trackingStatus),
-      "amount"
+      'amount'
     );
 
-  const [openModal , setOpenModal] = React.useState(false)
-  const [openViewModal , setOpenViewModal] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState(false);
+  const [openViewModal, setOpenViewModal] = React.useState(false);
 
-  const handleOpenModal = () => setOpenModal(!openModal)
-  const handleOpenViewModal = () => setOpenViewModal(!openViewModal)
-    
+  const handleOpenModal = () => setOpenModal(!openModal);
+  const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
+
   const handleCloseModal = () => {
-    setIsEdit(false)
-    setIsView(false)
-    setOpenModal(false)
-    setOpenViewModal(false)
-    setIdentifier('')
-  }
+    setIsEdit(false);
+    setIsView(false);
+    setOpenModal(false);
+    setOpenViewModal(false);
+    setIdentifier('');
+  };
   const getPercentByStatus = (trackingStatus) => (getLengthByStatus(trackingStatus) / tableData.length) * 100;
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
     { value: 'delivered', label: 'Delivered', color: 'success', count: getLengthByStatus('delivered') },
     { value: 'in transit', label: 'In-Transit', color: 'warning', count: getLengthByStatus('in transit') },
-    { value: 'out for shipping', label: 'Out-for-shipping', color: 'error', count: getLengthByStatus('out for shipping') },
+    {
+      value: 'out for shipping',
+      label: 'Out-for-shipping',
+      color: 'error',
+      count: getLengthByStatus('out for shipping'),
+    },
     { value: 'received', label: 'Received', color: 'default', count: getLengthByStatus('received') },
   ];
 
@@ -207,25 +214,21 @@ export default function ShipmentTracking() {
             { name: 'Shipment Tracking' },
           ]}
           action={
-            <Button
-              variant="contained"
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-              onClick={handleOpenModal}
-            >
-                Shipment
+            <Button variant="contained" startIcon={<Iconify icon={'eva:plus-fill'} />} onClick={handleOpenModal}>
+              Shipment
             </Button>
           }
         />
         <Box>
-          <UserModal 
+          <UserModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
-            identifier={identifier}      
-            pathname={pathname}    
+            identifier={identifier}
+            pathname={pathname}
             nameLink={'Tracking'}
           />
-         {/*  <ShipmentListViewModal 
+          {/*  <ShipmentListViewModal 
             open={openViewModal}
             onClose={handleCloseModal}
             identifier={identifier}

@@ -215,7 +215,7 @@ export default function UserNewEditForm({ isEdit, currentUser }) {
             >
               <RHFTextField name="name" label="Full Name" />
               <RHFTextField name="email" label="Email Address" />
-              <RHFTextField name="phoneNumber" label="Phone Number" />
+              <RHFTextField type="number" name="phoneNumber" label="Phone Number" />
 
               <RHFSelect name="country" label="Country" placeholder="Country">
                 <option value="" />
