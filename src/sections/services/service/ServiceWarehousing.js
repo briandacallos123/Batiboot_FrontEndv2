@@ -64,18 +64,22 @@ export default function ServiceWarehousing(props) {
           ducimus voluptates voluptas?`
               )}
             </Typography>
-            <Grid container direction="row" alignItems="center" sx={{ mt: 2 }}>
-              <Button size="large" variant="contained" href="./Quotation">
-                Register Now
-              </Button>
-              <Button
-                size="large"
-                variant="outlined"
-                onClick={handleOpen}
-                sx={{ ml: 1, border: 1, background: 'rgba(253, 169, 43, 0.2)' }}
-              >
-                Learn More
-              </Button>
+            <Grid container direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
+              <Grid item>
+                <Button size="large" variant="contained" href="./Quotation">
+                  Register Now
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  size="large"
+                  variant="outlined"
+                  onClick={handleOpen}
+                  sx={{ border: 1, background: 'rgba(0, 0, 0, 0.05)' }}
+                >
+                  Learn More
+                </Button>
+              </Grid>
               <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
