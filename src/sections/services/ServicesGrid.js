@@ -14,7 +14,7 @@ import {
 } from './service';
 
 const RootStyle = styled('div')(({ theme }) => ({
-  backgroundColor: '#f7f7f7',
+  backgroundColor: theme.palette.mode === 'light' ? '#f7f7f7' : 'primary.main',
   marginTop: 55,
 }));
 
