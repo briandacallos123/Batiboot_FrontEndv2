@@ -65,7 +65,7 @@ export default function ServiceRebranding(props) {
               )}
             </Typography>
             <Grid container direction="row" alignItems="center" sx={{ mt: 2 }}>
-              <Button size="large" variant="contained" href="./Quotation">
+              <Button size="large" variant="contained" href="./freight-calculator">
                 Order Now
               </Button>
               <Button
@@ -100,7 +100,7 @@ export default function ServiceRebranding(props) {
                       <Grid item xs={12} sm={6}>
                         <ServiceRebrandingSlider />
                         <Grid align="right" marginTop={2}>
-                          <Button size="large" variant="contained" href="./Quotation">
+                          <Button size="large" variant="contained" href="./freight-calculator">
                             Order Now
                           </Button>
                         </Grid>
