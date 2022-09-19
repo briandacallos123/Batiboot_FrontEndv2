@@ -49,11 +49,12 @@ import UserModal from '../../sections/@batiboot/modal/UserModal';
 
 const SERVICE_OPTIONS = [
   'all',
-  'full stack development',
-  'backend development',
-  'ui design',
-  'ui/ux design',
-  'front end development',
+  'Product Sourcing',
+  'Importing',
+  'Product Rebranding',
+  'Private Label',
+  'Warehousing',
+  'Fulfillment',
 ];
 
 const TABLE_HEAD = [
@@ -75,10 +76,8 @@ export default function GeneralInvoice() {
 
   const navigate = useNavigate();
 
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
- 
-  
   const {
     dense,
     page,
@@ -102,9 +101,8 @@ export default function GeneralInvoice() {
 
   const [tableData, setTableData] = useState(_invoices);
 
-/*   const [tempInvTo, setTempInvTo] = useState(_invoiceTo.filter((key) => key.id === tempInvFrom.id))
+  /*   const [tempInvTo, setTempInvTo] = useState(_invoiceTo.filter((key) => key.id === tempInvFrom.id))
   const [tempItems, setTempItems] = useState(_tempItems.filter((key) => key.id === tempInvTo.id)) */
-
 
   const [filterName, setFilterName] = useState('');
 
@@ -116,10 +114,9 @@ export default function GeneralInvoice() {
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
 
-  const [isEdit, setIsEdit] = useState(false)
-  const [isView, setIsView] = useState(false)
-  const [identifier, setIdentifier] = useState('')
-
+  const [isEdit, setIsEdit] = useState(false);
+  const [isView, setIsView] = useState(false);
+  const [identifier, setIdentifier] = useState('');
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -143,18 +140,18 @@ export default function GeneralInvoice() {
   };
 
   const handleEditRow = (id) => {
-    navigate(PATH_BATIBOOT.invoice.edit(id))
-    setIsEdit(!isEdit)
-    setIdentifier(id)
-    handleOpenModal()
+    navigate(PATH_BATIBOOT.invoice.edit(id));
+    setIsEdit(!isEdit);
+    setIdentifier(id);
+    handleOpenModal();
   };
 
   const handleViewRow = (id) => {
-   // navigate(PATH_BATIBOOT.invoice.view(id));
+    // navigate(PATH_BATIBOOT.invoice.view(id));
 
-    setIsView(!isView)
-    setIdentifier(id)
-    handleOpenViewModal()
+    setIsView(!isView);
+    setIdentifier(id);
+    handleOpenViewModal();
   };
 
   const dataFiltered = applySortFilter({
@@ -193,28 +190,26 @@ export default function GeneralInvoice() {
     { value: 'overdue', label: 'Overdue', color: 'error', count: getLengthByStatus('overdue') },
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
-  const [openModal , setOpenModal] = React.useState(false)
-  const [openViewModal , setOpenViewModal] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState(false);
+  const [openViewModal, setOpenViewModal] = React.useState(false);
 
   const handleOpenModal = () => {
-    setOpenModal(!openModal); 
-  }
-  const handleOpenViewModal = () => setOpenViewModal(!openViewModal)
-  
+    setOpenModal(!openModal);
+  };
+  const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
+
   const handleCloseModal = () => {
-    setIsEdit(false)
-    setIsView(false)
-    setOpenModal(false)
-    setOpenViewModal(false)
-    setIdentifier('')
-  }
+    setIsEdit(false);
+    setIsView(false);
+    setOpenModal(false);
+    setOpenViewModal(false);
+    setIdentifier('');
+  };
   // const { pathname } = useLocation();
   //   const { sent, invoiceNumber, createDate, dueDate, status, invoiceTo, totalPrice } = row;
 
-
-
   // alert(tempInvFrom.name)
-  
+
   const tempArray = {
     /* 'id' : tempInvFrom.length,
     'invoiceFrom': {
@@ -236,8 +231,8 @@ export default function GeneralInvoice() {
         'totalAmount': tempItems.totalAmount,
         'orderStatus' : tempItems.orderStatus
     } */
-  }
-  
+  };
+
   return (
     <Page title="Batiboot: Invoice">
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -252,7 +247,7 @@ export default function GeneralInvoice() {
             <Button
               variant="contained"
               startIcon={<Iconify icon={'eva:plus-fill'} />}
-             /*  component={RouterLink}
+              /*  component={RouterLink}
               to={PATH_BATIBOOT.invoice.create} */
               onClick={handleOpenModal}
             >
@@ -273,15 +268,15 @@ export default function GeneralInvoice() {
             identifier={identifier}
           /> */}
 
-          <UserModal 
+          <UserModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
-            identifier={identifier}      
-            pathname={pathname}    
+            identifier={identifier}
+            pathname={pathname}
             nameLink={'Invoice'}
           />
-        </Box>  
+        </Box>
         <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack

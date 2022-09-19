@@ -215,7 +215,7 @@ export default function UserNewEditForm({ isEdit, currentUser }) {
             >
               <RHFTextField name="name" label="Full Name" />
               <RHFTextField name="email" label="Email Address" />
-              <RHFTextField name="phoneNumber" label="Phone Number" />
+              <RHFTextField type="number" name="phoneNumber" label="Phone Number" />
 
               <RHFSelect name="country" label="Country" placeholder="Country">
                 <option value="" />
@@ -229,7 +229,7 @@ export default function UserNewEditForm({ isEdit, currentUser }) {
               <RHFTextField name="state" label="State/Region" />
               <RHFTextField name="city" label="City" />
               <RHFTextField name="address" label="Address" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
+              <RHFTextField type="number" name="zipCode" label="Zip/Code" />
               <RHFTextField name="company" label="Company" />
               <RHFTextField name="role" label="Role" />
             </Box>

@@ -127,7 +127,7 @@ export default function SettingsDrawer() {
                     <SettingMode />
                   </Stack>
 
-                  <Stack spacing={1.5}>
+                  {/* <Stack spacing={1.5}>
                     <Typography variant="subtitle2">Contrast</Typography>
                     <SettingContrast />
                   </Stack>
@@ -135,7 +135,7 @@ export default function SettingsDrawer() {
                   <Stack spacing={1.5}>
                     <Typography variant="subtitle2">Direction</Typography>
                     <SettingDirection />
-                  </Stack>
+                  </Stack> */}
 
                   <Stack spacing={1.5}>
                     <Typography variant="subtitle2">Layout</Typography>

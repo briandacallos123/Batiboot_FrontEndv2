@@ -7,7 +7,6 @@ import { styled } from '@mui/material/styles';
 import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
-  backgroundColor: '#fff',
   padding: theme.spacing(5, 0),
   marginTop: 55,
 }));

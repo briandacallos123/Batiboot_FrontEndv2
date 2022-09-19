@@ -44,11 +44,12 @@ import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@dashboard/
 
 const SERVICE_OPTIONS = [
   'all',
-  'full stack development',
-  'backend development',
-  'ui design',
-  'ui/ux design',
-  'front end development',
+  'Product Sourcing',
+  'Importing',
+  'Product Rebranding',
+  'Private Label',
+  'Warehousing',
+  'Fulfillment',
 ];
 
 const TABLE_HEAD = [

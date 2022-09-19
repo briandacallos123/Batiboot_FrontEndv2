@@ -17,7 +17,6 @@ import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
 import navConfig from './MenuConfig';
 
-
 // ----------------------------------------------------------------------
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
@@ -42,8 +41,6 @@ const ToolbarShadowStyle = styled('div')(({ theme }) => ({
   position: 'absolute',
   width: `calc(100% - 48px)`,
   boxShadow: theme.customShadows.z8,
-  
-  
 }));
 
 // ----------------------------------------------------------------------
@@ -60,7 +57,7 @@ export default function MainHeader() {
   const isHome = pathname === '/home2';
 
   return (
-    <AppBar sx={{ boxShadow: 0, bgcolor: 'white', color:'black' }}>
+    <AppBar sx={{ boxShadow: 0, bgcolor: theme.palette.mode === 'light' ? '#fff' : '#12161d', color: 'black' }}>
       <ToolbarStyle
         disableGutters
         sx={{
@@ -79,19 +76,14 @@ export default function MainHeader() {
         >
           <Logo />
 
-          <Typography variant="h5" sx={{ ml: 1 }}>
+          <Typography variant="h5" sx={{ ml: 1, color: theme.palette.mode === 'light' ? '#000' : '#fff' }}>
             Batiboot
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          
 
           {isDesktop && <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
 
-          <Button
-            variant="contained"
-            target="_blank"
-            rel="noopener"
-            href="./Quotation">
+          <Button variant="contained" target="_blank" rel="noopener" href="./Quotation">
             Need Quotation?
           </Button>
 

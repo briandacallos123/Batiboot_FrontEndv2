@@ -7,8 +7,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
-  backgroundColor: '#f7f7f7',
   padding: theme.spacing(5, 0),
+  backgroundColor: theme.palette.mode === 'light' ? '#f7f7f7' : 'primary.main',
 }));
 
 export default function ServicesSecond(props) {

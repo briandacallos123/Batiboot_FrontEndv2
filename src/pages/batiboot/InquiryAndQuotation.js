@@ -52,11 +52,12 @@ import UserModal from '../../sections/@batiboot/modal/UserModal';
 
 const SERVICE_OPTIONS = [
   'all',
-  'full stack development',
-  'backend development',
-  'ui design',
-  'ui/ux design',
-  'front end development',
+  'Product Sourcing',
+  'Importing',
+  'Product Rebranding',
+  'Private Label',
+  'Warehousing',
+  'Fulfillment',
 ];
 
 const TABLE_HEAD = [
@@ -78,7 +79,7 @@ export default function InquireQuotation() {
 
   const navigate = useNavigate();
 
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   const {
     dense,
@@ -111,9 +112,9 @@ export default function InquireQuotation() {
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
 
-  const [isEdit, setIsEdit] = useState(false)
-  const [isView, setIsView] = useState(false)
-  const [identifier, setIdentifier] = useState('')
+  const [isEdit, setIsEdit] = useState(false);
+  const [isView, setIsView] = useState(false);
+  const [identifier, setIdentifier] = useState('');
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -137,18 +138,18 @@ export default function InquireQuotation() {
   };
 
   const handleEditRow = (id) => {
-    setIsEdit(!isEdit)
+    setIsEdit(!isEdit);
     // setIdentifier(id)
-    handleOpenModal()
+    handleOpenModal();
   };
 
   const handleViewRow = (id) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
- 
-      setIsView(!isView)
+
+    setIsView(!isView);
     //  setIdentifier(id)
-      handleOpenViewModal()
-   };
+    handleOpenViewModal();
+  };
 
   const dataFiltered = applySortFilter({
     tableData,
@@ -169,14 +170,14 @@ export default function InquireQuotation() {
 
   const denseHeight = dense ? 56 : 76;
 
-  const getLengthByStatus = (inquireQuoStatus) => tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus).length;
+  const getLengthByStatus = (inquireQuoStatus) =>
+    tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus).length;
 
   const getTotalPriceByStatus = (inquireQuoStatus) =>
     sumBy(
       tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus),
-      "amount"
+      'amount'
     );
-
 
   const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
@@ -187,19 +188,19 @@ export default function InquireQuotation() {
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
 
-  const [openModal , setOpenModal] = React.useState(false)
-  const [openViewModal , setOpenViewModal] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState(false);
+  const [openViewModal, setOpenViewModal] = React.useState(false);
 
-  const handleOpenModal = () => setOpenModal(!openModal)
-  const handleOpenViewModal = () => setOpenViewModal(!openViewModal)
-  
+  const handleOpenModal = () => setOpenModal(!openModal);
+  const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
+
   const handleCloseModal = () => {
-    setIsEdit(false)
-    setIsView(false)
-    setOpenModal(false)
-    setOpenViewModal(false)
-    setIdentifier('')
-  }
+    setIsEdit(false);
+    setIsView(false);
+    setOpenModal(false);
+    setOpenViewModal(false);
+    setIdentifier('');
+  };
 
   return (
     <Page title="Batiboot: Inquire/Quotation">
@@ -215,7 +216,7 @@ export default function InquireQuotation() {
             <Button
               variant="contained"
               startIcon={<Iconify icon={'eva:plus-fill'} />}
-            /*   component={RouterLink}
+              /*   component={RouterLink}
               to={PATH_BATIBOOT.inquire.create} */
               onClick={handleOpenModal}
             >
@@ -223,15 +224,15 @@ export default function InquireQuotation() {
             </Button>
           }
         />
-        
+
         <Box>
-        {/* UserRolesCreate Modal */}
-          <UserModal 
+          {/* UserRolesCreate Modal */}
+          <UserModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
-            identifier={identifier}      
-            pathname={pathname}    
+            identifier={identifier}
+            pathname={pathname}
             nameLink={'Inquiry Quotation'}
           />
           {/* <InquireAndQuotationCreateModal

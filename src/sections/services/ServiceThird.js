@@ -8,7 +8,6 @@ import { MotionViewport, varFade } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(8, 0),
-  backgroundColor: '#fff',
 }));
 
 export default function ServicesThird(props) {

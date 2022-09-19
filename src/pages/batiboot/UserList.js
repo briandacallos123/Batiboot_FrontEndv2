@@ -50,13 +50,7 @@ import UserModal from '../../sections/@batiboot/modal/UserModal';
 
 // const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
-const ROLE_OPTIONS = [
-  'all',
-  'Sourcing Agent',
-  'Administrator',
-  'Manager',
-  'Supervisor',
-];
+const ROLE_OPTIONS = ['all', 'Sourcing Agent', 'Administrator', 'Manager', 'Supervisor'];
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
@@ -106,11 +100,11 @@ export default function UserList() {
 
   const [filterRole, setFilterRole] = useState('all');
 
-  const [isEdit, setIsEdit] = useState(false)
-  const [identifier, setIdentifier] = useState('')
+  const [isEdit, setIsEdit] = useState(false);
+  const [identifier, setIdentifier] = useState('');
 
-  const { pathname } = useLocation()  
-  
+  const { pathname } = useLocation();
+
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
 
   const handleFilterName = (filterName) => {
@@ -135,10 +129,10 @@ export default function UserList() {
   };
 
   const handleEditRow = (id) => {
-    setIsEdit(!isEdit)
-    setIdentifier(id.role)
-    handleOpenModal()
-// navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
+    setIsEdit(!isEdit);
+    setIdentifier(id.role);
+    handleOpenModal();
+    // navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
   };
 
   const dataFiltered = applySortFilter({
@@ -159,7 +153,6 @@ export default function UserList() {
     { value: 'banned', label: 'Banned', color: 'error', count: getLengthByStatus('banned') },
   ];
 
-
   const denseHeight = dense ? 52 : 72;
 
   const isNotFound =
@@ -167,28 +160,25 @@ export default function UserList() {
     (!dataFiltered.length && !!filterRole) ||
     (!dataFiltered.length && !!filterStatus);
 
-  const [ openModal, setOpenModal ] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = () => {
-    setOpenModal(!openModal)
-  }
+    setOpenModal(!openModal);
+  };
 
   const handleCloseModal = () => {
-    setIsEdit(false)
-    setOpenModal(false)
-  }
+    setIsEdit(false);
+    setOpenModal(false);
+  };
 
-  const [ showSkeleton, setShowSkeleton ] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(false);
 
-  useEffect(
-    () => {
-      const timer1 = setTimeout(() => setShowSkeleton(true), delay * 900);
-      return () => {
-        clearTimeout(timer1);
-      };
-    },
-    []
-  );
+  useEffect(() => {
+    const timer1 = setTimeout(() => setShowSkeleton(true), delay * 900);
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, []);
 
   return (
     <Page title="Batiboot: List">
@@ -201,18 +191,14 @@ export default function UserList() {
             { name: 'List' },
           ]}
           action={
-            <Button
-              variant="contained"
-              onClick={handleOpenModal}
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-            >
+            <Button variant="contained" onClick={handleOpenModal} startIcon={<Iconify icon={'eva:plus-fill'} />}>
               Add User
             </Button>
           }
         />
 
-      <Box>
-         {/*  <UserListCreateModal 
+        <Box>
+          {/*  <UserListCreateModal 
               open={openModal}
               onClose={handleCloseModal}
               edit={isEdit}
@@ -222,74 +208,63 @@ export default function UserList() {
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
-            identifier={identifier}      
-            pathname={pathname}    
+            identifier={identifier}
+            pathname={pathname}
             nameLink={'User'}
           />
-
-
-
         </Box>
-      
 
-      
         {/* edit */}
-       <Card sx={{ mb: 5 }}>
+        <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack
               direction="row"
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-            {   
-                showSkeleton ? (
-                    <UserListAnalytics
-                        title="Total"
-                        total={tableData.length}
-                        percent={100}
-                        icon="ic:round-receipt"
-                        color={theme.palette.info.main}
-                    />
-                ) : (
-                    <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
-                )
-            }
-             
-            {   
-                showSkeleton ? (
-                    <UserListAnalytics
-                        title="Active"
-                        total={getLengthByStatus('active')}
-                        percent={getPercentByStatus('active')}
-                        icon="eva:checkmark-circle-2-fill"
-                        color={theme.palette.success.main}
-                    /> 
-                ) : (
-                    <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
-                )
-            }
+              {showSkeleton ? (
+                <UserListAnalytics
+                  title="Total"
+                  total={tableData.length}
+                  percent={100}
+                  icon="ic:round-receipt"
+                  color={theme.palette.info.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
 
-            {   
-                showSkeleton ? (
-                    <UserListAnalytics
-                        title="Banned"
-                        total={getLengthByStatus('banned')}
-                        percent={getPercentByStatus('banned')}
-                        icon="eva:bell-fill"
-                        color={theme.palette.error.main}
-                    />  
-                ) : (
-                    <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
-                )   
-            }  
+              {showSkeleton ? (
+                <UserListAnalytics
+                  title="Active"
+                  total={getLengthByStatus('active')}
+                  percent={getPercentByStatus('active')}
+                  icon="eva:checkmark-circle-2-fill"
+                  color={theme.palette.success.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
+
+              {showSkeleton ? (
+                <UserListAnalytics
+                  title="Banned"
+                  total={getLengthByStatus('banned')}
+                  percent={getPercentByStatus('banned')}
+                  icon="eva:bell-fill"
+                  color={theme.palette.error.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
             </Stack>
           </Scrollbar>
         </Card>
-      {/* edit */}
+        {/* edit */}
 
-         {/* edit */}
+        {/* edit */}
 
-         <Card>
+        <Card>
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
@@ -299,16 +274,17 @@ export default function UserList() {
             sx={{ px: 2, bgcolor: 'background.neutral' }}
           >
             {STATS_OPT.map((tab) => (
-              <Tab 
-                disableRipple 
-                key={tab.value} 
+              <Tab
+                disableRipple
+                key={tab.value}
                 value={tab.value}
                 icon={<Label color={tab.color}> {tab.count} </Label>}
-                label={tab.label} />
+                label={tab.label}
+              />
             ))}
           </Tabs>
-      
-      {/* edit */}
+
+          {/* edit */}
 
           <Divider />
 
@@ -347,7 +323,7 @@ export default function UserList() {
                 <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
-                  headLabel={ TABLE_HEAD }
+                  headLabel={TABLE_HEAD}
                   rowCount={tableData.length}
                   numSelected={selected.length}
                   onSort={onSort}
@@ -396,7 +372,6 @@ export default function UserList() {
               label="Dense"
               sx={{ px: 3, py: 1.5, top: 0, position: { md: 'absolute' } }}
             />
-            
           </Box>
         </Card>
       </Container>

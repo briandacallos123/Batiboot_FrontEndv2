@@ -21,7 +21,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   flexDirection: 'column',
   width: '100%',
-  marginTop: '20px',
+  // marginTop: '20px',
   backdropFilter: 'blur(200px)',
 }));
 
@@ -122,7 +122,7 @@ export default function ContactNow() {
 
   return (
     <RootStyle sx={{}}>
-       <Box
+      <Box
         sx={{
           top: 0,
           width: '100%',
@@ -140,21 +140,22 @@ export default function ContactNow() {
             <Grid container spacing={2}>
               <Grid item md={8} xs={12} sx={{ mt: 10 }}>
                 <m.div variants={varFade().inRight}>
-                  <Typography variant="h3" sx={{ mb: 5 }}>
+                  <Typography variant="h3" sx={{ mb: 5, color: '#000' }}>
                     Reach your destination 100% sure and safe
                   </Typography>
-                  <Typography>
+                  <Typography sx={{ color: '#000' }}>
                     We designed a detailed homepage layouts that will fit any transportation industry size. We will take
                     care of your cargo or your pasenger and deliver them safe and on time!
                   </Typography>
                 </m.div>
                 <Button
+                  size="large"
                   variant="contained"
                   sx={{
-                    mt: 2,
-                    backgroundColor: '#02c4f0',
-                    borderRadius: '20px',
-                    p: '10px',
+                    borderRadius: 3,
+                    backgroundColor: 'primary',
+                    boxShadow: 'none',
+                    marginTop: 2,
                   }}
                 >
                   CONTACT NOW
