@@ -61,9 +61,9 @@ const SERVICE_OPTIONS = [
 const TABLE_HEAD = [
   { id: 'pName', label: 'Product Name', align: 'left' },
   { id: 'orderCreated', label: 'Created At', align: 'left' },
-  { id: 'dueDate', label: 'Due', align: 'left' },
+  { id: 'serviceType', label: 'Service Type', align: 'left' },
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
-  { id: 'amount', label: 'Amount', align: 'center', width: 140 },
+  { id: 'budget', label: 'Budget', align: 'center', width: 140 },
   { id: 'orderStatus', label: 'Status', align: 'left' },
   { id: 'actions', label: 'Actions', align: 'center' },
 ];
@@ -179,9 +179,9 @@ export default function OrderList() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'paid', label: 'Paid', color: 'success', count: getLengthByStatus('paid') },
-    { value: 'unpaid', label: 'Unpaid', color: 'warning', count: getLengthByStatus('unpaid') },
-    { value: 'overdue', label: 'Overdue', color: 'error', count: getLengthByStatus('overdue') },
+    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
+    { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'rejected', label: 'Rejected', color: 'error', count: getLengthByStatus('rejected') },
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
 

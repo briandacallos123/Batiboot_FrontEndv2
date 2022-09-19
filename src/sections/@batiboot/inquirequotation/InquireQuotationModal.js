@@ -31,17 +31,26 @@ const GENDER_OPTION = [
   { label: 'Kids', value: 'Kids' },
 ];
 
-const CATEGORY_OPTION = [
-  { group: 'Category 1', 
-      classify: ['Home & Garden', 'Gift & Crafts', 'Beauty & Personal Use', 'Electrical Equipment', 
-      'Fashion Accessories', 'Home Appliance', 'Luggage, Bags & Cases', 'Power Transmission', 'Tools & Hardware', 'Sports Entertainment'] 
-  },
-  { group: 'Category 2', classify: ['Apparel', 'Packaging & Printing', 'Liquid & Chemicals', 'Fabric & Textile',
-    'Food & Beverages', 'Textiles', 'Machinery', 'Renewable Energy', 'School & Office Supplies', 'Toys & Hobbies'
-  ]},
-  { group: 'Category 3', classify: ['Furniture', 'Plants & Agriculture', 'Consumer Electronics, Safety & Security', 'Fabrication',
-    'Health & Medical', 'Lights & Lightning', 'Vehicle Parts & Accessories', 'Rubber & Plastics', 'Shoes & Accessories', 'Jewelries'
-  ]},
+// const CATEGORY_OPTION = [
+//   { group: 'Category 1',
+//       classify: ['Home & Garden', 'Gift & Crafts', 'Beauty & Personal Use', 'Electrical Equipment',
+//       'Fashion Accessories', 'Home Appliance', 'Luggage, Bags & Cases', 'Power Transmission', 'Tools & Hardware', 'Sports Entertainment']
+//   },
+//   { group: 'Category 2', classify: ['Apparel', 'Packaging & Printing', 'Liquid & Chemicals', 'Fabric & Textile',
+//     'Food & Beverages', 'Textiles', 'Machinery', 'Renewable Energy', 'School & Office Supplies', 'Toys & Hobbies'
+//   ]},
+//   { group: 'Category 3', classify: ['Furniture', 'Plants & Agriculture', 'Consumer Electronics, Safety & Security', 'Fabrication',
+//     'Health & Medical', 'Lights & Lightning', 'Vehicle Parts & Accessories', 'Rubber & Plastics', 'Shoes & Accessories', 'Jewelries'
+//   ]},
+// ];
+
+const SERVICE_OPTION = [
+  'Product Sourcing',
+  'Importing',
+  'Private Label',
+  'Warehousing',
+  'Fulfillment',
+  'Product Rebranding',
 ];
 
 const TAGS_OPTION = [
@@ -88,8 +97,8 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       reset();
       setLoadingSave(true);
       handleCloseModal();
-    //  navigate(PATH_BATIBOOT.invoice.list);
-   //   console.log(JSON.stringify(newInvoice, null, 2));
+      //  navigate(PATH_BATIBOOT.invoice.list);
+      //   console.log(JSON.stringify(newInvoice, null, 2));
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +112,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       reset();
       handleCloseModal();
       setLoadingSend(false);
-   /*    navigate(PATH_BATIBOOT.invoice.list);
+      /*    navigate(PATH_BATIBOOT.invoice.list);
       console.log(JSON.stringify(newInvoice, null, 2)); */
     } catch (error) {
       console.error(error);
@@ -129,7 +138,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       inStock: true,
       taxes: true,
       gender: currentProduct?.gender || GENDER_OPTION[2].value,
-      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1],
+      category: currentProduct?.service || SERVICE_OPTION[0],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
@@ -200,7 +209,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3} sx={{ pb: 10}}>
+      <Grid container spacing={3} sx={{ pb: 10 }}>
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
@@ -231,16 +240,13 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
         <Grid item xs={12} md={4}>
           <Stack spacing={3}>
             <Card sx={{ p: 3 }}>
-              <RHFSwitch name="inStock" label="In stock" />
-
               <Stack spacing={3} mt={2}>
                 <RHFTextField name="quantity" label="Quantities" />
 
-                <RHFTextField name="code" label="Product Code" />
-              {/* 
+                {/* 
                 <RHFTextField name="sku" label="Product SKU" /> */}
 
-              {/*   <div>
+                {/*   <div>
                   <LabelStyle>Gender</LabelStyle>
                   <RHFRadioGroup
                     name="gender"
@@ -251,37 +257,13 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                   />
                 </div> */}
 
-                <RHFSelect name="category" label="Category">
-                  {CATEGORY_OPTION.map((category) => (
-                    <optgroup key={category.group} label={category.group}>
-                      {category.classify.map((classify) => (
-                        <option key={classify} value={classify}>
-                          {classify}
-                        </option>
-                      ))}
-                    </optgroup>
+                <RHFSelect name="category" label="Services">
+                  {SERVICE_OPTION.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
                   ))}
                 </RHFSelect>
-
-                <Controller
-                  name="tags"
-                  control={control}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      multiple
-                      freeSolo
-                      onChange={(event, newValue) => field.onChange(newValue)}
-                      options={TAGS_OPTION.map((option) => option)}
-                      renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                          <Chip {...getTagProps({ index })} key={option} size="small" label={option} />
-                        ))
-                      }
-                      renderInput={(params) => <TextField label="Tags" {...params} />}
-                    />
-                  )}
-                />
               </Stack>
             </Card>
 
@@ -299,7 +281,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                     type: 'number',
                   }}
                 />
-{/* 
+                {/* 
                 <RHFTextField
                   name="priceSale"
                   label="Sale Price"
@@ -313,37 +295,32 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                   }}
                 /> */}
               </Stack>
-
-              <RHFSwitch name="taxes" label="Price includes taxes" />
             </Card>
-
-            
           </Stack>
           <LoadingButton
-          color="inherit"
-          size="small"
-          variant="contained"
-          loading={loadingSave && isSubmitting}
-          onClick={handleSubmit(handleSaveAsDraft)}
-          type='submit'
-          sx={{display:'none'}}
-          ref={formRef}
-        />
+            color="inherit"
+            size="small"
+            variant="contained"
+            loading={loadingSave && isSubmitting}
+            onClick={handleSubmit(handleSaveAsDraft)}
+            type="submit"
+            sx={{ display: 'none' }}
+            ref={formRef}
+          />
 
-        <LoadingButton
-          size="small"
-          variant="contained"
-          loading={loadingSend && isSubmitting}
-          onClick={handleSubmit(handleCreateAndSend)}
-          type='submit'
-          sx={{display:'none'}}
-          ref={formRef}
-        />
-          
+          <LoadingButton
+            size="small"
+            variant="contained"
+            loading={loadingSend && isSubmitting}
+            onClick={handleSubmit(handleCreateAndSend)}
+            type="submit"
+            sx={{ display: 'none' }}
+            ref={formRef}
+          />
         </Grid>
-       {/*  <Grid md={12} sx={{ py: 2 ,mt: 4 }}> */}
-            
-    {/*     </Grid> */}
+        {/*  <Grid md={12} sx={{ py: 2 ,mt: 4 }}> */}
+
+        {/*     </Grid> */}
       </Grid>
     </FormProvider>
   );

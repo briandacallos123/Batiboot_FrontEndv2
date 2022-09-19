@@ -27,7 +27,7 @@ OrderTableRow.propTypes = {
 export default function OrderTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
   const theme = useTheme();
 
-  const { orderNumber, pName, orderCreated, dueDate, quantity, amount, orderStatus } = row;
+  const { orderNumber, pName, orderCreated, serviceType, quantity, budget, orderStatus } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -46,7 +46,7 @@ export default function OrderTableRow({ row, selected, onSelectRow, onViewRow, o
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-       <Avatar alt={pName} color={createAvatar(pName).color} sx={{ mr: 2 }}>
+        <Avatar alt={pName} color={createAvatar(pName).color} sx={{ mr: 2 }}>
           {createAvatar(pName).name}
         </Avatar>
         <Stack>
@@ -62,19 +62,19 @@ export default function OrderTableRow({ row, selected, onSelectRow, onViewRow, o
 
       <TableCell align="left">{fDate(orderCreated)}</TableCell>
 
-      <TableCell align="left">{fDate(dueDate)}</TableCell>
+      <TableCell align="left">{serviceType}</TableCell>
 
       <TableCell align="center">{quantity}</TableCell>
 
-      <TableCell align="center">{fCurrency(amount * quantity)}</TableCell>
+      <TableCell align="center">{fCurrency(budget * quantity)}</TableCell>
 
       <TableCell align="left">
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
-            (orderStatus === 'paid' && 'success') ||
-            (orderStatus === 'unpaid' && 'warning') ||
-            (orderStatus === 'overdue' && 'error') ||
+            (orderStatus === 'approved' && 'success') ||
+            (orderStatus === 'pending' && 'warning') ||
+            (orderStatus === 'rejected' && 'error') ||
             'default'
           }
           sx={{ textTransform: 'capitalize' }}
