@@ -58,7 +58,7 @@ export default function OrderListViewModal(props) {
   };
 
   return (
-    <DialogAnimate open={open} sx={{ width: '100%', height: '100%' }} maxWidth={'md'}>
+    <DialogAnimate open={open} sx={{ width: '100%', height: '100%', py: 4 }} maxWidth={'md'}>
       <Page title="Batiboot: View Order">
         <Container maxWidth={themeStretch ? false : 'lg'}>
           <HeaderBreadcrumbs
@@ -85,27 +85,66 @@ export default function OrderListViewModal(props) {
 
           <Fade in={open}>
             <Box borderRadius={1} width={{ xs: '90%', md: '100%' }}>
-              <Grid container spacing={2}>
+              <Grid container columnSpacing={4}>
                 <Grid item xs={12} sm={6}>
-                  <Grid align="left" marginTop={7}>
-                    <Typography variant="h5">Product Name: Nike Zoom</Typography>
-                    <Typography variant="h6">Quantity: 40</Typography>
-                    <Typography variant="h6">Service Type: Product Rebranding </Typography>
-                    <Typography variant="h6">Price per Piece: 45,200</Typography>
-                    <Typography variant="p">
-                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                      the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                      type and scrambled it to make a type specimen book. It has survived not only five centuries, but
-                      also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in
-                      the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                      with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </Typography>
-                  </Grid>
+                  <TextField
+                    name="name"
+                    label="Product Name"
+                    value={'Nike Zoom'}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    name="name"
+                    label="Quantity"
+                    value={40}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    name="name"
+                    label="Service Type"
+                    value={'Product Rebranding'}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    name="name"
+                    label="Price per Piece"
+                    value={'45,200'}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    name="name"
+                    label="Description"
+                    value={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                    and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+                    leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    fullWidth
+                    multiline
+                    sx={{ mb: 2 }}
+                  />
                 </Grid>
-                <Grid item xs={12} sm={6} height={{ xs: '30vh', md: '65vh' }}>
-                  <Typography variant="h6" align="center" sx={{ color: 'primary.main' }}>
-                    Images
-                  </Typography>
+                <Grid item xs={12} sm={6} height="100%">
                   <OrderGallery />
                 </Grid>
               </Grid>
