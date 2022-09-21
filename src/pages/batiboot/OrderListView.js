@@ -83,73 +83,53 @@ export default function OrderListViewModal(props) {
           {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
           {/*             <InvoiceDetails invoice={currentInvoice}/> */}
 
-          <Fade in={open}>
-            <Box borderRadius={1} width={{ xs: '90%', md: '100%' }}>
-              <Grid container columnSpacing={4}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    name="name"
-                    label="Product Name"
-                    value={'Nike Zoom'}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    fullWidth
-                    sx={{ mb: 2 }}
-                  />
-                  <TextField
-                    name="name"
-                    label="Quantity"
-                    value={40}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    fullWidth
-                    sx={{ mb: 2 }}
-                  />
-                  <TextField
-                    name="name"
-                    label="Service Type"
-                    value={'Product Rebranding'}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    fullWidth
-                    sx={{ mb: 2 }}
-                  />
-                  <TextField
-                    name="name"
-                    label="Price per Piece"
-                    value={'45,200'}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    fullWidth
-                    sx={{ mb: 2 }}
-                  />
-                  <TextField
-                    name="name"
-                    label="Description"
-                    value={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+          <Grid container rowGap={4}>
+            <Grid item xs={12} sm={6} paddingRight={4}>
+              <Typography variant="overline" marginBottom={1} color="primary.main">
+                Product name
+              </Typography>
+              <Typography variant="h6" marginBottom={1}>
+                {'Nike Zoom'}
+              </Typography>
+
+              <Typography variant="overline" marginBottom={1} color="primary.main">
+                Quantity
+              </Typography>
+              <Typography variant="h6" marginBottom={1}>
+                {'40'}
+              </Typography>
+
+              <Typography variant="overline" marginBottom={1} color="primary.main">
+                Service Type
+              </Typography>
+              <Typography variant="h6" marginBottom={1}>
+                {'Product Rebranding'}
+              </Typography>
+
+              <Typography variant="overline" marginBottom={1} color="primary.main">
+                Price per Piece
+              </Typography>
+              <Typography variant="h6" marginBottom={1}>
+                {'45,200'}
+              </Typography>
+
+              <Typography variant="overline" marginBottom={1} color="primary.main">
+                Description
+              </Typography>
+              <Typography variant="p" marginBottom={1}>
+                <br />
+                {`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
                     industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
                     and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
                     leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
                     with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
                     publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    fullWidth
-                    multiline
-                    sx={{ mb: 2 }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} height="100%">
-                  <OrderGallery />
-                </Grid>
-              </Grid>
-            </Box>
-          </Fade>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <OrderGallery />
+            </Grid>
+          </Grid>
         </Container>
       </Page>
     </DialogAnimate>
