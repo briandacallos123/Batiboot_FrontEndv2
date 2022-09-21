@@ -230,17 +230,16 @@ export default function OrderList() {
             pathname={pathname}
             nameLink={'Order List'}
           />
-          {/*  <OrderCreateModal 
+          {
+            /*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
            edit={isEdit}
            identifier={identifier}
           />
-          <OrderListViewModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          /> */}
+          */
+            <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
+          }
         </Box>
         <Card sx={{ mb: 5 }}>
           <Scrollbar>

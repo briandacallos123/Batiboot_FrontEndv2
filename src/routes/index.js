@@ -363,7 +363,6 @@ const DesignationList = Loadable(lazy(() => import('../pages/batiboot/UserDesign
 
 const OrderList = Loadable(lazy(() => import('../pages/batiboot/OrderList')));
 const Tracking = Loadable(lazy(() => import('../pages/batiboot/ShipmentTracking')));
-
 /* Inquire Quotation */
 const InquireQuotation = Loadable(lazy(() => import('../pages/batiboot/InquiryAndQuotation')));
 
