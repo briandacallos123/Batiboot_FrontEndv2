@@ -3,28 +3,53 @@ import * as React from 'react';
 import { Fade, ImageList, ImageListItem, Modal, Skeleton } from '@mui/material';
 // components
 import Image from '../../../../components/Image';
+import LightboxModal from '../../../../components/LightboxModal';
 import './gallery.css';
 
 export default function OrderGallery(props) {
   const { loading = false } = props;
 
-  const [open, setOpen] = React.useState(false);
-  const [image, setImage] = React.useState('false');
+  // const [open, setOpen] = React.useState(false);
+  // const [image, setImage] = React.useState('false');
 
-  const handleClose = () => {
-    setOpen(false);
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  // const handleImage = (value) => {
+  //   setImage(value);
+  //   setOpen(true);
+  //   console.log(image);
+  // };
+
+  const [openLightbox, setOpenLightbox] = React.useState(false);
+  const [selectedImage, setSelectedImage] = React.useState(0);
+  const slider2 = React.useRef(null);
+  const imagesLightbox = data.map((image) => image);
+
+  const handleOpenLightbox = (url) => {
+    const selectedImage = imagesLightbox.findIndex((index) => index === url);
+    setOpenLightbox(true);
+    setSelectedImage(selectedImage);
   };
 
-  const handleImage = (value) => {
-    setImage(value);
-    setOpen(true);
-    console.log(image);
+  const handlePrevious = () => {
+    slider2.current?.slickPrev();
+  };
+
+  const handleNext = () => {
+    slider2.current?.slickNext();
   };
 
   return (
     <ImageList variant="masonry" cols={3} sx={{ height: '100%', width: '100%' }}>
       {data.map((item) => (
-        <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1} onClick={() => handleImage(item.img)}>
+        <ImageListItem
+          key={item.img}
+          cols={item.cols || 1}
+          rows={item.rows || 1}
+          onClick={() => handleOpenLightbox(item.img)}
+        >
           {loading ? (
             <Skeleton
               variant="rectangular"
@@ -45,7 +70,7 @@ export default function OrderGallery(props) {
           )}
         </ImageListItem>
       ))}
-      <Modal
+      {/* <Modal
         open={open}
         onClose={handleClose}
         closeAfterTransition
@@ -67,7 +92,24 @@ export default function OrderGallery(props) {
         >
           <img src={image} alt="asd" style={{ maxHeight: '90%', maxWidth: '90%' }} />
         </Fade>
-      </Modal>
+      </Modal> */}
+      <LightboxModal
+        animationDuration={320}
+        images={imagesLightbox}
+        mainSrc={imagesLightbox[selectedImage]}
+        photoIndex={selectedImage}
+        setPhotoIndex={setSelectedImage}
+        isOpen={openLightbox}
+        onCloseRequest={() => setOpenLightbox(false)}
+        onMovePrevRequest={() => {
+          handlePrevious();
+          setSelectedImage((selectedImage + imagesLightbox.length - 1) % imagesLightbox.length);
+        }}
+        onMoveNextRequest={() => {
+          handleNext();
+          setSelectedImage((selectedImage + 1) % imagesLightbox.length);
+        }}
+      />
     </ImageList>
   );
 }
