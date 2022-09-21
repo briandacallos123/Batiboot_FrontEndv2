@@ -1,6 +1,6 @@
 import * as React from 'react';
 // @mui
-import { ImageList, ImageListItem, Skeleton } from '@mui/material';
+import { Fade, ImageList, ImageListItem, Modal, Skeleton } from '@mui/material';
 // components
 import Image from '../../../../components/Image';
 import './gallery.css';
@@ -8,10 +8,23 @@ import './gallery.css';
 export default function OrderGallery(props) {
   const { loading = false } = props;
 
+  const [open, setOpen] = React.useState(false);
+  const [image, setImage] = React.useState('false');
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleImage = (value) => {
+    setImage(value);
+    setOpen(true);
+    console.log(image);
+  };
+
   return (
     <ImageList variant="masonry" cols={3} sx={{ height: '100%', width: '100%' }}>
       {data.map((item) => (
-        <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
+        <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1} onClick={() => handleImage(item.img)}>
           {loading ? (
             <Skeleton
               variant="rectangular"
@@ -32,6 +45,29 @@ export default function OrderGallery(props) {
           )}
         </ImageListItem>
       ))}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          '&:hover': {
+            backgroundcolor: 'red',
+          },
+        }}
+      >
+        <Fade
+          in={open}
+          timeout={500}
+          sx={{
+            outline: 'none',
+          }}
+        >
+          <img src={image} alt="asd" style={{ maxHeight: '90%', maxWidth: '90%' }} />
+        </Fade>
+      </Modal>
     </ImageList>
   );
 }
