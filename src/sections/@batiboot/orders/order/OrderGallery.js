@@ -25,7 +25,7 @@ export default function OrderGallery(props) {
   const [openLightbox, setOpenLightbox] = React.useState(false);
   const [selectedImage, setSelectedImage] = React.useState(0);
   const slider2 = React.useRef(null);
-  const imagesLightbox = data.map((image) => image);
+  const imagesLightbox = data.map((data) => data.img);
 
   const handleOpenLightbox = (url) => {
     const selectedImage = imagesLightbox.findIndex((index) => index === url);
@@ -48,7 +48,7 @@ export default function OrderGallery(props) {
           key={item.img}
           cols={item.cols || 1}
           rows={item.rows || 1}
-          onClick={() => handleOpenLightbox(item.img)}
+          onClick={() => handleOpenLightbox(item)}
         >
           {loading ? (
             <Skeleton
