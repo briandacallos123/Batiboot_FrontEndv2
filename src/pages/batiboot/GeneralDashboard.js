@@ -30,6 +30,7 @@ import {
   EcommerceCurrentBalance,
 } from '../../sections/@batiboot/general/e-commerce';
 import { AppWelcome } from '../../sections/@batiboot/general/app';
+import { AnalyticsWidgetSummary } from '../../sections/@batiboot/general/analytics';
 
 import { BookingCustomerReviews } from '../../sections/@batiboot/general/booking';
 
@@ -49,7 +50,7 @@ export default function GeneralDashboard() {
     <Page title="Batiboot: Dashboard">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <EcommerceWidgetSummary
               title="Total Orders"
               percent={2.6}
@@ -77,6 +78,40 @@ export default function GeneralDashboard() {
               chartColor={theme.palette.chart.green[0]}
               chartData={[56, 47, 40, 62, 73, 30, 23, 54, 67, 68]}
             />
+          </Grid> */}
+
+          <Grid item xs={6} sm={4} md={2}>
+            <AnalyticsWidgetSummary
+              title="Product Sourcing"
+              total={714000}
+              color="info"
+              icon={'ant-design:dropbox-outlined'}
+            />
+          </Grid>
+          <Grid item xs={6} sm={4} md={2}>
+            <AnalyticsWidgetSummary
+              title="Importing"
+              total={1352831}
+              color="warning"
+              icon={'ant-design:down-square-filled'}
+            />
+          </Grid>
+          <Grid item xs={6} sm={4} md={2}>
+            <AnalyticsWidgetSummary
+              title="Product Rebranding"
+              total={1723315}
+              color="error"
+              icon={'ant-design:skin-filled'}
+            />
+          </Grid>
+          <Grid item xs={6} sm={4} md={2}>
+            <AnalyticsWidgetSummary title="Private Label" total={72400} color="success" icon={'ant-design:tags-filled'} />
+          </Grid>
+          <Grid item xs={6} sm={4} md={2}>
+            <AnalyticsWidgetSummary title="Warehousing" total={234} color="info" icon={'ant-design:home-filled'} />
+          </Grid>
+          <Grid item xs={6} sm={4} md={2}>
+            <AnalyticsWidgetSummary title="Fulfillment" total={18003} color="warning" icon={'ant-design:gift-filled'} />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={4}>

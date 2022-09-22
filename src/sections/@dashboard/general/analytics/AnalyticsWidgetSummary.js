@@ -5,6 +5,7 @@ import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from '../../../../utils/formatNumber';
 // components
+import Image from '../../../../components/Image';
 import Iconify from '../../../../components/Iconify';
 
 // ----------------------------------------------------------------------
@@ -53,7 +54,7 @@ export default function AnalyticsWidgetSummary({ title, total, icon, color = 'pr
             )} 100%)`,
         }}
       >
-        <Iconify icon={icon} width={24} height={24} />
+        <Iconify src={icon} width={24} height={24} />
       </IconWrapperStyle>
 
       <Typography variant="h3">{fShortenNumber(total)}</Typography>
