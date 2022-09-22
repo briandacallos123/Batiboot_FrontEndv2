@@ -48,7 +48,7 @@ export default function OrderGallery(props) {
           key={item.img}
           cols={item.cols || 1}
           rows={item.rows || 1}
-          onClick={() => handleOpenLightbox(item)}
+          onClick={() => handleOpenLightbox(item.img)}
         >
           {loading ? (
             <Skeleton
