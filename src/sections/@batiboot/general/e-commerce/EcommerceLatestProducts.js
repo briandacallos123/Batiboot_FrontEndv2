@@ -1,9 +1,13 @@
 // @mui
 import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
 import { Box, Link, Card, CardHeader, Typography, Stack } from '@mui/material';
 // utils
 import { fCurrency } from '../../../../utils/formatNumber';
 //
+import Avatar from '../../../../components/Avatar';
+import createAvatar from '../../../../utils/createAvatar';
+import Label from '../../../../components/Label';
 import Image from '../../../../components/Image';
 import Scrollbar from '../../../../components/Scrollbar';
 import { ColorPreview } from '../../../../components/color-utils';
@@ -36,40 +40,42 @@ export default function EcommerceLatestProducts({ title, subheader, list, ...oth
 
 ProductItem.propTypes = {
   product: PropTypes.shape({
-    colors: PropTypes.arrayOf(PropTypes.string),
-    image: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    priceSale: PropTypes.number,
+    orderNumber: PropTypes.number,
+    pName: PropTypes.string,
+    inquireQuoStatus: PropTypes.string,
   }),
 };
 
 function ProductItem({ product }) {
-  const { name, image, price, priceSale } = product;
-
-  const hasSale = priceSale > 0;
-
+  const { pName, orderNumber, inquireQuoStatus } = product;
+  const theme = useTheme();
   return (
     <Stack direction="row" spacing={2}>
-      <Image alt={name} src={image} sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
-
-      <Box sx={{ flexGrow: 1, minWidth: 200 }}>
-        <Link sx={{ color: 'text.primary', typography: 'subtitle2' }}>{name}</Link>
+      <Avatar alt={pName} color={createAvatar(pName).color} sx={{ mr: 1 }}>
+        {createAvatar(pName).name}
+      </Avatar>
+      <Box sx={{ flexGrow: 0.97 }}>
+        <Link sx={{ color: 'text.primary', typography: 'subtitle2' }}>{pName}</Link>
 
         <Stack direction="row">
-          {hasSale && (
-            <Typography variant="body2" sx={{ color: 'text.secondary', textDecoration: 'line-through' }}>
-              {fCurrency(priceSale)}
-            </Typography>
-          )}
-          &nbsp;
-          <Typography variant="body2" sx={{ color: priceSale ? 'error.main' : 'text.secondary' }}>
-            {fCurrency(price)}
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            {orderNumber}
           </Typography>
         </Stack>
       </Box>
 
-      <ColorPreview limit={3} colors={product.colors} sx={{ minWidth: 72, pr: 3 }} />
+      <Label
+        variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+        color={
+          (inquireQuoStatus === 'approved' && 'success') ||
+          (inquireQuoStatus === 'received' && 'warning') ||
+          (inquireQuoStatus === 'draft' && 'error') ||
+          'default'
+        }
+        sx={{ textTransform: 'capitalize' }}
+      >
+        {inquireQuoStatus}
+      </Label>
     </Stack>
   );
 }

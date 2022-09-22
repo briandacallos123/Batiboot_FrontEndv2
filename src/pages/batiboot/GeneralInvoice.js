@@ -256,17 +256,15 @@ export default function GeneralInvoice() {
           }
         />
         <Box>
-          {/* <InvoiceCreateModal   
+          {
+            /* <InvoiceCreateModal   
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
             identifier={identifier}/>
-
-          <InvoiceViewDetailsModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          /> */}
+             */
+            <InvoiceViewDetailsModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
+          }
 
           <UserModal
             open={openModal}

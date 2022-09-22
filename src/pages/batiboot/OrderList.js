@@ -257,26 +257,26 @@ export default function OrderList() {
                 color={theme.palette.info.main}
               />
               <OrderListAnalytics
-                title="Paid"
-                total={getLengthByStatus('paid')}
-                percent={getPercentByStatus('paid')}
-                price={getTotalPriceByStatus('paid')}
+                title="Approved"
+                total={getLengthByStatus('approved')}
+                percent={getPercentByStatus('approved')}
+                price={getTotalPriceByStatus('approved')}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
               <OrderListAnalytics
-                title="Unpaid"
-                total={getLengthByStatus('unpaid')}
-                percent={getPercentByStatus('unpaid')}
-                price={getTotalPriceByStatus('unpaid')}
+                title="Pending"
+                total={getLengthByStatus('pending')}
+                percent={getPercentByStatus('pending')}
+                price={getTotalPriceByStatus('pending')}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
               <OrderListAnalytics
-                title="Overdue"
-                total={getLengthByStatus('overdue')}
-                percent={getPercentByStatus('overdue')}
-                price={getTotalPriceByStatus('overdue')}
+                title="Rejected"
+                total={getLengthByStatus('rejected')}
+                percent={getPercentByStatus('rejected')}
+                price={getTotalPriceByStatus('rejected')}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />

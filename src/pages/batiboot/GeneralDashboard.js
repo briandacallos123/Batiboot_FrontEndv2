@@ -1,133 +1,85 @@
 // @mui
-import {useTheme} from '@mui/material/styles';
-import {Container, Grid, Button} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Container, Grid, Button } from '@mui/material';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useSettings from '../../hooks/useSettings';
 // _mock_
 import {
-    _ecommerceNewProducts,
-    _ecommerceSalesOverview,
-    _ecommerceBestSalesman,
-    _ecommerceLatestProducts,
-    _bookings,
-    _bookingNew,
-    _bookingsOverview,
-    _bookingReview
+  _ecommerceNewProducts,
+  _ecommerceSalesOverview,
+  _ecommerceBestSalesman,
+  _ecommerceLatestProducts,
+  _bookings,
+  _bookingNew,
+  _bookingsOverview,
+  _bookingReview,
 } from '../../_mock';
-
+import _order from '../../_mock/batiboot/order.json';
 // components
 import Page from '../../components/Page';
 // sections
 import {
-    EcommerceNewProducts,
-    EcommerceYearlySales,
-    EcommerceBestSalesman,
-    EcommerceSaleByGender,
-    EcommerceWidgetSummary,
-    EcommerceSalesOverview,
-    EcommerceLatestProducts,
-    EcommerceCurrentBalance
+  EcommerceNewProducts,
+  EcommerceYearlySales,
+  EcommerceBestSalesman,
+  EcommerceSaleByGender,
+  EcommerceWidgetSummary,
+  EcommerceSalesOverview,
+  EcommerceLatestProducts,
+  EcommerceCurrentBalance,
 } from '../../sections/@batiboot/general/e-commerce';
-import {AppWelcome} from '../../sections/@batiboot/general/app';
+import { AppWelcome } from '../../sections/@batiboot/general/app';
 
-import {BookingCustomerReviews} from '../../sections/@batiboot/general/booking';
+import { BookingCustomerReviews } from '../../sections/@batiboot/general/booking';
 
 // assets
-import {MotivationIllustration} from '../../assets';
+import { MotivationIllustration } from '../../assets';
 
 // ----------------------------------------------------------------------
 
 export default function GeneralDashboard() {
-    const {user} = useAuth();
+  const { user } = useAuth();
 
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const {themeStretch} = useSettings();
+  const { themeStretch } = useSettings();
 
-    return (
-        <Page title="Batiboot: Dashboard">
-            <Container maxWidth={
-                themeStretch ? false : 'xl'
-            }>
-                <Grid container
-                    spacing={3}>
-                    <Grid item
-                        xs={12}
-                        md={4}>
-                        <EcommerceWidgetSummary title="Total Orders"
-                            percent={2.6}
-                            total={149}
-                            chartColor={
-                                theme.palette.primary.main
-                            }
-                            chartData={
-                                [
-                                    22,
-                                    8,
-                                    35,
-                                    50,
-                                    82,
-                                    84,
-                                    77,
-                                    12,
-                                    87,
-                                    43
-                                ]
-                            }/>
-                    </Grid>
+  return (
+    <Page title="Batiboot: Dashboard">
+      <Container maxWidth={themeStretch ? false : 'xl'}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <EcommerceWidgetSummary
+              title="Total Orders"
+              percent={2.6}
+              total={149}
+              chartColor={theme.palette.primary.main}
+              chartData={[22, 8, 35, 50, 82, 84, 77, 12, 87, 43]}
+            />
+          </Grid>
 
-                    <Grid item
-                        xs={12}
-                        md={4}>
-                        <EcommerceWidgetSummary title="Deliveries"
-                            percent={0.6}
-                            total={76}
-                            chartColor={
-                                theme.palette.chart.red[0]
-                            }
-                            chartData={
-                                [
-                                    40,
-                                    70,
-                                    75,
-                                    70,
-                                    50,
-                                    28,
-                                    7,
-                                    64,
-                                    38,
-                                    27
-                                ]
-                            }/>
-                    </Grid>
+          <Grid item xs={12} md={4}>
+            <EcommerceWidgetSummary
+              title="Deliveries"
+              percent={0.6}
+              total={76}
+              chartColor={theme.palette.chart.red[0]}
+              chartData={[40, 70, 75, 70, 50, 28, 7, 64, 38, 27]}
+            />
+          </Grid>
 
-                    <Grid item
-                        xs={12}
-                        md={4}>
-                        <EcommerceWidgetSummary title="Confirmed Orders"
-                            percent={-0.1}
-                            total={73}
-                            chartColor={
-                                theme.palette.chart.green[0]
-                            }
-                            chartData={
-                                [
-                                    56,
-                                    47,
-                                    40,
-                                    62,
-                                    73,
-                                    30,
-                                    23,
-                                    54,
-                                    67,
-                                    68
-                                ]
-                            }/>
-                    </Grid>
+          <Grid item xs={12} md={4}>
+            <EcommerceWidgetSummary
+              title="Confirmed Orders"
+              percent={-0.1}
+              total={73}
+              chartColor={theme.palette.chart.green[0]}
+              chartData={[56, 47, 40, 62, 73, 30, 23, 54, 67, 68]}
+            />
+          </Grid>
 
-                    {/* <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <EcommerceSaleByGender
               title="Sale By Gender"
               total={2324}
@@ -141,7 +93,7 @@ export default function GeneralDashboard() {
               ]}
             />
           </Grid> */}
-                    {/* <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
                 <EcommerceYearlySales
                     title="Yearly Sales"
                     subheader="(+43%) than last year"
@@ -165,70 +117,58 @@ export default function GeneralDashboard() {
                 />
             </Grid> */}
 
-                    <Grid item
-                        xs={12}
-                        md={6}
-                        lg={8}>
-                        <EcommerceLatestProducts title="Latest Products"
-                            list={_ecommerceLatestProducts}/>
-                    </Grid>
+          <Grid item xs={12} md={6} lg={8}>
+            <EcommerceLatestProducts title="Latest Inquiries" list={_order} />
+          </Grid>
 
-                    <Grid item
-                        xs={12}
-                        md={4}>
-                        <BookingCustomerReviews title="Current Orders"
-                            subheader={
-                                `${
-                                    _bookingReview.length
-                                } Reviews`
-                            }
-                            list={_bookingReview}/>
-                    </Grid>
+          <Grid item xs={12} md={4}>
+            <BookingCustomerReviews
+              title="Current Orders"
+              subheader={`${_bookingReview.length} Reviews`}
+              list={_bookingReview}
+            />
+          </Grid>
 
-
-                    {/*    <Grid item xs={12} md={12} lg={12}>
+          {/*    <Grid item xs={12} md={12} lg={12}>
             <EcommerceSalesOverview title="Sales Overview" data={_ecommerceSalesOverview} />
           </Grid> */}
 
-                    {/* <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <EcommerceCurrentBalance title="Current Balance" currentBalance={187650} sentAmount={25500} />
           </Grid> */}
 
-
-                    <Grid item
-                        xs={12}
-                        md={12}
-                        lg={12}>
-                        <EcommerceBestSalesman title="Best Salesman"
-                            tableData={_ecommerceBestSalesman}
-                            tableLabels={
-                                [
-                                    {
-                                        id: 'seller',
-                                        label: 'Seller'
-                                    },
-                                    {
-                                        id: 'product',
-                                        label: 'Product'
-                                    },
-                                    {
-                                        id: 'country',
-                                        label: 'Country',
-                                        align: 'center'
-                                    },
-                                    {
-                                        id: 'total',
-                                        label: 'Total'
-                                    }, {
-                                        id: 'rank',
-                                        label: 'Rank',
-                                        align: 'right'
-                                    },
-                                ]
-                            }/>
-                    </Grid>
-                </Grid>
-            </Container>
-        </Page>
-    );
+          <Grid item xs={12} md={12} lg={12}>
+            <EcommerceBestSalesman
+              title="Best Agent"
+              tableData={_ecommerceBestSalesman}
+              tableLabels={[
+                {
+                  id: 'seller',
+                  label: 'Seller',
+                },
+                {
+                  id: 'product',
+                  label: 'Product',
+                },
+                {
+                  id: 'country',
+                  label: 'Country',
+                  align: 'center',
+                },
+                {
+                  id: 'total',
+                  label: 'Total',
+                },
+                {
+                  id: 'rank',
+                  label: 'Rank',
+                  align: 'right',
+                },
+              ]}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+    </Page>
+  );
 }

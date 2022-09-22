@@ -33,7 +33,7 @@
     "quantity": "40",
     "budget": 5.0,
     "orderStatus": "rejected",
-    "inquireQuoStatus": "approved"
+    "inquireQuoStatus": "received"
   },
   {
     "id": 4,

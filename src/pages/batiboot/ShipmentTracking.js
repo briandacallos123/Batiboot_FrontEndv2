@@ -228,11 +228,7 @@ export default function ShipmentTracking() {
             pathname={pathname}
             nameLink={'Tracking'}
           />
-          {/*  <ShipmentListViewModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          /> */}
+          <ShipmentListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
         </Box>
 
         <Card sx={{ mb: 5 }}>

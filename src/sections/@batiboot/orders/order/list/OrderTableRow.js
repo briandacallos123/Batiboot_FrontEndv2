@@ -25,8 +25,6 @@ OrderTableRow.propTypes = {
 };
 
 export default function OrderTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
-  const theme = useTheme();
-
   const { orderNumber, pName, orderCreated, serviceType, quantity, budget, orderStatus } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
@@ -38,7 +36,7 @@ export default function OrderTableRow({ row, selected, onSelectRow, onViewRow, o
   const handleCloseMenu = () => {
     setOpenMenuActions(null);
   };
-
+  const theme = useTheme();
   return (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">

@@ -234,17 +234,16 @@ export default function InquireQuotation() {
             pathname={pathname}
             nameLink={'Inquiry Quotation'}
           />
-          {/* <InquireAndQuotationCreateModal
+          {
+            /* <InquireAndQuotationCreateModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
              identifier={identifier}
           />
-          <InquiryAndQuotationViewModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          /> */}
+          */
+            <InquiryAndQuotationViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
+          }
         </Box>
 
         <Card sx={{ mb: 5 }}>
