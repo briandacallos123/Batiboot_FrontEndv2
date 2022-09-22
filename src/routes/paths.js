@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------
 
-
 function path(root, sublink) {
   return `${root}${sublink}`;
 }
@@ -19,14 +18,11 @@ export const PATH_AUTH = {
   register: path(ROOTS_AUTH, '/register'),
   loginUnprotected: path(ROOTS_AUTH, '/login-unprotected'),
   registerUnprotected: path(ROOTS_AUTH, '/register-unprotected'),
-  view: (a,b) => path(ROOTS_AUTH, `/verify/${a}/${b}`),
+  view: (a, b) => path(ROOTS_AUTH, `/verify/${a}/${b}`),
   resetPassword: path(ROOTS_AUTH, '/reset-password'),
- // newPassword: (token) => path(ROOTS_AUTH, `/new-password/${token}`),
-  newPassword:  {view: (a,b) => path(ROOTS_AUTH, `/new-password/${a}/${b}`),}
- 
-
+  // newPassword: (token) => path(ROOTS_AUTH, `/new-password/${token}`),
+  newPassword: { view: (a, b) => path(ROOTS_AUTH, `/new-password/${a}/${b}`) },
 };
-
 
 export const PATH_PAGE = {
   comingSoon: '/coming-soon',
@@ -51,10 +47,10 @@ export const PATH_DASHBOARD = {
     analytics: path(ROOTS_DASHBOARD, '/analytics'),
     banking: path(ROOTS_DASHBOARD, '/banking'),
     booking: path(ROOTS_DASHBOARD, '/booking'),
-    sample:{
+    sample: {
       view: (id) => path(ROOTS_DASHBOARD, `/sample/${id}`),
       demoView: path(ROOTS_DASHBOARD, '/sample/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b5'),
-    }
+    },
   },
 
   mail: {
@@ -106,12 +102,12 @@ export const PATH_DASHBOARD = {
     view: (title) => path(ROOTS_DASHBOARD, `/blog/post/${title}`),
     demoView: path(ROOTS_DASHBOARD, '/blog/post/apply-these-7-secret-techniques-to-improve-event'),
   },
-}; 
+};
 
 // Batiboot paths
 
 export const PATH_BATIBOOT = {
-  root : ROOTS_BATIBOOT_ADMIN,
+  root: ROOTS_BATIBOOT_ADMIN,
   general: {
     dashboard: path(ROOTS_BATIBOOT_ADMIN, '/dashboard'),
   },
@@ -120,7 +116,7 @@ export const PATH_BATIBOOT = {
     list: path(ROOTS_BATIBOOT_ADMIN, '/invoice/list'),
     create: path(ROOTS_BATIBOOT_ADMIN, '/invoice/create'),
     view: (id) => path(ROOTS_BATIBOOT_ADMIN, `/invoice/${id}`),
-    edit: (id) => path(ROOTS_BATIBOOT_ADMIN, `/invoice/${id}/edit`) 
+    edit: (id) => path(ROOTS_BATIBOOT_ADMIN, `/invoice/${id}/edit`),
   },
   user: {
     root: path(ROOTS_BATIBOOT_ADMIN, '/user'),
@@ -140,7 +136,6 @@ export const PATH_BATIBOOT = {
     createOrder: path(ROOTS_BATIBOOT_ADMIN, '/order/create'),
     shipment: path(ROOTS_BATIBOOT_ADMIN, '/order/tracking'),
     createShipment: path(ROOTS_BATIBOOT_ADMIN, '/order/tracking/createShipment'),
-
   },
   inquire: {
     root: path(ROOTS_BATIBOOT_ADMIN, '/inquire'),
@@ -149,18 +144,17 @@ export const PATH_BATIBOOT = {
   },
   help: {
     root: path(ROOTS_BATIBOOT_ADMIN, '/help'),
-    faq: path(ROOTS_BATIBOOT_ADMIN, '/help/faq')
+    faq: path(ROOTS_BATIBOOT_ADMIN, '/help/faq'),
   },
   mail: {
     root: path(ROOTS_BATIBOOT_ADMIN, '/mail'),
     all: path(ROOTS_BATIBOOT_ADMIN, '/mail/all'),
   },
   rules: path(ROOTS_BATIBOOT_ADMIN, '/rules'),
-  
-}
+};
 
 export const PATH_BATIBOOT_USER = {
-  root : ROOTS_BATIBOOT_USER,
+  root: ROOTS_BATIBOOT_USER,
   general: {
     dashboard: path(ROOTS_BATIBOOT_USER, '/dashboard'),
   },
@@ -169,7 +163,7 @@ export const PATH_BATIBOOT_USER = {
     list: path(ROOTS_BATIBOOT_USER, '/invoice/list'),
     create: path(ROOTS_BATIBOOT_USER, '/invoice/create'),
     view: (id) => path(ROOTS_BATIBOOT_USER, `/invoice/${id}`),
-    edit: (id) => path(ROOTS_BATIBOOT_USER, `/invoice/${id}/edit`) 
+    edit: (id) => path(ROOTS_BATIBOOT_USER, `/invoice/${id}/edit`),
   },
   user: {
     root: path(ROOTS_BATIBOOT_USER, '/user'),
@@ -189,7 +183,6 @@ export const PATH_BATIBOOT_USER = {
     createOrder: path(ROOTS_BATIBOOT_USER, '/order/create'),
     shipment: path(ROOTS_BATIBOOT_USER, '/order/tracking'),
     createShipment: path(ROOTS_BATIBOOT_USER, '/order/tracking/createShipment'),
-
   },
   inquire: {
     root: path(ROOTS_BATIBOOT_USER, '/inquire'),
@@ -198,15 +191,14 @@ export const PATH_BATIBOOT_USER = {
   },
   help: {
     root: path(ROOTS_BATIBOOT_USER, '/help'),
-    faq: path(ROOTS_BATIBOOT_USER, '/help/faq')
+    faq: path(ROOTS_BATIBOOT_USER, '/help/faq'),
   },
   mail: {
     root: path(ROOTS_BATIBOOT_USER, '/mail'),
     all: path(ROOTS_BATIBOOT_USER, '/mail/all'),
   },
   rules: path(ROOTS_BATIBOOT_USER, '/rules'),
-  
-}
+};
 
 export const PATH_BATIBOOT_AGENT = {
   root : ROOTS_BATIBOOT_AGENT,
@@ -258,4 +250,3 @@ export const PATH_BATIBOOT_AGENT = {
 }
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
- 

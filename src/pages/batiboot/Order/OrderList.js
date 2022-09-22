@@ -197,7 +197,12 @@ export default function OrderList() {
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
     { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
+<<<<<<< HEAD:src/pages/batiboot/Order/OrderList.js
     { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
+=======
+    { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'rejected', label: 'Rejected', color: 'error', count: getLengthByStatus('rejected') },
+>>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6:src/pages/batiboot/OrderList.js
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
 
@@ -331,7 +336,11 @@ export default function OrderList() {
             pathname={pathname}
             nameLink={'Order List'}
           />
+<<<<<<< HEAD:src/pages/batiboot/Order/OrderList.js
             {
+=======
+          {
+>>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6:src/pages/batiboot/OrderList.js
             /*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
