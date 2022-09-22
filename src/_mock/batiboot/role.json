@@ -1,20 +1,23 @@
 [
-    {
-        "id": 1,
-        "status": "active",
-        "permission": 14,
-        "role": "manager"
-    },
-    {
-        "id": 2,
-        "status": "active",
-        "permission": 260,
-        "role": "sourcing agent"
-    },
-    {
-        "id": 3,
-        "status": "active",
-        "permission": 260,
-        "role": "administrator"
-    }
+  {
+    "id": 1,
+    "name": "bryce ganotice",
+    "status": "active",
+    "permission": 14,
+    "role": "user"
+  },
+  {
+    "id": 2,
+    "name": "sandrei santos",
+    "status": "active",
+    "permission": 260,
+    "role": "agent"
+  },
+  {
+    "id": 3,
+    "name": "juan dela cruz",
+    "status": "active",
+    "permission": 260,
+    "role": "admin"
+  }
 ]

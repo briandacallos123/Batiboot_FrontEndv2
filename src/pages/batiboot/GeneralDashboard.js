@@ -30,7 +30,7 @@ import {
   EcommerceCurrentBalance,
 } from '../../sections/@batiboot/general/e-commerce';
 import { AppWelcome } from '../../sections/@batiboot/general/app';
-import { AnalyticsWidgetSummary } from '../../sections/@batiboot/general/analytics';
+import { AnalyticsWidgetSummary, AnalyticsWebsiteVisits } from '../../sections/@batiboot/general/analytics';
 
 import { BookingCustomerReviews } from '../../sections/@batiboot/general/booking';
 
@@ -105,13 +105,18 @@ export default function GeneralDashboard() {
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Private Label" total={72400} color="success" icon={'ant-design:tags-filled'} />
+            <AnalyticsWidgetSummary
+              title="Private Label"
+              total={72400}
+              color="success"
+              icon={'ant-design:tags-filled'}
+            />
           </Grid>
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Warehousing" total={234} color="info" icon={'ant-design:home-filled'} />
+            <AnalyticsWidgetSummary title="Warehousing" total={234} color="secondary" icon={'ant-design:home-filled'} />
           </Grid>
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Fulfillment" total={18003} color="warning" icon={'ant-design:gift-filled'} />
+            <AnalyticsWidgetSummary title="Fulfillment" total={18003} color="primary" icon={'ant-design:gift-filled'} />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={4}>
@@ -152,17 +157,76 @@ export default function GeneralDashboard() {
                 />
             </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
-            <EcommerceLatestProducts title="Latest Inquiries" list={_order} />
+          <Grid container item spacing={3} xs={12}>
+            <Grid item xs={12} md={8}>
+              <AnalyticsWebsiteVisits
+                title="Services"
+                subheader="Transctions in a year"
+                chartLabels={[
+                  '01/01/2022',
+                  '02/01/2022',
+                  '03/01/2022',
+                  '04/01/2022',
+                  '05/01/2022',
+                  '06/01/2022',
+                  '07/01/2022',
+                  '08/01/2022',
+                  '09/01/2022',
+                  '10/01/2022',
+                  '11/01/2022',
+                ]}
+                chartData={[
+                  {
+                    name: 'Product Sourcing',
+                    type: 'column',
+                    fill: 'solid',
+                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                  },
+                  {
+                    name: 'Product Rebranding',
+                    type: 'area',
+                    fill: 'gradient',
+                    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                  },
+                  {
+                    name: 'Importing',
+                    type: 'line',
+                    fill: 'solid',
+                    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                  },
+                  {
+                    name: 'Private Label',
+                    type: 'column',
+                    fill: 'solid',
+                    data: [45, 18, 30, 35, 40, 41, 50, 10, 14, 25, 30],
+                  },
+                  {
+                    name: 'Warehousing',
+                    type: 'area',
+                    fill: 'solid',
+                    data: [15, 30, 8, 55, 21, 30, 43, 12, 35, 20, 30],
+                  },
+                  {
+                    name: 'Fulfillment',
+                    type: 'line',
+                    fill: 'solid',
+                    data: [40, 30, 55, 22, 14, 33, 40, 9, 33, 49, 12],
+                  },
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <EcommerceLatestProducts title="Latest Inquiries" list={_order} sx={{ pr: 3 }} />
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <BookingCustomerReviews
               title="Current Orders"
               subheader={`${_bookingReview.length} Reviews`}
               list={_bookingReview}
             />
-          </Grid>
+          </Grid> */}
 
           {/*    <Grid item xs={12} md={12} lg={12}>
             <EcommerceSalesOverview title="Sales Overview" data={_ecommerceSalesOverview} />
@@ -179,7 +243,7 @@ export default function GeneralDashboard() {
               tableLabels={[
                 {
                   id: 'seller',
-                  label: 'Seller',
+                  label: 'Agent',
                 },
                 {
                   id: 'product',

@@ -41,7 +41,6 @@ import { TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedActions } fr
 import UserListAnalytics from '../../sections/@batiboot/user/user&role/Analytics/UserListAnalytics';
 import Label from '../../components/Label';
 
-
 // sections
 import { UserTableToolbar, UserTableRow } from '../../sections/@batiboot/user/user&role';
 import UserModal from '../../sections/@batiboot/modal/UserModal';
@@ -51,15 +50,11 @@ import UserModal from '../../sections/@batiboot/modal/UserModal';
 
 // const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
-const ROLE_OPTIONS = [
-  'all',
-  'staff',
-  'hr',
-  'admin',
-];
+const ROLE_OPTIONS = ['all', 'user', 'agent', 'admin'];
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
+  { id: 'role', label: 'role', align: 'left' },
   { id: 'permission', label: 'Permission', align: 'left' },
   { id: 'status', label: 'Status', align: 'left' },
   { id: '' },
@@ -90,7 +85,7 @@ export default function UserRoles() {
   } = useTable();
 
   const { themeStretch } = useSettings();
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   const theme = useTheme();
 
@@ -102,8 +97,8 @@ export default function UserRoles() {
 
   const [filterRole, setFilterRole] = useState('all');
 
-  const [isEdit, setIsEdit] = useState(false)
-  const [identifier, setIdentifier] = useState('')
+  const [isEdit, setIsEdit] = useState(false);
+  const [identifier, setIdentifier] = useState('');
 
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
 
@@ -129,10 +124,10 @@ export default function UserRoles() {
   };
 
   const handleEditRow = (id) => {
-    setIsEdit(!isEdit)
-    setIdentifier(id.role)
-    handleOpenModal()
-// navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
+    setIsEdit(!isEdit);
+    setIdentifier(id.role);
+    handleOpenModal();
+    // navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
   };
 
   const dataFiltered = applySortFilter({
@@ -153,7 +148,6 @@ export default function UserRoles() {
     { value: 'banned', label: 'Banned', color: 'error', count: getLengthByStatus('banned') },
   ];
 
-
   const denseHeight = dense ? 52 : 72;
 
   const isNotFound =
@@ -161,25 +155,21 @@ export default function UserRoles() {
     (!dataFiltered.length && !!filterRole) ||
     (!dataFiltered.length && !!filterStatus);
 
+  const [openModal, setOpenModal] = React.useState(false);
 
-  const [openModal , setOpenModal] = React.useState(false)
-
-  const handleOpenModal = () => setOpenModal(!openModal)
+  const handleOpenModal = () => setOpenModal(!openModal);
   const handleCloseModal = () => {
-    setIsEdit(false)
-    setOpenModal(false)
-  }
-  const [ showSkeleton, setShowSkeleton ] = useState(false);
-  
-  useEffect(
-    () => {
-      const timer1 = setTimeout(() => setShowSkeleton(true), delay * 900);
-      return () => {
-        clearTimeout(timer1);
-      };
-    },
-    []
-  );
+    setIsEdit(false);
+    setOpenModal(false);
+  };
+  const [showSkeleton, setShowSkeleton] = useState(false);
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => setShowSkeleton(true), delay * 900);
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, []);
 
   return (
     <Page title="Batiboot: Roles">
@@ -192,86 +182,73 @@ export default function UserRoles() {
             { name: 'Roles' },
           ]}
           action={
-            <Button
-              variant="contained"
-              onClick={handleOpenModal}
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-            >
+            <Button variant="contained" onClick={handleOpenModal} startIcon={<Iconify icon={'eva:plus-fill'} />}>
               Add Role
             </Button>
           }
         />
         <Box>
-        
-
-          <UserModal 
+          <UserModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
-            identifier={identifier}      
-            pathname={pathname}    
+            identifier={identifier}
+            pathname={pathname}
             nameLink={'Roles'}
           />
-
         </Box>
 
         {/* edit */}
-       <Card sx={{ mb: 5 }}>
+        <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack
               direction="row"
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-            {   
-                showSkeleton ? (
-                    <UserListAnalytics
-                        title="Total"
-                        total={tableData.length}
-                        percent={100}
-                        icon="ic:round-receipt"
-                        color={theme.palette.info.main}
-                    />
-                ) : (
-                    <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
-                )
-            }
+              {showSkeleton ? (
+                <UserListAnalytics
+                  title="Total"
+                  total={tableData.length}
+                  percent={100}
+                  icon="ic:round-receipt"
+                  color={theme.palette.info.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
 
-            {   
-                showSkeleton ? (
-                    <UserListAnalytics
-                        title="Active"
-                        total={getLengthByStatus('active')}
-                        percent={getPercentByStatus('active')}
-                        icon="eva:checkmark-circle-2-fill"
-                        color={theme.palette.success.main}
-                    /> 
-                ) : (
-                    <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
-                )
-            }
-            
-            {   
-                showSkeleton ? (
-                    <UserListAnalytics
-                        title="Banned"
-                        total={getLengthByStatus('banned')}
-                        percent={getPercentByStatus('banned')}
-                        icon="eva:bell-fill"
-                        color={theme.palette.error.main}
-                    />
-                ) : (
-                    <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
-                )
-            }
+              {showSkeleton ? (
+                <UserListAnalytics
+                  title="Active"
+                  total={getLengthByStatus('active')}
+                  percent={getPercentByStatus('active')}
+                  icon="eva:checkmark-circle-2-fill"
+                  color={theme.palette.success.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
+
+              {showSkeleton ? (
+                <UserListAnalytics
+                  title="Banned"
+                  total={getLengthByStatus('banned')}
+                  percent={getPercentByStatus('banned')}
+                  icon="eva:bell-fill"
+                  color={theme.palette.error.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
             </Stack>
           </Scrollbar>
         </Card>
-      {/* edit */}
+        {/* edit */}
 
-       {/* edit */}
+        {/* edit */}
 
-       <Card>
+        <Card>
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
@@ -281,16 +258,17 @@ export default function UserRoles() {
             sx={{ px: 2, bgcolor: 'background.neutral' }}
           >
             {STATS_OPT.map((tab) => (
-              <Tab 
-                disableRipple 
-                key={tab.value} 
+              <Tab
+                disableRipple
+                key={tab.value}
                 value={tab.value}
                 icon={<Label color={tab.color}> {tab.count} </Label>}
-                label={tab.label} />
+                label={tab.label}
+              />
             ))}
           </Tabs>
-      
-      {/* edit */}
+
+          {/* edit */}
 
           <Divider />
 

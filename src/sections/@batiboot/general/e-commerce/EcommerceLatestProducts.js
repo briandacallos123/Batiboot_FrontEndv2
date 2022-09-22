@@ -54,7 +54,7 @@ function ProductItem({ product }) {
       <Avatar alt={pName} color={createAvatar(pName).color} sx={{ mr: 1 }}>
         {createAvatar(pName).name}
       </Avatar>
-      <Box sx={{ flexGrow: 0.97 }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Link sx={{ color: 'text.primary', typography: 'subtitle2' }}>{pName}</Link>
 
         <Stack direction="row">
