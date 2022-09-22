@@ -158,7 +158,7 @@ export default function GeneralDashboard() {
             </Grid> */}
 
           <Grid container item spacing={3} xs={12}>
-            <Grid item xs={8}>
+            <Grid item xs={12} md={8}>
               <AnalyticsWebsiteVisits
                 title="Services"
                 subheader="Transctions in a year"
@@ -215,7 +215,7 @@ export default function GeneralDashboard() {
                 ]}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <EcommerceLatestProducts title="Latest Inquiries" list={_order} sx={{ pr: 3 }} />
             </Grid>
           </Grid>
