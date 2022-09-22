@@ -51,7 +51,7 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
         {/* <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>
           {createAvatar(invoiceTo.name).name}
         </Avatar> */}
-      {/*   <Typography variant="subtitle2" noWrap>
+        {/*   <Typography variant="subtitle2" noWrap>
             {invoiceTo.name}
         </Typography> */}
         <Stack>
@@ -71,17 +71,16 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
 
       <TableCell align="left">{fDate(orderReceived)}</TableCell>
 
-    {/*   <TableCell align="center">{trackingStatus}</TableCell> */}
+      {/*   <TableCell align="center">{trackingStatus}</TableCell> */}
 
       <TableCell align="left">
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
             (trackingStatus === 'delivered' && 'success') ||
-            (trackingStatus === 'in transit' && 'primary') ||
-            (trackingStatus === 'out for shipping' && 'info') ||
-            (trackingStatus === 'received' && 'warning') ||
-
+            (trackingStatus === 'in transit' && 'warning') ||
+            (trackingStatus === 'out for shipping' && 'error') ||
+            (trackingStatus === 'received' && 'default') ||
             'default'
           }
           sx={{ textTransform: 'capitalize' }}

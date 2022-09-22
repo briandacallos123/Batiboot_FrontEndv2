@@ -1,7 +1,7 @@
 // @mui
 import { enUS, frFR, zhCN, viVN, arSD } from '@mui/material/locale';
 // routes
-import { PATH_DASHBOARD, PATH_BATIBOOT, PATH_BATIBOOT_USER } from './routes/paths';
+import { PATH_DASHBOARD, PATH_BATIBOOT, PATH_BATIBOOT_USER, PATH_BATIBOOT_AGENT } from './routes/paths';
 
 // API
 // ----------------------------------------------------------------------
@@ -35,6 +35,7 @@ export const MAPBOX_API = process.env.REACT_APP_MAPBOX_API;
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD.general.app; // as '/dashboard/app'
 export const PATH_AFTER_LOGIN_BATIBOOT = PATH_BATIBOOT.general.dashboard;
 export const PATH_AFTER_LOGIN_BATIBOOT_USER = PATH_BATIBOOT_USER.general.dashboard;
+export const PATH_AFTER_LOGIN_BATIBOOT_AGENT = PATH_BATIBOOT_AGENT.general.dashboard;
 // LAYOUT
 // ----------------------------------------------------------------------
 

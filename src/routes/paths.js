@@ -9,6 +9,7 @@ const ROOTS_AUTH = '/auth';
 const ROOTS_DASHBOARD = '/dashboard';
 const ROOTS_BATIBOOT_ADMIN = '/admin';
 const ROOTS_BATIBOOT_USER = '/user';
+const ROOTS_BATIBOOT_AGENT = '/agent';
 
 // ----------------------------------------------------------------------
 
@@ -204,6 +205,55 @@ export const PATH_BATIBOOT_USER = {
     all: path(ROOTS_BATIBOOT_USER, '/mail/all'),
   },
   rules: path(ROOTS_BATIBOOT_USER, '/rules'),
+  
+}
+
+export const PATH_BATIBOOT_AGENT = {
+  root : ROOTS_BATIBOOT_AGENT,
+  general: {
+    dashboard: path(ROOTS_BATIBOOT_AGENT, '/dashboard'),
+  },
+  invoice: {
+    root: path(ROOTS_BATIBOOT_AGENT, '/invoice'),
+    list: path(ROOTS_BATIBOOT_AGENT, '/invoice/list'),
+    create: path(ROOTS_BATIBOOT_AGENT, '/invoice/create'),
+    view: (id) => path(ROOTS_BATIBOOT_AGENT, `/invoice/${id}`),
+    edit: (id) => path(ROOTS_BATIBOOT_AGENT, `/invoice/${id}/edit`) 
+  },
+  user: {
+    root: path(ROOTS_BATIBOOT_AGENT, '/user'),
+    account: path(ROOTS_BATIBOOT_AGENT, '/user/account'),
+    list: path(ROOTS_BATIBOOT_AGENT, '/user/list'),
+    designation: path(ROOTS_BATIBOOT_AGENT, '/user/designation'),
+    department: path(ROOTS_BATIBOOT_AGENT, '/user/department'),
+    role: path(ROOTS_BATIBOOT_AGENT, '/user/roles'),
+    createRole: path(ROOTS_BATIBOOT_AGENT, '/user/roles/create'),
+    createDesignation: path(ROOTS_BATIBOOT_AGENT, '/user/designation/create'),
+    createDepartment: path(ROOTS_BATIBOOT_AGENT, '/user/department/create'),
+    profile: path(ROOTS_BATIBOOT_AGENT, '/user/profile'),
+  },
+  order: {
+    root: path(ROOTS_BATIBOOT_AGENT, '/order'),
+    list: path(ROOTS_BATIBOOT_AGENT, '/order/list'),
+    createOrder: path(ROOTS_BATIBOOT_AGENT, '/order/create'),
+    shipment: path(ROOTS_BATIBOOT_AGENT, '/order/tracking'),
+    createShipment: path(ROOTS_BATIBOOT_AGENT, '/order/tracking/createShipment'),
+
+  },
+  inquire: {
+    root: path(ROOTS_BATIBOOT_AGENT, '/inquire'),
+    list: path(ROOTS_BATIBOOT_AGENT, '/inquire/list'),
+    create: path(ROOTS_BATIBOOT_AGENT, '/inquire/create'),
+  },
+  help: {
+    root: path(ROOTS_BATIBOOT_AGENT, '/help'),
+    faq: path(ROOTS_BATIBOOT_AGENT, '/help/faq')
+  },
+  mail: {
+    root: path(ROOTS_BATIBOOT_AGENT, '/mail'),
+    all: path(ROOTS_BATIBOOT_AGENT, '/mail/all'),
+  },
+  rules: path(ROOTS_BATIBOOT_AGENT, '/rules'),
   
 }
 

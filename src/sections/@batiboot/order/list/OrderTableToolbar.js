@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Stack, InputAdornment, TextField, MenuItem } from '@mui/material';
 import DatePicker from '@mui/lab/DatePicker';
 // components
-import Iconify from '../../../../../components/Iconify';
+import Iconify from '../../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -81,11 +81,26 @@ export default function OrderTableToolbar({
         )}
       />
 
+      <DatePicker
+        label="End date"
+        value={filterEndDate}
+        onChange={onFilterEndDate}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            sx={{
+              maxWidth: { md: INPUT_WIDTH },
+            }}
+          />
+        )}
+      />
+
       <TextField
         fullWidth
         value={filterName}
         onChange={(event) => onFilterName(event.target.value)}
-        placeholder="Search Product or Order number..."
+        placeholder="Search Product "
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

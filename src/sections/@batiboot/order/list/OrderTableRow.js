@@ -3,25 +3,25 @@ import { useState, useEffect } from 'react';
 
 // MUI
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Checkbox, TableRow, TableCell, Typography, IconButton, Skeleton, Box, AvatarGroup } from '@mui/material';
+import { Avatar, Checkbox, TableRow, TableCell, Typography, IconButton, Skeleton, Box, AvatarGroup, MenuItem } from '@mui/material';
 
 // Components
 import Label from '../../../../components/Label';
 import Iconify from '../../../../components/Iconify';
-
-import useAuth from '../../../../hooks/useAuth';
+import { TableMoreMenu } from '../../../../components/table';
 // SCSS
 import './quotation.scss';
 
 // ----------------------------------------------------------------------
 
-InquireQuotationTableRow.propTypes = {
+OrderTableRow.propTypes = {
   row: PropTypes.object,
   selected: PropTypes.bool,
   onEditRow: PropTypes.func,
   onSelectRow: PropTypes.func,
   onDeleteRow: PropTypes.func,
   isDesktop: PropTypes.bool,
+  onViewRow: PropTypes.func,
 };
 
 const delay = 5;
@@ -29,7 +29,7 @@ const delay = 5;
 // ----------------------------------------------------------------------
 
 // eslint-disable-next-line
-export default function InquireQuotationTableRow({
+export default function OrderTableRow({
   row,
   selected,
   onEditRow,
@@ -38,15 +38,14 @@ export default function InquireQuotationTableRow({
   handleClickOpen,
   showSkeleton,
   isDesktop,
+  onViewRow,
 }) {
-
-  const { acceptOrder } = useAuth();
   const theme = useTheme();
+  // eslint-disable-next-line
   /* const { name, avatarUrl, address, role, isVerified, status, state, city, zipCode } = row; */
 
-
+  // eslint-disable-next-line
   const [openMenu, setOpenMenuActions] = useState(null);
-
 
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
@@ -55,20 +54,6 @@ export default function InquireQuotationTableRow({
   const handleCloseMenu = () => {
     setOpenMenuActions(null);
   };
-
-  const handleAcceptOrder = async() => {
-
-    const form = new FormData();
-    form.append('quotation_id', row.id);
-    try {
-      await acceptOrder(form);
-      alert("Order accepted");
-      
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
-  }
 
   return (
     <>
@@ -199,7 +184,7 @@ export default function InquireQuotationTableRow({
 
           <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
             {showSkeleton ? (
-              <Typography>{row.services}</Typography>
+              <Typography> {row.created_at} </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '390px', height: '25px' }} />
             )}
@@ -207,13 +192,13 @@ export default function InquireQuotationTableRow({
 
           <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
             {showSkeleton ? (
-              <Typography>{row.price}</Typography>
+              <Typography>{row.services}</Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '390px', height: '25px' }} />
             )}
           </TableCell>
 
-          <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+          <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
             {showSkeleton ? (
               <Typography>{row.quantity}</Typography>
             ) : (
@@ -221,11 +206,10 @@ export default function InquireQuotationTableRow({
             )}
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell align="center">
             {showSkeleton ? (
               <Typography>
-                {row.created_at} 
-                {/* • {row.time_text} <span className="a-weekname">({row.day_text})</span> */}
+                {row.price} 
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
@@ -233,33 +217,63 @@ export default function InquireQuotationTableRow({
           </TableCell>
 
        
-          <TableCell align="center">
-            {showSkeleton ? (
-              <Label
-                // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                // color={(row.type_text === 'TELEMEDICINE' && 'success') || 'fce'}
-                sx={{ textTransform: 'capitalize' }}
-              >
-              {row.isOrder === 0 ? 'Pending' : 'Cancelled'}
-              </Label>
-            ) : (
-              <Box sx={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }}>
-                <Skeleton animation="wave" sx={{ width: '110px', height: '33px' }} />
-              </Box>
-            )}
-          </TableCell>
+          <TableCell align="left">
+        <Label
+          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+          // color={
+          //   (orderStatus === 'approved' && 'success') ||
+          //   (orderStatus === 'pending' && 'warning') ||
+          //   (orderStatus === 'rejected' && 'error') ||
+          //   'default'
+          // }
+          sx={{ textTransform: 'capitalize' }}
+        >
+          {/* {orderStatus} */}
+         {row.isOrder === 1 ? 'Accepted' : 'Pending'}
+        </Label>
+      </TableCell>
 
-          <TableCell align="right">
-            {showSkeleton ? (
-              <IconButton sx={{ backgroundColor: 'rgba(68, 170, 134, 1)' }} onClick={handleAcceptOrder}>
-                <Iconify icon="eva:clipboard-outline" sx={{ width: 25, height: 25, color: '#fff' }} />
-              </IconButton>
-            ) : (
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', justifyItems: 'flex-end' }}>
-                <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px' }} />
-              </Box>
-            )}
-          </TableCell>
+      <TableCell align="center">
+        <TableMoreMenu
+          open={openMenu}
+          onOpen={handleOpenMenu}
+          onClose={handleCloseMenu}
+          actions={
+            <>
+              <MenuItem
+                onClick={() => {
+                  onDeleteRow();
+                  handleCloseMenu();
+                }}
+                sx={{ color: 'error.main' }}
+              >
+                <Iconify icon={'eva:trash-2-outline'} />
+                Delete
+              </MenuItem>
+
+              <MenuItem
+                onClick={() => {
+                  onViewRow();
+                  handleCloseMenu();
+                }}
+              >
+                <Iconify icon={'eva:eye-fill'} />
+                View
+              </MenuItem>
+
+              <MenuItem
+                onClick={() => {
+                  onEditRow();
+                  handleCloseMenu();
+                }}
+              >
+                <Iconify icon={'eva:edit-fill'} />
+                Edit
+              </MenuItem>
+            </>
+          }
+        />
+      </TableCell>
         </TableRow>
       )}
     </>

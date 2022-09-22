@@ -16,7 +16,7 @@ import RoleBasedGuard from '../../guards/RoleBasedGuard';
 export default function PermissionDenied() {
   const { themeStretch } = useSettings();
 
-  const [role, setRole] = useState('admin');
+  const [role, setRole] = useState(['admin','agent']);
 
   const handleChangeRole = (event, newRole) => {
     if (newRole !== null) {

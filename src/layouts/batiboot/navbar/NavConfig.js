@@ -1,5 +1,5 @@
 // routes
-import { PATH_BATIBOOT, PATH_BATIBOOT_USER, PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_BATIBOOT, PATH_BATIBOOT_AGENT, PATH_BATIBOOT_USER, PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -32,8 +32,6 @@ const ICONS = {
 };
 
 const navConfig = [
- 
-
   // GENERAL
   // ----------------------------------------------------------------------
   {
@@ -43,6 +41,7 @@ const navConfig = [
 
       // user
       { title: 'Dashboard', roles: ['user'], path: PATH_BATIBOOT_USER.general.dashboard, icon: ICONS.dashboard },
+      { title: 'Dashboard', roles: ['agent'], path: PATH_BATIBOOT_AGENT.general.dashboard, icon: ICONS.dashboard },
 
       {
         title: 'Billing',

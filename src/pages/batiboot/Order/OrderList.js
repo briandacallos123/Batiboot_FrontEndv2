@@ -1,5 +1,5 @@
 import sumBy from 'lodash/sumBy';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -20,36 +20,50 @@ import {
   TableContainer,
   TablePagination,
   FormControlLabel,
+  Skeleton,
 } from '@mui/material';
+
+// redux
+// eslint-disable-next-line
+import { useDispatch, useSelector } from '../../../redux/store';
+import { getAllOrders } from '../../../redux/slices/adminOrder';
+
+import useAuth from '../../../hooks/useAuth';
 // routes
-import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
-import useTabs from '../../hooks/useTabs';
-import useSettings from '../../hooks/useSettings';
-import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
+import useTabs from '../../../hooks/useTabs';
+import useSettings from '../../../hooks/useSettings';
+import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
 // _mock_
-import { _invoices } from '../../_mock';
-import _order from '../../_mock/batiboot/order.json';
+import { _invoices } from '../../../_mock';
+import _order from '../../../_mock/batiboot/order.json';
 // components
-import Page from '../../components/Page';
-import Label from '../../components/Label';
-import Iconify from '../../components/Iconify';
-import Scrollbar from '../../components/Scrollbar';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../components/table';
+import Page from '../../../components/Page';
+import Label from '../../../components/Label';
+import Iconify from '../../../components/Iconify';
+import Scrollbar from '../../../components/Scrollbar';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
+import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../../components/table';
 // sections
+import QuotationSkeleton from './OrderSkeleton';
 // import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
-import { OrderTableRow, OrderTableToolbar } from '../../sections/@batiboot/orders/order/list';
-import OrderListAnalytics from '../../sections/@batiboot/orders/order/OrderListAnalytics';
+
+import { OrderTableRow, OrderTableToolbar } from '../../../sections/@batiboot/order/list';
+// import { OrderTableRow, OrderTableToolbar } from '../../sections/@batiboot/orders/order/list';
+import OrderListAnalytics from '../../../sections/@batiboot/orders/order/OrderListAnalytics';
 import OrderCreateModal from './OrderListCreate';
 import OrderListViewModal from './OrderListView';
-import UserModal from '../../sections/@batiboot/modal/UserModal';
-// import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@batiboot/invoice/list';
+import UserModal from '../../../sections/@batiboot/modal/UserModal';
+
+import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
+import InquiryAndQuotationViewModal from '../InquiryAndQuotationView';
+
 
 // ----------------------------------------------------------------------
 
 const SERVICE_OPTIONS = [
-  'all',
+  'All',
   'Product Sourcing',
   'Importing',
   'Product Rebranding',
@@ -61,9 +75,9 @@ const SERVICE_OPTIONS = [
 const TABLE_HEAD = [
   { id: 'pName', label: 'Product Name', align: 'left' },
   { id: 'orderCreated', label: 'Created At', align: 'left' },
-  { id: 'dueDate', label: 'Due', align: 'left' },
+  { id: 'serviceType', label: 'Service Type', align: 'left' },
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
-  { id: 'amount', label: 'Amount', align: 'center', width: 140 },
+  { id: 'budget', label: 'Budget', align: 'center', width: 140 },
   { id: 'orderStatus', label: 'Status', align: 'left' },
   { id: 'actions', label: 'Actions', align: 'center' },
 ];
@@ -72,11 +86,11 @@ const TABLE_HEAD = [
 
 export default function OrderList() {
   const theme = useTheme();
-
+  const { user } = useAuth();
+  const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-
+  const { orders, totalData, ccc, ordersArr, isLoading } = useSelector((state) => state.adminOrder);
   const navigate = useNavigate();
-
   const { pathname } = useLocation();
 
   const {
@@ -96,13 +110,14 @@ export default function OrderList() {
     onChangeDense,
     onChangePage,
     onChangeRowsPerPage,
+    resetPage,
   } = useTable({ defaultOrderBy: 'orderCreated' });
 
   const [tableData, setTableData] = useState(_order);
 
   const [filterName, setFilterName] = useState('');
 
-  const [filterService, setFilterService] = useState('all');
+  const [filterService, setFilterService] = useState('All');
 
   const [filterStartDate, setFilterStartDate] = useState(null);
 
@@ -148,6 +163,7 @@ export default function OrderList() {
     //  setIdentifier(id)
     handleOpenViewModal();
   };
+
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
@@ -167,21 +183,21 @@ export default function OrderList() {
 
   const denseHeight = dense ? 56 : 76;
 
-  const getLengthByStatus = (orderStatus) => tableData.filter((item) => item.orderStatus === orderStatus).length;
+  const getLengthByStatus = (inquireQuoStatus) =>
+    tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus).length;
 
-  const getTotalPriceByStatus = (orderStatus) =>
+  const getTotalPriceByStatus = (inquireQuoStatus) =>
     sumBy(
-      tableData.filter((item) => item.orderStatus === orderStatus),
+      tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus),
       'amount'
     );
 
-  const getPercentByStatus = (orderStatus) => (getLengthByStatus(orderStatus) / tableData.length) * 100;
+  const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'paid', label: 'Paid', color: 'success', count: getLengthByStatus('paid') },
-    { value: 'unpaid', label: 'Unpaid', color: 'warning', count: getLengthByStatus('unpaid') },
-    { value: 'overdue', label: 'Overdue', color: 'error', count: getLengthByStatus('overdue') },
+    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
+    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
 
@@ -199,11 +215,92 @@ export default function OrderList() {
     setIdentifier('');
   };
 
+  const [Status, setStatus] = React.useState(-1);
+
+  useEffect(() => {
+    const payload = {};
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services =filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    console.log('payload', payload);
+    console.log('payload', payload);
+    dispatch(getAllOrders(payload));
+
+  }, [dispatch, page, rowsPerPage,filterService, filterName, filterStartDate, filterEndDate]);
+
+  /* console.log(appointmentsArr) */
+
+  const handleTabClick = (type) => {
+    resetPage();
+    let status = 0;
+    switch (type) {
+      case 'all':
+        status = -1;
+        break;
+      case 'pending':
+        status = 0;
+        break;
+      case 'approved':
+        status = 1;
+        break;
+      case 'cancelled':
+        status = 2;
+        break;
+      case 'done':
+        status = 3;
+        break;
+      default:
+        status = -1;
+        break;
+    }
+    setStatus(status);
+    const payload = {};
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // payload.status = status;
+    payload.services = filterService;
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    dispatch(getAllOrders(payload));
+  };
+
+ 
+
+  // Skeleton
+  const [ordersData, setOrdersData] = useState({});
+  const [showSkel, setshowSkel] = useState(false);
+  useEffect(() => {
+    setshowSkel(false);
+    if (Object.keys(ordersData).length) {
+      if (Object.keys(ordersData.allIds).length) {
+        setshowSkel(true);
+      }
+    }
+  }, [ordersData]);
+
+  useEffect(() => {
+    setOrdersData(orders);
+  }, [orders]);
+
+
+  const [showSkelDatatable, setshowSkelDatatable] = useState(false);
+  useEffect(() => {
+    setshowSkelDatatable(!isLoading);
+  }, [isLoading]);
+
+  console.log(totalData);
+
   return (
     <Page title="Batiboot: Order List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Order List"
+            heading="Order List"
           links={[
             { name: 'Dashboard', href: PATH_BATIBOOT.root },
             { name: 'Order', href: PATH_BATIBOOT.order.root },
@@ -221,7 +318,11 @@ export default function OrderList() {
             </Button>
           }
         />
+
+   
+
         <Box>
+          {/* UserRolesCreate Modal */}
           <UserModal
             open={openModal}
             onClose={handleCloseModal}
@@ -230,18 +331,19 @@ export default function OrderList() {
             pathname={pathname}
             nameLink={'Order List'}
           />
-          {/*  <OrderCreateModal 
+            {
+            /*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
            edit={isEdit}
            identifier={identifier}
           />
-          <OrderListViewModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          /> */}
+          */
+            <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
+          }
         </Box>
+
+
         <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack
@@ -249,7 +351,7 @@ export default function OrderList() {
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-              <OrderListAnalytics
+               <OrderListAnalytics
                 title="Total"
                 total={tableData.length}
                 percent={100}
@@ -258,26 +360,26 @@ export default function OrderList() {
                 color={theme.palette.info.main}
               />
               <OrderListAnalytics
-                title="Paid"
-                total={getLengthByStatus('paid')}
-                percent={getPercentByStatus('paid')}
-                price={getTotalPriceByStatus('paid')}
+                title="Approved"
+                total={getLengthByStatus('approved')}
+                percent={getPercentByStatus('approved')}
+                price={getTotalPriceByStatus('approved')}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
               <OrderListAnalytics
-                title="Unpaid"
-                total={getLengthByStatus('unpaid')}
-                percent={getPercentByStatus('unpaid')}
-                price={getTotalPriceByStatus('unpaid')}
+                title="Pending"
+                total={getLengthByStatus('pending')}
+                percent={getPercentByStatus('pending')}
+                price={getTotalPriceByStatus('pending')}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
               <OrderListAnalytics
-                title="Overdue"
-                total={getLengthByStatus('overdue')}
-                percent={getPercentByStatus('overdue')}
-                price={getTotalPriceByStatus('overdue')}
+                title="Rejected"
+                total={getLengthByStatus('rejected')}
+                percent={getPercentByStatus('rejected')}
+                price={getTotalPriceByStatus('rejected')}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />
@@ -294,24 +396,56 @@ export default function OrderList() {
         </Card>
 
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onFilterStatus}
-            sx={{ px: 2, bgcolor: 'background.neutral' }}
-          >
-            {TABS.map((tab) => (
-              <Tab
-                disableRipple
-                key={tab.value}
-                value={tab.value}
-                icon={<Label color={tab.color}> {tab.count} </Label>}
-                label={tab.label}
-              />
-            ))}
-          </Tabs>
+          
+          {showSkel ? (
+            <Tabs
+              allowScrollButtonsMobile
+              variant="scrollable"
+              scrollButtons="auto"
+              value={filterStatus}
+              onChange={onFilterStatus}
+              sx={{ px: 2, bgcolor: 'background.neutral' }}
+            >
+              {TABS.map((tab) => (
+                <Tab
+                  disableRipple
+                  key={tab.value}
+                  value={tab.value}
+                  icon={<Label color={tab.color}> {tab.count} </Label>}
+                  label={tab.label}
+                  onClick={() => handleTabClick(tab.value)}
+                />
+              ))}
+            </Tabs>
+
+          ) : (
+            <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+            </Stack>
+          )}
 
           <Divider />
 
@@ -375,24 +509,12 @@ export default function OrderList() {
               )}
 
               <Table size={dense ? 'small' : 'medium'}>
-                <TableHeadCustom
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={tableData.length}
-                  numSelected={selected.length}
-                  onSort={onSort}
-                  onSelectAllRows={(checked) =>
-                    onSelectAllRows(
-                      checked,
-                      tableData.map((row) => row.id)
-                    )
-                  }
-                />
+              
+              
 
-                <TableBody>
+                {/* <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                    <OrderTableRow
+                    <InquireQuoTableRow
                       key={row.id}
                       row={row}
                       selected={selected.includes(row.id)}
@@ -406,6 +528,45 @@ export default function OrderList() {
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
 
                   <TableNoData isNotFound={isNotFound} />
+                </TableBody> */}
+
+              <TableHeadCustom
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={ TABLE_HEAD }
+                  rowCount={tableData.length}
+                  numSelected={selected.length}
+                  onSort={onSort}
+                  onSelectAllRows={(checked) =>
+                    onSelectAllRows(
+                      checked,
+                      tableData.map((row) => row.id)
+                    )
+                  }
+                />
+
+                <TableBody>
+                  {showSkel && showSkelDatatable
+                    ? ordersArr.map((items) => (
+                        <OrderTableRow
+                          // isDesktop={isDesktop}
+                          showSkeleton={showSkel}
+                          key={items.id}
+                          row={orders.byId[items.id]}
+                          selected={selected.includes(items.id)}
+                          onSelectRow={() => onSelectRow(items.id)}
+                          onDeleteRow={() => handleDeleteRow(items.id)}
+                          onEditRow={() => handleEditRow(orders.byId[items.id].fname)}
+                          onViewRow={() => handleViewRow(items.id)}
+                          // onEditRow={() => handleEditRow(items.id)}
+                          // handleClickOpen={handleClickOpen}
+                        />
+                      ))
+                    : [...Array(rowsPerPage)].map((i,k) => <QuotationSkeleton key={k}/>)}
+
+                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
+
+                  <TableNoData isNotFound={totalData === 0 ?? !true} />
                 </TableBody>
               </Table>
             </TableContainer>
@@ -415,7 +576,8 @@ export default function OrderList() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={dataFiltered.length}
+              count={totalData}
+              // count={quotationsArr?.length+1}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={onChangePage}
@@ -455,28 +617,28 @@ function applySortFilter({
 
   tableData = stabilizedThis.map((el) => el[0]);
 
-  if (filterName) {
-    tableData = tableData.filter(
-      (item) =>
-        item.orderNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
-        item.pName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-    );
-  }
+  // if (filterName) {
+  //   tableData = tableData.filter(
+  //     (item) =>
+  //       item.orderNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
+  //       item.pName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+  //   );
+  // }
 
-  if (filterStatus !== 'all') {
-    tableData = tableData.filter((item) => item.orderStatus === filterStatus);
-  }
+  // if (filterStatus !== 'all') {
+  //   tableData = tableData.filter((item) => item.inquireQuoStatus === filterStatus);
+  // }
 
-  if (filterService !== 'all') {
-    tableData = tableData.filter((item) => item.items.some((c) => c.service === filterService));
-  }
+  // if (filterService !== 'all') {
+  //   tableData = tableData.filter((item) => item.items.some((c) => c.service === filterService));
+  // }
 
-  if (filterStartDate && filterEndDate) {
-    /* tableData = tableData.filter(
-      (item) =>
-        item.orderCreated.getTime() >= filterStartDate.getTime() && item.dueDate.getTime() <= filterEndDate.getTime()
-    ); */
-  }
+  // if (filterStartDate && filterEndDate) {
+  //   /* tableData = tableData.filter(
+  //     (item) =>
+  //       item.orderCreated.getTime() >= filterStartDate.getTime() && item.dueDate.getTime() <= filterEndDate.getTime()
+  //   ); */
+  // }
 
   return tableData;
 }

@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 // hooks
 import useAuth from '../hooks/useAuth';
 // routes
-import { PATH_BATIBOOT, PATH_BATIBOOT_USER, PATH_DASHBOARD } from '../routes/paths';
+import { PATH_BATIBOOT, PATH_BATIBOOT_AGENT, PATH_BATIBOOT_USER, PATH_DASHBOARD } from '../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +19,8 @@ export default function GuestGuard({ children }) {
     return <Navigate to={PATH_BATIBOOT.root} />;
   } if (isAuthenticated && user.user_role ==='user') {
     return <Navigate to={PATH_BATIBOOT_USER.root} />;
+  } if (isAuthenticated && user.user_role ==='agent') {
+    return <Navigate to={PATH_BATIBOOT_AGENT.root} />;
   }
 
   return <>{children}</>;

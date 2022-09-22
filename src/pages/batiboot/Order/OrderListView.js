@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 // @mui
 import { Container, Button } from '@mui/material';
 // routes
-import { PATH_BATIBOOT } from '../../routes/paths';
+import { PATH_BATIBOOT } from '../../../routes/paths';
 // hooks
-import useSettings from '../../hooks/useSettings';
+import useSettings from '../../../hooks/useSettings';
 // _mock_
-import { _userList, _invoices } from '../../_mock';
+import { _userList, _invoices } from '../../../_mock';
 // components
-import { DialogAnimate } from '../../components/animate';
-import Iconify from '../../components/Iconify';
+import { DialogAnimate } from '../../../components/animate';
+import Iconify from '../../../components/Iconify';
 
-import Page from '../../components/Page';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import ProductNewEditForm from '../../sections/@batiboot/inquirequotation/InquireQuotationModal';
-import InvoiceCreate from '../../sections/@batiboot/invoice/new-edit-form'
-import InvoiceDetails from '../../sections/@batiboot/invoice/details';
+import Page from '../../../components/Page';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
+import ProductNewEditForm from '../../../sections/@batiboot/inquirequotation/InquireQuotationModal';
+import InvoiceCreate from '../../../sections/@batiboot/invoice/new-edit-form'
+import InvoiceDetails from '../../../sections/@batiboot/invoice/details';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------

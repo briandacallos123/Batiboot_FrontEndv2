@@ -8,6 +8,9 @@ import productReducer from './slices/product';
 import calendarReducer from './slices/calendar';
 import kanbanReducer from './slices/kanban';
 
+import adminQuotationsReducer from './slices/adminQuotation';
+import adminOrderReducer from './slices/adminOrder';
+
 // ----------------------------------------------------------------------
 
 const rootPersistConfig = {
@@ -30,6 +33,10 @@ const rootReducer = combineReducers({
   calendar: calendarReducer,
   kanban: kanbanReducer,
   product: persistReducer(productPersistConfig, productReducer),
+  
+  // admin
+  adminQuotation: adminQuotationsReducer,
+  adminOrder: adminOrderReducer,
 });
 
 export { rootPersistConfig, rootReducer };

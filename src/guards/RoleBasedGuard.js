@@ -24,6 +24,7 @@ export default function RoleBasedGuard({ hasContent, roles, children }) {
   // const currentRole = 'user';
   const currentRole = user?.user_role; // admin;
   console.log(typeof roles !== 'undefined' && !roles.includes(currentRole));
+  console.log(currentRole);
   
   if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (

@@ -10,7 +10,7 @@ import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
 import RoleBasedGuard from '../guards/RoleBasedGuard';
 // config
-import { PATH_AFTER_LOGIN_BATIBOOT,PATH_AFTER_LOGIN_BATIBOOT_USER } from '../config';
+import { PATH_AFTER_LOGIN_BATIBOOT,PATH_AFTER_LOGIN_BATIBOOT_AGENT,PATH_AFTER_LOGIN_BATIBOOT_USER, } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 
@@ -143,6 +143,84 @@ export default function Router() {
     */
 
   
+
+    {
+      path: 'agent',
+      element: (
+        <AuthGuard>
+          <BatibootLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { element: <Navigate to={PATH_AFTER_LOGIN_BATIBOOT_AGENT} replace />, index: true },
+        { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['agent']}>
+           <GeneralDashApp /> 
+         </RoleBasedGuard>
+         },
+        {
+          path: 'invoice',
+          children: [
+            { element: <Navigate to="/batiboot/invoice/list" replace />, index: true },
+            { path: 'list', element: <InvoiceList /> },
+            { path: ':id', element: <InvoiceDetails /> },
+           /*  { path: ':id', element: <InvoiceDetails /> }, */
+            { path: ':id/edit', element: <InvoiceList /> },
+            { path: 'create', element: <InvoiceList /> }, 
+          ],
+        },
+        {
+          path: 'user',
+          children: [
+            { element: <Navigate to="/batiboot/user/designation" replace />, index: true },
+            { path: 'profile', element: <UserProfile /> },
+            { path: 'account', element: <UserAccount /> },
+            { path: 'designation', element: <DesignationList /> },
+            { path: 'department', element: <DepartmentList /> },
+            { path: 'list', element: <UserList /> },
+            { path: 'roles', element: <UserRoleList /> },
+
+          ]
+        },
+        {
+          path: 'order',
+          children: [
+            { element: <Navigate to="/batiboot/order/list" replace />, index: true },
+            { path: 'list', element: <OrderList /> },
+            { path: 'create', element: <OrderList /> },
+            { path: 'tracking', element: <Tracking /> },  
+            { path: 'createTracking', element: <Tracking /> },  
+          ]
+        },
+        {
+          path: 'inquire',
+          children: [
+            { element: <Navigate to="/batiboot/inquire/list" replace />, index: true },
+            { path: 'list', element: <InquireQuotation /> },
+            { path: 'create', element: <InquireQuotation /> }, 
+          ]
+        },
+        {
+          path: 'help',
+          children: [
+            { element: <Navigate to="/batiboot/help/faq" replace />, index: true },
+            { path: 'faq', element: <HelpAssistance /> },
+          ]
+        },
+        {
+          path: 'mail',
+          children: [
+            { element: <Navigate to="/batiboot/mail/all" replace />, index: true },
+            { path: 'label/:customLabel', element: <Mail /> },
+            { path: 'label/:customLabel/:mailId', element: <Mail /> },
+            { path: ':systemLabel', element: <Mail /> },
+            { path: ':systemLabel/:mailId', element: <Mail /> },
+          ],
+        },
+        {
+          path: 'rules', element: <Rules />
+        }
+      ]
+    },
 
     {
       path: 'user',
@@ -355,11 +433,11 @@ const DesignationList = Loadable(lazy(() => import('../pages/batiboot/UserDesign
 
 /* ORDER LIST */
 
-const OrderList = Loadable(lazy(() => import('../pages/batiboot/OrderList')))
+const OrderList = Loadable(lazy(() => import('../pages/batiboot/Order/OrderList')))
 const Tracking = Loadable(lazy(() => import('../pages/batiboot/ShipmentTracking')))
 
 /* Inquire Quotation */
-const InquireQuotation = Loadable(lazy(() => import('../pages/batiboot/InquiryAndQuotation')))
+const InquireQuotation = Loadable(lazy(() => import('../pages/batiboot/Quotation/InquiryAndQuotation')))
 
 /* HELP FAQs */
 const HelpAssistance = Loadable(lazy(() => import('../pages/batiboot/HelpAssistance')))

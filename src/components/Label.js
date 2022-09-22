@@ -46,7 +46,7 @@ const RootStyle = styled('span')(({ theme, ownerState }) => {
       ? {
           ...(variant === 'filled' && { ...styleFilled(color) }),
           ...(variant === 'outlined' && { ...styleOutlined(color) }),
-          ...(variant === 'ghost' && { ...styleGhost(color) }),
+          // ...(variant === 'ghost' && { ...styleGhost(color) }),
         }
       : {
           ...(variant === 'outlined' && {

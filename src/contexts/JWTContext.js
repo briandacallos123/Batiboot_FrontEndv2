@@ -99,6 +99,25 @@ const handlers = {
       user,
     };
   },
+
+  CREATE_QUOTATION: (state, action) => {
+    const { user } = action.payload;
+
+    return {
+      ...state,
+      isAuthenticated: true,
+      user,
+    };
+  },
+  ACCEPT_ORDER: (state, action) => {
+    const { user } = action.payload;
+
+    return {
+      ...state,
+      isAuthenticated: true,
+      user,
+    };
+  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -117,6 +136,8 @@ const AuthContext = createContext({
   updateProfile: () => Promise.resolve(),
   newUserEmailVerification: () => Promise.resolve(),
   resendEmailVerification: () => Promise.resolve(),
+  createQuotation: () => Promise.resolve(),
+  acceptOrder: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -177,8 +198,7 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, pass) => {
-    const response = await axios.post(
-      '/api/account/login',
+    const response = await axios.post('/api/account/login',
       {
         email,
         pass,
@@ -186,6 +206,7 @@ function AuthProvider({ children }) {
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+
         },
       }
     );
@@ -415,6 +436,66 @@ function AuthProvider({ children }) {
     });
   };
 
+  const createQuotation = async (data) => {
+    const response = await axios.post(
+      '/api/quotations',
+      
+       
+      data,
+      
+
+     
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      }
+    );
+    const user = response.data;
+
+    // alert(user.email)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CREATE_QUOTATION',
+      payload: {
+        user,
+      },
+    });
+  };
+
+  const acceptOrder = async (data) => {
+    const response = await axios.post(
+      '/api/orders',
+      
+       
+      data,
+      
+
+     
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      }
+    );
+    const user = response.data;
+
+    // alert(user.email)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'ACCEPT_ORDER',
+      payload: {
+        user,
+      },
+    });
+  };
+
+
+
   const logout = async () => {
     setSession(null);
     dispatch({ type: 'LOGOUT' });
@@ -436,6 +517,8 @@ function AuthProvider({ children }) {
         updateProfile,
         newUserEmailVerification,
         resendEmailVerification,
+        createQuotation,
+        acceptOrder,
       }}
     >
       {children}

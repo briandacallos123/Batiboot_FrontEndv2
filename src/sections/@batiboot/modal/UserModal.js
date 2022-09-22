@@ -86,7 +86,9 @@ export default function UserModal(props) {
         formRef={formRef} 
     />
     if(nameLink === 'Inquiry Quotation' && !isEdit){
-      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} />
+      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} 
+      handleCloseModal={handleCloseModal} 
+      />
     }
     if(nameLink === 'Inquiry Quotation' && isEdit){
       return <ProductNewEditForm isEdit={isEdit}

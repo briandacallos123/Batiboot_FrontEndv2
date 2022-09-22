@@ -100,7 +100,7 @@ export default function InquireQuotationTableToolbar({
         fullWidth
         value={filterName}
         onChange={(event) => onFilterName(event.target.value)}
-        placeholder="Search Product or Order number..."
+        placeholder="Search Product "
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
