@@ -155,13 +155,15 @@ export default function OrderList() {
     // setIdentifier(id)
     handleOpenModal();
   };
-
-  const handleViewRow = (id) => {
+const [modalViewData, setModalViewData] = useState([]);
+  const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
     setIsView(!isView);
     //  setIdentifier(id)
     handleOpenViewModal();
+    setModalViewData(data);
+    
   };
 
   const dataFiltered = applySortFilter({
@@ -339,7 +341,7 @@ export default function OrderList() {
            identifier={identifier}
           />
           */
-            <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
+            <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} data={modalViewData} />
           }
         </Box>
 
@@ -557,7 +559,7 @@ export default function OrderList() {
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
                           onEditRow={() => handleEditRow(orders.byId[items.id].fname)}
-                          onViewRow={() => handleViewRow(items.id)}
+                          onViewRow={() => handleViewRow(items)}
                           // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
                         />

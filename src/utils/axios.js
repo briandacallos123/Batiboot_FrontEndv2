@@ -18,6 +18,7 @@ export const V4axios = axios.create({
 
     headers: {
       'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      // 'Access-Control-Allow-Origin': '*',
     },
     
   

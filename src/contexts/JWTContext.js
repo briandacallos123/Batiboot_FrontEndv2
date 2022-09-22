@@ -448,7 +448,11 @@ function AuthProvider({ children }) {
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+          // 'Access-Control-Allow-Origin': '*',
+          // "Access-Control-Allow-Methods": "POST, GET, PUT, OPTIONS, DELETE" ,
+          // 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
         },
+      
       }
     );
     const user = response.data;
@@ -477,6 +481,7 @@ function AuthProvider({ children }) {
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+          // 'Access-Control-Allow-Origin': '*',
         },
       }
     );
