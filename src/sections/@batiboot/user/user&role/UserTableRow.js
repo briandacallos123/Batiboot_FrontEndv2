@@ -2,17 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import {
-  Avatar,
-  Checkbox,
-  TableRow,
-  TableCell,
-  Typography,
-  MenuItem,
-  AvatarGroup,
-  Link,
-  Skeleton,
-} from '@mui/material';
+import { Avatar, Checkbox, TableRow, TableCell, Typography, MenuItem, AvatarGroup, Link, Skeleton } from '@mui/material';
 // components
 import Label from '../../../../components/Label';
 import Iconify from '../../../../components/Iconify';
@@ -36,7 +26,7 @@ const delay = 3;
 
 export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, path }) {
   const theme = useTheme();
-
+ 
   const {
     name,
     avatarUrl,
@@ -120,42 +110,47 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
     setOpenMenuActions(null);
   };
 
-  const [showSkeleton, setShowSkeleton] = useState(false);
+  const [ showSkeleton, setShowSkeleton ] = useState(false);
 
-  useEffect(() => {
-    const timer1 = setTimeout(() => setShowSkeleton(true), delay * 900);
-    return () => {
-      clearTimeout(timer1);
-    };
-  }, []);
+  useEffect(
+    () => {
+      const timer1 = setTimeout(() => setShowSkeleton(true), delay * 900);
+      return () => {
+        clearTimeout(timer1);
+      };
+    },
+    []
+  );
 
+  
   const UserTable = () => {
     return (
       <>
-        {/* <TableCell padding="checkbox">
+        <TableCell padding="checkbox">
         { showSkeleton ? (
           <Checkbox checked={selected} onClick={onSelectRow} />
           ) : (
           <Skeleton variant='circular' animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
           )
         }
-        </TableCell> */}
+        </TableCell>
 
         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-          {showSkeleton ? (
-            <>
-              <Avatar alt={name} color={createAvatar(name).color} sx={{ mr: 2 }}>
-                {createAvatar(name).name}
-              </Avatar>
-              <Typography variant="subtitle2" noWrap sx={{ textTransform: 'capitalize' }}>
-                {name}
-              </Typography>
-            </>
+        { showSkeleton ? (
+          <>
+          <Avatar alt={name} color={createAvatar(name).color} sx={{ mr: 2 }}>
+            {createAvatar(name).name}
+          </Avatar>
+          <Typography variant="subtitle2" noWrap sx={{ textTransform: 'capitalize' }}>
+            {name} 
+          </Typography>
+          </>
           ) : (
             <Skeleton animation="wave" sx={{ width: '140px', height: '60px', mr: 2 }} />
-          )}
+          )
+        }
         </TableCell>
-        {/*  <TableCell>
+       {/*  <TableCell>
         { showSkeleton ? (
           <Typography variant="subtitle2" noWrap sx={{ textTransform: 'capitalize' }}>
             {name} 
@@ -167,44 +162,49 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         </TableCell> */}
 
         <TableCell align="left">
-          {showSkeleton ? (
+          { showSkeleton ? (
             <Typography>{email}</Typography>
           ) : (
             <Skeleton animation="wave" sx={{ width: '140px', height: '60px', mr: 2 }} />
-          )}
+          )
+        }
         </TableCell>
         <TableCell align="left">
-          {showSkeleton ? (
+        { showSkeleton ? (
             <Typography>{phone}</Typography>
           ) : (
             <Skeleton animation="wave" sx={{ width: '140px', height: '60px', mr: 2 }} />
-          )}
+          )
+        }
         </TableCell>
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {showSkeleton ? (
+        { showSkeleton ? (
             <Typography>{designation}</Typography>
           ) : (
             <Skeleton animation="wave" sx={{ width: '140px', height: '60px', mr: 2 }} />
-          )}
+          )
+        }
         </TableCell>
 
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {showSkeleton ? (
+        { showSkeleton ? (
             <Typography>{role}</Typography>
           ) : (
             <Skeleton animation="wave" sx={{ width: '40px', height: '60px', mr: 2 }} />
-          )}
+          )
+        }
         </TableCell>
 
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {showSkeleton ? (
+        { showSkeleton ? (
             <Typography>{shift}</Typography>
           ) : (
             <Skeleton animation="wave" sx={{ width: '40px', height: '60px', mr: 2 }} />
-          )}
+          )
+        }
         </TableCell>
         <TableCell align="left">
-          {showSkeleton ? (
+        { showSkeleton ? (
             <Label
               variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
               color={(status === 'banned' && 'error') || 'success'}
@@ -214,16 +214,18 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             </Label>
           ) : (
             <Skeleton animation="wave" sx={{ width: '60px', height: '60px', mr: 2 }} />
-          )}
+          )
+        }
         </TableCell>
       </>
     );
   };
 
   const TempAddDesignationTable = () => {
+    
     return (
       <>
-        <TableCell padding="checkbox">
+       <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
 
@@ -245,42 +247,49 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           </Label>
         </TableCell>
       </>
-    );
-  };
+    )
+
+  }
 
   const DesignationTable = () => {
     return (
       <>
         <TableCell padding="checkbox">
-          {showSkeleton ? (
-            <Checkbox checked={selected} onClick={onSelectRow} />
+        { showSkeleton ? (
+          <Checkbox checked={selected} onClick={onSelectRow} />
           ) : (
-            <Skeleton animation="wave" sx={{ width: '20px', height: '40px', mx: 1 }} />
-          )}
+              <Skeleton animation="wave" sx={{ width: '20px', height: '40px', mx: 1 }} />
+          )
+        }
         </TableCell>
 
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {showSkeleton ? (
-            <Typography>{role}</Typography>
-          ) : (
-            <Skeleton animation="wave" sx={{ width: '160px', height: '40px', mr: 2 }} />
-          )}
+        { 
+          showSkeleton ? (
+              <Typography>{role}</Typography>
+          ) : ( 
+              <Skeleton animation="wave" sx={{ width: '160px', height: '40px', mr: 2 }} /> 
+          ) 
+        }
         </TableCell>
 
         <TableCell align="left" style={{ display: 'flex' }}>
-          {showSkeleton ? (
+        { 
+          showSkeleton ? (
             <AvatarGroup total={15}>
               <Avatar alt="Remy Sharp" src={_mock.image.avatar(1)} />
               <Avatar alt="Travis Howard" src={_mock.image.avatar(2)} />
               <Avatar alt="Cindy Baker" src={_mock.image.avatar(3)} />
             </AvatarGroup>
           ) : (
-            <Skeleton animation="wave" sx={{ width: '180px', height: '40px', mr: 2 }} />
-          )}
+              <Skeleton animation="wave" sx={{ width: '180px', height: '40px', mr: 2 }} /> 
+          )
+        }
         </TableCell>
 
         <TableCell align="left">
-          {showSkeleton ? (
+        { 
+          showSkeleton ? (
             <Label
               variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
               color={(status === 'banned' && 'error') || 'success'}
@@ -289,8 +298,9 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
               {status}
             </Label>
           ) : (
-            <Skeleton animation="wave" sx={{ width: '80px', height: '40px', mr: 2 }} />
-          )}
+            <Skeleton animation="wave" sx={{ width: '80px', height: '40px', mr: 2 }} /> 
+          )
+        }
         </TableCell>
       </>
     );
@@ -301,35 +311,41 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
     return (
       <>
         <TableCell padding="checkbox">
-          {showSkeleton ? (
-            <Checkbox checked={selected} onClick={onSelectRow} />
+        { showSkeleton ? (
+          <Checkbox checked={selected} onClick={onSelectRow} />
           ) : (
             <Skeleton animation="wave" sx={{ width: '20px', height: '40px', mx: 1 }} />
-          )}
+          )
+        }
         </TableCell>
 
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {showSkeleton ? (
-            <Typography>{role}</Typography>
-          ) : (
-            <Skeleton animation="wave" sx={{ width: '160px', height: '40px' }} />
-          )}
+        { 
+          showSkeleton ? (
+              <Typography>{role}</Typography>
+          ) : ( 
+              <Skeleton animation="wave" sx={{ width: '160px', height: '40px'}} /> 
+          ) 
+        }
         </TableCell>
 
         <TableCell align="left" style={{ display: 'flex' }}>
-          {showSkeleton ? (
+        {
+          showSkeleton ? (
             <AvatarGroup total={15}>
               <Avatar alt="Remy Sharp" src={_mock.image.avatar(4)} />
               <Avatar alt="Travis Howard" src={_mock.image.avatar(5)} />
               <Avatar alt="Cindy Baker" src={_mock.image.avatar(6)} />
             </AvatarGroup>
           ) : (
-            <Skeleton animation="wave" sx={{ width: '180px', height: '40px' }} />
-          )}
+              <Skeleton animation="wave" sx={{ width: '180px', height: '40px'}} /> 
+          )
+        }
         </TableCell>
 
         <TableCell align="left">
-          {showSkeleton ? (
+        { 
+          showSkeleton ? (
             <Label
               variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
               color={(status === 'banned' && 'error') || 'success'}
@@ -339,16 +355,18 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             </Label>
           ) : (
             <Skeleton animation="wave" sx={{ width: '120', height: '40px' }} />
-          )}
+          )
+        }
         </TableCell>
       </>
     );
   };
 
   const TempAddRoleTable = () => {
+    
     return (
       <>
-        <TableCell padding="checkbox">
+       <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
 
@@ -370,44 +388,49 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           </Label>
         </TableCell>
       </>
-    );
-  };
+    )
+
+  }
+
 
   const RoleTable = () => {
     return (
       <>
         <TableCell padding="checkbox">
-          {showSkeleton ? (
-            <Checkbox checked={selected} onClick={onSelectRow} />
+        { 
+          showSkeleton ? (
+          <Checkbox checked={selected} onClick={onSelectRow} />
           ) : (
             <Skeleton animation="wave" sx={{ width: '20px', height: '40px', mx: 1 }} />
-          )}
+          )
+        }
         </TableCell>
+
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {showSkeleton ? (
-            <Typography>{name}</Typography>
-          ) : (
-            <Skeleton animation="wave" sx={{ width: '130px', height: '40px' }} />
-          )}
-        </TableCell>
-        <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {showSkeleton ? (
-            <Typography>{role}</Typography>
-          ) : (
-            <Skeleton animation="wave" sx={{ width: '130px', height: '40px' }} />
-          )}
+        { 
+          showSkeleton ? (
+              <Typography>{role}</Typography>
+          ) : ( 
+              <Skeleton animation="wave" sx={{ width: '130px', height: '40px'}} /> 
+          ) 
+        }
         </TableCell>
 
         <TableCell align="left">
-          {showSkeleton ? (
-            <Typography>{permission}</Typography>
+        {
+        showSkeleton ? (
+          <Typography>
+          {permission}
+          </Typography>
           ) : (
-            <Skeleton animation="wave" sx={{ width: '130px', height: '40px' }} />
-          )}
+            <Skeleton animation="wave" sx={{ width: '130px', height: '40px'}} /> 
+          ) 
+        }
         </TableCell>
 
         <TableCell align="left">
-          {showSkeleton ? (
+        { 
+          showSkeleton ? (
             <Label
               variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
               color={(status === 'banned' && 'error') || 'success'}
@@ -417,7 +440,8 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             </Label>
           ) : (
             <Skeleton animation="wave" sx={{ width: '120', height: '40px' }} />
-          )}
+          )
+        }
         </TableCell>
       </>
     );
@@ -1178,8 +1202,8 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
     );
   };
 
-  // Visit
-  const VisitTable = () => {
+   // Visit
+   const VisitTable = () => {
     return (
       <>
         <TableCell padding="checkbox">
@@ -1221,8 +1245,8 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
     );
   };
 
-  // Support
-  const SupportTable = () => {
+   // Support
+   const SupportTable = () => {
     return (
       <>
         <TableCell padding="checkbox">
@@ -1268,59 +1292,62 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
     );
   };
 
-  // Announcement
-  const AnnouncementTable = () => {
-    return (
-      <>
-        <TableCell padding="checkbox">
-          <Checkbox checked={selected} onClick={onSelectRow} />
-        </TableCell>
+    // Announcement
+    const AnnouncementTable = () => {
+      return (
+        <>
+          <TableCell padding="checkbox">
+            <Checkbox checked={selected} onClick={onSelectRow} />
+          </TableCell>
+  
+          <TableCell align="left">
+            <Typography variant="subtitle2" noWrap sx={{ textTransform: 'capitalize' }}>
+              {date}
+            </Typography>
+          </TableCell>
+  
+          <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+            {role}
+          </TableCell>
+  
+          <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
+            {department}
+          </TableCell>
+  
+          <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
+            {description}
+          </TableCell>
+  
+          <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+            {file}
+          </TableCell>
+  
+         
+        </>
+      );
+    };
 
-        <TableCell align="left">
-          <Typography variant="subtitle2" noWrap sx={{ textTransform: 'capitalize' }}>
-            {date}
-          </Typography>
-        </TableCell>
-
-        <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {role}
-        </TableCell>
-
-        <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
-          {department}
-        </TableCell>
-
-        <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
-          {description}
-        </TableCell>
-
-        <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {file}
-        </TableCell>
-      </>
-    );
-  };
 
   const Table = () => {
-    if (path === PATH_BATIBOOT.user.designation) {
+     if (path === PATH_BATIBOOT.user.designation) {
       return <DesignationTable />;
     }
-    if (path === PATH_BATIBOOT.user.createDesignation) {
-      return <TempAddDesignationTable />;
-    }
+    if(path === PATH_BATIBOOT.user.createDesignation){
+      return <TempAddDesignationTable />
+    } 
     if (path === PATH_BATIBOOT.user.deparment) {
       return <DepartmentTable />;
     }
     if (path === PATH_BATIBOOT.user.list) {
       return <UserTable />;
     }
-    if (path === PATH_BATIBOOT.user.createRole) {
-      return <TempAddRoleTable />;
+    if(path === PATH_BATIBOOT.user.createRole){
+      return <TempAddRoleTable />
     }
     if (path === PATH_BATIBOOT.user.role) {
       return <RoleTable />;
     }
-    /*  if (path === PATH_APGIT.leave.type) {
+   /*  if (path === PATH_APGIT.leave.type) {
       return <LeaveTypeTable />;
     }
     if (path === PATH_APGIT.leave.assign) {

@@ -66,7 +66,7 @@ export default function ServiceWarehousing(props) {
             </Typography>
             <Grid container direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
               <Grid item>
-                <Button size="large" variant="contained" href="./freight-calculator">
+                <Button size="large" variant="contained" href="./Quotation">
                   Register Now
                 </Button>
               </Grid>
@@ -104,7 +104,7 @@ export default function ServiceWarehousing(props) {
                       <Grid item xs={12} sm={6}>
                         <ServiceWarehousingSlider />
                         <Grid align="right" marginTop={2}>
-                          <Button size="large" variant="contained" href="./freight-calculator">
+                          <Button size="large" variant="contained" href="./Quotation">
                             Order Now
                           </Button>
                         </Grid>

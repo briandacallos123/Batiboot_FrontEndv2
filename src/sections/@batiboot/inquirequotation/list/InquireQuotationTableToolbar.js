@@ -81,6 +81,21 @@ export default function InquireQuotationTableToolbar({
         )}
       />
 
+      <DatePicker
+        label="End date"
+        value={filterEndDate}
+        onChange={onFilterEndDate}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            sx={{
+              maxWidth: { md: INPUT_WIDTH },
+            }}
+          />
+        )}
+      />
+
       <TextField
         fullWidth
         value={filterName}

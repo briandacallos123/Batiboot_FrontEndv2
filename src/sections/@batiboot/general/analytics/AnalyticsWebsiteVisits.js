@@ -27,7 +27,7 @@ export default function AnalyticsWebsiteVisits({ title, subheader, chartLabels, 
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)} Transactions`;
+            return `${y.toFixed(0)} visits`;
           }
           return y;
         },

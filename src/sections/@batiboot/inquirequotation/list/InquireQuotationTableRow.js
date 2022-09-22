@@ -44,10 +44,6 @@ export default function InquireQuotationTableRow({
   const theme = useTheme();
   /* const { name, avatarUrl, address, role, isVerified, status, state, city, zipCode } = row; */
 
-<<<<<<< HEAD
-=======
-  const { orderNumber, pName, orderCreated, quantity, budget, inquireQuoStatus } = row;
->>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6
 
   const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -75,7 +71,6 @@ export default function InquireQuotationTableRow({
   }
 
   return (
-<<<<<<< HEAD
     <>
       {isDesktop === false ? (
         <TableRow hover selected={selected}>
@@ -155,78 +150,6 @@ export default function InquireQuotationTableRow({
                 variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                 color={(row.type_text === 'TELEMEDICINE' && 'success') || 'fce'}
                 sx={{ textTransform: 'capitalize' }}
-=======
-    <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Checkbox checked={selected} onClick={onSelectRow} />
-      </TableCell>
-
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        {/* <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>
-          {createAvatar(invoiceTo.name).name}
-        </Avatar> */}
-        {/*   <Typography variant="subtitle2" noWrap>
-            {invoiceTo.name}
-        </Typography> */}
-        <Avatar alt={pName} color={createAvatar(pName).color} sx={{ mr: 2 }}>
-          {createAvatar(pName).name}
-        </Avatar>
-        <Stack>
-          <Typography variant="subtitle2" noWrap>
-            {pName}
-          </Typography>
-
-          <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
-            {orderNumber}
-          </Link>
-        </Stack>
-      </TableCell>
-
-      <TableCell align="left">{fDate(orderCreated)}</TableCell>
-
-      <TableCell align="center">{quantity}</TableCell>
-
-      <TableCell align="center">{fCurrency(budget * quantity)}</TableCell>
-
-      <TableCell align="left">
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={
-            (inquireQuoStatus === 'approved' && 'success') ||
-            (inquireQuoStatus === 'received' && 'warning') ||
-            (inquireQuoStatus === 'draft' && 'error') ||
-            'default'
-          }
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {inquireQuoStatus}
-        </Label>
-      </TableCell>
-
-      <TableCell align="center">
-        <TableMoreMenu
-          open={openMenu}
-          onOpen={handleOpenMenu}
-          onClose={handleCloseMenu}
-          actions={
-            <>
-              <MenuItem
-                onClick={() => {
-                  onDeleteRow();
-                  handleCloseMenu();
-                }}
-                sx={{ color: 'error.main' }}
-              >
-                <Iconify icon={'eva:trash-2-outline'} />
-                Delete
-              </MenuItem>
-
-              <MenuItem
-                onClick={() => {
-                  onViewRow();
-                  handleCloseMenu();
-                }}
->>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6
               >
                 {row.type_text}
               </Label>

@@ -59,10 +59,6 @@ export default function GeneralDashboard() {
               chartData={[22, 8, 35, 50, 82, 84, 77, 12, 87, 43]}
             />
           </Grid>
-<<<<<<< HEAD
-=======
-
->>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6
           <Grid item xs={12} md={4}>
             <EcommerceWidgetSummary
               title="Deliveries"
@@ -72,10 +68,6 @@ export default function GeneralDashboard() {
               chartData={[40, 70, 75, 70, 50, 28, 7, 64, 38, 27]}
             />
           </Grid>
-<<<<<<< HEAD
-=======
-
->>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6
           <Grid item xs={12} md={4}>
             <EcommerceWidgetSummary
               title="Confirmed Orders"
@@ -276,8 +268,4 @@ export default function GeneralDashboard() {
       </Container>
     </Page>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6

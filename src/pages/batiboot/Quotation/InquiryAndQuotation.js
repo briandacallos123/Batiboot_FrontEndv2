@@ -70,14 +70,9 @@ const SERVICE_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-<<<<<<< HEAD:src/pages/batiboot/Quotation/InquiryAndQuotation.js
   { id: 'product_name', label: 'Product Name', align: 'left' },
   { id: 'services', label: 'Type', align: 'left' },
   { id: 'price', label: 'Price', align: 'left' },
-=======
-  { id: 'pName', label: 'Product Name', align: 'left' },
-  { id: 'orderCreated', label: 'Created At', align: 'left' },
->>>>>>> 1dfa1e08ed1be453ed40e76b40497f276f353aa6:src/pages/batiboot/InquiryAndQuotation.js
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
   { id: 'created_at', label: 'Created', align: 'center', width: 140 },
   { id: 'inquireQuoStatus', label: 'Status', align: 'center', width: 140 },
@@ -331,16 +326,17 @@ export default function InquireQuotation() {
             pathname={pathname}
             nameLink={'Inquiry Quotation'}
           />
-          {
-            /* <InquireAndQuotationCreateModal
+          {/* <InquireAndQuotationCreateModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
              identifier={identifier}
           />
-          */
-            <InquiryAndQuotationViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
-          }
+          <InquiryAndQuotationViewModal 
+            open={openViewModal}
+            onClose={handleCloseModal}
+            identifier={identifier}
+          /> */}
         </Box>
 
         <Card sx={{ mb: 5 }}>

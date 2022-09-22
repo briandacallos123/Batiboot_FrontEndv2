@@ -83,8 +83,8 @@ export default function MainHeader() {
 
           {isDesktop && <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
 
-          <Button variant="contained" target="_blank" rel="noopener" href="/freight-calculator">
-            Freight Calculator
+          <Button variant="contained" target="_blank" rel="noopener" href="./Quotation">
+            Need Quotation?
           </Button>
 
           {!isDesktop && <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
