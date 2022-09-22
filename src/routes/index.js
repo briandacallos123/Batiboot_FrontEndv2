@@ -10,7 +10,7 @@ import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
 import RoleBasedGuard from '../guards/RoleBasedGuard';
 // config
-import { PATH_AFTER_LOGIN_BATIBOOT,PATH_AFTER_LOGIN_BATIBOOT_USER } from '../config';
+import { PATH_AFTER_LOGIN_BATIBOOT, PATH_AFTER_LOGIN_BATIBOOT_USER } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 
@@ -44,7 +44,7 @@ export default function Router() {
           path: 'register',
           element: (
             <GuestGuard>
-              <Register /> 
+              <Register />
             </GuestGuard>
           ),
         },
@@ -142,8 +142,6 @@ export default function Router() {
     },
     */
 
-  
-
     {
       path: 'user',
       element: (
@@ -153,19 +151,23 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN_BATIBOOT_USER} replace />, index: true },
-        { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['user']}>
-           <GeneralDashApp /> 
-         </RoleBasedGuard>
-         },
+        {
+          path: 'dashboard',
+          element: (
+            <RoleBasedGuard accessibleRoles={['user']}>
+              <GeneralDashApp />
+            </RoleBasedGuard>
+          ),
+        },
         {
           path: 'invoice',
           children: [
             { element: <Navigate to="/batiboot/invoice/list" replace />, index: true },
             { path: 'list', element: <InvoiceList /> },
             { path: ':id', element: <InvoiceDetails /> },
-           /*  { path: ':id', element: <InvoiceDetails /> }, */
+            /*  { path: ':id', element: <InvoiceDetails /> }, */
             { path: ':id/edit', element: <InvoiceList /> },
-            { path: 'create', element: <InvoiceList /> }, 
+            { path: 'create', element: <InvoiceList /> },
           ],
         },
         {
@@ -178,8 +180,7 @@ export default function Router() {
             { path: 'department', element: <DepartmentList /> },
             { path: 'list', element: <UserList /> },
             { path: 'roles', element: <UserRoleList /> },
-
-          ]
+          ],
         },
         {
           path: 'order',
@@ -187,24 +188,24 @@ export default function Router() {
             { element: <Navigate to="/batiboot/order/list" replace />, index: true },
             { path: 'list', element: <OrderList /> },
             { path: 'create', element: <OrderList /> },
-            { path: 'tracking', element: <Tracking /> },  
-            { path: 'createTracking', element: <Tracking /> },  
-          ]
+            { path: 'tracking', element: <Tracking /> },
+            { path: 'createTracking', element: <Tracking /> },
+          ],
         },
         {
           path: 'inquire',
           children: [
             { element: <Navigate to="/batiboot/inquire/list" replace />, index: true },
             { path: 'list', element: <InquireQuotation /> },
-            { path: 'create', element: <InquireQuotation /> }, 
-          ]
+            { path: 'create', element: <InquireQuotation /> },
+          ],
         },
         {
           path: 'help',
           children: [
             { element: <Navigate to="/batiboot/help/faq" replace />, index: true },
             { path: 'faq', element: <HelpAssistance /> },
-          ]
+          ],
         },
         {
           path: 'mail',
@@ -217,9 +218,10 @@ export default function Router() {
           ],
         },
         {
-          path: 'rules', element: <Rules />
-        }
-      ]
+          path: 'rules',
+          element: <Rules />,
+        },
+      ],
     },
 
     {
@@ -231,19 +233,23 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN_BATIBOOT} replace />, index: true },
-        { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['admin']}>
-           <GeneralDashApp /> 
-         </RoleBasedGuard>
-         },
+        {
+          path: 'dashboard',
+          element: (
+            <RoleBasedGuard accessibleRoles={['admin']}>
+              <GeneralDashApp />
+            </RoleBasedGuard>
+          ),
+        },
         {
           path: 'invoice',
           children: [
             { element: <Navigate to="/batiboot/invoice/list" replace />, index: true },
             { path: 'list', element: <InvoiceList /> },
             { path: ':id', element: <InvoiceDetails /> },
-           /*  { path: ':id', element: <InvoiceDetails /> }, */
+            /*  { path: ':id', element: <InvoiceDetails /> }, */
             { path: ':id/edit', element: <InvoiceList /> },
-            { path: 'create', element: <InvoiceList /> }, 
+            { path: 'create', element: <InvoiceList /> },
           ],
         },
         {
@@ -256,8 +262,7 @@ export default function Router() {
             { path: 'department', element: <DepartmentList /> },
             { path: 'list', element: <UserList /> },
             { path: 'roles', element: <UserRoleList /> },
-
-          ]
+          ],
         },
         {
           path: 'order',
@@ -265,24 +270,24 @@ export default function Router() {
             { element: <Navigate to="/batiboot/order/list" replace />, index: true },
             { path: 'list', element: <OrderList /> },
             { path: 'create', element: <OrderList /> },
-            { path: 'tracking', element: <Tracking /> },  
-            { path: 'createTracking', element: <Tracking /> },  
-          ]
+            { path: 'tracking', element: <Tracking /> },
+            { path: 'createTracking', element: <Tracking /> },
+          ],
         },
         {
           path: 'inquire',
           children: [
             { element: <Navigate to="/batiboot/inquire/list" replace />, index: true },
             { path: 'list', element: <InquireQuotation /> },
-            { path: 'create', element: <InquireQuotation /> }, 
-          ]
+            { path: 'create', element: <InquireQuotation /> },
+          ],
         },
         {
           path: 'help',
           children: [
             { element: <Navigate to="/batiboot/help/faq" replace />, index: true },
             { path: 'faq', element: <HelpAssistance /> },
-          ]
+          ],
         },
         {
           path: 'mail',
@@ -295,9 +300,10 @@ export default function Router() {
           ],
         },
         {
-          path: 'rules', element: <Rules />
-        }
-      ]
+          path: 'rules',
+          element: <Rules />,
+        },
+      ],
     },
 
     // Main Routes
@@ -322,52 +328,51 @@ export default function Router() {
         { element: <Home2 />, index: true },
         { path: 'about-us', element: <About /> },
         { path: 'contact-us', element: <Contact /> },
-        { path: 'services', element: < Services/>},
-        { path: 'quotation', element: <Quotation/>},
-        { path: 'home2', element: <Home2/> },
+        { path: 'services', element: <Services /> },
+        { path: 'freight-calculator', element: <FreightCalulator /> },
+        { path: 'home2', element: <Home2 /> },
         { path: 'faqs', element: <Faqs /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
-// BATIBOOT 
+// BATIBOOT
 
-// USER 
+// USER
 
 const UserAccount = Loadable(lazy(() => import('../pages/batiboot/UserAccount')));
 const UserProfile = Loadable(lazy(() => import('../pages/batiboot/UserProfile')));
 
 // DASHBOARD
-const GeneralDashApp = Loadable(lazy(() => import('../pages/batiboot/GeneralDashboard')))
-const InvoiceList = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoice')))
+const GeneralDashApp = Loadable(lazy(() => import('../pages/batiboot/GeneralDashboard')));
+const InvoiceList = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoice')));
 
 /* Invoice */
-const InvoiceDetails = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoiceCreate')))
+const InvoiceDetails = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoiceCreate')));
 
-const InvoiceCreate = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoiceCreate')))
+const InvoiceCreate = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoiceCreate')));
 /* USER AND ROLES */
 
-const UserRoleList = Loadable(lazy(() => import('../pages/batiboot/Role')))
+const UserRoleList = Loadable(lazy(() => import('../pages/batiboot/Role')));
 const UserList = Loadable(lazy(() => import('../pages/batiboot/UserList')));
-const DepartmentList = Loadable(lazy(() => import('../pages/batiboot/UserDepartment')))
-const DesignationList = Loadable(lazy(() => import('../pages/batiboot/UserDesignation')))
+const DepartmentList = Loadable(lazy(() => import('../pages/batiboot/UserDepartment')));
+const DesignationList = Loadable(lazy(() => import('../pages/batiboot/UserDesignation')));
 
 /* ORDER LIST */
 
-const OrderList = Loadable(lazy(() => import('../pages/batiboot/OrderList')))
-const Tracking = Loadable(lazy(() => import('../pages/batiboot/ShipmentTracking')))
-
+const OrderList = Loadable(lazy(() => import('../pages/batiboot/OrderList')));
+const Tracking = Loadable(lazy(() => import('../pages/batiboot/ShipmentTracking')));
 /* Inquire Quotation */
-const InquireQuotation = Loadable(lazy(() => import('../pages/batiboot/InquiryAndQuotation')))
+const InquireQuotation = Loadable(lazy(() => import('../pages/batiboot/InquiryAndQuotation')));
 
 /* HELP FAQs */
-const HelpAssistance = Loadable(lazy(() => import('../pages/batiboot/HelpAssistance')))
+const HelpAssistance = Loadable(lazy(() => import('../pages/batiboot/HelpAssistance')));
 /* RULES AND REGULATION */
-const Rules = Loadable(lazy(() => import('../pages/batiboot/RulesAndRegulations')))
+const Rules = Loadable(lazy(() => import('../pages/batiboot/RulesAndRegulations')));
 /* MAIL MESSAGE */
 
-const Message = Loadable(lazy(() => import('../pages/batiboot/Message')))
+const Message = Loadable(lazy(() => import('../pages/batiboot/Message')));
 /* const InboundLogistics = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoice')))
 const OutboundLogistics = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoice'))) */
 
@@ -427,11 +432,11 @@ const HomePage = Loadable(lazy(() => import('../pages/Home')));
 const About = Loadable(lazy(() => import('../pages/About')));
 const Contact = Loadable(lazy(() => import('../pages/Contact')));
 const Faqs = Loadable(lazy(() => import('../pages/Faqs')));
-const Services = Loadable(lazy(() => import('../pages/Services')))
+const Services = Loadable(lazy(() => import('../pages/Services')));
 const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
 const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
 const Home2 = Loadable(lazy(() => import('../pages/Home2')));
-const Quotation = Loadable(lazy(() => import('../pages/Quotation')));
+const FreightCalulator = Loadable(lazy(() => import('../pages/FreightCalculator')));
 const Pricing = Loadable(lazy(() => import('../pages/Pricing')));
 const Payment = Loadable(lazy(() => import('../pages/Payment')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));

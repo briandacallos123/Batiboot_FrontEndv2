@@ -230,7 +230,7 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
                   />
                 </div> */}
 
-                <RHFSelect name="category" label="Category">
+                <RHFSelect name="category" label="Services">
                   {SERVICE_OPTION.map((category) => (
                     <option key={category} value={category}>
                       {category}

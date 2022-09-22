@@ -27,7 +27,7 @@ InquireQuotationTableRow.propTypes = {
 export default function InquireQuotationTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
   const theme = useTheme();
 
-  const { orderNumber, pName, orderCreated, dueDate, quantity, amount, inquireQuoStatus } = row;
+  const { orderNumber, pName, orderCreated, quantity, budget, inquireQuoStatus } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -49,7 +49,7 @@ export default function InquireQuotationTableRow({ row, selected, onSelectRow, o
         {/* <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>
           {createAvatar(invoiceTo.name).name}
         </Avatar> */}
-      {/*   <Typography variant="subtitle2" noWrap>
+        {/*   <Typography variant="subtitle2" noWrap>
             {invoiceTo.name}
         </Typography> */}
         <Avatar alt={pName} color={createAvatar(pName).color} sx={{ mr: 2 }}>
@@ -68,11 +68,9 @@ export default function InquireQuotationTableRow({ row, selected, onSelectRow, o
 
       <TableCell align="left">{fDate(orderCreated)}</TableCell>
 
-      <TableCell align="left">{fDate(dueDate)}</TableCell>
-
       <TableCell align="center">{quantity}</TableCell>
 
-      <TableCell align="center">{fCurrency(amount * quantity)}</TableCell>
+      <TableCell align="center">{fCurrency(budget * quantity)}</TableCell>
 
       <TableCell align="left">
         <Label

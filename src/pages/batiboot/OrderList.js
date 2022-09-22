@@ -61,9 +61,9 @@ const SERVICE_OPTIONS = [
 const TABLE_HEAD = [
   { id: 'pName', label: 'Product Name', align: 'left' },
   { id: 'orderCreated', label: 'Created At', align: 'left' },
-  { id: 'dueDate', label: 'Due', align: 'left' },
+  { id: 'serviceType', label: 'Service Type', align: 'left' },
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
-  { id: 'amount', label: 'Amount', align: 'center', width: 140 },
+  { id: 'budget', label: 'Budget', align: 'center', width: 140 },
   { id: 'orderStatus', label: 'Status', align: 'left' },
   { id: 'actions', label: 'Actions', align: 'center' },
 ];
@@ -179,9 +179,9 @@ export default function OrderList() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'paid', label: 'Paid', color: 'success', count: getLengthByStatus('paid') },
-    { value: 'unpaid', label: 'Unpaid', color: 'warning', count: getLengthByStatus('unpaid') },
-    { value: 'overdue', label: 'Overdue', color: 'error', count: getLengthByStatus('overdue') },
+    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
+    { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'rejected', label: 'Rejected', color: 'error', count: getLengthByStatus('rejected') },
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
 
@@ -230,17 +230,16 @@ export default function OrderList() {
             pathname={pathname}
             nameLink={'Order List'}
           />
-          {/*  <OrderCreateModal 
+          {
+            /*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
            edit={isEdit}
            identifier={identifier}
           />
-          <OrderListViewModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          /> */}
+          */
+            <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
+          }
         </Box>
         <Card sx={{ mb: 5 }}>
           <Scrollbar>
@@ -258,26 +257,26 @@ export default function OrderList() {
                 color={theme.palette.info.main}
               />
               <OrderListAnalytics
-                title="Paid"
-                total={getLengthByStatus('paid')}
-                percent={getPercentByStatus('paid')}
-                price={getTotalPriceByStatus('paid')}
+                title="Approved"
+                total={getLengthByStatus('approved')}
+                percent={getPercentByStatus('approved')}
+                price={getTotalPriceByStatus('approved')}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
               <OrderListAnalytics
-                title="Unpaid"
-                total={getLengthByStatus('unpaid')}
-                percent={getPercentByStatus('unpaid')}
-                price={getTotalPriceByStatus('unpaid')}
+                title="Pending"
+                total={getLengthByStatus('pending')}
+                percent={getPercentByStatus('pending')}
+                price={getTotalPriceByStatus('pending')}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
               <OrderListAnalytics
-                title="Overdue"
-                total={getLengthByStatus('overdue')}
-                percent={getPercentByStatus('overdue')}
-                price={getTotalPriceByStatus('overdue')}
+                title="Rejected"
+                total={getLengthByStatus('rejected')}
+                percent={getPercentByStatus('rejected')}
+                price={getTotalPriceByStatus('rejected')}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />

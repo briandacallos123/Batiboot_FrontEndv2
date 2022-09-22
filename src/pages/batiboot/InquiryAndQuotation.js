@@ -63,7 +63,6 @@ const SERVICE_OPTIONS = [
 const TABLE_HEAD = [
   { id: 'pName', label: 'Product Name', align: 'left' },
   { id: 'orderCreated', label: 'Created At', align: 'left' },
-  { id: 'dueDate', label: 'Due', align: 'left' },
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
   { id: 'amount', label: 'Amount', align: 'center', width: 140 },
   { id: 'inquireQuoStatus', label: 'Status', align: 'center', width: 140 },
@@ -235,17 +234,16 @@ export default function InquireQuotation() {
             pathname={pathname}
             nameLink={'Inquiry Quotation'}
           />
-          {/* <InquireAndQuotationCreateModal
+          {
+            /* <InquireAndQuotationCreateModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
              identifier={identifier}
           />
-          <InquiryAndQuotationViewModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          /> */}
+          */
+            <InquiryAndQuotationViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
+          }
         </Box>
 
         <Card sx={{ mb: 5 }}>
