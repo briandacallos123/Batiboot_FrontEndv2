@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useReducer } from 'react';
+import {getAllQuotations} from '../redux/slices/userQuotation';
 
 // utils
 import axios from '../utils/axios';
@@ -118,6 +119,15 @@ const handlers = {
       user,
     };
   },
+  CREATE_USER_MANAGEMENT: (state, action) => {
+    const { user } = action.payload;
+
+    return {
+      ...state,
+      isAuthenticated: true,
+      user,
+    };
+  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -138,6 +148,7 @@ const AuthContext = createContext({
   resendEmailVerification: () => Promise.resolve(),
   createQuotation: () => Promise.resolve(),
   acceptOrder: () => Promise.resolve(),
+  createUserManagement: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -499,11 +510,42 @@ function AuthProvider({ children }) {
     });
   };
 
+  const createUserManagement = async (data) => {
+    const response = await axios.post(
+      '/api/management/user/register',
+      
+       
+      data,
+      
+
+     
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      
+      }
+    );
+    const user = response.data;
+
+    // alert(user.email)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CREATE_USER_MANAGEMENT',
+      payload: {
+        user,
+      },
+    });
+  };
 
 
   const logout = async () => {
+    dispatch(getAllQuotations())
     setSession(null);
     dispatch({ type: 'LOGOUT' });
+  
   };
 
   return (
@@ -524,6 +566,7 @@ function AuthProvider({ children }) {
         resendEmailVerification,
         createQuotation,
         acceptOrder,
+        createUserManagement,
       }}
     >
       {children}

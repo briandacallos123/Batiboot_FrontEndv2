@@ -4,12 +4,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, FieldError } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
+import format from 'date-fns/format';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import { LoadingButton, DatePicker } from '@mui/lab';
+import { LoadingButton, DatePicker, LocalizationProvider,  } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {
   Button,
   Box,
@@ -25,18 +27,30 @@ import {
   styled,
   InputAdornment,
   IconButton,
+  Alert,
 } from '@mui/material';
 // utils
+import useAuth from '../../../../../hooks/useAuth';
+import useIsMountedRef from '../../../../../hooks/useIsMountedRef';
 import { fData } from '../../../../../utils/formatNumber';
+import { dispatch, useDispatch, useSelector } from '../../../../../redux/store';
+import { getAllRoles } from '../../../../../redux/slices/getRole';
+import { getAllDesignations } from '../../../../../redux/slices/getDesignation';
+import { getAllDepartments } from '../../../../../redux/slices/getDepartment';
+import { getAllShifts } from '../../../../../redux/slices/getShift';
+
 // routes
-import { PATH_DASHBOARD } from '../../../../../routes/paths';
+import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../../../routes/paths';
 // _mock
 import { countries } from '../../../../../_mock';
-import { role } from '../../../../../_mock/role';
+// import { role } from '../../../../../_mock/role';
 import Iconify from '../../../../../components/Iconify';
 // components
 import Label from '../../../../../components/Label';
 import { FormProvider, RHFSelect, RHFSwitch, RHFTextField, RHFUploadAvatar } from '../../../../../components/hook-form';
+
+ 
+
 
 UserNewEditForm.propTypes = {
   isEdit: PropTypes.bool,
@@ -45,22 +59,59 @@ UserNewEditForm.propTypes = {
   formRef: PropTypes.any,
 };
 
+
+
 export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef }) {
+  const { createUserManagement } = useAuth();
+  const { roles, totalData, ccc, rolesArr, isLoading } = useSelector((state) => state.getRole);
+  const { designations, designationsArr,totalData: totalDataDesignation, isLoading: isLoadingDesignation } = useSelector((state) => state.getDesignation);
+  const { departments, departmentsArr,totalData: totalDataDepartment, isLoading: isLoadingDepartment } = useSelector((state) => state.getDepartment);
+  const { shifts, shiftsArr, totalData: totalDataShift, isLoading: isLoadingShift } = useSelector((state) => state.getShift);
+  const [bdate, setBdate] = useState(new Date());
+  const isMountedRef = useIsMountedRef();
+
+  // useEffect(() => {
+  //   dispatch(getAllRoles())
+  //   dispatch(getAllDesignations())
+  //   dispatch(getAllDepartments())
+  //   dispatch(getAllShifts())
+  //  }, [dispatch]);
+
   const navigate = useNavigate();
-
   const { enqueueSnackbar } = useSnackbar();
-
   const NewUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email(),
-    phoneNumber: Yup.string().required('Phone number is required'),
+    phoneNumber: Yup.string().max(11, 'Phone number must be 11 digits')
+      .required('Phone number is required'),
     address: Yup.string().required('Address is required'),
-    country: Yup.string().required('country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role Number is required'),
-    avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
+    // country: Yup.string().required('country is required'),
+    // company: Yup.string().required('Company is required'),
+    // state: Yup.string().required('State is required'),
+    // city: Yup.string().required('City is required'),
+    // role: Yup.string().required('Role Number is required'),
+    // avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
+    maritalStatus : Yup.string().required('Marital Status is required'),
+    gender : Yup.string().required('Gender is required'),
+    dateOfBirth : Yup.string().required('Date of Birth is required'),
+    religion : Yup.string().required('Religion is required'),
+    designation : Yup.string().required('Designation is required'),
+    department : Yup.string().required('Department is required'),
+    shift : Yup.string().required('Shift is required'),
+    basicSalary : Yup.string().required('Basic Salary is required'),
+    password: Yup.string().min(8, 'Password must be at least 8 characters')
+    .required('Password is required'),
+    role : Yup.string().required('Role is required'),
+    confirmPassword: Yup.string()
+    .when("password", {
+      is: (val) => Yup.boolean(val && val.length > 0 ), 
+      then: Yup.string().oneOf(
+        [Yup.ref("password")],
+        "Both password need to be the same"
+      ),
+    })
+    .required("Confirm Password is required"),
+
   });
   const LabelStyle = styled(Typography)(({ theme }) => ({
     ...theme.typography.subtitle2,
@@ -74,15 +125,25 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
       email: currentUser?.email || '',
       phoneNumber: currentUser?.phoneNumber || '',
       address: currentUser?.address || '',
-      country: currentUser?.country || '',
-      state: currentUser?.state || '',
-      city: currentUser?.city || '',
-      zipCode: currentUser?.zipCode || '',
-      avatarUrl: currentUser?.avatarUrl || '',
-      isVerified: currentUser?.isVerified || true,
-      status: currentUser?.status,
-      company: currentUser?.company || '',
+      // country: currentUser?.country || '',
+      // state: currentUser?.state || '',
+      // city: currentUser?.city || '',
+      // zipCode: currentUser?.zipCode || '',
+      // avatarUrl: currentUser?.avatarUrl || '',
+      // isVerified: currentUser?.isVerified || "non-verified",
+      // status: currentUser?.status,
+      // company: currentUser?.company || '',
       role: currentUser?.role || '',
+      maritalStatus: currentUser?.maritalStatus || '',
+      gender: currentUser?.maritalStatus || '',
+      dateOfBirth: currentUser?.dateOfBirth || bdate,
+      religion: currentUser?._religion || '',
+      designation: currentUser?.designation || '',
+      department: currentUser?.department || '',
+      shift: currentUser?._shift || '',
+      basicSalary: currentUser?.basicSalary || '',
+      password: currentUser?.password || '',
+      confirmPassword: currentUser?.confirmPassword || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentUser]
@@ -99,7 +160,9 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
+    setError,
+    getValues,
   } = methods;
 
   const values = watch();
@@ -114,14 +177,42 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, currentUser]);
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      const date = `${bdate.getFullYear()}-${bdate.getMonth()}-${bdate.getDate()}`;
+
+      console.log(format(bdate,"Pp" ));
+      const form = new FormData();
+      form.append('name', data.name);
+      form.append('email', data.email);
+      form.append('password', data.confirmPassword);
+      form.append('phone', data.phoneNumber);
+      form.append('gender', data.gender);
+      form.append('address', data.address);
+      form.append('birth_date', date);
+      form.append('religion', data.religion);
+      form.append('marital_status', data.maritalStatus);
+      form.append('designation_id', data.designation);
+      form.append('department_id', data.department);
+      form.append('shift_id', data.shift);
+      form.append('basic_salary', data.basicSalary);
+      // form.append('permission', data.permission);
+      form.append('user_role', data.role);
+
+console.log(date);
+await createUserManagement(form);
+
+      
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.user.list);
+       reset();
+      // navigate(PATH_BATIBOOT.user.list);
     } catch (error) {
       console.error(error);
+      enqueueSnackbar(error.message, { variant: 'error' });
+      if (isMountedRef.current) {
+        setError('afterSubmit', { ...error, message: error.message });
+      }
     }
   };
 
@@ -144,11 +235,11 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
   const [showPassword2, setShowPassword2] = useState(false);
   const [date, setDate] = useState(new Date());
 
-  const [bdate, setBdate] = useState(new Date());
+
 
   const _departments = ['Admin', 'HR', 'Staff', 'IT', 'Finance', 'Inventory', 'Manager'];
 
-  const _gender = ['Male', 'Female'];
+  const _gender = ['Male', 'Female', 'Unisex', 'Others'];
 
   const _religion = ['Hindu', 'Islam', 'Christian'];
 
@@ -476,10 +567,12 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
                     <LabelStyle>Images</LabelStyle>
                 </div> */
 
+                 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+      {/* {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>} */}
+        {/* <Grid item xs={12} md={6}>
           <Box>
             <div>
               <LabelStyle>Module Permissions</LabelStyle>
@@ -501,7 +594,7 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
 
                 {panelTabs.map((panels) => (
                   <TabPanel key={panels} value={valueIndex} index={panels.index}>
-                    {/* <FormGroup > */}
+            
                     {panels.permission.map((option) => (
                       <FormControlLabel
                         key={option.permission}
@@ -510,14 +603,14 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
                         sx={{ color: 'text.secondary' }}
                       />
                     ))}{' '}
-                    {/* </FormGroup> */}
+            
                   </TabPanel>
                 ))}
               </Box>
             </Card>
           </Box>
-        </Grid>
-        <Grid item xs={12} md={6}>
+        </Grid> */}
+        <Grid item xs={12} md={12} sx={{m:5}}>
           <div>
             <LabelStyle>Fill Up</LabelStyle>
           </div>
@@ -542,17 +635,25 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
                 </option>
               ))}
             </RHFSelect>
+
+           
             <DatePicker
+              name="dateOfBirth"
               disableFuture
               label="Date of Birth"
+              // format="MM/DD/YYYY"
+              inputFormat="MM/dd/yyyy"
               openTo="year"
               views={['year', 'month', 'day']}
               value={bdate}
               onChange={(newBdate) => {
-                setBdate(newBdate);
+               setBdate(newBdate);
               }}
-              renderInput={(params) => <TextField {...params} />}
-            />
+              renderInput={(params) => <TextField {...params}  />}
+               />
+  
+
+
             <RHFSelect name="gender" label="Gender">
               <option value="" />
               {_gender.map((option) => (
@@ -561,14 +662,14 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
                 </option>
               ))}
             </RHFSelect>
-            <RHFSelect name="bloodType" label="Blood Type" placeholder="Blood Type">
+            {/* <RHFSelect name="bloodType" label="Blood Type" placeholder="Blood Type">
               <option value="" />
               {_bloodType.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
-            </RHFSelect>
+            </RHFSelect> */}
             <RHFSelect name="religion" label="Religion" placeholder="Religion">
               <option value="" />
               {_religion.map((option) => (
@@ -577,14 +678,14 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
                 </option>
               ))}
             </RHFSelect>
-            <RHFSelect name="country" label="Country" placeholder="Country">
+            {/* <RHFSelect name="country" label="Country" placeholder="Country">
               <option value="" />
               {countries.map((option) => (
                 <option key={option.code} value={option.label}>
                   {option.label}
                 </option>
               ))}
-            </RHFSelect>
+            </RHFSelect> */}
           </Card>
           <div>
             <LabelStyle sx={{ mt: 3 }}>Management</LabelStyle>
@@ -608,26 +709,26 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
             >
               <RHFSelect name="role" label="Role" placeholder="Role">
                 <option value="" />
-                {role.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                {rolesArr.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.name}
                   </option>
                 ))}
               </RHFSelect>
               <RHFSelect name="designation" label="Designation">
                 <option value="" />
-                {_designation.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                {designationsArr.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.title}
                   </option>
                 ))}
               </RHFSelect>
 
               <RHFSelect name="department" label="Department">
                 <option value="" />
-                {_departments.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                {departmentsArr.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.title}
                   </option>
                 ))}
               </RHFSelect>
@@ -642,9 +743,9 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
             >
               <RHFSelect name="shift" label="Shift" placeholder="Shift">
                 <option value="" />
-                {_shift.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                {shiftsArr.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.name}
                   </option>
                 ))}
               </RHFSelect>
@@ -696,6 +797,8 @@ export default function UserNewEditForm({ isEdit, currentUser, nameLink, formRef
             />
           </Card>
         </Grid>
+
+   
       </Grid>
       <Stack alignItems="flex-end" sx={{ mb: 8 }}>
         {/*    /*  sx={{ p: '1rem', position: 'sticky', bottom: 0, zIndex: 1, backdropFilter: 'blur(10px)'}}> */}

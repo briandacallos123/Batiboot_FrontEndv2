@@ -57,7 +57,7 @@ import OrderListViewModal from './OrderListView';
 import UserModal from '../../../sections/@batiboot/modal/UserModal';
 
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
-import InquiryAndQuotationViewModal from '../InquiryAndQuotationView';
+
 
 
 // ----------------------------------------------------------------------

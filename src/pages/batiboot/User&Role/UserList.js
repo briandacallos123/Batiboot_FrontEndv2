@@ -26,7 +26,12 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAllQuotations } from '../../../redux/slices/adminQuotation';
+import { getAllUsers } from '../../../redux/slices/adminUser';
+import { getAllRoles } from '../../../redux/slices/getRole';
+
+import { getAllDesignations } from '../../../redux/slices/getDesignation';
+import { getAllDepartments } from '../../../redux/slices/getDepartment';
+import { getAllShifts } from '../../../redux/slices/getShift';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -46,50 +51,53 @@ import Scrollbar from '../../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../../components/table';
 // sections
-import QuotationSkeleton from './QuotationSkeleton';
+import QuotationSkeleton from './OrderSkeleton';
 // import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
-import { InquireQuoTableRow, InquireQuoTableToolbar } from '../../../sections/@batiboot/inquirequotation/list';
+import UserListAnalytics from '../../../sections/@batiboot/user/user&role/Analytics/UserListAnalytics';
+import { UserTableToolbar, UserTableRow } from '../../../sections/@batiboot/user/user&role';
 // import { OrderTableRow, OrderTableToolbar } from '../../sections/@batiboot/orders/order/list';
-import InquireQuoListAnalytics from '../../../sections/@batiboot/inquirequotation/InquireQuoListAnalytics';
-import InquireAndQuotationCreateModal from './InquiryAndQuotationCreate';
-
-import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
-import InquiryAndQuotationViewModal from './InquiryAndQuotationView';
+import OrderListAnalytics from '../../../sections/@batiboot/orders/order/OrderListAnalytics';
+// import OrderCreateModal from './OrderListCreate';
+// import OrderListViewModal from './OrderListView';
 import UserModal from '../../../sections/@batiboot/modal/UserModal';
 
+import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
+
+
+
 // ----------------------------------------------------------------------
 
-const SERVICE_OPTIONS = [
-  'All',
-  'Product Sourcing',
-  'Importing',
-  'Product Rebranding',
-  'Private Label',
-  'Warehousing',
-  'Fulfillment',
-];
 
 const TABLE_HEAD = [
-  { id: 'product_name', label: 'Product Name', align: 'left' },
-  { id: 'services', label: 'Type', align: 'left' },
-  { id: 'price', label: 'Price', align: 'left' },
-  { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
-  { id: 'created_at', label: 'Created', align: 'center', width: 140 },
-  { id: 'inquireQuoStatus', label: 'Status', align: 'center', width: 140 },
-  { id: 'actions', label: 'Actions', align: 'center' },
-];
+  { id: 'name', label: 'Name', align: 'left' },
+  { id: 'email', label: 'Email', align: 'left' },
+  { id: 'phone', label: 'Phone', align: 'left' },
+  { id: 'designation', label: 'Designation', align: 'left' },
+  { id: 'role', label: 'Role', align: 'left' },
+  // { id: 'isVerified', label: 'Verified', align: 'center' },
+  { id: 'shift', label: 'Shift', align: 'left' },
+  { id: 'status', label: 'Status', align: 'left' },
+  { id: '' },
+];;
 
 // ----------------------------------------------------------------------
 
-export default function InquireQuotation() {
+export default function OrderList() {
   const theme = useTheme();
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData, ccc, quotationsArr, isLoading } = useSelector((state) => state.adminQuotation);
+  const { users, totalData, ccc, usersArr, isLoading } = useSelector((state) => state.adminUser);
+  const { roles, rolesArr,  } = useSelector((state) => state.getRole);
+  console.log("rolesss", rolesArr);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
+  const SERVICE_OPTIONS = [
+    {id: "All", name:"All"}, ...rolesArr
+  ];
+
+  
   const {
     dense,
     page,
@@ -108,12 +116,12 @@ export default function InquireQuotation() {
     onChangePage,
     onChangeRowsPerPage,
     resetPage,
-  } = useTable({ defaultOrderBy: 'orderCreated' });
+  } = useTable({ defaultOrderBy: 'name' });
 
   const [tableData, setTableData] = useState(_order);
 
   const [filterName, setFilterName] = useState('');
-
+ 
   const [filterService, setFilterService] = useState('All');
 
   const [filterStartDate, setFilterStartDate] = useState(null);
@@ -121,15 +129,23 @@ export default function InquireQuotation() {
   const [filterEndDate, setFilterEndDate] = useState(null);
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
-  const [modalViewData, setModalViewData] = useState([]);
+
+  const [keyCode, setKeyCode] = useState('');
+
   const [isEdit, setIsEdit] = useState(false);
   const [isView, setIsView] = useState(false);
   const [identifier, setIdentifier] = useState('');
 
-  const handleFilterName = (filterName) => {
+  const handleKeyCode = (e) => {
+    setKeyCode(e);
+  }
+
+  const handleFilterName = (filterName, key) => {
     setFilterName(filterName);
     setPage(0);
+    setKeyCode(key);
   };
+  console.log(keyCode);
 
   const handleFilterService = (event) => {
     setFilterService(event.target.value);
@@ -152,18 +168,17 @@ export default function InquireQuotation() {
     // setIdentifier(id)
     handleOpenModal();
   };
+const [modalViewData, setModalViewData] = useState([]);
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
-    // setIsView(!isView);
-    // //  setIdentifier(id)
-    // handleOpenViewModal();
     setIsView(!isView);
     //  setIdentifier(id)
     handleOpenViewModal();
     setModalViewData(data);
+    
   };
-
+console.log("filter servies", filterService);
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
@@ -183,22 +198,21 @@ export default function InquireQuotation() {
 
   const denseHeight = dense ? 56 : 76;
 
-  const getLengthByStatus = (inquireQuoStatus) =>
-    tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus).length;
+  // const getLengthByStatus = (inquireQuoStatus) =>
+  //   tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus).length;
 
-  const getTotalPriceByStatus = (inquireQuoStatus) =>
-    sumBy(
-      tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus),
-      'amount'
-    );
+  // const getTotalPriceByStatus = (inquireQuoStatus) =>
+  //   sumBy(
+  //     tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus),
+  //     'amount'
+  //   );
 
-  const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
+  // const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
-    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
-    { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
+    { value: 'all', label: 'All', color: 'info', count: ccc.active+ccc.banned},
+    { value: 'active', label: 'Active', color: 'success', count: ccc.active },
+    { value: 'banned', label: 'Banned', color: 'error', count: ccc.banned },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -215,49 +229,148 @@ export default function InquireQuotation() {
     setIdentifier('');
   };
 
-  const [Status, setStatus] = React.useState(-1);
+  const [Status, setStatus] = React.useState("all");
 
   useEffect(() => {
-    const payload = {};
+
+    /* const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
     // // payload.status = Status;
-    payload.services = filterService;
+    payload.services =filterService;
     // console.log(filterService);
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
+    payload.tab = Status;
     console.log('payload', payload);
-    console.log('payload', payload);
-    dispatch(getAllQuotations(payload));
-  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
+    dispatch(getAllUsers(payload)); */
+
+    dispatch(getAllRoles());
+    dispatch(getAllDesignations())
+    dispatch(getAllDepartments())
+    dispatch(getAllShifts())
+
+  }, [dispatch]);
+
+  // filter name
+  useEffect(()=>{
+    const payload = {};
+    if((filterName.length > 2 && keyCode !== "Space" && keyCode !== "Backspace") || (filterName === "")){
+
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services =filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    payload.tab = Status;
+    
+    
+    dispatch(getAllUsers(payload));
+    }
+  },[dispatch,filterName])
+
+  // filter service
+  useEffect(()=>{
+      const payload = {};
+     
+      payload.page = page;
+      payload.rowcount = rowsPerPage;
+      // // payload.status = Status;
+      payload.services =filterService;
+      // console.log(filterService);
+      payload.search = filterName;
+      payload.startDate = filterStartDate;
+      payload.endDate = filterEndDate;
+      payload.tab = Status;
+      
+      
+      dispatch(getAllUsers(payload));
+      
+  },[dispatch,filterService])
+
+   // filter status
+   useEffect(()=>{
+    const payload = {};
+   
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services =filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    payload.tab = Status;
+    
+    
+    dispatch(getAllUsers(payload));
+    
+},[dispatch,Status])
+
+   // filter page
+   useEffect(()=>{
+    const payload = {};
+   
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services =filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    payload.tab = Status;
+    
+    
+    dispatch(getAllUsers(payload));
+    
+},[dispatch,page])
+
+// filter rowsPerPage
+useEffect(()=>{
+  const payload = {};
+ 
+  payload.page = page;
+  payload.rowcount = rowsPerPage;
+  // // payload.status = Status;
+  payload.services =filterService;
+  // console.log(filterService);
+  payload.search = filterName;
+  payload.startDate = filterStartDate;
+  payload.endDate = filterEndDate;
+  payload.tab = Status;
+  
+  
+  dispatch(getAllUsers(payload));
+  
+},[dispatch,rowsPerPage])
+
+  
 
   /* console.log(appointmentsArr) */
 
   const handleTabClick = (type) => {
-    resetPage();
-    let status = 0;
-    switch (type) {
-      case 'all':
-        status = -1;
-        break;
-      case 'pending':
-        status = 0;
-        break;
-      case 'approved':
-        status = 1;
-        break;
-      case 'cancelled':
-        status = 2;
-        break;
-      case 'done':
-        status = 3;
-        break;
-      default:
-        status = -1;
-        break;
-    }
-    setStatus(status);
+    // resetPage();
+    // let status = 0;
+    // switch (type) {
+    //   case 'all':
+    //     setStatus(type);
+    //     break;
+    //   case 'active':
+    //     setStatus(type);
+    //     break;
+    //   case 'banned':
+    //     setStatus(type);
+    //     break;
+    //   default:
+    //     setStatus(type);
+    //     break;
+    // }
+  setStatus(type);
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -266,24 +379,28 @@ export default function InquireQuotation() {
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
-    dispatch(getAllQuotations(payload));
+    dispatch(getAllUsers(payload));
+    // dispatch(getAllRoles());
   };
 
+ 
+
   // Skeleton
-  const [quotationsData, setQuotationsData] = useState({});
+  const [ordersData, setOrdersData] = useState({});
   const [showSkel, setshowSkel] = useState(false);
   useEffect(() => {
     setshowSkel(false);
-    if (Object.keys(quotationsData).length) {
-      if (Object.keys(quotationsData.allIds).length) {
+    if (Object.keys(ordersData).length) {
+      if (Object.keys(ordersData.allIds).length) {
         setshowSkel(true);
       }
     }
-  }, [quotationsData]);
+  }, [ordersData]);
 
   useEffect(() => {
-    setQuotationsData(quotations);
-  }, [quotations]);
+    setOrdersData(users);
+  }, [users]);
+
 
   const [showSkelDatatable, setshowSkelDatatable] = useState(false);
   useEffect(() => {
@@ -293,27 +410,23 @@ export default function InquireQuotation() {
   console.log(totalData);
 
   return (
-    <Page title="Batiboot: Inquire/Quotation">
+    <Page title="Batiboot: User List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Inquire and Quotation"
+            heading="User List"
           links={[
             { name: 'Dashboard', href: PATH_BATIBOOT.root },
-            { name: 'Inquire & Quotation', href: PATH_BATIBOOT.inquire.root },
+            { name: 'User', href: PATH_BATIBOOT.user.list },
             { name: 'List' },
           ]}
           action={
-            <Button
-              variant="contained"
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-              /*   component={RouterLink}
-              to={PATH_BATIBOOT.inquire.create} */
-              onClick={handleOpenModal}
-            >
-              Inquire
+            <Button variant="contained" onClick={handleOpenModal} startIcon={<Iconify icon={'eva:plus-fill'} />}>
+              Add User
             </Button>
           }
         />
+
+   
 
         <Box>
           {/* UserRolesCreate Modal */}
@@ -323,69 +436,70 @@ export default function InquireQuotation() {
             edit={isEdit}
             identifier={identifier}
             pathname={pathname}
-            nameLink={'Inquiry Quotation'}
+            nameLink={'User'}
           />
-          {
-            /* <InquireAndQuotationCreateModal
-            open={openModal}
-            onClose={handleCloseModal}
-            edit={isEdit}
-             identifier={identifier}
+            {
+            /*  <OrderCreateModal 
+           open={openModal}
+           onClose={handleCloseModal} 
+           edit={isEdit}
+           identifier={identifier}
           />
           */
-            <InquiryAndQuotationViewModal
-              open={openViewModal}
-              onClose={handleCloseModal}
-              identifier={identifier}
-              data={modalViewData}
-            />
+            // <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} data={modalViewData} />
           }
         </Box>
 
-        <Card sx={{ mb: 5 }}>
+
+   <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack
               direction="row"
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-              <InquireQuoListAnalytics
-                title="Total"
-                total={tableData.length}
-                percent={100}
-                price={sumBy(tableData, 'amount')}
-                icon="ic:round-receipt"
-                color={theme.palette.info.main}
-              />
-              <InquireQuoListAnalytics
-                title="Approved"
-                total={getLengthByStatus('approved')}
-                percent={getPercentByStatus('approved')}
-                price={getTotalPriceByStatus('approved')}
-                icon="eva:checkmark-circle-2-fill"
-                color={theme.palette.success.main}
-              />
-              <InquireQuoListAnalytics
-                title="Received"
-                total={getLengthByStatus('received')}
-                percent={getPercentByStatus('received')}
-                price={getTotalPriceByStatus('received')}
-                icon="eva:clock-fill"
-                color={theme.palette.warning.main}
-              />
-              <InquireQuoListAnalytics
-                title="Draft"
-                total={getLengthByStatus('draft')}
-                percent={getPercentByStatus('draft')}
-                price={getTotalPriceByStatus('draft')}
-                icon="eva:file-fill"
-                color={theme.palette.text.secondary}
-              />
+              {showSkel ? (
+                <UserListAnalytics
+                  title="Total"
+                  total={totalData}
+                  percent={100}
+                  icon="ic:round-receipt"
+                  color={theme.palette.info.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
+
+              {showSkel ? (
+                <UserListAnalytics
+                  title="Active"
+                  total={ccc.active}
+                  percent={(ccc.active * 100) / (ccc.active+ccc.banned)}
+                  icon="eva:checkmark-circle-2-fill"
+                  color={theme.palette.success.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
+
+              {showSkel ? (
+                <UserListAnalytics
+                  title="Banned"
+                  total={ccc.banned}
+                  percent={(ccc.banned * 100) / (ccc.active+ccc.banned)}
+                  icon="eva:bell-fill"
+                  color={theme.palette.error.main}
+                />
+              ) : (
+                <Skeleton animation="wave" sx={{ width: '260px', height: '60px', mx: 10 }} />
+              )}
             </Stack>
           </Scrollbar>
         </Card>
 
+
         <Card>
+          
           {showSkel ? (
             <Tabs
               allowScrollButtonsMobile
@@ -406,6 +520,7 @@ export default function InquireQuotation() {
                 />
               ))}
             </Tabs>
+
           ) : (
             <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
               <Box sx={{ display: 'flex' }}>
@@ -428,16 +543,13 @@ export default function InquireQuotation() {
                 <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
               </Box>
 
-              <Box sx={{ display: 'flex' }}>
-                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
-                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
-              </Box>
+             
             </Stack>
           )}
 
           <Divider />
 
-          <InquireQuoTableToolbar
+          <UserTableToolbar
             filterName={filterName}
             filterService={filterService}
             filterStartDate={filterStartDate}
@@ -451,6 +563,8 @@ export default function InquireQuotation() {
               setFilterEndDate(newValue);
             }}
             optionsService={SERVICE_OPTIONS}
+            keyCode={keyCode}
+            onKeyCode={handleKeyCode}
           />
 
           <Scrollbar>
@@ -497,6 +611,9 @@ export default function InquireQuotation() {
               )}
 
               <Table size={dense ? 'small' : 'medium'}>
+              
+              
+
                 {/* <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <InquireQuoTableRow
@@ -515,10 +632,10 @@ export default function InquireQuotation() {
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 
-                <TableHeadCustom
+              <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
+                  headLabel={ TABLE_HEAD }
                   rowCount={tableData.length}
                   numSelected={selected.length}
                   onSort={onSort}
@@ -532,21 +649,22 @@ export default function InquireQuotation() {
 
                 <TableBody>
                   {showSkel && showSkelDatatable
-                    ? quotationsArr.map((items) => (
-                        <InquireQuoTableRow
+                    ? usersArr.map((items) => (
+                        <UserTableRow
                           // isDesktop={isDesktop}
                           showSkeleton={showSkel}
                           key={items.id}
-                          row={quotations.byId[items.id]}
+                          row={users.byId[items.id]}
                           selected={selected.includes(items.id)}
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
+                          onEditRow={() => handleEditRow(users.byId[items.id].fname)}
                           onViewRow={() => handleViewRow(items)}
-                          onEditRow={() => handleEditRow(quotations.byId[items.id].fname)}
+                          // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
+                    : [...Array(rowsPerPage)].map((i,k) => <QuotationSkeleton key={k}/>)}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 
@@ -558,7 +676,7 @@ export default function InquireQuotation() {
 
           <Box sx={{ position: 'relative' }}>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[1, 10, 25]}
               component="div"
               count={totalData}
               // count={quotationsArr?.length+1}

@@ -6,7 +6,7 @@ import Image from '../../../../components/Image';
 import LightboxModal from '../../../../components/LightboxModal';
 import './gallery.css';
 
-export default function OrderGallery(props) {
+export default function InquireQuotationGallery(props) {
   const { loading = false, data } = props;
 
   // const [open, setOpen] = React.useState(false);

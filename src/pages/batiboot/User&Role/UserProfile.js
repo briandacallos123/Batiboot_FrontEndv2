@@ -4,17 +4,17 @@ import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Tab, Box, Card, Tabs, Container } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
-import useAuth from '../../hooks/useAuth';
-import useTabs from '../../hooks/useTabs';
-import useSettings from '../../hooks/useSettings';
+import useAuth from '../../../hooks/useAuth';
+import useTabs from '../../../hooks/useTabs';
+import useSettings from '../../../hooks/useSettings';
 // _mock_
-import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from '../../_mock';
+import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from '../../../_mock';
 // components
-import Page from '../../components/Page';
-import Iconify from '../../components/Iconify';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import Page from '../../../components/Page';
+import Iconify from '../../../components/Iconify';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 // sections
 import {
   Profile,
@@ -22,7 +22,7 @@ import {
   ProfileFriends,
   ProfileGallery,
   ProfileFollowers,
-} from '../../sections/@dashboard/user/profile';
+} from '../../../sections/@dashboard/user/profile';
 
 // ----------------------------------------------------------------------
 

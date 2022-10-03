@@ -11,6 +11,17 @@ import kanbanReducer from './slices/kanban';
 import adminQuotationsReducer from './slices/adminQuotation';
 import adminOrderReducer from './slices/adminOrder';
 
+import getRoleReducer from './slices/getRole';
+import getDepartmentReducer from './slices/getDepartment';
+import getDesignationReducer from './slices/getDesignation';
+import getShiftReducer from './slices/getShift';
+import adminUserReducer from './slices/adminUser';
+import adminUserDepartmentReducer from './slices/adminUserDepartment';
+import adminUserDesignationReducer from './slices/adminUserDesignation';
+import adminUserRoleReducer from './slices/adminUserRole';
+
+import userQuotationReducer from './slices/userQuotation';
+
 // ----------------------------------------------------------------------
 
 const rootPersistConfig = {
@@ -34,9 +45,20 @@ const rootReducer = combineReducers({
   kanban: kanbanReducer,
   product: persistReducer(productPersistConfig, productReducer),
   
-  // admin
+  // Admin
   adminQuotation: adminQuotationsReducer,
   adminOrder: adminOrderReducer,
+
+  // User Mangement
+  getRole: getRoleReducer,
+  getDepartment: getDepartmentReducer,
+  getDesignation: getDesignationReducer,
+  getShift: getShiftReducer,
+  adminUser: adminUserReducer,
+  adminUserDepartment: adminUserDepartmentReducer,
+  adminUserDesignation: adminUserDesignationReducer,
+  adminUserRole: adminUserRoleReducer,
+  userQuotation: userQuotationReducer,
 });
 
 export { rootPersistConfig, rootReducer };

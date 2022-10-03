@@ -50,50 +50,99 @@ export default function GeneralDashboard() {
     <Page title="Batiboot: Dashboard">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
-          {/* <Grid item xs={12} md={4}>
-            <EcommerceWidgetSummary
-              title="Total Orders"
-              percent={2.6}
-              total={149}
-              chartColor={theme.palette.primary.main}
-              chartData={[22, 8, 35, 50, 82, 84, 77, 12, 87, 43]}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <EcommerceWidgetSummary
-              title="Deliveries"
-              percent={0.6}
-              total={76}
-              chartColor={theme.palette.chart.red[0]}
-              chartData={[40, 70, 75, 70, 50, 28, 7, 64, 38, 27]}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <EcommerceWidgetSummary
-              title="Confirmed Orders"
-              percent={-0.1}
-              total={73}
-              chartColor={theme.palette.chart.green[0]}
-              chartData={[56, 47, 40, 62, 73, 30, 23, 54, 67, 68]}
-            />
-          </Grid> */}
+          {/* <Grid item
+                        xs={12}
+                        md={4}>
+                        <EcommerceWidgetSummary title="Total Orders"
+                            percent={2.6}
+                            total={149}
+                            chartColor={
+                                theme.palette.primary.main
+                            }
+                            chartData={
+                                [
+                                    22,
+                                    8,
+                                    35,
+                                    50,
+                                    82,
+                                    84,
+                                    77,
+                                    12,
+                                    87,
+                                    43
+                                ]
+                            }/>
+                    </Grid>
+
+                    <Grid item
+                        xs={12}
+                        md={4}>
+                        <EcommerceWidgetSummary title="Deliveries"
+                            percent={0.6}
+                            total={76}
+                            chartColor={
+                                theme.palette.chart.red[0]
+                            }
+                            chartData={
+                                [
+                                    40,
+                                    70,
+                                    75,
+                                    70,
+                                    50,
+                                    28,
+                                    7,
+                                    64,
+                                    38,
+                                    27
+                                ]
+                            }/>
+                    </Grid>
+
+                    <Grid item
+                        xs={12}
+                        md={4}>
+                        <EcommerceWidgetSummary title="Confirmed Orders"
+                            percent={-0.1}
+                            total={73}
+                            chartColor={
+                                theme.palette.chart.green[0]
+                            }
+                            chartData={
+                                [
+                                    56,
+                                    47,
+                                    40,
+                                    62,
+                                    73,
+                                    30,
+                                    23,
+                                    54,
+                                    67,
+                                    68
+                                ]
+                            }/>
+                    </Grid> */}
 
           <Grid item xs={6} sm={4} md={2}>
             <AnalyticsWidgetSummary
               title="Product Sourcing"
               total={714000}
-              color="info"
-              icon={'ant-design:dropbox-outlined'}
+              color="primary"
+              icon={'fluent:box-16-filled'}
             />
           </Grid>
+
           <Grid item xs={6} sm={4} md={2}>
             <AnalyticsWidgetSummary
               title="Importing"
               total={1352831}
-              color="warning"
-              icon={'ant-design:down-square-filled'}
+              color="secondary"
+              icon={'mingcute:ship-fill'}
             />
           </Grid>
+
           <Grid item xs={6} sm={4} md={2}>
             <AnalyticsWidgetSummary
               title="Product Rebranding"
@@ -102,19 +151,22 @@ export default function GeneralDashboard() {
               icon={'ant-design:skin-filled'}
             />
           </Grid>
+
           <Grid item xs={6} sm={4} md={2}>
             <AnalyticsWidgetSummary
               title="Private Label"
-              total={72400}
+              total={26700}
               color="success"
-              icon={'ant-design:tags-filled'}
+              icon={'bi:tag-fill'}
             />
           </Grid>
+
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Warehousing" total={234} color="secondary" icon={'ant-design:home-filled'} />
+            <AnalyticsWidgetSummary title="Warehousing" total={783} color="warning" icon={'fa-solid:warehouse'} />
           </Grid>
+
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Fulfillment" total={18003} color="primary" icon={'ant-design:gift-filled'} />
+            <AnalyticsWidgetSummary title="Fulfillment" total={2575} color="info" icon={'ant-design:gift-filled'} />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={4}>
@@ -268,4 +320,5 @@ export default function GeneralDashboard() {
       </Container>
     </Page>
   );
+  // <<<<<<< Updated upstream
 }

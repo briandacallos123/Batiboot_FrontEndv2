@@ -1,41 +1,69 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Stack, InputAdornment, TextField, MenuItem } from '@mui/material';
+import DatePicker from '@mui/lab/DatePicker';
 // components
 import Iconify from '../../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
+const INPUT_WIDTH = 160;
+
 UserTableToolbar.propTypes = {
   filterName: PropTypes.string,
-  filterRole: PropTypes.string,
+  filterService: PropTypes.string,
+  filterEndDate: PropTypes.instanceOf(Date),
+  filterStartDate: PropTypes.instanceOf(Date),
   onFilterName: PropTypes.func,
-  onFilterRole: PropTypes.func,
-  optionsRole: PropTypes.arrayOf(PropTypes.string),
+  onFilterEndDate: PropTypes.func,
+  onFilterService: PropTypes.func,
+  onFilterStartDate: PropTypes.func,
+  optionsService: PropTypes.arrayOf(PropTypes.string),
+  keyCode: PropTypes.string,
+  onKeyCode: PropTypes.func,
 };
 
-export default function UserTableToolbar({ filterName, filterRole, onFilterName, onFilterRole, optionsRole }) {
+export default function UserTableToolbar({
+  optionsService,
+  filterStartDate,
+  filterEndDate,
+  filterName,
+  filterService,
+  onFilterName,
+  onFilterService,
+  onFilterStartDate,
+  onFilterEndDate,
+  keyCode,
+  onKeyCode,
+})
+
+
+
+{
+
+
   return (
-    <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ py: 2.5, px: 3 }}>
+    <Stack spacing={2} direction={{ xs: 'column', md: 'row' }} sx={{ py: 2.5, px: 3 }}>
       <TextField
         fullWidth
         select
-        label="Role"
-        value={filterRole}
-        onChange={onFilterRole}
+        label="Role Type"
+        value={filterService}
+        onChange={onFilterService}
         SelectProps={{
           MenuProps: {
             sx: { '& .MuiPaper-root': { maxHeight: 260 } },
           },
         }}
         sx={{
-          maxWidth: { sm: 240 },
+          maxWidth: { md: INPUT_WIDTH },
           textTransform: 'capitalize',
         }}
       >
-        {optionsRole.map((option) => (
+        {optionsService.map((option) => (
           <MenuItem
             key={option}
-            value={option}
+            value={option.id}
             sx={{
               mx: 1,
               my: 0.5,
@@ -44,16 +72,49 @@ export default function UserTableToolbar({ filterName, filterRole, onFilterName,
               textTransform: 'capitalize',
             }}
           >
-            {option}
+            {option.name}
           </MenuItem>
         ))}
       </TextField>
 
+      {/* <DatePicker
+        label="Start date"
+        value={filterStartDate}
+        onChange={onFilterStartDate}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            sx={{
+              maxWidth: { md: INPUT_WIDTH },
+            }}
+          />
+        )}
+      />
+
+      <DatePicker
+        label="End date"
+        value={filterEndDate}
+        onChange={onFilterEndDate}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            sx={{
+              maxWidth: { md: INPUT_WIDTH },
+            }}
+          />
+        )}
+      /> */}
+
       <TextField
         fullWidth
+        onKeyDown={(ev) => {
+          onKeyCode(ev.code);
+        }}
         value={filterName}
-        onChange={(event) => onFilterName(event.target.value)}
-        placeholder="Search user..."
+        onChange={(event) => onFilterName(event.target.value,keyCode)}
+        placeholder="Search User"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 // @mui
 import { Container, Button, Box } from '@mui/material';
 // routes
-import { PATH_BATIBOOT } from '../../routes/paths';
+import { PATH_BATIBOOT } from '../../../routes/paths';
 // hooks
-import useSettings from '../../hooks/useSettings';
+import useSettings from '../../../hooks/useSettings';
 // _mock_
-import { _userList } from '../../_mock';
+import { _userList } from '../../../_mock';
 // components
-import { DialogAnimate } from '../../components/animate';
-import Iconify from '../../components/Iconify';
+import { DialogAnimate } from '../../../components/animate';
+import Iconify from '../../../components/Iconify';
 
-import Page from '../../components/Page';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import ProductNewEditForm from '../../sections/@batiboot/inquirequotation/InquireQuotationModal';
+import Page from '../../../components/Page';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
+import ProductNewEditForm from '../../../sections/@batiboot/inquirequotation/InquireQuotationModal';
 // sections
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 

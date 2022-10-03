@@ -22,28 +22,28 @@ import {
   FormControlLabel,
 } from '@mui/material';
 // routes
-import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
-import useTabs from '../../hooks/useTabs';
-import useSettings from '../../hooks/useSettings';
-import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
+import useTabs from '../../../hooks/useTabs';
+import useSettings from '../../../hooks/useSettings';
+import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
 // _mock_
-import { _invoices } from '../../_mock';
-import _tracking from '../../_mock/batiboot/shipment.json';
+import { _invoices } from '../../../_mock';
+import _tracking from '../../../_mock/batiboot/shipment.json';
 // components
-import Page from '../../components/Page';
-import Label from '../../components/Label';
-import Iconify from '../../components/Iconify';
-import Scrollbar from '../../components/Scrollbar';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../components/table';
+import Page from '../../../components/Page';
+import Label from '../../../components/Label';
+import Iconify from '../../../components/Iconify';
+import Scrollbar from '../../../components/Scrollbar';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
+import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../../components/table';
 // sections
 // import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
-import { TrackingTableRow, TrackingTableToolbar } from '../../sections/@batiboot/orders/shipment/list';
-import TrackingListAnalytics from '../../sections/@batiboot/orders/shipment/ShipmentListAnalytics';
+import { TrackingTableRow, TrackingTableToolbar } from '../../../sections/@batiboot/orders/shipment/list';
+import TrackingListAnalytics from '../../../sections/@batiboot/orders/shipment/ShipmentListAnalytics';
 import ShipmentCreateModal from './ShipmentTrackingCreate';
 import ShipmentListViewModal from './ShipmentTrackingView';
-import UserModal from '../../sections/@batiboot/modal/UserModal';
+import UserModal from '../../../sections/@batiboot/modal/UserModal';
 // import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@batiboot/invoice/list';
 
 // ----------------------------------------------------------------------
@@ -228,11 +228,11 @@ export default function ShipmentTracking() {
             pathname={pathname}
             nameLink={'Tracking'}
           />
-          {/*  <ShipmentListViewModal 
+           <ShipmentListViewModal 
             open={openViewModal}
             onClose={handleCloseModal}
             identifier={identifier}
-          /> */}
+          />
         </Box>
 
         <Card sx={{ mb: 5 }}>

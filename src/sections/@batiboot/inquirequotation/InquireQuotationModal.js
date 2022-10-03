@@ -32,17 +32,26 @@ const GENDER_OPTION = [
   { label: 'Kids', value: 'Kids' },
 ];
 
-const CATEGORY_OPTION = [
-  { group: 'Category 1', 
-      classify: ['Home & Garden', 'Gift & Crafts', 'Beauty & Personal Use', 'Electrical Equipment', 
-      'Fashion Accessories', 'Home Appliance', 'Luggage, Bags & Cases', 'Power Transmission', 'Tools & Hardware', 'Sports Entertainment'] 
-  },
-  { group: 'Category 2', classify: ['Apparel', 'Packaging & Printing', 'Liquid & Chemicals', 'Fabric & Textile',
-    'Food & Beverages', 'Textiles', 'Machinery', 'Renewable Energy', 'School & Office Supplies', 'Toys & Hobbies'
-  ]},
-  { group: 'Category 3', classify: ['Furniture', 'Plants & Agriculture', 'Consumer Electronics, Safety & Security', 'Fabrication',
-    'Health & Medical', 'Lights & Lightning', 'Vehicle Parts & Accessories', 'Rubber & Plastics', 'Shoes & Accessories', 'Jewelries'
-  ]},
+// const CATEGORY_OPTION = [
+//   { group: 'Category 1',
+//       classify: ['Home & Garden', 'Gift & Crafts', 'Beauty & Personal Use', 'Electrical Equipment',
+//       'Fashion Accessories', 'Home Appliance', 'Luggage, Bags & Cases', 'Power Transmission', 'Tools & Hardware', 'Sports Entertainment']
+//   },
+//   { group: 'Category 2', classify: ['Apparel', 'Packaging & Printing', 'Liquid & Chemicals', 'Fabric & Textile',
+//     'Food & Beverages', 'Textiles', 'Machinery', 'Renewable Energy', 'School & Office Supplies', 'Toys & Hobbies'
+//   ]},
+//   { group: 'Category 3', classify: ['Furniture', 'Plants & Agriculture', 'Consumer Electronics, Safety & Security', 'Fabrication',
+//     'Health & Medical', 'Lights & Lightning', 'Vehicle Parts & Accessories', 'Rubber & Plastics', 'Shoes & Accessories', 'Jewelries'
+//   ]},
+// ];
+
+const SERVICE_OPTION = [
+  'Product Sourcing',
+  'Importing',
+  'Private Label',
+  'Warehousing',
+  'Fulfillment',
+  'Product Rebranding',
 ];
 
 const TAGS_OPTION = [
@@ -82,7 +91,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   const { enqueueSnackbar } = useSnackbar();
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
-  const [rawFile,setrawFiles] = useState(null);
+  const [rawFile, setrawFiles] = useState(null);
   const handleSaveAsDraft = async () => {
     setLoadingSave(true);
 
@@ -91,8 +100,8 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       reset();
       setLoadingSave(true);
       handleCloseModal();
-    //  navigate(PATH_BATIBOOT.invoice.list);
-   //   console.log(JSON.stringify(newInvoice, null, 2));
+      //  navigate(PATH_BATIBOOT.invoice.list);
+      //   console.log(JSON.stringify(newInvoice, null, 2));
     } catch (error) {
       console.error(error);
     }
@@ -102,7 +111,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
     /* console.log("woooooooo", getValues("images"),user.email,user.id); */
     setLoadingSend(true);
     try {
-     /*  email : user?.email || '' ,
+      /*  email : user?.email || '' ,
       id: user?.id || '',
       name: currentProduct?.name || '',
       description: currentProduct?.description || '',
@@ -116,9 +125,9 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       taxes: true,
       gender: currentProduct?.gender || GENDER_OPTION[2].value,
       category: currentProduct?.category || CATEGORY_OPTION[0].classify[1], */
-     /*  data.quotationfiles = rawFile;
+      /*  data.quotationfiles = rawFile;
       console.log(data); */
-      
+
       const form = new FormData();
       form.append('email', user?.email);
       form.append('id', user?.id);
@@ -133,17 +142,15 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       form.append('taxes', data.taxes);
       form.append('quantity', data.quantity);
       form.append('services', data.services);
-      rawFile.map((file) => (
-        form.append('images[]', file)
-      ))  
-   
+      rawFile.map((file) => form.append('images[]', file));
 
-      await createQuotation(form); 
+
+      await createQuotation(form);
       // await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       handleCloseModal();
       setLoadingSend(false);
-   /*    navigate(PATH_BATIBOOT.invoice.list);
+      /*    navigate(PATH_BATIBOOT.invoice.list);
       console.log(JSON.stringify(newInvoice, null, 2)); */
     } catch (error) {
       console.error(error);
@@ -158,7 +165,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
 
   const defaultValues = useMemo(
     () => ({
-      email : user?.email || '' ,
+      email: user?.email || '',
       id: user?.id || '',
       name: currentProduct?.name || '',
       description: currentProduct?.description || '',
@@ -171,10 +178,9 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       inStock: true,
       taxes: true,
       gender: currentProduct?.gender || GENDER_OPTION[2].value,
-      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1],
+      category: currentProduct?.category || SERVICE_OPTION[0],
       quantity: currentProduct?.quantity || 0,
-      services: currentProduct?.services || "Product Sourcing",
-      
+      services: currentProduct?.services || 'Product Sourcing',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
@@ -196,7 +202,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   } = methods;
 
   const values = watch();
-console.log(getValues());
+  console.log(getValues());
   useEffect(() => {
     if (isEdit && currentProduct) {
       reset(defaultValues);
@@ -243,14 +249,13 @@ console.log(getValues());
     const filteredItems = values.images?.filter((_file) => _file !== file);
     setValue('images', filteredItems);
   };
-// console.log("default",defaultValues);
+  // console.log("default",defaultValues);
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3} sx={{ pb: 10}}>
+      <Grid container spacing={3} sx={{ pb: 10 }}>
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
-
               <RHFTextField name="name" label="Product Name" />
 
               <div>
@@ -278,16 +283,13 @@ console.log(getValues());
         <Grid item xs={12} md={4}>
           <Stack spacing={3}>
             <Card sx={{ p: 3 }}>
-              <RHFSwitch name="inStock" label="In stock" />
-
               <Stack spacing={3} mt={2}>
                 <RHFTextField name="quantity" label="Quantities" />
 
-                <RHFTextField name="code" label="Product Code" />
-              {/* 
+                {/* 
                 <RHFTextField name="sku" label="Product SKU" /> */}
 
-              {/*   <div>
+                {/*   <div>
                   <LabelStyle>Gender</LabelStyle>
                   <RHFRadioGroup
                     name="gender"
@@ -298,37 +300,13 @@ console.log(getValues());
                   />
                 </div> */}
 
-                <RHFSelect name="category" label="Category">
-                  {CATEGORY_OPTION.map((category) => (
-                    <optgroup key={category.group} label={category.group}>
-                      {category.classify.map((classify) => (
-                        <option key={classify} value={classify}>
-                          {classify}
-                        </option>
-                      ))}
-                    </optgroup>
+                <RHFSelect name="category" label="Services">
+                  {SERVICE_OPTION.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
                   ))}
                 </RHFSelect>
-
-                <Controller
-                  name="tags"
-                  control={control}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      multiple
-                      freeSolo
-                      onChange={(event, newValue) => field.onChange(newValue)}
-                      options={TAGS_OPTION.map((option) => option)}
-                      renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                          <Chip {...getTagProps({ index })} key={option} size="small" label={option} />
-                        ))
-                      }
-                      renderInput={(params) => <TextField label="Tags" {...params} />}
-                    />
-                  )}
-                />
               </Stack>
             </Card>
 
@@ -346,7 +324,7 @@ console.log(getValues());
                     type: 'number',
                   }}
                 />
-{/* 
+                {/* 
                 <RHFTextField
                   name="priceSale"
                   label="Sale Price"
@@ -360,37 +338,32 @@ console.log(getValues());
                   }}
                 /> */}
               </Stack>
-
-              <RHFSwitch name="taxes" label="Price includes taxes" />
             </Card>
-
-            
           </Stack>
           <LoadingButton
-          color="inherit"
-          size="small"
-          variant="contained"
-          loading={loadingSave && isSubmitting}
-          onClick={handleSubmit(handleSaveAsDraft)}
-          type='submit'
-          sx={{display:'none'}}
-          ref={formRef}
-        />
+            color="inherit"
+            size="small"
+            variant="contained"
+            loading={loadingSave && isSubmitting}
+            onClick={handleSubmit(handleSaveAsDraft)}
+            type="submit"
+            sx={{ display: 'none' }}
+            ref={formRef}
+          />
 
-        <LoadingButton
-          size="small"
-          variant="contained"
-          loading={loadingSend && isSubmitting}
-          onClick={handleSubmit(handleCreateAndSend)}
-          type='submit'
-          sx={{display:'none'}}
-          ref={formRef}
-        />
-          
+          <LoadingButton
+            size="small"
+            variant="contained"
+            loading={loadingSend && isSubmitting}
+            onClick={handleSubmit(handleCreateAndSend)}
+            type="submit"
+            sx={{ display: 'none' }}
+            ref={formRef}
+          />
         </Grid>
-       {/*  <Grid md={12} sx={{ py: 2 ,mt: 4 }}> */}
-            
-    {/*     </Grid> */}
+        {/*  <Grid md={12} sx={{ py: 2 ,mt: 4 }}> */}
+
+        {/*     </Grid> */}
       </Grid>
     </FormProvider>
   );

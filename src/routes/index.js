@@ -273,8 +273,8 @@ export default function Router() {
           path: 'inquire',
           children: [
             { element: <Navigate to="/batiboot/inquire/list" replace />, index: true },
-            { path: 'list', element: <InquireQuotation /> },
-            { path: 'create', element: <InquireQuotation /> }, 
+            { path: 'list', element: <InquireQuotationUser /> },
+            { path: 'create', element: <InquireQuotationUser  /> }, 
           ]
         },
         {
@@ -401,7 +401,7 @@ export default function Router() {
         { path: 'about-us', element: <About /> },
         { path: 'contact-us', element: <Contact /> },
         { path: 'services', element: < Services/>},
-        { path: 'quotation', element: <Quotation/>},
+        { path: 'freight-calculator', element: <FreightCalulator /> },
         { path: 'home2', element: <Home2/> },
         { path: 'faqs', element: <Faqs /> },
       ],
@@ -413,8 +413,8 @@ export default function Router() {
 
 // USER 
 
-const UserAccount = Loadable(lazy(() => import('../pages/batiboot/UserAccount')));
-const UserProfile = Loadable(lazy(() => import('../pages/batiboot/UserProfile')));
+const UserAccount = Loadable(lazy(() => import('../pages/batiboot/User&Role/UserAccount')));
+const UserProfile = Loadable(lazy(() => import('../pages/batiboot/User&Role/UserProfile')));
 
 // DASHBOARD
 const GeneralDashApp = Loadable(lazy(() => import('../pages/batiboot/GeneralDashboard')))
@@ -426,18 +426,20 @@ const InvoiceDetails = Loadable(lazy(() => import('../pages/batiboot/GeneralInvo
 const InvoiceCreate = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoiceCreate')))
 /* USER AND ROLES */
 
-const UserRoleList = Loadable(lazy(() => import('../pages/batiboot/Role')))
-const UserList = Loadable(lazy(() => import('../pages/batiboot/UserList')));
-const DepartmentList = Loadable(lazy(() => import('../pages/batiboot/UserDepartment')))
-const DesignationList = Loadable(lazy(() => import('../pages/batiboot/UserDesignation')))
+const UserRoleList = Loadable(lazy(() => import('../pages/batiboot/User&Role/UserRole')))
+const UserList = Loadable(lazy(() => import('../pages/batiboot/User&Role/UserList')));
+const DepartmentList = Loadable(lazy(() => import('../pages/batiboot/User&Role/UserDepartment')))
+const DesignationList = Loadable(lazy(() => import('../pages/batiboot/User&Role/UserDesignation')))
 
 /* ORDER LIST */
 
 const OrderList = Loadable(lazy(() => import('../pages/batiboot/Order/OrderList')))
-const Tracking = Loadable(lazy(() => import('../pages/batiboot/ShipmentTracking')))
+const Tracking = Loadable(lazy(() => import('../pages/batiboot/Tracking/ShipmentTracking')))
 
 /* Inquire Quotation */
+
 const InquireQuotation = Loadable(lazy(() => import('../pages/batiboot/Quotation/InquiryAndQuotation')))
+const InquireQuotationUser = Loadable(lazy(() => import('../pages/batiboot/Quotation/InquiryAndQuotationUser')))
 
 /* HELP FAQs */
 const HelpAssistance = Loadable(lazy(() => import('../pages/batiboot/HelpAssistance')))
@@ -509,7 +511,7 @@ const Services = Loadable(lazy(() => import('../pages/Services')))
 const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
 const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
 const Home2 = Loadable(lazy(() => import('../pages/Home2')));
-const Quotation = Loadable(lazy(() => import('../pages/Quotation')));
+const FreightCalulator = Loadable(lazy(() => import('../pages/FreightCalculator')));
 const Pricing = Loadable(lazy(() => import('../pages/Pricing')));
 const Payment = Loadable(lazy(() => import('../pages/Payment')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));

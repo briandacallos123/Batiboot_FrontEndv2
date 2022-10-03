@@ -2,16 +2,16 @@ import { capitalCase } from 'change-case';
 // @mui
 import { Container, Tab, Box, Tabs } from '@mui/material';
 // routes
-import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
-import useTabs from '../../hooks/useTabs';
-import useSettings from '../../hooks/useSettings';
+import useTabs from '../../../hooks/useTabs';
+import useSettings from '../../../hooks/useSettings';
 // _mock_
-import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from '../../_mock';
+import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from '../../../_mock';
 // components
-import Page from '../../components/Page';
-import Iconify from '../../components/Iconify';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import Page from '../../../components/Page';
+import Iconify from '../../../components/Iconify';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 // sections
 import {
   AccountGeneral,
@@ -19,7 +19,7 @@ import {
   AccountSocialLinks,
   AccountNotifications,
   AccountChangePassword,
-} from '../../sections/@batiboot/user/account';
+} from '../../../sections/@batiboot/user/account';
 
 // ----------------------------------------------------------------------
 

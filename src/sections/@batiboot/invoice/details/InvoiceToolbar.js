@@ -2,7 +2,18 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 // @mui
-import { Box, Stack, Button, Dialog, Tooltip, IconButton, DialogActions, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Button,
+  Dialog,
+  Tooltip,
+  IconButton,
+  DialogActions,
+  CircularProgress,
+  useTheme,
+  Grid,
+} from '@mui/material';
 // hooks
 import useToggle from '../../../../hooks/useToggle';
 // routes
@@ -20,6 +31,7 @@ InvoiceToolbar.propTypes = {
 
 export default function InvoiceToolbar({ invoice }) {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const { toggle: open, onOpen, onClose } = useToggle();
 
@@ -36,60 +48,114 @@ export default function InvoiceToolbar({ invoice }) {
         alignItems={{ sm: 'center' }}
         sx={{ mb: 5 }}
       >
-        <Stack direction="row" spacing={1}>
+        <Grid
+          container
+          spacing={4}
+          width={1}
+          sx={{ justifyContent: 'center', display: 'flex', flexWrap: 'wrap', p: 1, m: 1, columnGap: 3, rowGap: 1 }}
+        >
           <Tooltip title="Edit">
-            <IconButton onClick={handleEdit}>
-              <Iconify icon={'eva:edit-fill'} />
-            </IconButton>
+            {/* <IconButton onClick={handleEdit}>
+                <Iconify icon={'eva:edit-fill'} />
+              </IconButton> */}
+            <Button
+              color="inherit"
+              variant="outlined"
+              onClick={handleEdit}
+              startIcon={<Iconify icon={'eva:edit-fill'} />}
+              sx={{ alignSelf: 'center', width: 122 }}
+            >
+              Edit
+            </Button>
           </Tooltip>
 
           <Tooltip title="View">
-            <IconButton onClick={onOpen}>
-              <Iconify icon={'eva:eye-fill'} />
-            </IconButton>
+            {/* <IconButton onClick={onOpen}>
+                <Iconify icon={'eva:eye-fill'} />
+              </IconButton> */}
+            <Button
+              color="inherit"
+              variant="outlined"
+              onClick={onOpen}
+              startIcon={<Iconify icon={'eva:eye-fill'} />}
+              sx={{ alignSelf: 'center', width: 122 }}
+            >
+              View
+            </Button>
           </Tooltip>
 
           <PDFDownloadLink
             document={<InvoicePDF invoice={invoice} />}
             fileName={invoice.invoiceNumber}
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: 'none', color: theme.palette.mode === 'light' ? '#000' : '#fff' }}
           >
             {({ loading }) => (
               <Tooltip title="Download">
-                <IconButton>
-                  {loading ? <CircularProgress size={24} color="inherit" /> : <Iconify icon={'eva:download-fill'} />}
-                </IconButton>
+                {/* <IconButton>
+                    {loading ? <CircularProgress size={24} color="inherit" /> : <Iconify icon={'eva:download-fill'} />}
+                  </IconButton> */}
+                <Button
+                  color="inherit"
+                  variant="outlined"
+                  startIcon={<Iconify icon={'eva:download-fill'} />}
+                  sx={{ alignSelf: 'center', width: 122 }}
+                >
+                  Download
+                </Button>
               </Tooltip>
             )}
           </PDFDownloadLink>
 
           <Tooltip title="Print">
-            <IconButton>
-              <Iconify icon={'eva:printer-fill'} />
-            </IconButton>
+            {/* <IconButton>
+                <Iconify icon={'eva:printer-fill'} />
+              </IconButton> */}
+            <Button
+              color="inherit"
+              variant="outlined"
+              startIcon={<Iconify icon={'eva:printer-fill'} />}
+              sx={{ alignSelf: 'center', width: 122 }}
+            >
+              Print
+            </Button>
           </Tooltip>
 
           <Tooltip title="Send">
-            <IconButton>
-              <Iconify icon={'ic:round-send'} />
-            </IconButton>
+            {/* <IconButton>
+                <Iconify icon={'ic:round-send'} />
+              </IconButton> */}
+            <Button
+              color="inherit"
+              variant="outlined"
+              startIcon={<Iconify icon={'ic:round-send'} />}
+              sx={{ alignSelf: 'center', width: 122 }}
+            >
+              Send
+            </Button>
           </Tooltip>
 
           <Tooltip title="Share">
-            <IconButton>
-              <Iconify icon={'eva:share-fill'} />
-            </IconButton>
+            {/* <IconButton>
+                <Iconify icon={'eva:share-fill'} />
+              </IconButton> */}
+            <Button
+              color="inherit"
+              variant="outlined"
+              startIcon={<Iconify icon={'eva:share-fill'} />}
+              sx={{ alignSelf: 'center', width: 122 }}
+            >
+              Share
+            </Button>
           </Tooltip>
-        </Stack>
-
-        <Button
-          color="inherit"
-          variant="outlined"
-          startIcon={<Iconify icon={'eva:checkmark-fill'} />}
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Mark as Paid
-        </Button>
+        </Grid>
+        {/* <Button
+            color="inherit"
+            variant="outlined"
+            startIcon={<Iconify icon={'eva:checkmark-fill'} />}
+            sx={{ alignSelf: 'flex-start' }}
+          >
+            Mark as Paid
+          </Button> */}
       </Stack>
 
       <Dialog fullScreen open={open}>

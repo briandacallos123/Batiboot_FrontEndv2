@@ -3,7 +3,7 @@ import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 // @mui
-import { Container, Button, Grid, DialogTitle, Typography, DialogActions } from '@mui/material';
+import { Container, Button, Box, DialogTitle, Typography, DialogActions, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 // routes
@@ -11,7 +11,7 @@ import { PATH_BATIBOOT } from '../../../routes/paths';
 // hooks
 import useSettings from '../../../hooks/useSettings';
 // _mock_
-import { _userList  , _invoices} from '../../../_mock'; 
+import { _userList, _invoices } from '../../../_mock';
 // import { _invoices } from '../../../_mock/batiboot/invoice_mock/_invoice';
 // components
 import { DialogAnimate } from '../../../components/animate';
@@ -20,7 +20,7 @@ import Iconify from '../../../components/Iconify';
 import Page from '../../../components/Page';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import ProductNewEditForm from '../inquirequotation/InquireQuotationModal';
-import InvoiceCreate from '../invoice/new-edit-form'
+import InvoiceCreate from '../invoice/new-edit-form';
 import OrderListModalForm from '../orders/order/OrderModal';
 import UserRolesCreateForm from '../user/user&role/role/UserRoleModalForm';
 import UserCreateDesignationForm from '../user/user&role/designation/UserDesignationModalForm';
@@ -32,138 +32,165 @@ import TrackingModal from '../orders/shipment/shipment-components/TrackingModal'
 // ----------------------------------------------------------------------
 import './modalStyle.scss';
 
-
 export default function UserModal(props) {
-  const { open, selectedValue, onClose, edit, identifier, pathname, nameLink, pathLink } = props
+  const { open, selectedValue, onClose, edit, identifier, pathname, nameLink, pathLink } = props;
 
-  const { themeStretch } = useSettings()
+  const { themeStretch } = useSettings();
 
-  const { name = '' } = useParams()
+  const { name = '' } = useParams();
 
-  const isEdit = edit
+  const isEdit = edit;
 
-  const currentUser = _userList.find((user) => paramCase(user.name) === name)
+  const currentUser = _userList.find((user) => paramCase(user.name) === name);
 
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
   const theme = useTheme();
 
   const formRef = useRef(null);
-    const onSaveChanges = () =>{
-        if(formRef)
-        {
-            formRef.current.click();
-        }
+  const onSaveChanges = () => {
+    if (formRef) {
+      formRef.current.click();
     }
-    const onSaveAsDraft = () =>{
-      if(formRef)
-      {
-          formRef.current.click();
-      }
-  }
+  };
+  const onSaveAsDraft = () => {
+    if (formRef) {
+      formRef.current.click();
+    }
+  };
   // alert(nameLink)
   // alert(_invoices.find((invoice) => invoice.id === identifier))
 
-  const handleCloseModal = () => onClose(selectedValue)
+  const handleCloseModal = () => onClose(selectedValue);
   const Path = () => {
-    if(/* pathname === PATH_BATIBOOT.invoice.create */
-        nameLink === 'Invoice' && !isEdit
-      ){    
-    
-      return <InvoiceCreate 
-        isEdit={isEdit} 
-        currentUser={currentUser} 
-        handleCloseModal={handleCloseModal} 
-        currentInvoice={currentInvoice} 
-        formRef={formRef} 
-      />
+    if (/* pathname === PATH_BATIBOOT.invoice.create */ nameLink === 'Invoice' && !isEdit) {
+      return (
+        <InvoiceCreate
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          currentInvoice={currentInvoice}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'Invoice' && isEdit)
-        return <InvoiceCreate 
-        isEdit={isEdit} 
-        currentUser={currentUser} 
-        handleCloseModal={handleCloseModal} 
-        currentInvoice={currentInvoice} 
-        formRef={formRef} 
-    />
-    if(nameLink === 'Inquiry Quotation' && !isEdit){
-      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} 
-      handleCloseModal={handleCloseModal} 
-      />
+    if (nameLink === 'Invoice' && isEdit)
+      return (
+        <InvoiceCreate
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          currentInvoice={currentInvoice}
+          formRef={formRef}
+        />
+      );
+    if (nameLink === 'Inquiry Quotation' && !isEdit) {
+      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} handleCloseModal={handleCloseModal} />;
     }
-    if(nameLink === 'Inquiry Quotation' && isEdit){
-      return <ProductNewEditForm isEdit={isEdit}
-      formRef={formRef}   />
+    if (nameLink === 'Inquiry Quotation' && isEdit) {
+      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} />;
     }
-    if(nameLink === 'Order List' && !isEdit){
-      return  <OrderListModalForm isEdit={isEdit}
-        handleCloseModal={handleCloseModal}
-        formRef={formRef} />
+    if (nameLink === 'Order List' && !isEdit) {
+      return <OrderListModalForm isEdit={isEdit} handleCloseModal={handleCloseModal} formRef={formRef} />;
     }
-    if(nameLink === 'Order List' && isEdit){
-      return  <OrderListModalForm isEdit={isEdit}
-        handleCloseModal={handleCloseModal} 
-        formRef={formRef} />
+    if (nameLink === 'Order List' && isEdit) {
+      return <OrderListModalForm isEdit={isEdit} handleCloseModal={handleCloseModal} formRef={formRef} />;
     }
     // USER ROLES MODAL
-    if(nameLink === 'Roles' && !isEdit){
-      return <UserRolesCreateForm isEdit={isEdit} 
-      currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier}
-      formRef={formRef}  />
+    if (nameLink === 'Roles' && !isEdit) {
+      return (
+        <UserRolesCreateForm
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'Roles' && isEdit){
-      return <UserRolesCreateForm isEdit={isEdit} 
-      currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier}
-      formRef={formRef}  />
+    if (nameLink === 'Roles' && isEdit) {
+      return (
+        <UserRolesCreateForm
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'Department' && !isEdit){
-      return <UserCreateDepartmentForm 
-      isEdit={isEdit} currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier}
-      formRef={formRef} />
+    if (nameLink === 'Department' && !isEdit) {
+      return (
+        <UserCreateDepartmentForm
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'Department' && isEdit){
-      return <UserCreateDepartmentForm 
-      isEdit={isEdit} currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier}
-      formRef={formRef}  />
+    if (nameLink === 'Department' && isEdit) {
+      return (
+        <UserCreateDepartmentForm
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'Designations' && !isEdit){
-      return <UserCreateDesignationForm isEdit={isEdit} 
-      currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier}
-      formRef={formRef}  />
+    if (nameLink === 'Designations' && !isEdit) {
+      return (
+        <UserCreateDesignationForm
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'Designations' && isEdit){
-      return <UserCreateDesignationForm isEdit={isEdit} 
-      currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier} 
-      formRef={formRef} />
+    if (nameLink === 'Designations' && isEdit) {
+      return (
+        <UserCreateDesignationForm
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'User' && isEdit){
-      return <UserNewEditForm currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier}
-      formRef={formRef} />
+    if (nameLink === 'User' && isEdit) {
+      return (
+        <UserNewEditForm
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
     }
-    if(nameLink === 'User' && !isEdit){
-      return <UserNewEditForm currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={identifier}
-      formRef={formRef}  />
-    }        
-    if(nameLink === 'Tracking' && isEdit){
-      return <TrackingModal currentUser={currentUser} 
-      handleCloseModal={handleCloseModal} 
-      isIdentifier={currentInvoice}
-      formRef={formRef} />
+    if (nameLink === 'User' && !isEdit) {
+      return (
+        <UserNewEditForm
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={identifier}
+          formRef={formRef}
+        />
+      );
+    }
+    if (nameLink === 'Tracking' && isEdit) {
+      return (
+        <TrackingModal
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          isIdentifier={currentInvoice}
+          formRef={formRef}
+        />
+      );
     }
     /* if(nameLink === 'Tracking' && !isEdit){
       return <UserNewEditForm currentUser={currentUser} 
@@ -171,52 +198,59 @@ export default function UserModal(props) {
       isIdentifier={identifier}
       formRef={formRef}  />
     }  */
-  }
+  };
 
-  return(
-    <DialogAnimate open={open} className='dialog-center' fullScreen>
+  return (
+    <DialogAnimate open={open} className="dialog-center" fullScreen>
+      <div className="mpp-main">
+        <div className="mpp-header">
+          <DialogTitle sx={{ backgroundColor: theme.palette.primary.main, pb: 2 }}>
+            {/*  <Image disabledEffect alt='samplejhonghilario' src='/assets/hip-logosm.png' sx={{ position: 'fixed', top: -11, left: 1, width: 90, height: 90 }} /> */}
+            <Stack direction="row" alignItems="center">
+              <Stack direction="row" alignItems="center" sx={{ width: 1 }}>
+                <Box component="img" src="/assets/logos/batiboot-circle.png" sx={{ width: 30, height: 30 }} />
+                <Typography sx={{ ml: 2, color: 'white', fontWeight: 'bold' }}>{nameLink}</Typography>
+              </Stack>
+              <Stack alignItems="flex-end" sx={{ width: 1 }}>
+                <Button
+                  sx={{
+                    color: 'black',
+                    '&:hover': { backgroundColor: 'white', color: theme.palette.primary.main },
+                  }}
+                  variant="contained"
+                  onClick={handleCloseModal}
+                  startIcon={<Iconify icon={'eva:arrow-back-fill'} />}
+                >
+                  Back
+                </Button>
+              </Stack>
+            </Stack>
+          </DialogTitle>
+        </div>
 
-      <div className='mpp-main'>
-          <div className='mpp-header'>
-              <DialogTitle className='dialog-title' sx={{backgroundColor: theme.palette.primary.main }}>
-                 {/*  <Image disabledEffect alt='samplejhonghilario' src='/assets/hip-logosm.png' sx={{ position: 'fixed', top: -11, left: 1, width: 90, height: 90 }} /> */}
-                  <Typography sx={{ position: 'fixed', top: 18, left: 50, color: 'white'/* theme.palette.primary.light */ }}>
-                      {nameLink} 
-                  </Typography>
-                  <Button
-                    sx={{ position: 'fixed', top: 14, right: 15, color: 'black', '&:hover': { backgroundColor: 'white', color: theme.palette.primary.main } }}
-                    variant='contained'
-                    onClick={handleCloseModal}
-                    startIcon={<Iconify icon={'eva:arrow-back-fill'} />}
-                  >
-                    Back
-                  </Button>
-              </DialogTitle>
-          </div>
+        <div className="mpp-body">{Path()}</div>
 
-          <div className='mpp-body'>
-          {
-            Path()
-          }
-          </div>
-
-          <div className='mpp-footer' sx={{backgroundColor: theme.palette.primary.main }}>
-              <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' }}}>
-                  <Button  onClick={handleCloseModal} variant='outlined' size="small" sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' }}}>
-                      Cancel
-                  </Button>
-                  <LoadingButton type='button' onClick={onSaveAsDraft} size="small" variant='contained' color="inherit" >
-                  Save as Draft
-                  </LoadingButton>
-                  <LoadingButton type='button' onClick={onSaveChanges} size="small" variant='contained' >
-                  {!isEdit ? `Create ${nameLink}` : 'Save Changes'}
-                  </LoadingButton>
-              </DialogActions>
-          </div>
+        <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>
+          <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
+            <Button
+              onClick={handleCloseModal}
+              variant="outlined"
+              size="small"
+              sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
+            >
+              Cancel
+            </Button>
+            <LoadingButton type="button" onClick={onSaveAsDraft} size="small" variant="contained" color="inherit">
+              Save as Draft
+            </LoadingButton>
+            <LoadingButton type="button" onClick={onSaveChanges} size="small" variant="contained">
+              {!isEdit ? `Create ${nameLink}` : 'Save Changes'}
+            </LoadingButton>
+          </DialogActions>
+        </div>
       </div>
     </DialogAnimate>
-    
-  )
+  );
 }
 /* <DialogAnimate open={open} className='dialog-center' fullScreen>
        <Container maxWidth={themeStretch ? false: 'lg'}>
@@ -348,7 +382,3 @@ export default function UserModal(props) {
   nameLink : PropTypes.string
 };
  */
-
-
-
-

@@ -26,7 +26,7 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAllQuotations } from '../../../redux/slices/adminQuotation';
+import { getAllQuotations } from '../../../redux/slices/userQuotation';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -86,7 +86,7 @@ export default function InquireQuotation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData, ccc, quotationsArr, isLoading } = useSelector((state) => state.adminQuotation);
+  const { quotations, totalData, ccc, quotationsArr, isLoading } = useSelector((state) => state.userQuotation);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -227,8 +227,11 @@ export default function InquireQuotation() {
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
+    payload.email = user.email;
+    payload.id = user.id;
     console.log('payload', payload);
     console.log('payload', payload);
+
     dispatch(getAllQuotations(payload));
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 

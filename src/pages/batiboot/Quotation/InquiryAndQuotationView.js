@@ -28,22 +28,23 @@ import { _userList, _invoices } from '../../../_mock';
 // components
 import { DialogAnimate } from '../../../components/animate';
 import Iconify from '../../../components/Iconify';
+import useAuth from '../../../hooks/useAuth';
 
 import Page from '../../../components/Page';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import ProductNewEditForm from '../../../sections/@batiboot/inquirequotation/InquireQuotationModal';
 import InvoiceCreate from '../../../sections/@batiboot/invoice/new-edit-form';
-import OrderGallery from '../../../sections/@batiboot/orders/order/OrderGallery';
 import InvoiceDetails from '../../../sections/@batiboot/invoice/details';
+import InquireQuotationGallery from '../../../sections/@batiboot/inquirequotation/list/InquireQuotationGallery';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------
 
-export default function OrderListViewModal(props) {
+export default function InquiryAndQuotationViewModal(props, row) {
   const { open, selectedValue, onClose, edit, identifier, data } = props;
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
-  const { loading = false } = props;
+  const { acceptOrder } = useAuth();
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
 
   const handleCloseModal = () => onClose(selectedValue);
@@ -56,18 +57,28 @@ export default function OrderListViewModal(props) {
     boxShadow: 24,
     p: 4,
   };
-  console.log(data);
+  const handleAcceptOrder = async () => {
+    const form = new FormData();
+    form.append('quotation_id', row.id);
+    try {
+      await acceptOrder(form);
+      alert('Order accepted');
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
   return (
-    <DialogAnimate open={open} sx={{ width: '100%', height: '100%', py: 4 }} maxWidth={'md'}>
-      <Page title="Batiboot: View Order">
+    <DialogAnimate open={open} sx={{ px: 1, py: 3 }} maxWidth={'md'}>
+      <Page title="Batiboot: View Inquire and Quotation">
         <Container maxWidth={themeStretch ? false : 'lg'}>
           <HeaderBreadcrumbs
-            heading={'View Order'}
+            heading={'View Inquire & Quotation'}
             links={[
               { name: 'Batiboot', href: PATH_BATIBOOT.root },
-              { name: 'Order', href: PATH_BATIBOOT.order.root },
+              { name: 'View Inquire & Quotation', href: PATH_BATIBOOT.inquire.root },
               /* { name: `ORD-${currentInvoice?.invoiceNumber}` || '' }, */
-              { name: `Order View` },
+              { name: `View Information` || '' },
             ]}
             action={
               <Button
@@ -83,48 +94,54 @@ export default function OrderListViewModal(props) {
           {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
           {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
           {/*             <InvoiceDetails invoice={currentInvoice}/> */}
-
-          <Grid container rowGap={4} sx={{ overflow: 'auto', height: '70vh' }}>
+          <Grid container rowGap={4} sx={{ overflow: 'auto', height: '60vh' }}>
             <Grid item xs={12} sm={6} paddingRight={4}>
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Product name
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.product_name}
-              </Typography>
+              <Grid item xs={12} md={12}>
+                <Typography variant="overline" marginBottom={1} color="primary.main">
+                  Product name
+                </Typography>
+                <Typography variant="h6" marginBottom={1}>
+                  {data?.product_name}
+                </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Quantity
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.quantity}
-              </Typography>
+                <Typography variant="overline" marginBottom={1} color="primary.main">
+                  Quantity
+                </Typography>
+                <Typography variant="h6" marginBottom={1}>
+                  {data?.quantity}
+                </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Service Type
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.services}
-              </Typography>
+                <Typography variant="overline" marginBottom={1} color="primary.main">
+                  Service Type
+                </Typography>
+                <Typography variant="h6" marginBottom={1}>
+                  {data?.services}
+                </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Price per Piece
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.price}
-              </Typography>
+                <Typography variant="overline" marginBottom={1} color="primary.main">
+                  Price per Piece
+                </Typography>
+                <Typography variant="h6" marginBottom={1}>
+                  {data?.price}
+                </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Description
-              </Typography>
-              <Typography variant="p" marginBottom={1}>
-                <br />
-                {data?.description}
-              </Typography>
+                <Typography variant="overline" marginBottom={1} color="primary.main">
+                  Description
+                </Typography>
+                <Typography variant="p" marginBottom={1}>
+                  <br />
+                  {data?.description}
+                </Typography>
+              </Grid>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <OrderGallery data={data?.attachments} />
+              <InquireQuotationGallery data={data?.attachments} />
             </Grid>
+          </Grid>
+          <Grid item xs={12} md={12} sx={{ justifyContent: 'flex-end', display: 'flex' }}>
+            <Button size="large" sx={{ my: 2, backgroundColor: 'primary.main' }} variant="contained">
+              Accept
+            </Button>
           </Grid>
         </Container>
       </Page>
@@ -132,7 +149,7 @@ export default function OrderListViewModal(props) {
   );
 }
 
-OrderListViewModal.propTypes = {
+InquiryAndQuotationViewModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   selectedValue: PropTypes.string.isRequired,
