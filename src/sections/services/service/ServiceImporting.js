@@ -66,7 +66,7 @@ export default function ServiceImporting(props) {
             </Typography>
             <Grid container direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
               <Grid item>
-                <Button size="large" variant="contained" href="./Quotation">
+                <Button size="large" variant="contained" href="/user/order/create/">
                   Ship Now
                 </Button>
               </Grid>
@@ -104,7 +104,7 @@ export default function ServiceImporting(props) {
                       <Grid item xs={12} sm={6}>
                         <ServiceImportingSlider />
                         <Grid align="right" marginTop={2}>
-                          <Button size="large" variant="contained" href="./Quotation">
+                          <Button size="large" variant="contained" href="/user/order/create/">
                             Order Now
                           </Button>
                         </Grid>

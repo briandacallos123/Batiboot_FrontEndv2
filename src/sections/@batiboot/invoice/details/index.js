@@ -76,183 +76,185 @@ export default function InvoiceDetails({ invoice }) {
         </Grid>
 
         <Grid item sm={12} md={8} sx={{ direction: 'ltr', overflow: 'auto', height: '75vh' }}>
-          <Card sx={{ pt: 5, px: 5 }}>
-            <Grid container>
-              <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-                {/* <Image disabledEffect visibleByDefault alt="logo" src="/assets/logos/batiboot-circle.png" sx={{ maxWidth: 120 }} /> */}
-                <Container
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Image
-                    disabledEffect
-                    visibleByDefault
-                    alt="logo"
-                    src="/assets/logos/batiboot-circle.png"
-                    sx={{ maxWidth: 50 }}
-                  />
-                  <Typography variant="h5" sx={{ ml: 1, color: theme.palette.mode === 'light' ? '#000' : '#fff' }}>
-                    Batiboot
-                  </Typography>
-                </Container>
-              </Grid>
-
-              <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-                <Box sx={{ textAlign: { sm: 'right' } }}>
-                  <Label
-                    variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                    color={
-                      (status === 'paid' && 'success') ||
-                      (status === 'unpaid' && 'warning') ||
-                      (status === 'overdue' && 'error') ||
-                      'default'
-                    }
-                    sx={{ textTransform: 'uppercase', mb: 1 }}
-                  >
-                    {status}
-                  </Label>
-
-                  <Typography variant="h6">{`INV-${invoiceNumber}`}</Typography>
-                </Box>
-              </Grid>
-
-              <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-                <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-                  Invoice from
-                </Typography>
-                <Typography variant="body2">{invoiceFrom.name}</Typography>
-                <Typography variant="body2">{invoiceFrom.address}</Typography>
-                <Typography variant="body2">Phone: {invoiceFrom.phone}</Typography>
-              </Grid>
-
-              <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-                <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-                  Invoice to
-                </Typography>
-                <Typography variant="body2">{invoiceTo.name}</Typography>
-                <Typography variant="body2">{invoiceTo.address}</Typography>
-                <Typography variant="body2">Phone: {invoiceTo.phone}</Typography>
-              </Grid>
-
-              <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-                <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-                  date create
-                </Typography>
-                <Typography variant="body2">{fDate(createDate)}</Typography>
-              </Grid>
-
-              <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-                <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-                  Due date
-                </Typography>
-                <Typography variant="body2">{fDate(dueDate)}</Typography>
-              </Grid>
-            </Grid>
-
-            <Scrollbar>
-              <TableContainer sx={{ minWidth: 960 }}>
-                <Table>
-                  <TableHead
+          <Scrollbar>
+            <Card sx={{ pt: 5, px: 5 }}>
+              <Grid container>
+                <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+                  {/* <Image disabledEffect visibleByDefault alt="logo" src="/assets/logos/batiboot-circle.png" sx={{ maxWidth: 120 }} /> */}
+                  <Container
                     sx={{
-                      borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
-                      '& th': { backgroundColor: 'transparent' },
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                   >
-                    <TableRow>
-                      <TableCell width={40}>#</TableCell>
-                      <TableCell align="left">Description</TableCell>
-                      <TableCell align="left">Qty</TableCell>
-                      <TableCell align="right">Unit price</TableCell>
-                      <TableCell align="right">Total</TableCell>
-                    </TableRow>
-                  </TableHead>
+                    <Image
+                      disabledEffect
+                      visibleByDefault
+                      alt="logo"
+                      src="/assets/logos/batiboot-circle.png"
+                      sx={{ maxWidth: 50 }}
+                    />
+                    <Typography variant="h5" sx={{ ml: 1, color: theme.palette.mode === 'light' ? '#000' : '#fff' }}>
+                      Batiboot
+                    </Typography>
+                  </Container>
+                </Grid>
 
-                  <TableBody>
-                    {items.map((row, index) => (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
-                        }}
-                      >
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell align="left">
-                          <Box sx={{ maxWidth: 560 }}>
-                            <Typography variant="subtitle2">{row.title}</Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                              {row.description}
-                            </Typography>
-                          </Box>
-                        </TableCell>
-                        <TableCell align="left">{row.quantity}</TableCell>
-                        <TableCell align="right">{fCurrency(row.price)}</TableCell>
-                        <TableCell align="right">{fCurrency(row.price * row.quantity)}</TableCell>
+                <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+                  <Box sx={{ textAlign: { sm: 'right' } }}>
+                    <Label
+                      variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                      color={
+                        (status === 'paid' && 'success') ||
+                        (status === 'unpaid' && 'warning') ||
+                        (status === 'overdue' && 'error') ||
+                        'default'
+                      }
+                      sx={{ textTransform: 'uppercase', mb: 1 }}
+                    >
+                      {status}
+                    </Label>
+
+                    <Typography variant="h6">{`INV-${invoiceNumber}`}</Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+                  <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
+                    Invoice from
+                  </Typography>
+                  <Typography variant="body2">{invoiceFrom.name}</Typography>
+                  <Typography variant="body2">{invoiceFrom.address}</Typography>
+                  <Typography variant="body2">Phone: {invoiceFrom.phone}</Typography>
+                </Grid>
+
+                <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+                  <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
+                    Invoice to
+                  </Typography>
+                  <Typography variant="body2">{invoiceTo.name}</Typography>
+                  <Typography variant="body2">{invoiceTo.address}</Typography>
+                  <Typography variant="body2">Phone: {invoiceTo.phone}</Typography>
+                </Grid>
+
+                <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+                  <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
+                    date create
+                  </Typography>
+                  <Typography variant="body2">{fDate(createDate)}</Typography>
+                </Grid>
+
+                <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+                  <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
+                    Due date
+                  </Typography>
+                  <Typography variant="body2">{fDate(dueDate)}</Typography>
+                </Grid>
+              </Grid>
+
+              <Scrollbar>
+                <TableContainer sx={{ minWidth: 960 }}>
+                  <Table>
+                    <TableHead
+                      sx={{
+                        borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
+                        '& th': { backgroundColor: 'transparent' },
+                      }}
+                    >
+                      <TableRow>
+                        <TableCell width={40}>#</TableCell>
+                        <TableCell align="left">Description</TableCell>
+                        <TableCell align="left">Qty</TableCell>
+                        <TableCell align="right">Unit price</TableCell>
+                        <TableCell align="right">Total</TableCell>
                       </TableRow>
-                    ))}
+                    </TableHead>
 
-                    <RowResultStyle>
-                      <TableCell colSpan={3} />
-                      <TableCell align="right">
-                        <Box sx={{ mt: 2 }} />
-                        <Typography>Subtotal</Typography>
-                      </TableCell>
-                      <TableCell align="right" width={120}>
-                        <Box sx={{ mt: 2 }} />
-                        <Typography>{fCurrency(subTotalPrice)}</Typography>
-                      </TableCell>
-                    </RowResultStyle>
+                    <TableBody>
+                      {items.map((row, index) => (
+                        <TableRow
+                          key={index}
+                          sx={{
+                            borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
+                          }}
+                        >
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell align="left">
+                            <Box sx={{ maxWidth: 560 }}>
+                              <Typography variant="subtitle2">{row.title}</Typography>
+                              <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+                                {row.description}
+                              </Typography>
+                            </Box>
+                          </TableCell>
+                          <TableCell align="left">{row.quantity}</TableCell>
+                          <TableCell align="right">{fCurrency(row.price)}</TableCell>
+                          <TableCell align="right">{fCurrency(row.price * row.quantity)}</TableCell>
+                        </TableRow>
+                      ))}
 
-                    <RowResultStyle>
-                      <TableCell colSpan={3} />
-                      <TableCell align="right">
-                        <Typography>Discount</Typography>
-                      </TableCell>
-                      <TableCell align="right" width={120}>
-                        <Typography sx={{ color: 'error.main' }}>{discount && fCurrency(-discount)}</Typography>
-                      </TableCell>
-                    </RowResultStyle>
+                      <RowResultStyle>
+                        <TableCell colSpan={3} />
+                        <TableCell align="right">
+                          <Box sx={{ mt: 2 }} />
+                          <Typography>Subtotal</Typography>
+                        </TableCell>
+                        <TableCell align="right" width={120}>
+                          <Box sx={{ mt: 2 }} />
+                          <Typography>{fCurrency(subTotalPrice)}</Typography>
+                        </TableCell>
+                      </RowResultStyle>
 
-                    <RowResultStyle>
-                      <TableCell colSpan={3} />
-                      <TableCell align="right">
-                        <Typography>Taxes</Typography>
-                      </TableCell>
-                      <TableCell align="right" width={120}>
-                        <Typography>{taxes && fCurrency(taxes)}</Typography>
-                      </TableCell>
-                    </RowResultStyle>
+                      <RowResultStyle>
+                        <TableCell colSpan={3} />
+                        <TableCell align="right">
+                          <Typography>Discount</Typography>
+                        </TableCell>
+                        <TableCell align="right" width={120}>
+                          <Typography sx={{ color: 'error.main' }}>{discount && fCurrency(-discount)}</Typography>
+                        </TableCell>
+                      </RowResultStyle>
 
-                    <RowResultStyle>
-                      <TableCell colSpan={3} />
-                      <TableCell align="right">
-                        <Typography variant="h6">Total</Typography>
-                      </TableCell>
-                      <TableCell align="right" width={140}>
-                        <Typography variant="h6">{fCurrency(totalPrice)}</Typography>
-                      </TableCell>
-                    </RowResultStyle>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Scrollbar>
+                      <RowResultStyle>
+                        <TableCell colSpan={3} />
+                        <TableCell align="right">
+                          <Typography>Taxes</Typography>
+                        </TableCell>
+                        <TableCell align="right" width={120}>
+                          <Typography>{taxes && fCurrency(taxes)}</Typography>
+                        </TableCell>
+                      </RowResultStyle>
 
-            <Divider sx={{ mt: 5 }} />
+                      <RowResultStyle>
+                        <TableCell colSpan={3} />
+                        <TableCell align="right">
+                          <Typography variant="h6">Total</Typography>
+                        </TableCell>
+                        <TableCell align="right" width={140}>
+                          <Typography variant="h6">{fCurrency(totalPrice)}</Typography>
+                        </TableCell>
+                      </RowResultStyle>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Scrollbar>
 
-            <Grid container>
-              <Grid item xs={12} md={9} sx={{ py: 3 }}>
-                <Typography variant="subtitle2">NOTES</Typography>
-                <Typography variant="body2">
-                  We appreciate your business. Should you need us to add VAT or extra notes let us know!
-                </Typography>
+              <Divider sx={{ mt: 5 }} />
+
+              <Grid container>
+                <Grid item xs={12} md={9} sx={{ py: 3 }}>
+                  <Typography variant="subtitle2">NOTES</Typography>
+                  <Typography variant="body2">
+                    We appreciate your business. Should you need us to add VAT or extra notes let us know!
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={3} sx={{ py: 3, textAlign: 'right' }}>
+                  <Typography variant="subtitle2">Have a Question?</Typography>
+                  <Typography variant="body2">support@minimals.cc</Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={12} md={3} sx={{ py: 3, textAlign: 'right' }}>
-                <Typography variant="subtitle2">Have a Question?</Typography>
-                <Typography variant="body2">support@minimals.cc</Typography>
-              </Grid>
-            </Grid>
-          </Card>
+            </Card>
+          </Scrollbar>
         </Grid>
       </Grid>
     </>

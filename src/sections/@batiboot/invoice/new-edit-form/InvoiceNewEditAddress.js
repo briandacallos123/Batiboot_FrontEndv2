@@ -58,7 +58,7 @@ export default function InvoiceNewEditAddress() {
           />
         </Stack>
 
-        <AddressInfo name={invoiceFrom.name} address={invoiceFrom.address}/>
+        <AddressInfo name={invoiceFrom.name} address={invoiceFrom.address} />
       </Stack>
 
       <Stack sx={{ width: 1 }}>

@@ -31,7 +31,12 @@ export default function InvoicePDF({ invoice }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={[styles.gridContainer, styles.mb40]}>
-          <Image source="/logo/logo_full.jpg" style={{ height: 32 }} />
+          <div style={{ flexDirection: 'row' }}>
+            <Image source="/assets/logos/batiboot-circle.png" style={{ height: 32 }} />
+            <div style={{ marginTop: 6, marginLeft: 5 }}>
+              <Text style={styles.h3}>Batiboot</Text>
+            </div>
+          </div>
           <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
             <Text style={styles.h3}>{status}</Text>
             <Text> {`INV-${invoiceNumber}`} </Text>

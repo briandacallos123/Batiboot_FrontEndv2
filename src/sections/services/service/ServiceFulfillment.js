@@ -65,7 +65,7 @@ export default function ServiceFulfillment(props) {
             </Typography>
             <Grid container direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
               <Grid item>
-                <Button size="large" variant="contained" href="./Quotation">
+                <Button size="large" variant="contained" href="/user/order/create/">
                   Register Now
                 </Button>
               </Grid>
@@ -103,7 +103,7 @@ export default function ServiceFulfillment(props) {
                       <Grid item xs={12} sm={6}>
                         <ServiceFulfillmentSlider />
                         <Grid align="right" marginTop={2}>
-                          <Button size="large" variant="contained" href="./Quotation">
+                          <Button size="large" variant="contained" href="/user/order/create/">
                             Order Now
                           </Button>
                         </Grid>
