@@ -48,12 +48,7 @@ export default function InvoiceToolbar({ invoice }) {
         alignItems={{ sm: 'center' }}
         sx={{ mb: 5 }}
       >
-        <Grid
-          container
-          spacing={4}
-          width={1}
-          sx={{ justifyContent: 'center', display: 'flex', flexWrap: 'wrap', p: 1, m: 1, columnGap: 3, rowGap: 1 }}
-        >
+        <Grid container width={1} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', pt: 1, gap: 1 }}>
           <Tooltip title="Edit">
             {/* <IconButton onClick={handleEdit}>
                 <Iconify icon={'eva:edit-fill'} />
@@ -63,7 +58,7 @@ export default function InvoiceToolbar({ invoice }) {
               variant="outlined"
               onClick={handleEdit}
               startIcon={<Iconify icon={'eva:edit-fill'} />}
-              sx={{ alignSelf: 'center', width: 122 }}
+              sx={{ alignSelf: 'center' }}
             >
               Edit
             </Button>
@@ -78,7 +73,7 @@ export default function InvoiceToolbar({ invoice }) {
               variant="outlined"
               onClick={onOpen}
               startIcon={<Iconify icon={'eva:eye-fill'} />}
-              sx={{ alignSelf: 'center', width: 122 }}
+              sx={{ alignSelf: 'center' }}
             >
               View
             </Button>
@@ -98,7 +93,7 @@ export default function InvoiceToolbar({ invoice }) {
                   color="inherit"
                   variant="outlined"
                   startIcon={<Iconify icon={'eva:download-fill'} />}
-                  sx={{ alignSelf: 'center', width: 122 }}
+                  sx={{ alignSelf: 'center' }}
                 >
                   Download
                 </Button>
@@ -106,10 +101,10 @@ export default function InvoiceToolbar({ invoice }) {
             )}
           </PDFDownloadLink>
 
-          <Tooltip title="Print">
-            {/* <IconButton>
+          {/* <Tooltip title="Print">
+            <IconButton>
                 <Iconify icon={'eva:printer-fill'} />
-              </IconButton> */}
+              </IconButton>
             <Button
               color="inherit"
               variant="outlined"
@@ -118,12 +113,12 @@ export default function InvoiceToolbar({ invoice }) {
             >
               Print
             </Button>
-          </Tooltip>
+          </Tooltip> */}
 
-          <Tooltip title="Send">
-            {/* <IconButton>
+          {/* <Tooltip title="Send">
+            <IconButton>
                 <Iconify icon={'ic:round-send'} />
-              </IconButton> */}
+              </IconButton>
             <Button
               color="inherit"
               variant="outlined"
@@ -132,12 +127,12 @@ export default function InvoiceToolbar({ invoice }) {
             >
               Send
             </Button>
-          </Tooltip>
+          </Tooltip> */}
 
-          <Tooltip title="Share">
-            {/* <IconButton>
+          {/* <Tooltip title="Share">
+            <IconButton>
                 <Iconify icon={'eva:share-fill'} />
-              </IconButton> */}
+              </IconButton>
             <Button
               color="inherit"
               variant="outlined"
@@ -146,7 +141,7 @@ export default function InvoiceToolbar({ invoice }) {
             >
               Share
             </Button>
-          </Tooltip>
+          </Tooltip> */}
         </Grid>
         {/* <Button
             color="inherit"

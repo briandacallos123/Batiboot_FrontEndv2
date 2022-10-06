@@ -6,7 +6,7 @@ import { Grid, Card, Button, Typography, DialogActions,
 import { LoadingButton } from '@mui/lab';
 import PopUpModal from '../../../../modal/PopupModal';
 
-export default function InvoiceDetails(props){
+export default function InvoiceData(props){
 
     const { isIdentifier } = props
 

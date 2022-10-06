@@ -6,6 +6,7 @@ import {
   Card,
   Container,
   Grid,
+  Stack,
   Table,
   Divider,
   TableRow,
@@ -24,6 +25,8 @@ import Image from '../../../../components/Image';
 import Scrollbar from '../../../../components/Scrollbar';
 //
 import InvoiceToolbar from './InvoiceToolbar';
+import InvoiceData from '../../orders/shipment/shipment-components/invoice-details/InvoiceDetails';
+import QuotationData from '../../orders/shipment/shipment-components/quotation-data/Quotation';
 
 // ----------------------------------------------------------------------
 
@@ -64,11 +67,15 @@ export default function InvoiceDetails({ invoice }) {
   return (
     <>
       <Grid container spacing={3} sx={{ gridAutoFlow: 'dense', direction: 'rtl' }}>
-        <Grid item sm={12} md={3} sx={{ direction: 'ltr' }}>
+        <Grid item container sm={12} md={4} sx={{ direction: 'ltr', justifyContent: 'center' }}>
           <InvoiceToolbar invoice={invoice} />
+          <Stack width={1} direction="column" gap={2}>
+            <QuotationData isIdentifier={''} />
+            <InvoiceData isIdentifier={''} />
+          </Stack>
         </Grid>
 
-        <Grid item sm={12} md={9} sx={{ direction: 'ltr', overflow: 'auto', height: '75vh' }}>
+        <Grid item sm={12} md={8} sx={{ direction: 'ltr', overflow: 'auto', height: '75vh' }}>
           <Card sx={{ pt: 5, px: 5 }}>
             <Grid container>
               <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
