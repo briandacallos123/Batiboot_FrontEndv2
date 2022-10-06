@@ -141,15 +141,15 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       form.append('inStock', data.inStock);
       form.append('taxes', data.taxes);
       form.append('quantity', data.quantity);
-      form.append('services', data.services);
+      form.append('services', data.category);
       rawFile.map((file) => form.append('images[]', file));
-
 
       await createQuotation(form);
       // await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       handleCloseModal();
       setLoadingSend(false);
+      window.location.reload();
       /*    navigate(PATH_BATIBOOT.invoice.list);
       console.log(JSON.stringify(newInvoice, null, 2)); */
     } catch (error) {
@@ -180,7 +180,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       gender: currentProduct?.gender || GENDER_OPTION[2].value,
       category: currentProduct?.category || SERVICE_OPTION[0],
       quantity: currentProduct?.quantity || 0,
-      services: currentProduct?.services || 'Product Sourcing',
+      services: currentProduct?.services || SERVICE_OPTION[0]
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
@@ -202,7 +202,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   } = methods;
 
   const values = watch();
-  console.log(getValues());
+
   useEffect(() => {
     if (isEdit && currentProduct) {
       reset(defaultValues);

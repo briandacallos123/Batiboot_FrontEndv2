@@ -232,7 +232,7 @@ export default function Router() {
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN_BATIBOOT_USER} replace />, index: true },
         { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['user']}>
-           <GeneralDashApp /> 
+           <GeneralDashAppUser /> 
          </RoleBasedGuard>
          },
         {
@@ -263,8 +263,8 @@ export default function Router() {
           path: 'order',
           children: [
             { element: <Navigate to="/batiboot/order/list" replace />, index: true },
-            { path: 'list', element: <OrderList /> },
-            { path: 'create', element: <OrderList /> },
+            { path: 'list', element: <OrderListUser /> },
+            { path: 'create', element: <OrderListUser /> },
             { path: 'tracking', element: <Tracking /> },  
             { path: 'createTracking', element: <Tracking /> },  
           ]
@@ -418,6 +418,7 @@ const UserProfile = Loadable(lazy(() => import('../pages/batiboot/User&Role/User
 
 // DASHBOARD
 const GeneralDashApp = Loadable(lazy(() => import('../pages/batiboot/GeneralDashboard')))
+const GeneralDashAppUser = Loadable(lazy(() => import('../pages/batiboot/GeneralDashboardUser')))
 const InvoiceList = Loadable(lazy(() => import('../pages/batiboot/GeneralInvoice')))
 
 /* Invoice */
@@ -432,7 +433,7 @@ const DepartmentList = Loadable(lazy(() => import('../pages/batiboot/User&Role/U
 const DesignationList = Loadable(lazy(() => import('../pages/batiboot/User&Role/UserDesignation')))
 
 /* ORDER LIST */
-
+const OrderListUser = Loadable(lazy(() => import('../pages/batiboot/Order/OrderListUser')))
 const OrderList = Loadable(lazy(() => import('../pages/batiboot/Order/OrderList')))
 const Tracking = Loadable(lazy(() => import('../pages/batiboot/Tracking/ShipmentTracking')))
 

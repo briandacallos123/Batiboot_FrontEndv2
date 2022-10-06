@@ -21,7 +21,7 @@ export default function AccountChangePassword() {
   const [showPassword2, setShowPassword2] = useState(false);
   const [showPassword3, setShowPassword3] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const { user, accountChangePassword, validateUserPassword } = useAuth();
+  const { user, accountChangePassword } = useAuth();
 
   const isMountedRef = useIsMountedRef();
 
@@ -52,14 +52,19 @@ export default function AccountChangePassword() {
   const onSubmit = async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      await validateUserPassword(user.email, data.oldPassword);
-      accountChangePassword(user.email, data.newPassword);
+      const payload = {
+        email: user.email,
+        id: user.id,
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+      }
+     await accountChangePassword(payload);
       reset();
 
-      //  enqueueSnackbar('Update success!');
+       enqueueSnackbar('Update success!');
     } catch (error) {
-      reset();
-
+      // reset();
+      console.log(error);
       if (isMountedRef.current) {
         setError('afterSubmit', { ...error, message: error.message });
       }

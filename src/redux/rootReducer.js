@@ -21,7 +21,10 @@ import adminUserDesignationReducer from './slices/adminUserDesignation';
 import adminUserRoleReducer from './slices/adminUserRole';
 
 import userQuotationReducer from './slices/userQuotation';
+import userOrderReducer from './slices/userOrder';
 
+import adminDashboardReducer from './slices/adminDashboard';
+import userDashboardReducer from './slices/userDashboard';
 // ----------------------------------------------------------------------
 
 const rootPersistConfig = {
@@ -59,6 +62,9 @@ const rootReducer = combineReducers({
   adminUserDesignation: adminUserDesignationReducer,
   adminUserRole: adminUserRoleReducer,
   userQuotation: userQuotationReducer,
+  userOrder: userOrderReducer,
+  adminDashboard: adminDashboardReducer,
+  userDashboard: userDashboardReducer,
 });
 
 export { rootPersistConfig, rootReducer };

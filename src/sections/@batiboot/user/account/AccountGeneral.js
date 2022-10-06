@@ -24,7 +24,7 @@ export default function AccountGeneral() {
   const { enqueueSnackbar } = useSnackbar();
 
   const { user, updateProfile } = useAuth();
-
+  const [rawFile, setRawFile] = useState(null);
   const UpdateUserSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
   });
@@ -58,9 +58,19 @@ export default function AccountGeneral() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       // alert(fileParts)
-      const photo = !fileParts ? user.photoURL : fileParts;
-      await updateProfile(data.displayName, data.email, data.phoneNumber, photo, data.address);
-
+      // const photo = !fileParts ? user.photoURL : fileParts;
+      const form = new FormData();
+      form.append('name', data.displayName);
+      form.append('email', data.email);
+      form.append('phone', data.phoneNumber);
+      form.append('address', data.address);
+      form.append('id', user.id);
+      // form.append('images[]', data.photoURL);
+      if(rawFile) {
+      rawFile.map((file) => form.append('images[]', data.photoURL));
+      }
+      await updateProfile(form);
+      console.log(data.photoURL);
       enqueueSnackbar('Update success!');
     } catch (error) {
       console.error(error);
@@ -69,6 +79,7 @@ export default function AccountGeneral() {
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
+      setRawFile(acceptedFiles);
       const file = acceptedFiles[0];
       if (
         file.type.toString() === 'image/png' ||
@@ -82,20 +93,22 @@ export default function AccountGeneral() {
             preview: URL.createObjectURL(file),
           })
         );
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = (e) => {
-          setfileParts(reader.result);
-          setValue(
-            'photoURL',
-            Object.assign(e, {
-              preview: URL.createObjectURL(e.target.files),
-            })
-          );
+
+        // const reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onloadend = (e) => {
+        //   setfileParts(reader.result);
+        //   setValue(
+        //     'photoURL',
+        //     Object.assign(e, {
+        //       preview: URL.createObjectURL(e.target.files),
+        //     })
+        //   );
+
           /* fileParts.push({
               data64: [reader.result],
             }) */
-        };
+       // };
       }
     },
     [setValue]

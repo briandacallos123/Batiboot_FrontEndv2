@@ -1,6 +1,7 @@
 import { paramCase } from 'change-case';
 import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactQuill from 'react-quill';
 // @mui
 import {
   Container,
@@ -117,10 +118,13 @@ export default function OrderListViewModal(props) {
               <Typography variant="overline" marginBottom={1} color="primary.main">
                 Description
               </Typography>
-              <Typography variant="p" marginBottom={1}>
-                <br />
-                {data?.description}
-              </Typography>
+              <Box sx={{ml:-1.8}}>
+                  <ReactQuill
+                  value= {data?.description}
+                  readOnly={"true"}
+                  theme="bubble"
+                  />
+              </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
               <OrderGallery data={data?.attachments} />

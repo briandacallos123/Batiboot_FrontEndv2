@@ -128,6 +128,17 @@ const handlers = {
       user,
     };
   },
+
+  CANCEL_QUOTATION: (state, action) => {
+    const { user } = action.payload;
+
+    return {
+      ...state,
+      isAuthenticated: true,
+      user,
+    };
+  },
+
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -149,6 +160,7 @@ const AuthContext = createContext({
   createQuotation: () => Promise.resolve(),
   acceptOrder: () => Promise.resolve(),
   createUserManagement: () => Promise.resolve(),
+  cancelQuotation: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -297,22 +309,21 @@ function AuthProvider({ children }) {
       type: 'CHANGEPASSWORD',
     });
   };
-  const accountChangePassword = async (email, password) => {
+  const accountChangePassword = async (data) => {
     const response = await axios.put(
-      '/api/account/change-password',
-      {
-        email,
-        password,
-      },
+      '/api/account/update-profile/password',data,
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
         },
       }
     );
-
+    const user = response.data;
     dispatch({
       type: 'ACCOUNTCHANGEPASSWORD',
+      payload: {
+        user,
+      },
     });
   };
 
@@ -338,16 +349,10 @@ function AuthProvider({ children }) {
     });
   };
 
-  const updateProfile = async (name, email, phone, photoURL, address) => {
-    const response = await axios.put(
+  const updateProfile = async (data) => {
+    const response = await axios.post(
       '/api/account/update-profile',
-      {
-        name,
-        email,
-        phone,
-        photoURL,
-        address,
-      },
+    data,
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
@@ -540,6 +545,30 @@ function AuthProvider({ children }) {
     });
   };
 
+  const cancelQuotation = async (data) => {
+    const response = await axios.put( '/api/quotations/cancel', data,
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      
+      }
+    );
+    const user = response.data;
+
+    // alert(user.email)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CANCEL_QUOTATION',
+      payload: {
+        user,
+      },
+    });
+  };
+
+
 
   const logout = async () => {
     dispatch(getAllQuotations())
@@ -567,6 +596,7 @@ function AuthProvider({ children }) {
         createQuotation,
         acceptOrder,
         createUserManagement,
+        cancelQuotation,
       }}
     >
       {children}

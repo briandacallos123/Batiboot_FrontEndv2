@@ -1,6 +1,7 @@
 import { paramCase } from 'change-case';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactQuill from 'react-quill';
 // @mui
 import {
   Container,
@@ -36,6 +37,8 @@ import ProductNewEditForm from '../../../sections/@batiboot/inquirequotation/Inq
 import InvoiceCreate from '../../../sections/@batiboot/invoice/new-edit-form';
 import InvoiceDetails from '../../../sections/@batiboot/invoice/details';
 import InquireQuotationGallery from '../../../sections/@batiboot/inquirequotation/list/InquireQuotationGallery';
+
+
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------
@@ -44,7 +47,7 @@ export default function InquiryAndQuotationViewModal(props, row) {
   const { open, selectedValue, onClose, edit, identifier, data } = props;
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
-  const { acceptOrder } = useAuth();
+  const { acceptOrder, cancelQuotation ,user } = useAuth();
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
 
   const handleCloseModal = () => onClose(selectedValue);
@@ -68,6 +71,30 @@ export default function InquiryAndQuotationViewModal(props, row) {
       alert(error.message);
     }
   };
+  const handleCancelQuotation = async () => {
+    const form = new FormData();
+    form.append("email", user.email);
+    form.append('quotation_id', data?.id);
+    form.append('id', user.id);
+    const payload = {
+      email: user.email,
+      quotation_id: data?.id,
+      id: user.id
+    }
+
+    try {
+      await cancelQuotation(payload);
+      console.log(data?.id);
+      // alert('Quotation canceled');
+      window.location.reload();
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  }
+
   return (
     <DialogAnimate open={open} sx={{ px: 1, py: 3 }} maxWidth={'md'}>
       <Page title="Batiboot: View Inquire and Quotation">
@@ -128,10 +155,14 @@ export default function InquiryAndQuotationViewModal(props, row) {
                 <Typography variant="overline" marginBottom={1} color="primary.main">
                   Description
                 </Typography>
-                <Typography variant="p" marginBottom={1}>
-                  <br />
-                  {data?.description}
-                </Typography>
+           
+           <Box sx={{ml:-1.8}}>
+                  <ReactQuill
+                  value= {data?.description}
+                  readOnly={"true"}
+                  theme="bubble"
+                  />
+              </Box>
               </Grid>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -139,9 +170,20 @@ export default function InquiryAndQuotationViewModal(props, row) {
             </Grid>
           </Grid>
           <Grid item xs={12} md={12} sx={{ justifyContent: 'flex-end', display: 'flex' }}>
-            <Button size="large" sx={{ my: 2, backgroundColor: 'primary.main' }} variant="contained">
-              Accept
+            {user.user_role === "user" ?(
+              <Box >
+          {/* <Button  disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: 'primary.main',mx:2 }} variant="contained">
+              Edit
+            </Button> */}
+              <Button onClick={handleCancelQuotation} disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: '#D22B2B' }} variant="contained">
+              Cancel 
             </Button>
+            </Box>
+            ):(
+
+            <Button disabled={data?.isCancel === 1} size="large" sx={{ my: 2, backgroundColor: 'primary.main' }} variant="contained">
+              Accept
+            </Button>)}
           </Grid>
         </Container>
       </Page>

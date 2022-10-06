@@ -26,7 +26,7 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAllQuotations } from '../../../redux/slices/adminQuotation';
+import { getAllOrders } from '../../../redux/slices/userOrder';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -46,16 +46,19 @@ import Scrollbar from '../../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../../components/table';
 // sections
-import QuotationSkeleton from './QuotationSkeleton';
+import QuotationSkeleton from './OrderSkeleton';
 // import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
-import { InquireQuoTableRow, InquireQuoTableToolbar } from '../../../sections/@batiboot/inquirequotation/list';
+
+import { OrderTableRow, OrderTableToolbar } from '../../../sections/@batiboot/order/list';
 // import { OrderTableRow, OrderTableToolbar } from '../../sections/@batiboot/orders/order/list';
-import InquireQuoListAnalytics from '../../../sections/@batiboot/inquirequotation/InquireQuoListAnalytics';
-import InquireAndQuotationCreateModal from './InquiryAndQuotationCreate';
+import OrderListAnalytics from '../../../sections/@batiboot/orders/order/OrderListAnalytics';
+import OrderCreateModal from './OrderListCreate';
+import OrderListViewModal from './OrderListView';
+import UserModal from '../../../sections/@batiboot/modal/UserModal';
 
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
-import InquiryAndQuotationViewModal from './InquiryAndQuotationView';
-import UserModal from '../../../sections/@batiboot/modal/UserModal';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -70,23 +73,23 @@ const SERVICE_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-  { id: 'product_name', label: 'Product Name', align: 'left' },
-  { id: 'services', label: 'Type', align: 'left' },
-  { id: 'price', label: 'Price', align: 'left' },
+  { id: 'pName', label: 'Product Name', align: 'left' },
+  { id: 'orderCreated', label: 'Created At', align: 'left' },
+  { id: 'serviceType', label: 'Service Type', align: 'left' },
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
-  { id: 'created_at', label: 'Created', align: 'center', width: 140 },
-  { id: 'inquireQuoStatus', label: 'Status', align: 'center', width: 140 },
+  { id: 'budget', label: 'Budget', align: 'center', width: 140 },
+  { id: 'orderStatus', label: 'Status', align: 'left' },
   { id: 'actions', label: 'Actions', align: 'center' },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function InquireQuotation() {
+export default function OrderList() {
   const theme = useTheme();
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData, ccc, quotationsArr, isLoading } = useSelector((state) => state.adminQuotation);
+  const { orders, totalData, ccc, ordersArr, isLoading } = useSelector((state) => state.userOrder);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -121,7 +124,7 @@ export default function InquireQuotation() {
   const [filterEndDate, setFilterEndDate] = useState(null);
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
-  const [modalViewData, setModalViewData] = useState([]);
+
   const [isEdit, setIsEdit] = useState(false);
   const [isView, setIsView] = useState(false);
   const [identifier, setIdentifier] = useState('');
@@ -152,16 +155,15 @@ export default function InquireQuotation() {
     // setIdentifier(id)
     handleOpenModal();
   };
+const [modalViewData, setModalViewData] = useState([]);
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
-    // setIsView(!isView);
-    // //  setIdentifier(id)
-    // handleOpenViewModal();
     setIsView(!isView);
     //  setIdentifier(id)
     handleOpenViewModal();
     setModalViewData(data);
+    
   };
 
   const dataFiltered = applySortFilter({
@@ -219,18 +221,21 @@ export default function InquireQuotation() {
 
   useEffect(() => {
     const payload = {};
+    payload.email = user.email;
+    payload.id = user.id;
     payload.page = page;
     payload.rowcount = rowsPerPage;
     // // payload.status = Status;
-    payload.services = filterService;
+    payload.services =filterService;
     // console.log(filterService);
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
     console.log('payload', payload);
     console.log('payload', payload);
-    dispatch(getAllQuotations(payload));
-  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
+    dispatch(getAllOrders(payload));
+
+  }, [dispatch, page, rowsPerPage,filterService, filterName, filterStartDate, filterEndDate]);
 
   /* console.log(appointmentsArr) */
 
@@ -266,24 +271,27 @@ export default function InquireQuotation() {
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
-    dispatch(getAllQuotations(payload));
+    dispatch(getAllOrders(payload));
   };
 
+ 
+
   // Skeleton
-  const [quotationsData, setQuotationsData] = useState({});
+  const [ordersData, setOrdersData] = useState({});
   const [showSkel, setshowSkel] = useState(false);
   useEffect(() => {
     setshowSkel(false);
-    if (Object.keys(quotationsData).length) {
-      if (Object.keys(quotationsData.allIds).length) {
+    if (Object.keys(ordersData).length) {
+      if (Object.keys(ordersData.allIds).length) {
         setshowSkel(true);
       }
     }
-  }, [quotationsData]);
+  }, [ordersData]);
 
   useEffect(() => {
-    setQuotationsData(quotations);
-  }, [quotations]);
+    setOrdersData(orders);
+  }, [orders]);
+
 
   const [showSkelDatatable, setshowSkelDatatable] = useState(false);
   useEffect(() => {
@@ -293,27 +301,29 @@ export default function InquireQuotation() {
   console.log(totalData);
 
   return (
-    <Page title="Batiboot: Inquire/Quotation">
+    <Page title="Batiboot: Order List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Inquire and Quotation"
+            heading="Order List"
           links={[
             { name: 'Dashboard', href: PATH_BATIBOOT.root },
-            { name: 'Inquire & Quotation', href: PATH_BATIBOOT.inquire.root },
+            { name: 'Order', href: PATH_BATIBOOT.order.root },
             { name: 'List' },
           ]}
           action={
             <Button
               variant="contained"
               startIcon={<Iconify icon={'eva:plus-fill'} />}
-              /*   component={RouterLink}
-              to={PATH_BATIBOOT.inquire.create} */
+              component={RouterLink}
+              to={PATH_BATIBOOT.order.createOrder}
               onClick={handleOpenModal}
             >
-              Inquire
+              Add Order
             </Button>
           }
         />
+
+   
 
         <Box>
           {/* UserRolesCreate Modal */}
@@ -323,24 +333,20 @@ export default function InquireQuotation() {
             edit={isEdit}
             identifier={identifier}
             pathname={pathname}
-            nameLink={'Inquiry Quotation'}
+            nameLink={'Order List'}
           />
-          {
-            /* <InquireAndQuotationCreateModal
-            open={openModal}
-            onClose={handleCloseModal}
-            edit={isEdit}
-             identifier={identifier}
+            {
+            /*  <OrderCreateModal 
+           open={openModal}
+           onClose={handleCloseModal} 
+           edit={isEdit}
+           identifier={identifier}
           />
           */
-            <InquiryAndQuotationViewModal
-              open={openViewModal}
-              onClose={handleCloseModal}
-              identifier={identifier}
-              data={modalViewData}
-            />
+            <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} data={modalViewData} />
           }
         </Box>
+
 
         <Card sx={{ mb: 5 }}>
           <Scrollbar>
@@ -349,7 +355,7 @@ export default function InquireQuotation() {
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-              <InquireQuoListAnalytics
+               <OrderListAnalytics
                 title="Total"
                 total={tableData.length}
                 percent={100}
@@ -357,7 +363,7 @@ export default function InquireQuotation() {
                 icon="ic:round-receipt"
                 color={theme.palette.info.main}
               />
-              <InquireQuoListAnalytics
+              <OrderListAnalytics
                 title="Approved"
                 total={getLengthByStatus('approved')}
                 percent={getPercentByStatus('approved')}
@@ -365,15 +371,23 @@ export default function InquireQuotation() {
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
-              <InquireQuoListAnalytics
-                title="Received"
-                total={getLengthByStatus('received')}
-                percent={getPercentByStatus('received')}
-                price={getTotalPriceByStatus('received')}
+              <OrderListAnalytics
+                title="Pending"
+                total={getLengthByStatus('pending')}
+                percent={getPercentByStatus('pending')}
+                price={getTotalPriceByStatus('pending')}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
-              <InquireQuoListAnalytics
+              <OrderListAnalytics
+                title="Rejected"
+                total={getLengthByStatus('rejected')}
+                percent={getPercentByStatus('rejected')}
+                price={getTotalPriceByStatus('rejected')}
+                icon="eva:bell-fill"
+                color={theme.palette.error.main}
+              />
+              <OrderListAnalytics
                 title="Draft"
                 total={getLengthByStatus('draft')}
                 percent={getPercentByStatus('draft')}
@@ -386,6 +400,7 @@ export default function InquireQuotation() {
         </Card>
 
         <Card>
+          
           {showSkel ? (
             <Tabs
               allowScrollButtonsMobile
@@ -406,6 +421,7 @@ export default function InquireQuotation() {
                 />
               ))}
             </Tabs>
+
           ) : (
             <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
               <Box sx={{ display: 'flex' }}>
@@ -437,7 +453,7 @@ export default function InquireQuotation() {
 
           <Divider />
 
-          <InquireQuoTableToolbar
+          <OrderTableToolbar
             filterName={filterName}
             filterService={filterService}
             filterStartDate={filterStartDate}
@@ -497,6 +513,9 @@ export default function InquireQuotation() {
               )}
 
               <Table size={dense ? 'small' : 'medium'}>
+              
+              
+
                 {/* <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <InquireQuoTableRow
@@ -515,10 +534,10 @@ export default function InquireQuotation() {
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 
-                <TableHeadCustom
+              <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
+                  headLabel={ TABLE_HEAD }
                   rowCount={tableData.length}
                   numSelected={selected.length}
                   onSort={onSort}
@@ -532,21 +551,22 @@ export default function InquireQuotation() {
 
                 <TableBody>
                   {showSkel && showSkelDatatable
-                    ? quotationsArr.map((items) => (
-                        <InquireQuoTableRow
+                    ? ordersArr.map((items) => (
+                        <OrderTableRow
                           // isDesktop={isDesktop}
                           showSkeleton={showSkel}
                           key={items.id}
-                          row={quotations.byId[items.id]}
+                          row={orders.byId[items.id]}
                           selected={selected.includes(items.id)}
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
+                          onEditRow={() => handleEditRow(orders.byId[items.id].fname)}
                           onViewRow={() => handleViewRow(items)}
-                          onEditRow={() => handleEditRow(quotations.byId[items.id].fname)}
+                          // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
+                    : [...Array(rowsPerPage)].map((i,k) => <QuotationSkeleton key={k}/>)}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 
@@ -558,7 +578,7 @@ export default function InquireQuotation() {
 
           <Box sx={{ position: 'relative' }}>
             <TablePagination
-              rowsPerPageOptions={[3, 10, 25]}
+              rowsPerPageOptions={[5, 10, 25]}
               component="div"
               count={totalData}
               // count={quotationsArr?.length+1}

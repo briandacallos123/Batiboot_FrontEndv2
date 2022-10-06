@@ -16,9 +16,9 @@ function objFromArray(array, key = 'id') {
 const initialState = {
   isLoading: false,
   error: null,
-  quotations: { byId: {}, allIds: [] },
-  quotationsArr : [],
-  totalData:0,
+  dashboards: { byId: {}, allIds: [] },
+  dashboardsArr: [],
+  totalData: 0,
   ccc:{
     approved: 0,
     cancelled: 0,
@@ -29,7 +29,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name:'adminQuotation',
+  name:'userDashboard',
   initialState,
   reducers: {
     // START LOADING
@@ -44,12 +44,12 @@ const slice = createSlice({
     },
 
     // GET QUOTATION SUCCESS
-    getQuotationSuccess(state, action) {
+    getDashboardSuccess(state, action) {
       const {data,total,ccc} = action.payload;
       state.isLoading = false;
-      state.quotations.byId = objFromArray(data);
-      state.quotations.allIds = Object.keys(state.quotations.byId);
-      state.quotationsArr = data;
+      // state.dashboards.byId = objFromArray(data);
+      // state.dashboards.allIds = Object.keys(state.dashboards.byId);
+      state.dashboardsArr = data;
       state.totalData = total;
       state.ccc  = ccc;
     },
@@ -62,15 +62,15 @@ export default slice.reducer;
 /* export const {  } = slice.actions; */
 // ----------------------------------------------------------------------
 
-export function getAllQuotations(payload) {
+export function getAllDashboard(payload) {
   const {accessToken} = localStorage
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.post('/api/quotations/all',payload);
-      dispatch(slice.actions.getQuotationSuccess(response.data));
+      const response = await V4axios.post('/api/dashboard/user/total', payload);
+      dispatch(slice.actions.getDashboardSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

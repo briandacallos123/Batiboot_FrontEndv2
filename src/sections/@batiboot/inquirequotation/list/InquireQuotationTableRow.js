@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
+
 // MUI
 import { useTheme } from '@mui/material/styles';
 import {
@@ -53,7 +54,7 @@ export default function InquireQuotationTableRow({
   showSkeleton,
   isDesktop,
 }) {
-  const { acceptOrder } = useAuth();
+  const { acceptOrder, user } = useAuth();
   const theme = useTheme();
   /* const { name, avatarUrl, address, role, isVerified, status, state, city, zipCode } = row; */
 
@@ -248,7 +249,9 @@ export default function InquireQuotationTableRow({
                 // color={(row.type_text === 'TELEMEDICINE' && 'success') || 'fce'}
                 sx={{ textTransform: 'capitalize' }}
               >
-                {row.isOrder === 0 ? 'Pending' : 'Cancelled'}
+                {row.isCancel === 1 ? 'Cancelled' : ""}
+                {row.isOrder === 0 && row.isCancel === 0 ? 'Pending' : ""}
+
               </Label>
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }}>
@@ -273,15 +276,16 @@ export default function InquireQuotationTableRow({
               onClose={handleCloseMenu}
               actions={
                 <>
+
                   {showSkeleton ? (
-                    <IconButton sx={{ backgroundColor: 'primary.main' }} onClick={handleAcceptOrder}>
+                    <IconButton disabled={row.isCancel === 1} sx={{ backgroundColor: 'primary.main',display:user.user_role === 'user' ? "none":"" }} onClick={handleAcceptOrder}>
                       <Iconify icon="eva:clipboard-outline" sx={{ width: 25, height: 25, color: '#fff' }} />
                     </IconButton>
-                  ) : (
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', justifyItems: 'flex-end' }}>
+                  ) :  (
+                    <Box sx={{ display: "flex" , justifyContent: 'flex-end', justifyItems: 'flex-end' }}>
                       <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px' }} />
                     </Box>
-                  )}
+                  ) }
 
                   {showSkeleton ? (
                     <IconButton

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Container, Grid, Button } from '@mui/material';
 // hooks
-import { getAllDashboard } from '../../redux/slices/adminDashboard';
+import { getAllDashboard } from '../../redux/slices/userDashboard';
 import { useDispatch, useSelector } from '../../redux/store';
 import useAuth from '../../hooks/useAuth';
 import useSettings from '../../hooks/useSettings';
@@ -44,18 +44,21 @@ import { MotivationIllustration } from '../../assets';
 
 // ----------------------------------------------------------------------
 
-export default function GeneralDashboard() {
+export default function GeneralDashboardUser() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const theme = useTheme();
 
   const { themeStretch } = useSettings();
   
-  const { dashboards, totalData, ccc, dashboardsArr, isLoading } = useSelector((state) => state.adminDashboard);
+  const { dashboards, totalData, ccc, dashboardsArr, isLoading } = useSelector((state) => state.userDashboard);
   
   useEffect(() => {
-    dispatch(getAllDashboard());
-  }, [dispatch])
+    const form = new FormData();
+    form.append('id', user.id);
+
+    dispatch(getAllDashboard(form));
+  }, [dispatch,user.id])
 
 
 
