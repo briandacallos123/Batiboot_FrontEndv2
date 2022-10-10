@@ -21,6 +21,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import ProductNewEditForm from '../../sections/@batiboot/inquirequotation/InquireQuotationModal';
 import InvoiceCreate from '../../sections/@batiboot/invoice/new-edit-form';
 import InvoiceDetails from '../../sections/@batiboot/invoice/details';
+import SideBar from '../../sections/@batiboot/invoice/details/SideBar';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------

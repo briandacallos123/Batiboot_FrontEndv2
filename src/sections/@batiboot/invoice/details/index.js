@@ -27,6 +27,7 @@ import Scrollbar from '../../../../components/Scrollbar';
 import InvoiceToolbar from './InvoiceToolbar';
 import InvoiceData from '../../orders/shipment/shipment-components/invoice-details/InvoiceDetails';
 import QuotationData from '../../orders/shipment/shipment-components/quotation-data/Quotation';
+import SideBar from './SideBar';
 
 // ----------------------------------------------------------------------
 
@@ -66,25 +67,11 @@ export default function InvoiceDetails({ invoice }) {
 
   return (
     <>
-      <Grid container spacing={3} sx={{ gridAutoFlow: 'dense', direction: 'rtl' }}>
-        <Grid
-          item
-          container
-          sm={12}
-          md={4}
-          sx={{ direction: 'ltr', justifyContent: 'center' }}
-          height={{ xs: 'auto', md: '7vh' }}
-        >
-          <InvoiceToolbar invoice={invoice} />
-          <Stack width={1} direction="column" gap={2} height="max-content">
-            <QuotationData isIdentifier={''} />
-            <InvoiceData isIdentifier={''} />
-          </Stack>
-        </Grid>
-
-        <Grid item sm={12} md={8} sx={{ direction: 'ltr', overflow: 'auto', height: 'auto' }}>
+      {/* <Grid container spacing={1} sx={{ gridAutoFlow: 'dense', direction: 'rtl' }}> */}
+      <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
+        <Stack sx={{ flexGrow: 1 }}>
           <Scrollbar>
-            <Card sx={{ pt: 5, px: 5 }}>
+            <Card sx={{ flexGrow: 1, pt: 5, px: 5 }}>
               <Grid container>
                 <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
                   {/* <Image disabledEffect visibleByDefault alt="logo" src="/assets/logos/batiboot-circle.png" sx={{ maxWidth: 120 }} /> */}
@@ -262,8 +249,34 @@ export default function InvoiceDetails({ invoice }) {
               </Grid>
             </Card>
           </Scrollbar>
-        </Grid>
-      </Grid>
+        </Stack>
+        {/* <Grid
+          container
+          sm={12}
+          sx={{
+            position: 'relative',
+            direction: 'ltr',
+            overflow: 'auto',
+            height: 'auto',
+          }}
+        >
+          
+        </Grid> */}
+        <SideBar invoice={invoice} />
+        {/* <Grid
+          item
+          container
+          sm={12}
+          md={4}
+          sx={{ position: 'relative', direction: 'ltr', justifyContent: 'center' }}
+          height={{ xs: 'auto', md: '7vh' }}
+        >
+          <Stack width={1} direction="column" gap={2} height="max-content">
+            
+          </Stack>
+        </Grid> */}
+      </Box>
+      {/* </Grid> */}
     </>
   );
 }
