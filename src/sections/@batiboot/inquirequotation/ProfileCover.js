@@ -5,15 +5,15 @@ import { styled } from '@mui/material/styles';
 import { Box, Typography, Grid } from '@mui/material';
 
 // Utils
-import cssStyles from '../../../../../utils/cssStyles';
+import cssStyles from '../../../utils/cssStyles';
 
 // Hooks
-import useAuth from '../../../../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 
 // Components
-import MyAvatar from '../../../../../components/MyAvatar';
-import Image from '../../../../../components/Image';
-
+import MyAvatar from '../../../components/MyAvatar';
+import Image from '../../../components/Image';
+import { _appointmentModalLocal } from '../../../_mock';
 import './ProfileSass.scss';
 // ----------------------------------------------------------------------
 
@@ -63,9 +63,6 @@ export default function ProfileCover({ myProfile }) {
   }));
   return (
     <RootStyle>
-      <Grid sx={{ position: 'absolute', right: 0, pr: 3, pt: 2, zIndex: 99 }}>
-        <LabelStyle variant="h6">TR-No: 11304</LabelStyle>
-      </Grid>
       <InfoStyle>
         <MyAvatar
           sx={{
@@ -88,10 +85,14 @@ export default function ProfileCover({ myProfile }) {
         >
           <Typography variant="h4">{user.name}</Typography>
           <Typography sx={{ opacity: 0.72 }}>{user.email}</Typography>
-          <Typography sx={{ opacity: 0.72 }}>{phoneNumber}</Typography>
+          <Typography sx={{ opacity: 0.72 }}>+639072006321</Typography>
         </Box>
       </InfoStyle>
-      <Image alt="profile cover" src={cover} sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> */}
+      <Image
+        alt="profile cover"
+        src={_appointmentModalLocal.cover}
+        sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+      />
     </RootStyle>
   );
 }
