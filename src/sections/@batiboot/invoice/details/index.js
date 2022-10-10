@@ -67,15 +67,22 @@ export default function InvoiceDetails({ invoice }) {
   return (
     <>
       <Grid container spacing={3} sx={{ gridAutoFlow: 'dense', direction: 'rtl' }}>
-        <Grid item container sm={12} md={4} sx={{ direction: 'ltr', justifyContent: 'center' }}>
+        <Grid
+          item
+          container
+          sm={12}
+          md={4}
+          sx={{ direction: 'ltr', justifyContent: 'center' }}
+          height={{ xs: 'auto', md: '7vh' }}
+        >
           <InvoiceToolbar invoice={invoice} />
-          <Stack width={1} direction="column" gap={2}>
+          <Stack width={1} direction="column" gap={2} height="max-content">
             <QuotationData isIdentifier={''} />
             <InvoiceData isIdentifier={''} />
           </Stack>
         </Grid>
 
-        <Grid item sm={12} md={8} sx={{ direction: 'ltr', overflow: 'auto', height: '75vh' }}>
+        <Grid item sm={12} md={8} sx={{ direction: 'ltr', overflow: 'auto', height: 'auto' }}>
           <Scrollbar>
             <Card sx={{ pt: 5, px: 5 }}>
               <Grid container>

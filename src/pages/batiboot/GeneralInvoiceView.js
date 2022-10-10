@@ -13,6 +13,7 @@ import { _userList, _invoices } from '../../_mock';
 // components
 import { DialogAnimate } from '../../components/animate';
 import Iconify from '../../components/Iconify';
+import Scrollbar from '../../components/Scrollbar';
 import './modalStyle.scss';
 
 import Page from '../../components/Page';
@@ -63,9 +64,10 @@ export default function InvoiceViewDetailsModal(props) {
         </div>
 
         <div className="mpp-body">
-          <Page title="Batiboot: View Invoice">
-            <Container maxWidth={themeStretch ? false : 'lg'}>
-              {/* <HeaderBreadcrumbs
+          <Scrollbar>
+            <Page title="Batiboot: View Invoice">
+              <Container maxWidth={themeStretch ? false : 'lg'}>
+                {/* <HeaderBreadcrumbs
             heading={'View Invoice'}
             links={[
               { name: 'Batiboot', href: PATH_BATIBOOT.root },
@@ -82,11 +84,13 @@ export default function InvoiceViewDetailsModal(props) {
               </Button>
             }
           /> */}
-              {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
-              {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
-              <InvoiceDetails invoice={currentInvoice} />
-            </Container>
-          </Page>
+                {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
+                {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
+
+                <InvoiceDetails invoice={currentInvoice} />
+              </Container>
+            </Page>
+          </Scrollbar>
         </div>
 
         <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>

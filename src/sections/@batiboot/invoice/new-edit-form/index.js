@@ -7,17 +7,23 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack } from '@mui/material';
+import { Box, Card, Stack, Drawer, Grid, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // routes
 import { PATH_BATIBOOT } from '../../../../routes/paths';
 // mock
 import { _invoiceAddressFrom } from '../../../../_mock/batiboot/invoice_mock/_invoice';
+// hook
+import useResponsive from '../../../../hooks/useResponsive';
 // components
+import Iconify from '../../../../components/Iconify';
 import { FormProvider } from '../../../../components/hook-form';
 //
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
 import InvoiceNewEditStatusDate from './InvoiceNewEditStatusDate';
+import InvoiceData from '../../orders/shipment/shipment-components/invoice-details/InvoiceDetails';
+import QuotationData from '../../orders/shipment/shipment-components/quotation-data/Quotation';
 
 // ----------------------------------------------------------------------
 
@@ -28,9 +34,13 @@ InvoiceNewEditForm.propTypes = {
   formRef: PropTypes.any,
 };
 
-export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef }) {
+const SIDEBAR_WIDTH = 320;
+const SIDEBAR_COLLAPSE_WIDTH = 96;
 
+export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef }) {
   const navigate = useNavigate();
+
+  const isDesktop = useResponsive('up', 'md');
 
   const [loadingSave, setLoadingSave] = useState(false);
 
@@ -122,31 +132,55 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
   return (
     <FormProvider methods={methods}>
       <Card>
-        <InvoiceNewEditAddress />
-        <InvoiceNewEditStatusDate />
-        <InvoiceNewEditDetails />
+        {isEdit ? (
+          <>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={8}>
+                <InvoiceNewEditAddress />
+                <InvoiceNewEditStatusDate />
+                <InvoiceNewEditDetails />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Stack width={1} direction="column" gap={2} height="max-content">
+                  <QuotationData isIdentifier={''} />
+                  <InvoiceData isIdentifier={''} />
+                </Stack>
+              </Grid>
+            </Grid>
+          </>
+        ) : (
+          <Grid container>
+            <Grid item xs={12} md={2} bgcolor="background.neutral" />
+            <Grid item xs={12} md={8}>
+              <InvoiceNewEditAddress />
+              <InvoiceNewEditStatusDate />
+              <InvoiceNewEditDetails />
+            </Grid>
+            <Grid item xs={12} md={2} bgcolor="background.neutral" />
+          </Grid>
+        )}
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ my: 3 }}>
-      <LoadingButton
+        <LoadingButton
           color="error"
           size="small"
           variant="contained"
           loading={loadingSave && isSubmitting}
           onClick={handleCloseModal}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
-        
+
         <LoadingButton
           color="inherit"
           size="small"
           variant="contained"
           loading={loadingSave && isSubmitting}
           onClick={handleSubmit(handleSaveAsDraft)}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
 
@@ -155,8 +189,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           variant="contained"
           loading={loadingSend && isSubmitting}
           onClick={handleSubmit(handleCreateAndSend)}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
       </Stack>
