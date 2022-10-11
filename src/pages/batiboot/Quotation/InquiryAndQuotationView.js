@@ -259,24 +259,26 @@ export default function InquiryAndQuotationViewModal(props, row) {
             <Page title="Batiboot: View Invoice">
               <Container maxWidth={themeStretch ? false : 'lg'}>
                 <Grid container rowGap={4} sx={{ overflow: 'auto' }}>
-                  <Grid item xs={12} sm={6} paddingRight={4}>
-                    <Grid md={12} sx={{ my: 3 }}>
-                      <Grid item className="card-space">
-                        <Card
-                          sx={{
-                            mb: 3,
-                            height: 170,
-                            position: 'relative',
-                          }}
-                        >
-                          <ProfileCover myProfile={data} />
-                        </Card>
-                      </Grid>
-                      <Grid item>
-                        <ProfileDetails data={data} />
-                      </Grid>
+                  <Grid item xs={12} sm={4}>
+                    {/* <Grid md={12} sx={{ my: 3 }}> */}
+                    <Grid item className="card-space">
+                      <Card
+                        sx={{
+                          mb: 3,
+                          height: { xs: 230, md: 170 },
+                          position: 'relative',
+                        }}
+                      >
+                        <ProfileCover myProfile={data} />
+                      </Card>
                     </Grid>
-                    <Grid item xs={12} md={12}>
+                    <Grid item>
+                      <ProfileDetails data={data} />
+                    </Grid>
+                    {/* </Grid> */}
+                  </Grid>
+                  <Grid item container xs={12} sm={8}>
+                    <Grid item xs={12} md={6} paddingLeft={{ xs: 0, md: 4 }}>
                       <Typography variant="overline" marginBottom={1} color="primary.main">
                         Product name
                       </Typography>
@@ -313,9 +315,10 @@ export default function InquiryAndQuotationViewModal(props, row) {
                         <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
                       </Box>
                     </Grid>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <InquireQuotationGallery data={data?.attachments} />
+
+                    <Grid item xs={12} md={6}>
+                      <InquireQuotationGallery data={data?.attachments} />
+                    </Grid>
                   </Grid>
                 </Grid>
               </Container>
