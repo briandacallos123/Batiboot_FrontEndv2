@@ -37,7 +37,7 @@ const ToggleButtonStyle = styled((props) => <IconButton disableRipple {...props}
 const SIDEBAR_WIDTH = 300;
 const SIDEBAR_WIDTH_MD = 500;
 
-export default function SideBar({ invoice }) {
+export default function SideBar({ invoice, edit }) {
   const theme = useTheme();
 
   const [openSidebar, setOpenSidebar] = useState(true);
@@ -71,9 +71,14 @@ export default function SideBar({ invoice }) {
     setOpenSidebar((prev) => !prev);
   };
 
-  const renderContent = (
+  const renderContent = !edit ? (
     <Stack direction="column" gap={2} paddingTop={3} sx={{ px: 2 }}>
       <InvoiceToolbar invoice={invoice} />
+      <QuotationData isIdentifier={''} />
+      <InvoiceData isIdentifier={''} />
+    </Stack>
+  ) : (
+    <Stack direction="column" gap={2} paddingTop={3} sx={{ px: 2 }}>
       <QuotationData isIdentifier={''} />
       <InvoiceData isIdentifier={''} />
     </Stack>

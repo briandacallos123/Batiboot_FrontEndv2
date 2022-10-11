@@ -19,12 +19,14 @@ import useResponsive from '../../../../hooks/useResponsive';
 import Iconify from '../../../../components/Iconify';
 import { FormProvider } from '../../../../components/hook-form';
 //
+
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
 import InvoiceNewEditStatusDate from './InvoiceNewEditStatusDate';
 import InvoiceData from '../../orders/shipment/shipment-components/invoice-details/InvoiceDetails';
 import QuotationData from '../../orders/shipment/shipment-components/quotation-data/Quotation';
-
+import SideBar from '../details/SideBar';
+import Scrollbar from '../../../../components/Scrollbar';
 // ----------------------------------------------------------------------
 
 InvoiceNewEditForm.propTypes = {
@@ -134,19 +136,20 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
       <Card>
         {isEdit ? (
           <>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={8}>
-                <InvoiceNewEditAddress />
-                <InvoiceNewEditStatusDate />
-                <InvoiceNewEditDetails />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Stack width={1} direction="column" gap={2} height="max-content">
-                  <QuotationData isIdentifier={''} />
-                  <InvoiceData isIdentifier={''} />
-                </Stack>
-              </Grid>
-            </Grid>
+            <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
+              <Stack sx={{ flexGrow: 1 }}>
+                <Scrollbar>
+                  <InvoiceNewEditAddress />
+                  <InvoiceNewEditStatusDate />
+                  <InvoiceNewEditDetails />
+                </Scrollbar>
+              </Stack>
+              {/* <Grid item xs={12} md={4}> */}
+              {/* <Stack width={1} direction="column" gap={2} height="max-content">
+              </Stack> */}
+              <SideBar invoice={currentInvoice} edit={isEdit} />
+              {/* </Grid> */}
+            </Box>
           </>
         ) : (
           <Grid container>
