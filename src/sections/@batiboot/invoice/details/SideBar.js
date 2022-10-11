@@ -7,6 +7,7 @@ import { Box, Drawer, Divider, IconButton, Stack } from '@mui/material';
 import useResponsive from '../../../../hooks/useResponsive';
 // components
 import Iconify from '../../../../components/Iconify';
+import Scrollbar from '../../../../components/Scrollbar';
 //
 import InvoiceToolbar from './InvoiceToolbar';
 import InvoiceData from '../../orders/shipment/shipment-components/invoice-details/InvoiceDetails';
@@ -72,15 +73,35 @@ export default function SideBar({ invoice, edit }) {
   };
 
   const renderContent = !edit ? (
-    <Stack direction="column" gap={2} paddingTop={3} sx={{ px: 2 }}>
-      <InvoiceToolbar invoice={invoice} />
-      <QuotationData isIdentifier={''} />
-      <InvoiceData isIdentifier={''} />
+    <Stack
+      direction="column"
+      gap={2}
+      paddingTop={{ xs: 5, md: 0 }}
+      paddingBottom={{ xs: 5, md: 0 }}
+      paddingLeft={{ xs: 2, md: 4 }}
+      paddingRight={{ xs: 2, md: 0 }}
+      height={{ xs: '100%', md: '75vh' }}
+    >
+      <Scrollbar>
+        <InvoiceToolbar invoice={invoice} />
+        <QuotationData isIdentifier={''} />
+        <InvoiceData isIdentifier={''} />
+      </Scrollbar>
     </Stack>
   ) : (
-    <Stack direction="column" gap={2} paddingTop={3} sx={{ px: 2 }}>
-      <QuotationData isIdentifier={''} />
-      <InvoiceData isIdentifier={''} />
+    <Stack
+      direction="column"
+      gap={2}
+      paddingTop={{ xs: 5, md: 0 }}
+      paddingBottom={{ xs: 5, md: 0 }}
+      paddingX={{ xs: 2, md: 4 }}
+      paddingRight={{ xs: 2, md: 0 }}
+      height={{ xs: '100%', md: '75vh' }}
+    >
+      <Scrollbar>
+        <QuotationData isIdentifier={''} />
+        <InvoiceData isIdentifier={''} />
+      </Scrollbar>
     </Stack>
   );
 

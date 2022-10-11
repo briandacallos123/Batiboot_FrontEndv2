@@ -135,29 +135,28 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     <FormProvider methods={methods}>
       <Card>
         {isEdit ? (
-          <>
-            <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
-              <Stack sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
+            <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
+              <Scrollbar>
+                <InvoiceNewEditAddress />
+                <InvoiceNewEditStatusDate />
+                <InvoiceNewEditDetails />
+              </Scrollbar>
+            </Stack>
+
+            <SideBar invoice={currentInvoice} edit={isEdit} />
+          </Box>
+        ) : (
+          <Grid container>
+            <Grid item xs={12} md={2} bgcolor="background.neutral" />
+            <Grid item xs={12} md={8}>
+              <Stack height={{ xs: '100%', md: '75vh' }}>
                 <Scrollbar>
                   <InvoiceNewEditAddress />
                   <InvoiceNewEditStatusDate />
                   <InvoiceNewEditDetails />
                 </Scrollbar>
               </Stack>
-              {/* <Grid item xs={12} md={4}> */}
-              {/* <Stack width={1} direction="column" gap={2} height="max-content">
-              </Stack> */}
-              <SideBar invoice={currentInvoice} edit={isEdit} />
-              {/* </Grid> */}
-            </Box>
-          </>
-        ) : (
-          <Grid container>
-            <Grid item xs={12} md={2} bgcolor="background.neutral" />
-            <Grid item xs={12} md={8}>
-              <InvoiceNewEditAddress />
-              <InvoiceNewEditStatusDate />
-              <InvoiceNewEditDetails />
             </Grid>
             <Grid item xs={12} md={2} bgcolor="background.neutral" />
           </Grid>
