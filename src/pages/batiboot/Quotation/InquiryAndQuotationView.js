@@ -260,8 +260,7 @@ export default function InquiryAndQuotationViewModal(props, row) {
               <Container maxWidth={themeStretch ? false : 'lg'}>
                 <Grid container rowGap={4} sx={{ overflow: 'auto' }}>
                   <Grid item xs={12} sm={4}>
-                    {/* <Grid md={12} sx={{ my: 3 }}> */}
-                    <Grid item className="card-space">
+                    <Stack width={1} direction="column" className="card-space">
                       <Card
                         sx={{
                           mb: 3,
@@ -271,49 +270,48 @@ export default function InquiryAndQuotationViewModal(props, row) {
                       >
                         <ProfileCover myProfile={data} />
                       </Card>
-                    </Grid>
-                    <Grid item>
                       <ProfileDetails data={data} />
-                    </Grid>
-                    {/* </Grid> */}
+                    </Stack>
                   </Grid>
                   <Grid item container xs={12} sm={8}>
                     <Grid item xs={12} md={6} paddingLeft={{ xs: 0, md: 4 }}>
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Product name
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.product_name}
-                      </Typography>
+                      <Stack width={1} direction="column">
+                        <Typography variant="overline" color="primary.main">
+                          Product name
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.product_name}
+                        </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Quantity
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.quantity}
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Quantity
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.quantity}
+                        </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Service Type
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.services}
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Service Type
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.services}
+                        </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Price per Piece
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.price}
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Price per Piece
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.price}
+                        </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Description
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Description
+                        </Typography>
 
-                      <Box sx={{ ml: -1.8 }}>
-                        <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
-                      </Box>
+                        <Box sx={{ ml: -1.8 }}>
+                          <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
+                        </Box>
+                      </Stack>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
