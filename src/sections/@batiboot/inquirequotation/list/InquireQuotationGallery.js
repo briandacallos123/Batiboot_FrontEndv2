@@ -4,7 +4,7 @@ import { Fade, ImageList, ImageListItem, Modal, Skeleton } from '@mui/material';
 // components
 import Image from '../../../../components/Image';
 import LightboxModal from '../../../../components/LightboxModal';
-import './gallery.css';
+// import './gallery.css';
 
 export default function InquireQuotationGallery(props) {
   const { loading = false, data } = props;

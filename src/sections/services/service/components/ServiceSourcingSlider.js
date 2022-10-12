@@ -14,7 +14,7 @@ import IMG3 from '../../../../assets/services/ProductSourcing-Instruct3.png';
 import IMG4 from '../../../../assets/services/ProductSourcing-Instruct4.png';
 import IMG5 from '../../../../assets/services/ProductSourcing-Instruct5.png';
 import IMG6 from '../../../../assets/services/ProductSourcing-Instruct6.png';
-import './slider.css';
+// import './slider.css';
 
 export default function ServiceSourcingSlider(props) {
   const { loading = false } = props;
