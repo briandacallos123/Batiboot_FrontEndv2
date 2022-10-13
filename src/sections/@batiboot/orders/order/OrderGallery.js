@@ -46,8 +46,6 @@ export default function OrderGallery(props) {
       {data.map((item) => (
         <ImageListItem
           key={item.img}
-          cols={item.cols || 1}
-          rows={item.rows || 1}
           onClick={() => handleOpenLightbox(`${process.env.REACT_APP_HOST_API_KEY}/${item.path}`)}
         >
           {loading ? (

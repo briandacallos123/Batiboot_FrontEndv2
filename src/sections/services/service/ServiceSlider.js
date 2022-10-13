@@ -4,19 +4,19 @@ import Slider from 'react-slick';
 import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // components
-import Image from '../../../../components/Image';
-import { varFade } from '../../../../components/animate';
-import { CarouselArrows } from '../../../../components/carousel';
+import Image from '../../../components/Image';
+import { varFade } from '../../../components/animate';
+import { CarouselArrows } from '../../../components/carousel';
 
-import IMG1 from '../../../../assets/services/ProductSourcing-Instruct1.png';
-import IMG2 from '../../../../assets/services/ProductSourcing-Instruct2.png';
-import IMG3 from '../../../../assets/services/ProductSourcing-Instruct3.png';
-import IMG4 from '../../../../assets/services/ProductSourcing-Instruct4.png';
-import IMG5 from '../../../../assets/services/ProductSourcing-Instruct5.png';
-import IMG6 from '../../../../assets/services/ProductSourcing-Instruct6.png';
+import IMG1 from '../../../assets/services/ProductSourcing-Instruct1.png';
+import IMG2 from '../../../assets/services/ProductSourcing-Instruct2.png';
+import IMG3 from '../../../assets/services/ProductSourcing-Instruct3.png';
+import IMG4 from '../../../assets/services/ProductSourcing-Instruct4.png';
+import IMG5 from '../../../assets/services/ProductSourcing-Instruct5.png';
+import IMG6 from '../../../assets/services/ProductSourcing-Instruct6.png';
 // import './slider.css';
 
-export default function ServiceImportingSlider(props) {
+export default function ServiceSlider(props) {
   const { loading = false } = props;
 
   const carouselRef = useRef(null);
