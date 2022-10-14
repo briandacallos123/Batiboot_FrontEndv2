@@ -109,22 +109,12 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
 
               <MenuItem
                 onClick={() => {
-                  onViewRow();
+                  onEditRow();
                   handleCloseMenu();
                 }}
               >
                 <Iconify icon={'eva:eye-fill'} />
                 View
-              </MenuItem>
-
-              <MenuItem
-                onClick={() => {
-                  onEditRow();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:edit-fill'} />
-                Edit
               </MenuItem>
             </>
           }

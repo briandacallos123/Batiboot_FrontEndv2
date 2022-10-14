@@ -4,7 +4,7 @@ import { Fade, ImageList, ImageListItem, Modal, Skeleton } from '@mui/material';
 // components
 import Image from '../../../../components/Image';
 import LightboxModal from '../../../../components/LightboxModal';
-import './gallery.css';
+// import './gallery.css';
 
 export default function OrderGallery(props) {
   const { loading = false, data } = props;
@@ -46,8 +46,6 @@ export default function OrderGallery(props) {
       {data.map((item) => (
         <ImageListItem
           key={item.img}
-          cols={item.cols || 1}
-          rows={item.rows || 1}
           onClick={() => handleOpenLightbox(`${process.env.REACT_APP_HOST_API_KEY}/${item.path}`)}
         >
           {loading ? (

@@ -13,13 +13,15 @@ import { _userList, _invoices } from '../../_mock';
 // components
 import { DialogAnimate } from '../../components/animate';
 import Iconify from '../../components/Iconify';
-import './modalStyle.scss';
+import Scrollbar from '../../components/Scrollbar';
+import './modalStyle2.scss';
 
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import ProductNewEditForm from '../../sections/@batiboot/inquirequotation/InquireQuotationModal';
 import InvoiceCreate from '../../sections/@batiboot/invoice/new-edit-form';
 import InvoiceDetails from '../../sections/@batiboot/invoice/details';
+import SideBar from '../../sections/@batiboot/invoice/details/SideBar';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------
@@ -84,6 +86,7 @@ export default function InvoiceViewDetailsModal(props) {
           /> */}
               {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
               {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
+
               <InvoiceDetails invoice={currentInvoice} />
             </Container>
           </Page>

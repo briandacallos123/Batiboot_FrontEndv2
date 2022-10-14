@@ -53,10 +53,11 @@
   overflow: hidden;
   padding: 0px;
   margin: 0px;
+  height: 100%;
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
+  // ::-webkit-scrollbar {
+  //   display: none;
+  // }
 
   .mpp-header {
     position: fixed;
@@ -75,7 +76,7 @@
     height: 80%;
     min-height: 80%;
     max-height: 80%;
-    overflow-y: scroll;
+    overflow-y: hidden;
     /*         margin-top: 70px;
         margin-bottom: 60px;
         margin-left: -10px;
@@ -84,6 +85,20 @@
     /* margin-top: 50px; */
   }
 
+  .mppp-body {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    height: 80%;
+    min-height: 80%;
+    max-height: 80%;
+    overflow-y: scroll;
+    /*         margin-top: 70px;
+        margin-bottom: 60px;
+        margin-left: -10px;
+        margin-right: -10px; */
+
+    /* margin-top: 50px; */
+  }
   .mpp-footer {
     position: fixed;
     bottom: 0;

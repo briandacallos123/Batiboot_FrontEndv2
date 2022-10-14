@@ -339,6 +339,15 @@ export default function InquireQuotation() {
               identifier={identifier}
               data={modalViewData}
             />
+            // <UserModal
+            //   open={openViewModal}
+            //   onClose={handleCloseModal}
+            //   view={isView}
+            //   data={modalViewData}
+            //   identifier={identifier}
+            //   pathname={pathname}
+            //   nameLink={'Inquiry Quotation view'}
+            // />
           }
         </Box>
 

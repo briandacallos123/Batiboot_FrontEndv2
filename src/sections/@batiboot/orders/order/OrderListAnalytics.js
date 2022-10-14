@@ -43,10 +43,6 @@ export default function OrderListAnalytics({ title, total, icon, color, percent,
             orders
           </Box>
         </Typography>
-
-        <Typography variant="subtitle2" sx={{ color }}>
-          {fCurrency(price)}
-        </Typography>
       </Stack>
     </Stack>
   );

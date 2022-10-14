@@ -43,10 +43,6 @@ export default function InvoiceAnalytic({ title, total, icon, color, percent, pr
             invoice
           </Box>
         </Typography>
-
-        <Typography variant="subtitle2" sx={{ color }}>
-          {fCurrency(price)}
-        </Typography>
       </Stack>
     </Stack>
   );

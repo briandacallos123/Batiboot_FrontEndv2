@@ -29,6 +29,7 @@ import { _userList, _invoices } from '../../../_mock';
 // components
 import { DialogAnimate } from '../../../components/animate';
 import Iconify from '../../../components/Iconify';
+import Scrollbar from '../../../components/Scrollbar';
 
 import Page from '../../../components/Page';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
@@ -85,50 +86,50 @@ export default function OrderListViewModal(props) {
           {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
           {/*             <InvoiceDetails invoice={currentInvoice}/> */}
 
-          <Grid container rowGap={4} sx={{ overflow: 'auto', height: '70vh' }}>
-            <Grid item xs={12} sm={6} paddingRight={4}>
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Product name
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.product_name}
-              </Typography>
+          <Grid container rowGap={4} sx={{ height: '70vh' }}>
+            <Scrollbar>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="overline" marginBottom={1} color="primary.main">
+                    Product name
+                  </Typography>
+                  <Typography variant="h6" marginBottom={1}>
+                    {data?.product_name}
+                  </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Quantity
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.quantity}
-              </Typography>
+                  <Typography variant="overline" marginBottom={1} color="primary.main">
+                    Quantity
+                  </Typography>
+                  <Typography variant="h6" marginBottom={1}>
+                    {data?.quantity}
+                  </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Service Type
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.services}
-              </Typography>
+                  <Typography variant="overline" marginBottom={1} color="primary.main">
+                    Service Type
+                  </Typography>
+                  <Typography variant="h6" marginBottom={1}>
+                    {data?.services}
+                  </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Price per Piece
-              </Typography>
-              <Typography variant="h6" marginBottom={1}>
-                {data?.price}
-              </Typography>
+                  <Typography variant="overline" marginBottom={1} color="primary.main">
+                    Price per Piece
+                  </Typography>
+                  <Typography variant="h6" marginBottom={1}>
+                    {data?.price}
+                  </Typography>
 
-              <Typography variant="overline" marginBottom={1} color="primary.main">
-                Description
-              </Typography>
-              <Box sx={{ml:-1.8}}>
-                  <ReactQuill
-                  value= {data?.description}
-                  readOnly={"true"}
-                  theme="bubble"
-                  />
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <OrderGallery data={data?.attachments} />
-            </Grid>
+                  <Typography variant="overline" marginBottom={1} color="primary.main">
+                    Description
+                  </Typography>
+                  <Box sx={{ ml: -1.8 }}>
+                    <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <OrderGallery data={data?.attachments} />
+                </Grid>
+              </Grid>
+            </Scrollbar>
           </Grid>
         </Container>
       </Page>

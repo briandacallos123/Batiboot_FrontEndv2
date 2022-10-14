@@ -7,18 +7,26 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack } from '@mui/material';
+import { Box, Card, Stack, Drawer, Grid, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // routes
 import { PATH_BATIBOOT } from '../../../../routes/paths';
 // mock
 import { _invoiceAddressFrom } from '../../../../_mock/batiboot/invoice_mock/_invoice';
+// hook
+import useResponsive from '../../../../hooks/useResponsive';
 // components
+import Iconify from '../../../../components/Iconify';
 import { FormProvider } from '../../../../components/hook-form';
 //
+
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
 import InvoiceNewEditStatusDate from './InvoiceNewEditStatusDate';
-
+import InvoiceData from '../../orders/shipment/shipment-components/invoice-details/InvoiceDetails';
+import QuotationData from '../../orders/shipment/shipment-components/quotation-data/Quotation';
+import SideBar from '../details/SideBar';
+import Scrollbar from '../../../../components/Scrollbar';
 // ----------------------------------------------------------------------
 
 InvoiceNewEditForm.propTypes = {
@@ -28,9 +36,13 @@ InvoiceNewEditForm.propTypes = {
   formRef: PropTypes.any,
 };
 
-export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef }) {
+const SIDEBAR_WIDTH = 320;
+const SIDEBAR_COLLAPSE_WIDTH = 96;
 
+export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef }) {
   const navigate = useNavigate();
+
+  const isDesktop = useResponsive('up', 'md');
 
   const [loadingSave, setLoadingSave] = useState(false);
 
@@ -122,31 +134,55 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
   return (
     <FormProvider methods={methods}>
       <Card>
-        <InvoiceNewEditAddress />
-        <InvoiceNewEditStatusDate />
-        <InvoiceNewEditDetails />
+        {isEdit ? (
+          <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
+            <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
+              <Scrollbar>
+                <InvoiceNewEditAddress />
+                <InvoiceNewEditStatusDate />
+                <InvoiceNewEditDetails />
+              </Scrollbar>
+            </Stack>
+
+            <SideBar invoice={currentInvoice} edit={isEdit} />
+          </Box>
+        ) : (
+          <Grid container>
+            <Grid item xs={12} md={2} bgcolor="background.neutral" />
+            <Grid item xs={12} md={8}>
+              <Stack height={{ xs: '100%', md: '75vh' }}>
+                <Scrollbar>
+                  <InvoiceNewEditAddress />
+                  <InvoiceNewEditStatusDate />
+                  <InvoiceNewEditDetails />
+                </Scrollbar>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={2} bgcolor="background.neutral" />
+          </Grid>
+        )}
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ my: 3 }}>
-      <LoadingButton
+        <LoadingButton
           color="error"
           size="small"
           variant="contained"
           loading={loadingSave && isSubmitting}
           onClick={handleCloseModal}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
-        
+
         <LoadingButton
           color="inherit"
           size="small"
           variant="contained"
           loading={loadingSave && isSubmitting}
           onClick={handleSubmit(handleSaveAsDraft)}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
 
@@ -155,8 +191,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           variant="contained"
           loading={loadingSend && isSubmitting}
           onClick={handleSubmit(handleCreateAndSend)}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
       </Stack>

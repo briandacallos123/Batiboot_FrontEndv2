@@ -43,10 +43,6 @@ export default function InquireQuoListAnalytics({ title, total, icon, color, per
             orders
           </Box>
         </Typography>
-
-        <Typography variant="subtitle2" sx={{ color }}>
-          {fCurrency(price)}
-        </Typography>
       </Stack>
     </Stack>
   );

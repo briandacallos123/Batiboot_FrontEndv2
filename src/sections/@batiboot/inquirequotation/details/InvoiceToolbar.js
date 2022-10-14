@@ -63,7 +63,7 @@ export default function InvoiceToolbar({ invoice }) {
             )}
           </PDFDownloadLink>
 
-          <Tooltip title="Print">
+          {/* <Tooltip title="Print">
             <IconButton>
               <Iconify icon={'eva:printer-fill'} />
             </IconButton>
@@ -79,7 +79,7 @@ export default function InvoiceToolbar({ invoice }) {
             <IconButton>
               <Iconify icon={'eva:share-fill'} />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
         </Stack>
 
         <Button

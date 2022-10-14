@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import Image from '../../../components/Image';
 import { varFade } from '../../../components/animate';
 
-import { ServiceRebrandingGallery, ServiceRebrandingSlider } from '.';
+import { ServiceGallery, ServiceSlider } from '.';
 
 const modalStyle = {
   position: 'absolute',
@@ -65,7 +65,7 @@ export default function ServiceRebranding(props) {
               )}
             </Typography>
             <Grid container direction="row" alignItems="center" sx={{ mt: 2 }}>
-              <Button size="large" variant="contained" href="./Quotation">
+              <Button size="large" variant="contained" href="/user/order/create/">
                 Order Now
               </Button>
               <Button
@@ -94,13 +94,13 @@ export default function ServiceRebranding(props) {
                     </Typography>
                     <Grid container spacing={2} marginTop={1}>
                       <Grid item xs={12} sm={6} height={{ xs: '30vh', md: '65vh' }}>
-                        <ServiceRebrandingGallery />
+                        <ServiceGallery />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
-                        <ServiceRebrandingSlider />
+                        <ServiceSlider />
                         <Grid align="right" marginTop={2}>
-                          <Button size="large" variant="contained" href="./Quotation">
+                          <Button size="large" variant="contained" href="/user/order/create/">
                             Order Now
                           </Button>
                         </Grid>

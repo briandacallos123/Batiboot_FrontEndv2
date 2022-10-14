@@ -10,7 +10,7 @@ import Iconify from '../../../../../../components/Iconify';
 import { RHFSelect, RHFTextField } from '../../../../../../components/hook-form';
 import { _invoices } from '../../../../../../_mock/batiboot/invoice_mock/_invoice';
 import QuotationData from '../quotation-data/Quotation';
-import InvoiceDetails from '../invoice-details/InvoiceDetails';
+import InvoiceData from '../invoice-details/InvoiceDetails';
 
 
 export default function ShippingDetails({isIdentifier}) {
@@ -29,7 +29,7 @@ export default function ShippingDetails({isIdentifier}) {
                     gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}}
                 >    
                 <QuotationData isIdentifier={isIdentifier} />
-                <InvoiceDetails isIdentifier={isIdentifier}/>
+                <InvoiceData isIdentifier={isIdentifier}/>
             </Box>
         </Box>
     )

@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 // components
 import Image from '../../../components/Image';
 import { varFade } from '../../../components/animate';
-import { ServiceSourcingGallery, ServiceSourcingSlider } from '.';
+import { ServiceGallery, ServiceSlider } from '.';
 
 const modalStyle = {
   position: 'absolute',
@@ -65,7 +65,7 @@ export default function ServiceSourcing(props) {
             </Typography>
             <Grid container direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
               <Grid item>
-                <Button size="large" variant="contained" href="./Quotation">
+                <Button size="large" variant="contained" href="/user/order/create/">
                   Order Now
                 </Button>
               </Grid>
@@ -97,13 +97,13 @@ export default function ServiceSourcing(props) {
                     </Typography>
                     <Grid container spacing={2} marginTop={1}>
                       <Grid item xs={12} sm={6} height={{ xs: '30vh', md: '65vh' }}>
-                        <ServiceSourcingGallery />
+                        <ServiceGallery />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
-                        <ServiceSourcingSlider />
+                        <ServiceSlider />
                         <Grid align="right" marginTop={2}>
-                          <Button size="large" variant="contained" href="./Quotation">
+                          <Button size="large" variant="contained" href="/user/order/create/">
                             Order Now
                           </Button>
                         </Grid>

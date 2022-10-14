@@ -13,6 +13,8 @@ import {
   TableCell,
   Typography,
   TableContainer,
+  Stack,
+  Container,
 } from '@mui/material';
 // utils
 import { fDate } from '../../../../utils/formatTime';
@@ -40,7 +42,6 @@ QuotationDetails.propTypes = {
 };
 
 export default function QuotationDetails({ invoice }) {
-
   const theme = useTheme();
 
   if (!invoice) {
@@ -68,7 +69,23 @@ export default function QuotationDetails({ invoice }) {
       <Card sx={{ pt: 5, px: 5 }}>
         <Grid container>
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Image disabledEffect visibleByDefault alt="logo" src="/logo/logo_full.svg" sx={{ maxWidth: 120 }} />
+            <Container
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Image
+                disabledEffect
+                visibleByDefault
+                alt="logo"
+                src="/assets/logos/batiboot-circle.png"
+                sx={{ maxWidth: 50 }}
+              />
+              <Typography variant="h5" sx={{ ml: 1, color: theme.palette.mode === 'light' ? '#000' : '#fff' }}>
+                Batiboot
+              </Typography>
+            </Container>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
