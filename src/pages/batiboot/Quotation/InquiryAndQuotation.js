@@ -293,211 +293,220 @@ export default function InquireQuotation() {
   console.log(totalData);
 
   return (
-      <Page title="Batiboot: Inquire/Quotation">
-        <Container maxWidth={themeStretch ? false : 'lg'}>
-          <HeaderBreadcrumbs
-            heading="Inquire and Quotation"
-            links={[
-              { name: 'Dashboard', href: PATH_BATIBOOT.root },
-              { name: 'Inquire & Quotation', href: PATH_BATIBOOT.inquire.root },
-              { name: 'List' },
-            ]}
-            action={
-              <Button
-                variant="contained"
-                startIcon={<Iconify icon={'eva:plus-fill'} />}
-                /*   component={RouterLink}
+    <Page title="Batiboot: Inquire/Quotation">
+      <Container maxWidth={themeStretch ? false : 'lg'}>
+        <HeaderBreadcrumbs
+          heading="Inquire and Quotation"
+          links={[
+            { name: 'Dashboard', href: PATH_BATIBOOT.root },
+            { name: 'Inquire & Quotation', href: PATH_BATIBOOT.inquire.root },
+            { name: 'List' },
+          ]}
+          action={
+            <Button
+              variant="contained"
+              startIcon={<Iconify icon={'eva:plus-fill'} />}
+              /*   component={RouterLink}
               to={PATH_BATIBOOT.inquire.create} */
-                onClick={handleOpenModal}
-              >
-                Inquire
-              </Button>
-            }
-          />
+              onClick={handleOpenModal}
+            >
+              Inquire
+            </Button>
+          }
+        />
 
-          <Box>
-            {/* UserRolesCreate Modal */}
-            <UserModal
-              open={openModal}
-              onClose={handleCloseModal}
-              edit={isEdit}
-              identifier={identifier}
-              pathname={pathname}
-              nameLink={'Inquiry Quotation'}
-            />
-            {
-              /* <InquireAndQuotationCreateModal
+        <Box>
+          {/* UserRolesCreate Modal */}
+          <UserModal
+            open={openModal}
+            onClose={handleCloseModal}
+            edit={isEdit}
+            identifier={identifier}
+            pathname={pathname}
+            nameLink={'Inquiry Quotation'}
+          />
+          {
+            /* <InquireAndQuotationCreateModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
              identifier={identifier}
           />
           */
-              <InquiryAndQuotationViewModal
-                open={openViewModal}
-                onClose={handleCloseModal}
-                identifier={identifier}
-                data={modalViewData}
-              />
-            }
-          </Box>
-
-          <Card sx={{ mb: 5 }}>
-            <Scrollbar>
-              <Stack
-                direction="row"
-                divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
-                sx={{ py: 2 }}
-              >
-                <InquireQuoListAnalytics
-                  title="Total"
-                  total={tableData.length}
-                  percent={100}
-                  price={sumBy(tableData, 'amount')}
-                  icon="ic:round-receipt"
-                  color={theme.palette.info.main}
-                />
-                <InquireQuoListAnalytics
-                  title="Approved"
-                  total={getLengthByStatus('approved')}
-                  percent={getPercentByStatus('approved')}
-                  price={getTotalPriceByStatus('approved')}
-                  icon="eva:checkmark-circle-2-fill"
-                  color={theme.palette.success.main}
-                />
-                <InquireQuoListAnalytics
-                  title="Received"
-                  total={getLengthByStatus('received')}
-                  percent={getPercentByStatus('received')}
-                  price={getTotalPriceByStatus('received')}
-                  icon="eva:clock-fill"
-                  color={theme.palette.warning.main}
-                />
-                <InquireQuoListAnalytics
-                  title="Draft"
-                  total={getLengthByStatus('draft')}
-                  percent={getPercentByStatus('draft')}
-                  price={getTotalPriceByStatus('draft')}
-                  icon="eva:file-fill"
-                  color={theme.palette.text.secondary}
-                />
-              </Stack>
-            </Scrollbar>
-          </Card>
-
-          <Card>
-            {showSkel ? (
-              <Tabs
-                allowScrollButtonsMobile
-                variant="scrollable"
-                scrollButtons="auto"
-                value={filterStatus}
-                onChange={onFilterStatus}
-                sx={{ px: 2, bgcolor: 'background.neutral' }}
-              >
-                {TABS.map((tab) => (
-                  <Tab
-                    disableRipple
-                    key={tab.value}
-                    value={tab.value}
-                    icon={<Label color={tab.color}> {tab.count} </Label>}
-                    label={tab.label}
-                    onClick={() => handleTabClick(tab.value)}
-                  />
-                ))}
-              </Tabs>
-            ) : (
-              <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
-                <Box sx={{ display: 'flex' }}>
-                  <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
-                  <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
-                </Box>
-
-                <Box sx={{ display: 'flex' }}>
-                  <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
-                  <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
-                </Box>
-
-                <Box sx={{ display: 'flex' }}>
-                  <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
-                  <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
-                </Box>
-
-                <Box sx={{ display: 'flex' }}>
-                  <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
-                  <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
-                </Box>
-
-                <Box sx={{ display: 'flex' }}>
-                  <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
-                  <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
-                </Box>
-              </Stack>
-            )}
-
-            <Divider />
-
-            <InquireQuoTableToolbar
-              filterName={filterName}
-              filterService={filterService}
-              filterStartDate={filterStartDate}
-              filterEndDate={filterEndDate}
-              onFilterName={handleFilterName}
-              onFilterService={handleFilterService}
-              onFilterStartDate={(newValue) => {
-                setFilterStartDate(newValue);
-              }}
-              onFilterEndDate={(newValue) => {
-                setFilterEndDate(newValue);
-              }}
-              optionsService={SERVICE_OPTIONS}
+            <InquiryAndQuotationViewModal
+              open={openViewModal}
+              onClose={handleCloseModal}
+              identifier={identifier}
+              data={modalViewData}
             />
+            // <UserModal
+            //   open={openViewModal}
+            //   onClose={handleCloseModal}
+            //   view={isView}
+            //   data={modalViewData}
+            //   identifier={identifier}
+            //   pathname={pathname}
+            //   nameLink={'Inquiry Quotation view'}
+            // />
+          }
+        </Box>
 
-            <Scrollbar>
-              <TableContainer sx={{ minWidth: 800, position: 'relative' }}>
-                {selected.length > 0 && (
-                  <TableSelectedActions
-                    dense={dense}
-                    numSelected={selected.length}
-                    rowCount={tableData.length}
-                    onSelectAllRows={(checked) =>
-                      onSelectAllRows(
-                        checked,
-                        tableData.map((row) => row.id)
-                      )
-                    }
-                    actions={
-                      <Stack spacing={1} direction="row">
-                        <Tooltip title="Sent">
-                          <IconButton color="primary">
-                            <Iconify icon={'ic:round-send'} />
-                          </IconButton>
-                        </Tooltip>
+        <Card sx={{ mb: 5 }}>
+          <Scrollbar>
+            <Stack
+              direction="row"
+              divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
+              sx={{ py: 2 }}
+            >
+              <InquireQuoListAnalytics
+                title="Total"
+                total={tableData.length}
+                percent={100}
+                price={sumBy(tableData, 'amount')}
+                icon="ic:round-receipt"
+                color={theme.palette.info.main}
+              />
+              <InquireQuoListAnalytics
+                title="Approved"
+                total={getLengthByStatus('approved')}
+                percent={getPercentByStatus('approved')}
+                price={getTotalPriceByStatus('approved')}
+                icon="eva:checkmark-circle-2-fill"
+                color={theme.palette.success.main}
+              />
+              <InquireQuoListAnalytics
+                title="Received"
+                total={getLengthByStatus('received')}
+                percent={getPercentByStatus('received')}
+                price={getTotalPriceByStatus('received')}
+                icon="eva:clock-fill"
+                color={theme.palette.warning.main}
+              />
+              <InquireQuoListAnalytics
+                title="Draft"
+                total={getLengthByStatus('draft')}
+                percent={getPercentByStatus('draft')}
+                price={getTotalPriceByStatus('draft')}
+                icon="eva:file-fill"
+                color={theme.palette.text.secondary}
+              />
+            </Stack>
+          </Scrollbar>
+        </Card>
 
-                        <Tooltip title="Download">
-                          <IconButton color="primary">
-                            <Iconify icon={'eva:download-outline'} />
-                          </IconButton>
-                        </Tooltip>
+        <Card>
+          {showSkel ? (
+            <Tabs
+              allowScrollButtonsMobile
+              variant="scrollable"
+              scrollButtons="auto"
+              value={filterStatus}
+              onChange={onFilterStatus}
+              sx={{ px: 2, bgcolor: 'background.neutral' }}
+            >
+              {TABS.map((tab) => (
+                <Tab
+                  disableRipple
+                  key={tab.value}
+                  value={tab.value}
+                  icon={<Label color={tab.color}> {tab.count} </Label>}
+                  label={tab.label}
+                  onClick={() => handleTabClick(tab.value)}
+                />
+              ))}
+            </Tabs>
+          ) : (
+            <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
 
-                        <Tooltip title="Print">
-                          <IconButton color="primary">
-                            <Iconify icon={'eva:printer-fill'} />
-                          </IconButton>
-                        </Tooltip>
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
 
-                        <Tooltip title="Delete">
-                          <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
-                            <Iconify icon={'eva:trash-2-outline'} />
-                          </IconButton>
-                        </Tooltip>
-                      </Stack>
-                    }
-                  />
-                )}
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
 
-                <Table size={dense ? 'small' : 'medium'}>
-                  {/* <TableBody>
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+            </Stack>
+          )}
+
+          <Divider />
+
+          <InquireQuoTableToolbar
+            filterName={filterName}
+            filterService={filterService}
+            filterStartDate={filterStartDate}
+            filterEndDate={filterEndDate}
+            onFilterName={handleFilterName}
+            onFilterService={handleFilterService}
+            onFilterStartDate={(newValue) => {
+              setFilterStartDate(newValue);
+            }}
+            onFilterEndDate={(newValue) => {
+              setFilterEndDate(newValue);
+            }}
+            optionsService={SERVICE_OPTIONS}
+          />
+
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800, position: 'relative' }}>
+              {selected.length > 0 && (
+                <TableSelectedActions
+                  dense={dense}
+                  numSelected={selected.length}
+                  rowCount={tableData.length}
+                  onSelectAllRows={(checked) =>
+                    onSelectAllRows(
+                      checked,
+                      tableData.map((row) => row.id)
+                    )
+                  }
+                  actions={
+                    <Stack spacing={1} direction="row">
+                      <Tooltip title="Sent">
+                        <IconButton color="primary">
+                          <Iconify icon={'ic:round-send'} />
+                        </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title="Download">
+                        <IconButton color="primary">
+                          <Iconify icon={'eva:download-outline'} />
+                        </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title="Print">
+                        <IconButton color="primary">
+                          <Iconify icon={'eva:printer-fill'} />
+                        </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title="Delete">
+                        <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
+                          <Iconify icon={'eva:trash-2-outline'} />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                  }
+                />
+              )}
+
+              <Table size={dense ? 'small' : 'medium'}>
+                {/* <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <InquireQuoTableRow
                       key={row.id}
@@ -515,68 +524,68 @@ export default function InquireQuotation() {
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 
-                  <TableHeadCustom
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={tableData.length}
-                    numSelected={selected.length}
-                    onSort={onSort}
-                    onSelectAllRows={(checked) =>
-                      onSelectAllRows(
-                        checked,
-                        tableData.map((row) => row.id)
-                      )
-                    }
-                  />
+                <TableHeadCustom
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={tableData.length}
+                  numSelected={selected.length}
+                  onSort={onSort}
+                  onSelectAllRows={(checked) =>
+                    onSelectAllRows(
+                      checked,
+                      tableData.map((row) => row.id)
+                    )
+                  }
+                />
 
-                  <TableBody>
-                    {showSkel && showSkelDatatable
-                      ? quotationsArr.map((items) => (
-                          <InquireQuoTableRow
-                            // isDesktop={isDesktop}
-                            showSkeleton={showSkel}
-                            key={items.id}
-                            row={quotations.byId[items.id]}
-                            selected={selected.includes(items.id)}
-                            onSelectRow={() => onSelectRow(items.id)}
-                            onDeleteRow={() => handleDeleteRow(items.id)}
-                            onViewRow={() => handleViewRow(items)}
-                            onEditRow={() => handleEditRow(quotations.byId[items.id].fname)}
-                            // handleClickOpen={handleClickOpen}
-                          />
-                        ))
-                      : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
+                <TableBody>
+                  {showSkel && showSkelDatatable
+                    ? quotationsArr.map((items) => (
+                        <InquireQuoTableRow
+                          // isDesktop={isDesktop}
+                          showSkeleton={showSkel}
+                          key={items.id}
+                          row={quotations.byId[items.id]}
+                          selected={selected.includes(items.id)}
+                          onSelectRow={() => onSelectRow(items.id)}
+                          onDeleteRow={() => handleDeleteRow(items.id)}
+                          onViewRow={() => handleViewRow(items)}
+                          onEditRow={() => handleEditRow(quotations.byId[items.id].fname)}
+                          // handleClickOpen={handleClickOpen}
+                        />
+                      ))
+                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
 
-                    <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
+                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 
-                    <TableNoData isNotFound={totalData === 0 ?? !true} />
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Scrollbar>
+                  <TableNoData isNotFound={totalData === 0 ?? !true} />
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
 
-            <Box sx={{ position: 'relative' }}>
-              <TablePagination
-                rowsPerPageOptions={[3, 10, 25]}
-                component="div"
-                count={totalData}
-                // count={quotationsArr?.length+1}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={onChangePage}
-                onRowsPerPageChange={onChangeRowsPerPage}
-              />
+          <Box sx={{ position: 'relative' }}>
+            <TablePagination
+              rowsPerPageOptions={[3, 10, 25]}
+              component="div"
+              count={totalData}
+              // count={quotationsArr?.length+1}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={onChangePage}
+              onRowsPerPageChange={onChangeRowsPerPage}
+            />
 
-              <FormControlLabel
-                control={<Switch checked={dense} onChange={onChangeDense} />}
-                label="Dense"
-                sx={{ px: 3, py: 1.5, top: 0, position: { md: 'absolute' } }}
-              />
-            </Box>
-          </Card>
-        </Container>
-      </Page>
+            <FormControlLabel
+              control={<Switch checked={dense} onChange={onChangeDense} />}
+              label="Dense"
+              sx={{ px: 3, py: 1.5, top: 0, position: { md: 'absolute' } }}
+            />
+          </Box>
+        </Card>
+      </Container>
+    </Page>
   );
 }
 

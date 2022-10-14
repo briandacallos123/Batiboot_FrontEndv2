@@ -11,7 +11,7 @@ import PopUpModal from '../../../../modal/PopupModal';
 
 import { useDispatch, useSelector } from '../../../../../../redux/store';
 import { getProduct, addCart, onGotoStep } from '../../../../../../redux/slices/product';
-
+import Scrollbar from '../../../../../../components/Scrollbar';
 import useSettings from '../../../../../../hooks/useSettings';
 
 import ProductDetailsCarousel from '../slider/ProductDetailsCarousel';
@@ -87,10 +87,11 @@ export default function QuotationData(props) {
             <LabelStyle>Quantity: 3</LabelStyle>
           </div>
           <div>
-            <LabelStyle>Amout: 3000.00</LabelStyle>
+            <LabelStyle>Amount: 3000.00</LabelStyle>
           </div>
         </Stack>
       </Stack>
+
       {/*  <ProductDetailsCarousel product={itemData} /> */}
       <ImageList sx={{ width: 500, height: 175 }} variant="quilted" cols={4} rowHeight={121}>
         {itemData.map((item) => (

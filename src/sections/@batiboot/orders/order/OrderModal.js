@@ -237,11 +237,6 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
                     </option>
                   ))}
                 </RHFSelect>
-              </Stack>
-            </Card>
-
-            <Card sx={{ p: 3 }}>
-              <Stack spacing={3} mb={2}>
                 <RHFTextField
                   name="price"
                   label="Price per piece"
@@ -254,24 +249,13 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
                     type: 'number',
                   }}
                 />
-                {/* 
-                <RHFTextField
-                  name="priceSale"
-                  label="Sale Price"
-                  placeholder="0.00"
-                  value={getValues('priceSale') === 0 ? '' : getValues('priceSale')}
-                  onChange={(event) => setValue('price', Number(event.target.value))}
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    type: 'number',
-                  }}
-                /> */}
               </Stack>
             </Card>
+
             <Card sx={{ p: 3 }}>
               <Stack spacing={3} mt={2}>
                 <RHFTextField type="number" name="phoneNumber" label="Additional Contact number #" />
+                <RHFTextField name="email" label="Additional Email" />
               </Stack>
             </Card>
           </Stack>

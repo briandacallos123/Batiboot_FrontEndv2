@@ -14,7 +14,7 @@ import { _userList, _invoices } from '../../_mock';
 import { DialogAnimate } from '../../components/animate';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
-import './modalStyle.scss';
+import './modalStyle2.scss';
 
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
@@ -65,10 +65,9 @@ export default function InvoiceViewDetailsModal(props) {
         </div>
 
         <div className="mpp-body">
-          <Scrollbar>
-            <Page title="Batiboot: View Invoice">
-              <Container maxWidth={themeStretch ? false : 'lg'}>
-                {/* <HeaderBreadcrumbs
+          <Page title="Batiboot: View Invoice">
+            <Container maxWidth={themeStretch ? false : 'lg'}>
+              {/* <HeaderBreadcrumbs
             heading={'View Invoice'}
             links={[
               { name: 'Batiboot', href: PATH_BATIBOOT.root },
@@ -85,13 +84,12 @@ export default function InvoiceViewDetailsModal(props) {
               </Button>
             }
           /> */}
-                {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
-                {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
+              {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
+              {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
 
-                <InvoiceDetails invoice={currentInvoice} />
-              </Container>
-            </Page>
-          </Scrollbar>
+              <InvoiceDetails invoice={currentInvoice} />
+            </Container>
+          </Page>
         </div>
 
         <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>

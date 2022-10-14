@@ -20,6 +20,7 @@ import Iconify from '../../../components/Iconify';
 import Page from '../../../components/Page';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import ProductNewEditForm from '../inquirequotation/InquireQuotationModal';
+import InquiryAndQuotationViewModal from '../../../pages/batiboot/Quotation/InquiryAndQuotationView';
 import InvoiceCreate from '../invoice/new-edit-form';
 import OrderListModalForm from '../orders/order/OrderModal';
 import UserRolesCreateForm from '../user/user&role/role/UserRoleModalForm';
@@ -33,14 +34,14 @@ import TrackingModal from '../orders/shipment/shipment-components/TrackingModal'
 import './modalStyle.scss';
 
 export default function UserModal(props) {
-  const { open, selectedValue, onClose, edit, identifier, pathname, nameLink, pathLink } = props;
+  const { open, selectedValue, onClose, edit, identifier, pathname, nameLink, pathLink, data, view } = props;
 
   const { themeStretch } = useSettings();
 
   const { name = '' } = useParams();
 
   const isEdit = edit;
-
+  const isView = view;
   const currentUser = _userList.find((user) => paramCase(user.name) === name);
 
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
@@ -88,6 +89,9 @@ export default function UserModal(props) {
     }
     if (nameLink === 'Inquiry Quotation' && isEdit) {
       return <ProductNewEditForm isEdit={isEdit} formRef={formRef} />;
+    }
+    if (nameLink === 'Inquiry Quotation view' && isView) {
+      return <InquiryAndQuotationViewModal data={data} identifier={identifier} handleCloseModal={handleCloseModal} />;
     }
     if (nameLink === 'Order List' && !isEdit) {
       return <OrderListModalForm isEdit={isEdit} handleCloseModal={handleCloseModal} formRef={formRef} />;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // @mui
 import { useTheme, styled } from '@mui/material/styles';
-import { Box, Drawer, Divider, IconButton, Stack } from '@mui/material';
+import { Box, Drawer, Divider, IconButton, Stack, Grid } from '@mui/material';
 // hooks
 import useResponsive from '../../../../hooks/useResponsive';
 // components
@@ -83,9 +83,11 @@ export default function SideBar({ invoice, edit }) {
       height={{ xs: '100%', md: '75vh' }}
     >
       <Scrollbar>
-        <InvoiceToolbar invoice={invoice} />
-        <QuotationData isIdentifier={''} />
-        <InvoiceData isIdentifier={''} />
+        <Grid sx={{ pr: 2 }}>
+          <InvoiceToolbar invoice={invoice} />
+          <QuotationData isIdentifier={''} />
+          <InvoiceData isIdentifier={''} />
+        </Grid>
       </Scrollbar>
     </Stack>
   ) : (
@@ -99,8 +101,10 @@ export default function SideBar({ invoice, edit }) {
       height={{ xs: '100%', md: '75vh' }}
     >
       <Scrollbar>
-        <QuotationData isIdentifier={''} />
-        <InvoiceData isIdentifier={''} />
+        <Grid sx={{ pr: 2 }}>
+          <QuotationData isIdentifier={''} />
+          <InvoiceData isIdentifier={''} />
+        </Grid>
       </Scrollbar>
     </Stack>
   );
