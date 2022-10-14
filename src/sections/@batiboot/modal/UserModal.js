@@ -28,6 +28,7 @@ import UserCreateDesignationForm from '../user/user&role/designation/UserDesigna
 import UserCreateDepartmentForm from '../user/user&role/department/UserDepartmentModalForm';
 import UserNewEditForm from '../user/user&role/user/UserCreateModalForm';
 import TrackingModal from '../orders/shipment/shipment-components/TrackingModal';
+import Scrollbar from '../../../components/Scrollbar';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------
@@ -231,8 +232,9 @@ export default function UserModal(props) {
             </Stack>
           </DialogTitle>
         </div>
-
-        <div className="mpp-body">{Path()}</div>
+        <div className="mpp-body">
+          <Scrollbar>{Path()}</Scrollbar>
+        </div>
 
         <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>
           <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
