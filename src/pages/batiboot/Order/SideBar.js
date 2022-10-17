@@ -79,13 +79,11 @@ export default function SideBar({ invoice, edit }) {
       paddingBottom={{ xs: 5, md: 0 }}
       paddingLeft={{ xs: 2, md: 4 }}
       paddingRight={{ xs: 2, md: 0 }}
-      height={{ xs: '100%', md: '75vh' }}
+      height={{ xs: '100%', md: '87vh' }}
     >
       <Scrollbar>
-        <Grid sx={{ pr: 2 }}>
-          <QuotationData isIdentifier={''} />
-          <InvoiceData isIdentifier={''} />
-        </Grid>
+        <QuotationData isIdentifier={''} />
+        <InvoiceData isIdentifier={''} />
       </Scrollbar>
     </Stack>
   ) : (
@@ -96,13 +94,11 @@ export default function SideBar({ invoice, edit }) {
       paddingBottom={{ xs: 5, md: 0 }}
       paddingX={{ xs: 2, md: 4 }}
       paddingRight={{ xs: 2, md: 0 }}
-      height={{ xs: '100%', md: '75vh' }}
+      height={{ xs: '100%', md: '87vh' }}
     >
       <Scrollbar>
-        <Grid sx={{ pr: 2 }}>
-          <QuotationData isIdentifier={''} />
-          <InvoiceData isIdentifier={''} />
-        </Grid>
+        <QuotationData isIdentifier={''} />
+        <InvoiceData isIdentifier={''} />
       </Scrollbar>
     </Stack>
   );

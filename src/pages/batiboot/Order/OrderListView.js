@@ -97,48 +97,53 @@ export default function OrderListViewModal(props) {
               {/*             <InvoiceDetails invoice={currentInvoice}/> */}
 
               <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
-                <Stack sx={{ flexGrow: 1 }}>
-                  <Grid container>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Product name
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.product_name}
-                      </Typography>
+                <Stack sx={{ flexGrow: 1, height: { xs: '100%', md: '87vh' } }}>
+                  <Scrollbar>
+                    <Grid container paddingRight={{ xs: 0, md: 4 }}>
+                      <Grid item xs={12} md={6}>
+                        <Stack width={1} direction="column">
+                          <Typography variant="overline" color="primary.main">
+                            Product name
+                          </Typography>
+                          <Typography variant="h6" marginBottom={2}>
+                            {data?.product_name}
+                          </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Quantity
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.quantity}
-                      </Typography>
+                          <Typography variant="overline" color="primary.main">
+                            Quantity
+                          </Typography>
+                          <Typography variant="h6" marginBottom={2}>
+                            {data?.quantity}
+                          </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Service Type
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.services}
-                      </Typography>
+                          <Typography variant="overline" color="primary.main">
+                            Service Type
+                          </Typography>
+                          <Typography variant="h6" marginBottom={2}>
+                            {data?.services}
+                          </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Price per Piece
-                      </Typography>
-                      <Typography variant="h6" marginBottom={1}>
-                        {data?.price}
-                      </Typography>
+                          <Typography variant="overline" color="primary.main">
+                            Price per Piece
+                          </Typography>
+                          <Typography variant="h6" marginBottom={2}>
+                            {data?.price}
+                          </Typography>
 
-                      <Typography variant="overline" marginBottom={1} color="primary.main">
-                        Description
-                      </Typography>
-                      <Box sx={{ ml: -1.8 }}>
-                        <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
-                      </Box>
+                          <Typography variant="overline" color="primary.main">
+                            Description
+                          </Typography>
+
+                          <Box sx={{ ml: -1.8 }}>
+                            <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
+                          </Box>
+                        </Stack>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <OrderGallery data={data?.attachments} />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <OrderGallery data={data?.attachments} />
-                    </Grid>
-                  </Grid>
+                  </Scrollbar>
                 </Stack>
                 <SideBar />
               </Box>
