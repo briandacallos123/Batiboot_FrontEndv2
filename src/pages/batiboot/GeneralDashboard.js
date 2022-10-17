@@ -50,19 +50,17 @@ export default function GeneralDashboard() {
   const theme = useTheme();
 
   const { themeStretch } = useSettings();
-  
+
   const { dashboards, totalData, ccc, dashboardsArr, isLoading } = useSelector((state) => state.adminDashboard);
-  
+
   useEffect(() => {
     dispatch(getAllDashboard());
-  }, [dispatch])
-
-
+  }, [dispatch]);
 
   return (
     <Page title="Batiboot: Dashboard">
       <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Grid container spacing={3}>
+        <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
           {/* <Grid item
                         xs={12}
                         md={4}>
@@ -175,11 +173,21 @@ export default function GeneralDashboard() {
           </Grid>
 
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Warehousing" total={dashboardsArr.totalWarehousing} color="warning" icon={'fa-solid:warehouse'} />
+            <AnalyticsWidgetSummary
+              title="Warehousing"
+              total={dashboardsArr.totalWarehousing}
+              color="warning"
+              icon={'fa-solid:warehouse'}
+            />
           </Grid>
 
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Fulfillment" total={dashboardsArr.totalFulfillment} color="info" icon={'ant-design:gift-filled'} />
+            <AnalyticsWidgetSummary
+              title="Fulfillment"
+              total={dashboardsArr.totalFulfillment}
+              color="info"
+              icon={'ant-design:gift-filled'}
+            />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={4}>

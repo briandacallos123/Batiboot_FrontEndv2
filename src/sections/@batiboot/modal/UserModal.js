@@ -232,6 +232,7 @@ export default function UserModal(props) {
             </Stack>
           </DialogTitle>
         </div>
+        
         <div className="mpp-body">
           <Scrollbar>{Path()}</Scrollbar>
         </div>
