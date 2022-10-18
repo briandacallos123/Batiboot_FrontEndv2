@@ -42,7 +42,7 @@ export default function InquireQuotationGallery(props) {
   };
   console.log(data);
   return (
-    <ImageList variant="masonry" cols={2} sx={{ height: '100%', width: '100%' }}>
+    <ImageList variant="masonry" cols={data.length === 1 ? 1 : 2} sx={{ height: '100%', width: '100%' }}>
       {data.map((item) => (
         <ImageListItem
           key={item.img}
