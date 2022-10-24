@@ -134,8 +134,8 @@ export default function InquiryAndQuotationViewModal(props, row) {
         <div className="mpp-body">
           <Page title="Batiboot: View Invoice">
             <Container maxWidth={themeStretch ? false : 'lg'}>
-              <Grid container rowGap={2}>
-                <Grid item xs={12} sm={4}>
+              <Scrollbar>
+                <Stack width={1} direction={{ xs: 'column', md: 'row' }} spacing={3} height={'100%'}>
                   <Stack width={1} direction="column" className="card-space">
                     <Card
                       sx={{
@@ -148,60 +148,53 @@ export default function InquiryAndQuotationViewModal(props, row) {
                     </Card>
                     <ProfileDetails data={data} />
                   </Stack>
-                </Grid>
 
-                <Grid
-                  item
-                  container
-                  xs={12}
-                  sm={8}
-                  sx={{ pr: 1, overflowY: 'scroll', height: { md: '75vh', xs: '100%' } }}
-                >
-                  <Grid item xs={12} md={6} paddingLeft={{ xs: 0, md: 4 }}>
-                    <Stack width={1} direction="column">
-                      <Typography variant="overline" color="primary.main">
-                        Product name
-                      </Typography>
-                      <Typography variant="h6" marginBottom={2}>
-                        {data?.product_name}
-                      </Typography>
+                  <Stack width={1} height={{ xs: 'auto', md: '80vh' }}>
+                    <Scrollbar>
+                      <Stack direction="column">
+                        <Typography variant="overline" color="primary.main">
+                          Product name
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.product_name}
+                        </Typography>
 
-                      <Typography variant="overline" color="primary.main">
-                        Quantity
-                      </Typography>
-                      <Typography variant="h6" marginBottom={2}>
-                        {data?.quantity}
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Quantity
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.quantity}
+                        </Typography>
 
-                      <Typography variant="overline" color="primary.main">
-                        Service Type
-                      </Typography>
-                      <Typography variant="h6" marginBottom={2}>
-                        {data?.services}
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Service Type
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.services}
+                        </Typography>
 
-                      <Typography variant="overline" color="primary.main">
-                        Price per Piece
-                      </Typography>
-                      <Typography variant="h6" marginBottom={2}>
-                        {data?.price}
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Price per Piece
+                        </Typography>
+                        <Typography variant="h6" marginBottom={2}>
+                          {data?.price}
+                        </Typography>
 
-                      <Typography variant="overline" color="primary.main">
-                        Description
-                      </Typography>
+                        <Typography variant="overline" color="primary.main">
+                          Description
+                        </Typography>
 
-                      <Box sx={{ ml: -1.8 }}>
-                        <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
-                      </Box>
-                    </Stack>
-                  </Grid>
-
-                  <Grid item xs={12} md={6}>
+                        <Box sx={{ ml: -1.8 }}>
+                          <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
+                        </Box>
+                      </Stack>
+                    </Scrollbar>
+                  </Stack>
+                  <Stack width={1} height={{ xs: 'auto', md: '80vh' }}>
                     <InquireQuotationGallery data={data?.attachments} />
-                  </Grid>
-                </Grid>
-              </Grid>
+                  </Stack>
+                </Stack>
+              </Scrollbar>
               {/* <Stack Container direction="row">
                 <Stack item sx={{ width: '100%' }} md={6}>
                   <Stack direction="column" className="card-space">
