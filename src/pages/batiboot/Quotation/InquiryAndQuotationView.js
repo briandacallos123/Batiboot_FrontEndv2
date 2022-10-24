@@ -135,7 +135,12 @@ export default function InquiryAndQuotationViewModal(props, row) {
           <Page title="Batiboot: View Invoice">
             <Container maxWidth={themeStretch ? false : 'lg'}>
               <Scrollbar>
-                <Stack width={1} direction={{ xs: 'column', md: 'row' }} spacing={3} height={'100%'}>
+                <Stack
+                  width={1}
+                  direction={{ xs: 'column', md: 'row' }}
+                  spacing={3}
+                  height={{ md: '100%', xs: '80vh' }}
+                >
                   <Stack width={1} direction="column" className="card-space">
                     <Card
                       sx={{
