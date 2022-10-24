@@ -66,7 +66,7 @@ export default function ProfileCover({ myProfile }) {
       <Grid sx={{ position: 'absolute', right: 0, pr: 3, pt: 2, zIndex: 99 }}>
         <LabelStyle variant="h6">TR-No: 11304</LabelStyle>
       </Grid>
-      <InfoStyle>
+      <InfoStyle sx={{ pb: 1 }}>
         <MyAvatar
           sx={{
             mx: 'auto',

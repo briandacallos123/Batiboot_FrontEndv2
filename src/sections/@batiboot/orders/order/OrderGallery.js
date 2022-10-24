@@ -91,7 +91,7 @@ export default function OrderGallery(props) {
                   alt={item.title}
                 />
                 <Box bgcolor={'primary.main'} sx={{ opacity: 0.2 }} className="image_more-b" />
-                <Typography sx={{ opacity: 1, color: '#000' }} className="image_more-p">
+                <Typography sx={{ opacity: 1, color: 'primary.dark' }} className="image_more-p">
                   +{data.length - 3}
                 </Typography>
               </div>

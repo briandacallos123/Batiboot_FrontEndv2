@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Container, Grid, Button } from '@mui/material';
+import { Container, Grid, Button, Typography } from '@mui/material';
 // hooks
 import { getAllDashboard } from '../../redux/slices/adminDashboard';
 import { useDispatch, useSelector } from '../../redux/store';
@@ -190,6 +190,17 @@ export default function GeneralDashboard() {
             />
           </Grid>
 
+          {/* testing */}
+          {/* <Grid item xs={6} sm={4} md={2}>
+            <AnalyticsWidgetSummary
+              title="Fulfillment"
+              total={dashboardsArr.totalFulfillment}
+              color="info"
+              icon={'ant-design:gift-filled'}
+            />
+          </Grid> */}
+          {/* testing */}
+
           {/* <Grid item xs={12} md={6} lg={4}>
             <EcommerceSaleByGender
               title="Sale By Gender"
@@ -308,34 +319,36 @@ export default function GeneralDashboard() {
           </Grid> */}
 
           <Grid item xs={12} md={12} lg={12}>
-            <EcommerceBestSalesman
-              title="Best Agent"
-              tableData={_ecommerceBestSalesman}
-              tableLabels={[
-                {
-                  id: 'seller',
-                  label: 'Agent',
-                },
-                {
-                  id: 'product',
-                  label: 'Product',
-                },
-                {
-                  id: 'country',
-                  label: 'Country',
-                  align: 'center',
-                },
-                {
-                  id: 'total',
-                  label: 'Total',
-                },
-                {
-                  id: 'rank',
-                  label: 'Rank',
-                  align: 'right',
-                },
-              ]}
-            />
+            {user.user_role === 'admin' ? (
+              <EcommerceBestSalesman
+                title="Best Agent"
+                tableData={_ecommerceBestSalesman}
+                tableLabels={[
+                  {
+                    id: 'seller',
+                    label: 'Agent',
+                  },
+                  {
+                    id: 'product',
+                    label: 'Product',
+                  },
+                  {
+                    id: 'country',
+                    label: 'Country',
+                    align: 'center',
+                  },
+                  {
+                    id: 'total',
+                    label: 'Total',
+                  },
+                  {
+                    id: 'rank',
+                    label: 'Rank',
+                    align: 'right',
+                  },
+                ]}
+              />
+            ) : null}
           </Grid>
         </Grid>
       </Container>

@@ -2,6 +2,7 @@ import { paramCase } from 'change-case';
 import { useParams, useLocation, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
+
 // @mui
 import {
   Container,
@@ -104,143 +105,206 @@ export default function InquiryAndQuotationViewModal(props, row) {
 
   return (
     <DialogAnimate className="dialog-center" open={open} sx={{ px: 1, py: 3 }} fullScreen maxWidth={'md'}>
-      <Scrollbar>
-        <div className="mpp-main">
-          <div className="mpp-header">
-            <DialogTitle sx={{ backgroundColor: theme.palette.primary.main, pb: 2 }}>
-              {/*  <Image disabledEffect alt='samplejhonghilario' src='/assets/hip-logosm.png' sx={{ position: 'fixed', top: -11, left: 1, width: 90, height: 90 }} /> */}
-              <Stack direction="row" alignItems="center">
-                <Stack direction="row" alignItems="center" sx={{ width: 1 }}>
-                  <Box component="img" src="/assets/logos/batiboot-circle.png" sx={{ width: 30, height: 30 }} />
-                  <Typography sx={{ ml: 2, color: 'white', fontWeight: 'bold' }}>{'View Inquiry'}</Typography>
-                </Stack>
-                <Stack alignItems="flex-end" sx={{ width: 1 }}>
-                  <Button
-                    sx={{
-                      color: 'black',
-                      '&:hover': { backgroundColor: 'white', color: theme.palette.primary.main },
-                    }}
-                    variant="contained"
-                    onClick={handleCloseModal}
-                    startIcon={<Iconify icon={'eva:arrow-back-fill'} />}
-                  >
-                    Back
-                  </Button>
-                </Stack>
+      <div className="mpp-main">
+        <div className="mpp-header">
+          <DialogTitle sx={{ backgroundColor: theme.palette.primary.main, pb: 2 }}>
+            {/*  <Image disabledEffect alt='samplejhonghilario' src='/assets/hip-logosm.png' sx={{ position: 'fixed', top: -11, left: 1, width: 90, height: 90 }} /> */}
+            <Stack direction="row" alignItems="center">
+              <Stack direction="row" alignItems="center" sx={{ width: 1 }}>
+                <Box component="img" src="/assets/logos/batiboot-circle.png" sx={{ width: 30, height: 30 }} />
+                <Typography sx={{ ml: 2, color: 'white', fontWeight: 'bold' }}>{'View Inquiry'}</Typography>
               </Stack>
-            </DialogTitle>
-          </div>
+              <Stack alignItems="flex-end" sx={{ width: 1 }}>
+                <Button
+                  sx={{
+                    color: 'black',
+                    '&:hover': { backgroundColor: 'white', color: theme.palette.primary.main },
+                  }}
+                  variant="contained"
+                  onClick={handleCloseModal}
+                  startIcon={<Iconify icon={'eva:arrow-back-fill'} />}
+                >
+                  Back
+                </Button>
+              </Stack>
+            </Stack>
+          </DialogTitle>
+        </div>
 
-          <div className="mpp-body">
-            <Page title="Batiboot: View Invoice">
-              <Container maxWidth={themeStretch ? false : 'lg'}>
-                <Grid container rowGap={4}>
-                  <Grid item xs={12} sm={4}>
-                    <Stack width={1} direction="column" className="card-space">
-                      <Card
-                        sx={{
-                          mb: 3,
-                          height: { xs: 230, md: 170 },
-                          position: 'relative',
-                        }}
-                      >
-                        <ProfileCover myProfile={data} />
-                      </Card>
-                      <ProfileDetails data={data} />
+        <div className="mpp-body">
+          <Page title="Batiboot: View Invoice">
+            <Container maxWidth={themeStretch ? false : 'lg'}>
+              <Grid container rowGap={2}>
+                <Grid item xs={12} sm={4}>
+                  <Stack width={1} direction="column" className="card-space">
+                    <Card
+                      sx={{
+                        mb: 3,
+                        height: { xs: 230, md: 170 },
+                        position: 'relative',
+                      }}
+                    >
+                      <ProfileCover myProfile={data} />
+                    </Card>
+                    <ProfileDetails data={data} />
+                  </Stack>
+                </Grid>
+
+                <Grid
+                  item
+                  container
+                  xs={12}
+                  sm={8}
+                  sx={{ pr: 1, overflowY: 'scroll', height: { md: '75vh', xs: '100%' } }}
+                >
+                  <Grid item xs={12} md={6} paddingLeft={{ xs: 0, md: 4 }}>
+                    <Stack width={1} direction="column">
+                      <Typography variant="overline" color="primary.main">
+                        Product name
+                      </Typography>
+                      <Typography variant="h6" marginBottom={2}>
+                        {data?.product_name}
+                      </Typography>
+
+                      <Typography variant="overline" color="primary.main">
+                        Quantity
+                      </Typography>
+                      <Typography variant="h6" marginBottom={2}>
+                        {data?.quantity}
+                      </Typography>
+
+                      <Typography variant="overline" color="primary.main">
+                        Service Type
+                      </Typography>
+                      <Typography variant="h6" marginBottom={2}>
+                        {data?.services}
+                      </Typography>
+
+                      <Typography variant="overline" color="primary.main">
+                        Price per Piece
+                      </Typography>
+                      <Typography variant="h6" marginBottom={2}>
+                        {data?.price}
+                      </Typography>
+
+                      <Typography variant="overline" color="primary.main">
+                        Description
+                      </Typography>
+
+                      <Box sx={{ ml: -1.8 }}>
+                        <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
+                      </Box>
                     </Stack>
                   </Grid>
-                  <Grid item container xs={12} sm={8}>
-                    <Grid item xs={12} md={6} paddingLeft={{ xs: 0, md: 4 }}>
-                      <Stack width={1} direction="column">
-                        <Typography variant="overline" color="primary.main">
-                          Product name
-                        </Typography>
-                        <Typography variant="h6" marginBottom={2}>
-                          {data?.product_name}
-                        </Typography>
 
-                        <Typography variant="overline" color="primary.main">
-                          Quantity
-                        </Typography>
-                        <Typography variant="h6" marginBottom={2}>
-                          {data?.quantity}
-                        </Typography>
-
-                        <Typography variant="overline" color="primary.main">
-                          Service Type
-                        </Typography>
-                        <Typography variant="h6" marginBottom={2}>
-                          {data?.services}
-                        </Typography>
-
-                        <Typography variant="overline" color="primary.main">
-                          Price per Piece
-                        </Typography>
-                        <Typography variant="h6" marginBottom={2}>
-                          {data?.price}
-                        </Typography>
-
-                        <Typography variant="overline" color="primary.main">
-                          Description
-                        </Typography>
-
-                        <Box sx={{ ml: -1.8 }}>
-                          <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
-                        </Box>
-                      </Stack>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <InquireQuotationGallery data={data?.attachments} />
-                    </Grid>
+                  <Grid item xs={12} md={6}>
+                    <InquireQuotationGallery data={data?.attachments} />
                   </Grid>
                 </Grid>
-              </Container>
-            </Page>
-          </div>
+              </Grid>
+              {/* <Stack Container direction="row">
+                <Stack item sx={{ width: '100%' }} md={6}>
+                  <Stack direction="column" className="card-space">
+                    <Card
+                      sx={{
+                        mb: 3,
+                        height: { xs: 230, md: 170 },
+                        position: 'relative',
+                      }}
+                    >
+                      <ProfileCover myProfile={data} />
+                    </Card>
+                    <ProfileDetails data={data} />
+                  </Stack>
+                </Stack>
+                <Stack item container md={6} direction="row">
+                  <Stack sx={{ width: '40%' }} direction="column" md={6}>
+                    <Typography variant="overline" color="primary.main">
+                      Product name
+                    </Typography>
+                    <Typography variant="h6" marginBottom={2}>
+                      {data?.product_name}
+                    </Typography>
 
-          <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>
-            <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
-              <Button
-                onClick={handleCloseModal}
-                variant="outlined"
-                size="small"
-                sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
-              >
-                Cancel
-              </Button>
-              <LoadingButton type="button" onClick={''} size="small" variant="contained" color="inherit">
-                Delete
-              </LoadingButton>
-              {user.user_role === 'user' ? (
-                <Box>
-                  {/* <Button  disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: 'primary.main',mx:2 }} variant="contained">
+                    <Typography variant="overline" color="primary.main">
+                      Quantity
+                    </Typography>
+                    <Typography variant="h6" marginBottom={2}>
+                      {data?.quantity}
+                    </Typography>
+
+                    <Typography variant="overline" color="primary.main">
+                      Service Type
+                    </Typography>
+                    <Typography variant="h6" marginBottom={2}>
+                      {data?.services}
+                    </Typography>
+
+                    <Typography variant="overline" color="primary.main">
+                      Price per Piece
+                    </Typography>
+                    <Typography variant="h6" marginBottom={2}>
+                      {data?.price}
+                    </Typography>
+
+                    <Typography variant="overline" color="primary.main">
+                      Description
+                    </Typography>
+
+                    <Box sx={{ ml: -1.8 }}>
+                      <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
+                    </Box>
+                  </Stack>
+                  <Stack sx={{ width: '40%' }}>
+                    <InquireQuotationGallery data={data?.attachments} />
+                  </Stack>
+                </Stack>
+              </Stack> */}
+            </Container>
+          </Page>
+        </div>
+
+        <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>
+          <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
+            <Button
+              onClick={handleCloseModal}
+              variant="outlined"
+              size="small"
+              sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
+            >
+              Cancel
+            </Button>
+            <LoadingButton type="button" onClick={''} size="small" variant="contained" color="inherit">
+              Delete
+            </LoadingButton>
+            {user.user_role === 'user' ? (
+              <Box>
+                {/* <Button  disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: 'primary.main',mx:2 }} variant="contained">
               Edit
               </Button> */}
-                  <Button
-                    onClick={handleCancelQuotation}
-                    disabled={data.isCancel === 1}
-                    size="small"
-                    sx={{ backgroundColor: '#D22B2B' }}
-                    variant="contained"
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              ) : (
                 <Button
-                  disabled={data?.isCancel === 1}
+                  onClick={handleCancelQuotation}
+                  disabled={data.isCancel === 1}
                   size="small"
-                  sx={{ backgroundColor: 'primary.main' }}
+                  sx={{ backgroundColor: '#D22B2B' }}
                   variant="contained"
                 >
-                  Approve
+                  Cancel
                 </Button>
-              )}
-            </DialogActions>
-          </div>
+              </Box>
+            ) : (
+              <Button
+                disabled={data?.isCancel === 1}
+                size="small"
+                sx={{ backgroundColor: 'primary.main' }}
+                variant="contained"
+              >
+                Approve
+              </Button>
+            )}
+          </DialogActions>
         </div>
-      </Scrollbar>
+      </div>
     </DialogAnimate>
   );
 }

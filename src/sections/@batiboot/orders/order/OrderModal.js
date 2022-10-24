@@ -183,11 +183,11 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{ height: { xs: '80vh', md: '100%' } }}>
         <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, height: { xs: '100%', md: '80vh' } }}>
+          <Card sx={{ p: 3, height: { xs: '80vh', md: '80vh' } }}>
             <Scrollbar>
-              <Stack spacing={3} sx={{ pr: { xs: 0, md: 2 }, height: '100%' }}>
+              <Stack spacing={3} sx={{ pr: { xs: 0, md: 2 }, height: { xs: '75vh', md: '100%' } }}>
                 <RHFTextField name="name" label="Product Name" />
 
                 <div>

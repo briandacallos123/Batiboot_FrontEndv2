@@ -90,7 +90,7 @@ export default function OrderListViewModal(props) {
           </DialogTitle>
         </div>
         <Scrollbar>
-          <Page title="Batiboot: View Order" sx={{ mt: 10 }}>
+          <Page title="Batiboot: View Order" sx={{ mt: 10, height: '90vh', overflowY: { xs: 'scroll', md: 'hidden' } }}>
             <Container maxWidth={themeStretch ? false : 'lg'}>
               {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
               {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}

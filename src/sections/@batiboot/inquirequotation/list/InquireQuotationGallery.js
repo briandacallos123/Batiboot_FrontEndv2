@@ -43,7 +43,7 @@ export default function InquireQuotationGallery(props) {
   };
   console.log(data);
   return (
-    <ImageList variant="masonry" cols={data.length === 1 ? 1 : 2} sx={{ height: '100%', width: '100%' }}>
+    <ImageList variant="masonry" cols={data.length === 1 ? 1 : 2}>
       {data.map((item, index) => {
         if (index <= 2) {
           return (
@@ -89,7 +89,7 @@ export default function InquireQuotationGallery(props) {
                   alt={item.title}
                 />
                 <Box bgcolor={'primary.main'} sx={{ opacity: 0.2 }} className="image_more-b" />
-                <Typography sx={{ opacity: 1, color: '#000' }} className="image_more-p">
+                <Typography sx={{ opacity: 1, color: 'primary.dark' }} className="image_more-p">
                   +{data.length - 3}
                 </Typography>
               </div>

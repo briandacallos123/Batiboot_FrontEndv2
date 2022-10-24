@@ -135,8 +135,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     <FormProvider methods={methods}>
       <Card>
         {isEdit ? (
-          <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
-            <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            <Stack height={{ xs: '80vh', md: '100%' }} sx={{ flexGrow: 1 }}>
               <Scrollbar>
                 <InvoiceNewEditAddress />
                 <InvoiceNewEditStatusDate />
@@ -150,7 +150,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           <Grid container>
             <Grid item xs={12} md={2} bgcolor="background.neutral" />
             <Grid item xs={12} md={8}>
-              <Stack height={{ xs: '100%', md: '75vh' }}>
+              <Stack height={{ xs: '80vh', md: '80vh' }}>
                 <Scrollbar>
                   <InvoiceNewEditAddress />
                   <InvoiceNewEditStatusDate />
