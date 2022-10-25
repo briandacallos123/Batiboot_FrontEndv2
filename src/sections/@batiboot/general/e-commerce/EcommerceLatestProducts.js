@@ -63,19 +63,20 @@ function ProductItem({ product }) {
           </Typography>
         </Stack>
       </Box>
-
-      <Label
-        variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-        color={
-          (inquireQuoStatus === 'approved' && 'success') ||
-          (inquireQuoStatus === 'received' && 'warning') ||
-          (inquireQuoStatus === 'draft' && 'error') ||
-          'default'
-        }
-        sx={{ textTransform: 'capitalize' }}
-      >
-        {inquireQuoStatus}
-      </Label>
+      <Stack container direction="row" alignItems="center">
+        <Label
+          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+          color={
+            (inquireQuoStatus === 'approved' && 'success') ||
+            (inquireQuoStatus === 'received' && 'warning') ||
+            (inquireQuoStatus === 'draft' && 'error') ||
+            'default'
+          }
+          sx={{ textTransform: 'capitalize' }}
+        >
+          {inquireQuoStatus}
+        </Label>
+      </Stack>
     </Stack>
   );
 }

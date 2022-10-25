@@ -66,7 +66,7 @@ export default function InvoiceViewDetailsModal(props) {
 
         <div className="mpp-body">
           <Page title="Batiboot: View Invoice">
-            <Container maxWidth={themeStretch ? false : 'lg'}>
+            <Container sx={{ height: { xs: '100%', md: '87vh' } }} maxWidth={themeStretch ? false : 'lg'}>
               {/* <HeaderBreadcrumbs
             heading={'View Invoice'}
             links={[
@@ -104,9 +104,6 @@ export default function InvoiceViewDetailsModal(props) {
             </Button>
             <LoadingButton type="button" onClick={''} size="small" variant="contained" color="inherit">
               Delete
-            </LoadingButton>
-            <LoadingButton type="button" onClick={''} size="small" variant="contained">
-              {/* {!isEdit ? `Create ${nameLink}` : 'Save Changes'}   */} Approve
             </LoadingButton>
           </DialogActions>
         </div>

@@ -67,7 +67,7 @@ export default function InvoiceDetails({ invoice }) {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
+      <Box sx={{ flexGrow: 1, display: 'flex' }}>
         <Stack sx={{ flexGrow: 1 }} height="75vh">
           <Scrollbar>
             <Card sx={{ flexGrow: 1, pt: 5, px: 5 }}>

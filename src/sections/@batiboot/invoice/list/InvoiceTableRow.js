@@ -114,7 +114,6 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                 View
               </MenuItem>
 
-                
               <MenuItem
                 onClick={() => {
                   onEditRow();

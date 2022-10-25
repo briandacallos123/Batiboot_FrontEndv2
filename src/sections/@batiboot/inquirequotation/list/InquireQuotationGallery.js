@@ -1,10 +1,11 @@
 import * as React from 'react';
 // @mui
-import { Fade, ImageList, ImageListItem, Modal, Skeleton } from '@mui/material';
+import { Box, Fade, ImageList, ImageListItem, Modal, Skeleton, Typography } from '@mui/material';
 // components
 import Image from '../../../../components/Image';
 import LightboxModal from '../../../../components/LightboxModal';
-// import './gallery.css';
+import './gallery.scss';
+// import Typography from '../theme/overrides/Typography';
 
 export default function InquireQuotationGallery(props) {
   const { loading = false, data } = props;
@@ -42,34 +43,61 @@ export default function InquireQuotationGallery(props) {
   };
   console.log(data);
   return (
-    <ImageList variant="masonry" cols={2} sx={{ height: '100%', width: '100%' }}>
-      {data.map((item) => (
-        <ImageListItem
-          key={item.img}
-          cols={item.cols || 1}
-          rows={item.rows || 1}
-          onClick={() => handleOpenLightbox(`${process.env.REACT_APP_HOST_API_KEY}/${item.path}`)}
-        >
-          {loading ? (
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              src={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format`}
-              srcSet={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              height="100%"
-              sx={{ borderRadius: 2 }}
-            />
-          ) : (
-            <Image
-              borderRadius="1vw"
-              src={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format`}
-              srcSet={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.title}
-              loading="lazy"
-            />
-          )}
-        </ImageListItem>
-      ))}
+    <ImageList variant="masonry" cols={data.length === 1 ? 1 : 2}>
+      {data.map((item, index) => {
+        if (index <= 2) {
+          return (
+            <ImageListItem
+              key={item.img}
+              cols={item.cols || 1}
+              rows={item.rows || 1}
+              onClick={() => handleOpenLightbox(`${process.env.REACT_APP_HOST_API_KEY}/${item.path}`)}
+            >
+              {loading ? (
+                <Skeleton
+                  variant="rectangular"
+                  animation="wave"
+                  src={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format`}
+                  srcSet={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  height="100%"
+                  sx={{ borderRadius: 2 }}
+                />
+              ) : (
+                <Image
+                  borderRadius="1vw"
+                  src={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format`}
+                  srcSet={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={item.title}
+                  loading="lazy"
+                />
+              )}
+            </ImageListItem>
+          );
+        }
+        if (index === 3) {
+          return (
+            <ImageListItem
+              key={item.img}
+              cols={item.cols || 1}
+              rows={item.rows || 1}
+              onClick={() => handleOpenLightbox(`${process.env.REACT_APP_HOST_API_KEY}/${item.path}`)}
+            >
+              <div className="image_more">
+                <img
+                  src={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format`}
+                  srcSet={`${process.env.REACT_APP_HOST_API_KEY}/${item.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={item.title}
+                />
+                <Box bgcolor={'primary.main'} sx={{ opacity: 0.2 }} className="image_more-b" />
+                <Typography sx={{ opacity: 1, color: 'primary.dark' }} className="image_more-p">
+                  +{data.length - 3}
+                </Typography>
+              </div>
+            </ImageListItem>
+          );
+        }
+        return null;
+      })}
       {/* <Modal
         open={open}
         onClose={handleClose}

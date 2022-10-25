@@ -320,9 +320,11 @@ export default function OrderList() {
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
+            view={isView}
             identifier={identifier}
             pathname={pathname}
             nameLink={'Order List'}
+            data={modalViewData}
           />
           {
             /*  <OrderCreateModal 
