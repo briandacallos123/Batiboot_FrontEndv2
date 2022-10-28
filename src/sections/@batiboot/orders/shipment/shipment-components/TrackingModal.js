@@ -40,32 +40,32 @@ export default function TrackingModal({ currentUser, handleClose, isIdentifier, 
         }}
       >
         <Grid container={1}>
-          <Grid item xs={12} sm={6} md={6} lg={6} className="card-space">
+          <Grid item xs={6} sm={6} md={6} lg={6} className="card-space">
             <Card
               sx={{
                 mb: 3,
-                height: { xs: 230, md: 170 },
+                height: 170,
                 position: 'relative',
               }}
             >
               <ProfileCover myProfile={_appointmentModalLocal} />
             </Card>
           </Grid>
-          <Grid item xs={12} sm={4} md={4} lg={4}>
+          <Grid item xs={4} sm={4} md={4} lg={4}>
             <ProfileDetails />
           </Grid>
-          <Grid item xs={12} sm={2} md={2} lg={2}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
             <ProfileStatus />
           </Grid>
           <Grid item xs={12} md={4}>
             <Card
               sx={{
                 py: 3,
-                px: { xs: 1, md: 3 },
+                px: 3,
                 mx: 1,
                 mt: 2,
-                width: { xs: 'auto', md: 500 },
-                height: { xs: '50vh', md: 485 },
+                width: 500,
+                height: 485,
                 bgcolor: 'white',
               }}
             >

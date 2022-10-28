@@ -83,7 +83,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-export default function GeneralInvoice() {
+export default function OrderList() {
   const theme = useTheme();
   const { user } = useAuth();
   const dispatch = useDispatch();
@@ -150,19 +150,18 @@ export default function GeneralInvoice() {
   };
 
   const handleEditRow = (id) => {
-    navigate(PATH_BATIBOOT.invoice.edit(id));
     setIsEdit(!isEdit);
     // setIdentifier(id)
     handleOpenModal();
   };
   const [modalViewData, setModalViewData] = useState([]);
-  const handleViewRow = (id) => {
+  const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
     setIsView(!isView);
-    setIdentifier(id)
+    setIdentifier(data)
     handleOpenViewModal();
-    setModalViewData(id);
+    setModalViewData(data);
   };
 
   const dataFiltered = applySortFilter({

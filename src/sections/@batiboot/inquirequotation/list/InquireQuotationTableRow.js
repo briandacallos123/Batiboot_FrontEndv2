@@ -305,7 +305,7 @@ export default function InquireQuotationTableRow({
                       handleAcceptOrder();
                       handleCloseMenu();
                     }}
-                    sx={ row.isCancel === 1 ? {display:"none"} : {display:"flex", color: 'green'} }
+                    sx={{ color: 'green' }}
                   >
                     <Iconify icon={'eva:checkmark-fill'} />
                     Approve

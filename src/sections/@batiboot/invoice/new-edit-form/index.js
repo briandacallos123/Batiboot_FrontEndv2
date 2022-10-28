@@ -156,8 +156,8 @@ const [invoicePId, setInvoicePId] = useState(id);
     <FormProvider methods={methods}>
       <Card>
         {isEdit ? (
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
-   <Stack height={{ xs: '80vh', md: '100%' }} sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
+            <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
               <Scrollbar>
                 <InvoiceNewEditAddress />
                 <InvoiceNewEditStatusDate invoiceId={invoicePId}/>
@@ -171,7 +171,7 @@ const [invoicePId, setInvoicePId] = useState(id);
           <Grid container>
             <Grid item xs={12} md={2} bgcolor="background.neutral" />
             <Grid item xs={12} md={8}>
-            <Stack height={{ xs: '80vh', md: '80vh' }}>
+              <Stack height={{ xs: '100%', md: '75vh' }}>
                 <Scrollbar>
                   <InvoiceNewEditAddress />
                   <InvoiceNewEditStatusDate invoiceId={invoicePId}/>

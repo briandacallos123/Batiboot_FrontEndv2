@@ -14,7 +14,6 @@ import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdor
 import { PATH_DASHBOARD } from '../../../routes/paths';
 import useAuth from '../../../hooks/useAuth';
 // components
-import Scrollbar from '../../../components/Scrollbar';
 import {
   FormProvider,
   RHFSwitch,
@@ -181,7 +180,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       gender: currentProduct?.gender || GENDER_OPTION[2].value,
       category: currentProduct?.category || SERVICE_OPTION[0],
       quantity: currentProduct?.quantity || 0,
-      services: currentProduct?.services || SERVICE_OPTION[0],
+      services: currentProduct?.services || SERVICE_OPTION[0]
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
@@ -253,33 +252,31 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   // console.log("default",defaultValues);
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{ pb: 10 }}>
         <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, height: { xs: '100%', md: '80vh' } }}>
-            <Scrollbar>
-              <Stack spacing={3} sx={{ pr: { xs: 0, md: 2 }, height: '100%' }}>
-                <RHFTextField name="name" label="Product Name" />
+          <Card sx={{ p: 3 }}>
+            <Stack spacing={3}>
+              <RHFTextField name="name" label="Product Name" />
 
-                <div>
-                  <LabelStyle>Description</LabelStyle>
-                  <RHFEditor simple name="description" />
-                </div>
+              <div>
+                <LabelStyle>Description</LabelStyle>
+                <RHFEditor simple name="description" />
+              </div>
 
-                <div>
-                  <LabelStyle>Images</LabelStyle>
-                  <RHFUploadMultiFile
-                    showPreview
-                    name="images"
-                    accept="image/*"
-                    maxSize={3145728}
-                    onDrop={handleDrop}
-                    onRemove={handleRemove}
-                    onRemoveAll={handleRemoveAll}
-                    onUpload={() => console.log('ON UPLOAD')}
-                  />
-                </div>
-              </Stack>
-            </Scrollbar>
+              <div>
+                <LabelStyle>Images</LabelStyle>
+                <RHFUploadMultiFile
+                  showPreview
+                  name="images"
+                  accept="image/*"
+                  maxSize={3145728}
+                  onDrop={handleDrop}
+                  onRemove={handleRemove}
+                  onRemoveAll={handleRemoveAll}
+                  onUpload={() => console.log('ON UPLOAD')}
+                />
+              </div>
+            </Stack>
           </Card>
         </Grid>
 
@@ -287,6 +284,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
           <Stack spacing={3}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3} mt={2}>
+                <RHFTextField name="quantity" label="Quantities" />
 
                 {/* 
                 <RHFTextField name="sku" label="Product SKU" /> */}
@@ -309,23 +307,10 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                     </option>
                   ))}
                 </RHFSelect>
-                <RHFTextField name="quantity" label="Quantities" />
-                <RHFTextField
-                  name="price"
-                  label="Price per piece"
-                  placeholder="0.00"
-                  value={getValues('price') === 0 ? '' : getValues('price')}
-                  onChange={(event) => setValue('price', Number(event.target.value))}
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    type: 'number',
-                  }}
-                />
               </Stack>
             </Card>
 
-            {/* <Card sx={{ p: 3 }}>
+            <Card sx={{ p: 3 }}>
               <Stack spacing={3} mb={2}>
                 <RHFTextField
                   name="price"
@@ -339,7 +324,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                     type: 'number',
                   }}
                 />
-                
+                {/* 
                 <RHFTextField
                   name="priceSale"
                   label="Sale Price"
@@ -351,9 +336,9 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                     type: 'number',
                   }}
-                />
+                /> */}
               </Stack>
-            </Card> */}
+            </Card>
           </Stack>
           <LoadingButton
             color="inherit"

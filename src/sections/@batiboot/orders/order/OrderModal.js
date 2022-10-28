@@ -13,7 +13,6 @@ import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdor
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // components
-import Scrollbar from '../../../../components/Scrollbar';
 import {
   FormProvider,
   RHFSwitch,
@@ -183,33 +182,31 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3} sx={{ height: { xs: '80vh', md: '100%' } }}>
+      <Grid container spacing={3} sx={{ pb: 10 }}>
         <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, height: { xs: '80vh', md: '80vh' } }}>
-            <Scrollbar>
-              <Stack spacing={3} sx={{ pr: { xs: 0, md: 2 }, height: { xs: '75vh', md: '100%' } }}>
-                <RHFTextField name="name" label="Product Name" />
+          <Card sx={{ p: 3 }}>
+            <Stack spacing={3}>
+              <RHFTextField name="name" label="Product Name" />
 
-                <div>
-                  <LabelStyle>Description</LabelStyle>
-                  <RHFEditor simple name="description" />
-                </div>
+              <div>
+                <LabelStyle>Description</LabelStyle>
+                <RHFEditor simple name="description" />
+              </div>
 
-                <div>
-                  <LabelStyle>Images</LabelStyle>
-                  <RHFUploadMultiFile
-                    showPreview
-                    name="images"
-                    accept="image/*"
-                    maxSize={3145728}
-                    onDrop={handleDrop}
-                    onRemove={handleRemove}
-                    onRemoveAll={handleRemoveAll}
-                    onUpload={() => console.log('ON UPLOAD')}
-                  />
-                </div>
-              </Stack>
-            </Scrollbar>
+              <div>
+                <LabelStyle>Images</LabelStyle>
+                <RHFUploadMultiFile
+                  showPreview
+                  name="images"
+                  accept="image/*"
+                  maxSize={3145728}
+                  onDrop={handleDrop}
+                  onRemove={handleRemove}
+                  onRemoveAll={handleRemoveAll}
+                  onUpload={() => console.log('ON UPLOAD')}
+                />
+              </div>
+            </Stack>
           </Card>
         </Grid>
 
@@ -217,6 +214,8 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
           <Stack spacing={3}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3} mt={2}>
+                <RHFTextField type="number" name="quantity" label="Quantities" />
+
                 {/* 
                 <RHFTextField name="sku" label="Product SKU" /> */}
 
@@ -238,8 +237,6 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
                     </option>
                   ))}
                 </RHFSelect>
-
-                <RHFTextField type="number" name="quantity" label="Quantities" />
                 <RHFTextField
                   name="price"
                   label="Price per piece"
@@ -256,10 +253,9 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
             </Card>
 
             <Card sx={{ p: 3 }}>
-              <LabelStyle>Additional Contact</LabelStyle>
               <Stack spacing={3} mt={2}>
-                <RHFTextField type="number" name="phoneNumber" label="Phone Number" />
-                <RHFTextField name="email" label="Email" />
+                <RHFTextField type="number" name="phoneNumber" label="Additional Contact number #" />
+                <RHFTextField name="email" label="Additional Email" />
               </Stack>
             </Card>
           </Stack>

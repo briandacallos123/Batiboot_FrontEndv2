@@ -320,11 +320,9 @@ export default function OrderList() {
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
-            view={isView}
             identifier={identifier}
             pathname={pathname}
             nameLink={'Order List'}
-            data={modalViewData}
           />
           {
             /*  <OrderCreateModal 
@@ -518,7 +516,9 @@ export default function OrderList() {
                       onDeleteRow={() => handleDeleteRow(row.id)}
                     />
                   ))}
+
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
+
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 

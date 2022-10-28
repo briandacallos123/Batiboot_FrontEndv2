@@ -68,7 +68,7 @@ console.log(_invoices);
 
         <div className="mpp-body">
           <Page title="Batiboot: View Invoice">
-          <Container sx={{ height: { xs: '100%', md: '87vh' } }} maxWidth={themeStretch ? false : 'lg'}>
+            <Container maxWidth={themeStretch ? false : 'lg'}>
               {/* <HeaderBreadcrumbs
             heading={'View Invoice'}
             links={[

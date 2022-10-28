@@ -61,7 +61,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
 
       <TableCell align="left">{row.created_at}</TableCell>
       <TableCell align="left">{row.due_date}</TableCell>
-      <TableCell align="center">{`Php ${fCurrency(0)}`}</TableCell>
+      <TableCell align="center">0</TableCell>
       <TableCell align="center">0</TableCell>
 
       <TableCell align="left">
