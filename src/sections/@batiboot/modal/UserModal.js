@@ -187,7 +187,7 @@ export default function UserModal(props) {
         />
       );
     }
-    if (nameLink === 'Tracking' && isEdit) {
+    if (nameLink === 'Tracking') {
       return (
         <TrackingModal
           currentUser={currentUser}
