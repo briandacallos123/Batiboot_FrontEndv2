@@ -231,7 +231,7 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN_BATIBOOT_USER} replace />, index: true },
-        { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['user']}>
+        { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['user/dashboard',]}>
            <GeneralDashAppUser /> 
          </RoleBasedGuard>
          },
@@ -309,7 +309,7 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN_BATIBOOT} replace />, index: true },
-        { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['admin']}>
+        { path: 'dashboard', element: <RoleBasedGuard accessibleRoles={['admin/dashboard']}>
            <GeneralDashApp /> 
          </RoleBasedGuard>
          },

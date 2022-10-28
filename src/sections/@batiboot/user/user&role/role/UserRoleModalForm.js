@@ -55,6 +55,7 @@ import { getAllRoles } from '../../../../../redux/slices/getRole';
 import { PATH_DASHBOARD } from '../../../../../routes/paths';
 // _MOCK
 
+import useAuth from '../../../../../hooks/useAuth';
 
 import _mock from '../../../../../_mock';
 import createAvatar from '../../../../../utils/createAvatar';
@@ -74,6 +75,7 @@ import { FormProvider, RHFSelect, RHFSwitch, RHFTextField, RHFUploadAvatar } fro
 
 // Table
 import { TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedActions } from '../../../../../components/table';
+import FormConverter from '../../../../../components/helpers/FormConverter';
 
 UserRolesCreateForm.propsType = {
   isEdit: PropTypes.pool,
@@ -82,11 +84,13 @@ UserRolesCreateForm.propsType = {
 };
 
 export default function UserRolesCreateForm(props) {
-  const { isEdit, currentUser, handleCloseModal } = props;
+  const { user, createUserRole } = useAuth();
+  console.log(user.permission);
+  const { isEdit, currentUser, handleCloseModal, formRef } = props;
   // const { roles, totalData, ccc, rolesArr, isLoading } = useSelector((state) => state.getRole);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const reducer = (previousValue, currentValue) => previousValue + currentValue;
   // -------Working on it---------------
 
   const {
@@ -128,10 +132,10 @@ export default function UserRolesCreateForm(props) {
     setStatus('');
   };
 
-  console.log('Roles', roleArray);
-  console.log('Permissions', permissionCollectionArray);
-  console.log(storedValues)
-     console.log('array ', InMemoryRebuildGroup)
+  // console.log('Roles', roleArray);
+  // console.log('Permissions', permissionCollectionArray);
+  // console.log(storedValues)
+     console.log('array ', [InMemoryRebuildGroup].map((i,k) => i).map((i,k) => i));
   // ------Working on it------------------
 
   const TABLE_HEAD = [
@@ -223,6 +227,7 @@ export default function UserRolesCreateForm(props) {
       Object.entries(memory).map(([key, item]) => {
         if (value === item.fromGroupName) {
           pushChild.push({ id: item.id, name: key, remarks: '', value: item.value });
+          // pushChild.push({value: item.value});
           pushID.push(item.id);
           RebuildGroups[value] = pushChild;
         }
@@ -256,13 +261,13 @@ export default function UserRolesCreateForm(props) {
 
   const NewUserSchema = Yup.object().shape({
     role: Yup.string().required('Role is required'),
-    // status: Yup.string().required('Status is required'),
+    status: Yup.string().required('Status is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
       role: currentUser?.role || '',
-      user: currentUser?.user || '',
+      // user: currentUser?.user || '',
       status: currentUser?.status || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -432,8 +437,39 @@ export default function UserRolesCreateForm(props) {
   const handleCloseUser = () => setOpenUser(false);
 
   //
+
+  const handleSaveAsDraft = async () => {}
+  const handleCreateAndSend = async (data) => {
+    data.permissions = InMemoryRebuildGroup;
+    data.company_id = 1;
+    data.status_id = data.status; 
+    data.name = data.role.charAt(0).toUpperCase() + data.role.slice(1);
+    data.slug = data.role.charAt(0).toLowerCase() + data.role.slice(1);
+    const payload = FormConverter(data);
+    console.log(payload);
+
+
+    try {
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+     const response =  await createUserRole(data);
+
+      // enqueueSnackbar('Create success!');
+      // navigate(PATH_DASHBOARD.user.role);
+      enqueueSnackbar('Roles Added!', { variant: 'success', persist: false, });
+        navigate(PATH_DASHBOARD.user.role);
+
+      
+    } catch (error) {
+      console.error(error);
+      if(error.message === "Role Exists") {
+      enqueueSnackbar('Role Exists!', { variant: 'error',persist: false, });
+      }
+      
+    }
+  }
+
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider methods={methods} onSubmit={handleSubmit}>
       <Grid container spacing={3}>
         <Grid container xs={12}>
           <Grid item spacing={3} xs={12} md={4} sx={{ mt: 3, p: 2 }}>
@@ -624,12 +660,12 @@ export default function UserRolesCreateForm(props) {
               >
                 {/* onInput={(e) => GETROLE(e.target.value.toLowerCase())} =RHFTextField */}
                 {/*  onChange={(e) => GETSTATUS(e.target.value)}  value={tempStatus} =RHFSelect */}
-                <RHFTextField name="role" label="Role" value={roleText} onChange={(e) => setRoleText(e.target.value)} />
+                <RHFTextField name="role" label="Role"  />
 
                 <RHFSelect name="status" label="Status" placeholder="Status" >
                   <option value={""} />
                   {_status.map((option, i) => (
-                    <option key={i} value={option.status} onChange={(e) => setHoldStatus(e.target.value)}>
+                    <option key={i} value={option.id} >
                       {option.status}
                     </option>
                   ))}
@@ -734,7 +770,7 @@ export default function UserRolesCreateForm(props) {
 
               {/* */}
             </Card>
-            <Box sx={{ p: 0.5, justifyItems: 'flex-end' }}>
+            {/* <Box sx={{ p: 0.5, justifyItems: 'flex-end' }}>
               <Stack sx={{ mt: 1, width: '100px' }}>
                 <LoadingButton
                   type="button"
@@ -744,10 +780,32 @@ export default function UserRolesCreateForm(props) {
                   Save Role
                 </LoadingButton>
               </Stack>
-            </Box>
+            </Box> */}
           </Grid>
         </Grid>
       </Grid>
+      <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                    <LoadingButton
+                        color="inherit"
+                        size="small"
+                        variant="contained"
+                        loading={ isSubmitting}
+                        onClick={handleSubmit(handleSaveAsDraft)}
+                        type='submit'
+                        sx={{display:'none'}}
+                        ref={formRef}
+                    />
+
+                    <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        onClick={handleSubmit(handleCreateAndSend)}
+                        type='submit'
+                        sx={{display:'none'}}
+                        ref={formRef}
+                    />
+                </Stack>
     </FormProvider>
   );
 }

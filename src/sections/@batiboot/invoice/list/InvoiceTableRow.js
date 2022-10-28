@@ -27,8 +27,6 @@ InvoiceTableRow.propTypes = {
 export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
   const theme = useTheme();
 
-  const { sent, invoiceNumber, createDate, dueDate, orderStatus, invoiceTo, totalAmount, actualCBM } = row;
-
   const [openMenu, setOpenMenuActions] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -46,45 +44,40 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>
+        {/* <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>
           {createAvatar(invoiceTo.name).name}
-        </Avatar>
+        </Avatar> */}
 
         <Stack>
           <Typography variant="subtitle2" noWrap>
-            {invoiceTo.name}
+           { row.invoice_number}
           </Typography>
 
-          <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
+          {/* <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
             {`INV-${invoiceNumber}`}
-          </Link>
+          </Link> */}
         </Stack>
       </TableCell>
 
-      <TableCell align="left">{createDate}</TableCell>
-
-      <TableCell align="left">{dueDate}</TableCell>
-
-      <TableCell align="center">{`Php ${fCurrency(totalAmount)}`}</TableCell>
-
-      <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
-        {actualCBM}
-      </TableCell>
+      <TableCell align="left">{row.created_at}</TableCell>
+      <TableCell align="left">{row.due_date}</TableCell>
+      <TableCell align="center">{`Php ${fCurrency(0)}`}</TableCell>
+      <TableCell align="center">0</TableCell>
 
       <TableCell align="left">
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
-            (orderStatus === 'paid' && 'success') ||
-            (orderStatus === 'unpaid' && 'warning') ||
-            (orderStatus === 'overdue' && 'error') ||
-            'default'
+            (row.status === "Paid" && 'success') ||
+            (row.status === 'Unpaid' && 'warning') ||
+            (row.status === 'Overdue' && 'error') 
           }
           sx={{ textTransform: 'capitalize' }}
         >
-          {orderStatus}
+          {row.status}
         </Label>
-      </TableCell>
+      </TableCell> 
+    
 
       <TableCell align="right">
         <TableMoreMenu

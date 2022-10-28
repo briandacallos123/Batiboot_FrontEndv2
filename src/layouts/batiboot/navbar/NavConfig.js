@@ -37,26 +37,26 @@ const navConfig = [
   {
     subheader: 'general',
     items: [
-      { title: 'Dashboard', roles: ['admin'], path: PATH_BATIBOOT.general.dashboard, icon: ICONS.dashboard },
+      { title: 'Dashboard', roles: ['admin/dashboard','agent/dashboard'], path: PATH_BATIBOOT.general.dashboard, icon: ICONS.dashboard },
 
       // user
-      { title: 'Dashboard', roles: ['user'], path: PATH_BATIBOOT_USER.general.dashboard, icon: ICONS.dashboard },
+      { title: 'Dashboard', roles: ['user/dashboard'], path: PATH_BATIBOOT_USER.general.dashboard, icon: ICONS.dashboard },
       {
         title: 'Message',
-        roles: ['user'],
+        roles: ['user/mail/all'],
         path: PATH_BATIBOOT_USER.mail.all,
         icon: ICONS.mail,
       },
       {
         title: 'Inquire & Quotation',
-        roles: ['user'],
+        roles: ['user/inquire/list'],
         path: PATH_BATIBOOT_USER.inquire.root,
         icon: ICONS.inquire,
         children: [{ title: 'List', path: PATH_BATIBOOT_USER.inquire.list }],
       },
       {
         title: 'Orders',
-        roles: ['user'],
+        roles: ['user/order/list', 'user/order/tracking'],
         path: PATH_BATIBOOT_USER.order.root,
         icon: ICONS.order,
         children: [
@@ -67,76 +67,76 @@ const navConfig = [
 
       {
         title: 'Help & Assistance',
-        roles: ['user'],
+        roles: ['user/dashboard'],
         path: PATH_BATIBOOT_USER.help.root,
         icon: ICONS.help,
         children: [{ title: 'Help', path: PATH_BATIBOOT_USER.help.faq }],
       },
       {
         title: 'Rules & Regulations',
-        roles: ['user'],
+        roles: ['user/dashboard'],
         path: PATH_BATIBOOT_USER.rules,
         icon: ICONS.information,
       },
 
       // --------------------------------------------------------
       // Agent
-      { title: 'Dashboard', roles: ['agent'], path: PATH_BATIBOOT_AGENT.general.dashboard, icon: ICONS.dashboard },
-      {
-        title: 'Message',
-        roles: ['agent'],
-        path: PATH_BATIBOOT.mail.all,
-        icon: ICONS.mail,
-      },
-      {
-        title: 'Orders',
-        roles: ['agent'],
-        path: PATH_BATIBOOT.order.root,
-        icon: ICONS.order,
-        children: [
-          { title: 'List', path: PATH_BATIBOOT.order.list },
-          { title: 'Tracking', path: PATH_BATIBOOT.order.shipment },
-        ],
-      },
-      {
-        title: 'Billing',
-        roles: ['agent'],
-        path: PATH_BATIBOOT.invoice.root,
-        icon: ICONS.invoice,
-        children: [{ title: 'Invoice', path: PATH_BATIBOOT.invoice.list }],
-      },
-      {
-        title: 'Inquire & Quotation',
-        roles: ['agent'],
-        path: PATH_BATIBOOT.inquire.root,
-        icon: ICONS.inquire,
-        children: [{ title: 'List', path: PATH_BATIBOOT.inquire.list }],
-      },
+      // { title: 'Dashboard', roles: ['agent'], path: PATH_BATIBOOT_AGENT.general.dashboard, icon: ICONS.dashboard },
+      // {
+      //   title: 'Message',
+      //   roles: ['agent'],
+      //   path: PATH_BATIBOOT_AGENT.mail.all,
+      //   icon: ICONS.mail,
+      // },
+      // {
+      //   title: 'Orders',
+      //   roles: ['agent'],
+      //   path: PATH_BATIBOOT_AGENT.order.root,
+      //   icon: ICONS.order,
+      //   children: [
+      //     { title: 'List', path: PATH_BATIBOOT_AGENT.order.list },
+      //     { title: 'Tracking', path: PATH_BATIBOOT_AGENT.order.shipment },
+      //   ],
+      // },
+      // {
+      //   title: 'Billing',
+      //   roles: ['agent'],
+      //   path: PATH_BATIBOOT_AGENT.invoice.root,
+      //   icon: ICONS.invoice,
+      //   children: [{ title: 'Invoice', path: PATH_BATIBOOT_AGENT.invoice.list }],
+      // },
+      // {
+      //   title: 'Inquire & Quotation',
+      //   roles: ['agent'],
+      //   path: PATH_BATIBOOT_AGENT.inquire.root,
+      //   icon: ICONS.inquire,
+      //   children: [{ title: 'List', path: PATH_BATIBOOT_AGENT.inquire.list }],
+      // },
 
-      {
-        title: 'Help & Assistance',
-        roles: ['agent'],
-        path: PATH_BATIBOOT.help.root,
-        icon: ICONS.help,
-        children: [{ title: 'Help', path: PATH_BATIBOOT.help.faq }],
-      },
-      {
-        title: 'Rules & Regulations',
-        roles: ['agent'],
-        path: PATH_BATIBOOT.rules,
-        icon: ICONS.information,
-      },
+      // {
+      //   title: 'Help & Assistance',
+      //   roles: ['agent'],
+      //   path: PATH_BATIBOOT_AGENT.help.root,
+      //   icon: ICONS.help,
+      //   children: [{ title: 'Help', path: PATH_BATIBOOT_AGENT.help.faq }],
+      // },
+      // {
+      //   title: 'Rules & Regulations',
+      //   roles: ['agent'],
+      //   path: PATH_BATIBOOT_AGENT.rules,
+      //   icon: ICONS.information,
+      // },
       // -----------------------------------
       {
         title: 'Billing',
-        roles: ['admin'],
+        roles: ['admin/invoice/list'],
         path: PATH_BATIBOOT.invoice.root,
         icon: ICONS.invoice,
         children: [{ title: 'Invoice', path: PATH_BATIBOOT.invoice.list }],
       },
       {
         title: 'Orders',
-        roles: ['admin'],
+        roles: ['admin/order/list', 'admin/order/tracking'],
         path: PATH_BATIBOOT.order.root,
         icon: ICONS.order,
         children: [
@@ -146,14 +146,14 @@ const navConfig = [
       },
       {
         title: 'Inquire & Quotation',
-        roles: ['admin'],
+        roles: ['admin/inquire/list'],
         path: PATH_BATIBOOT.inquire.root,
         icon: ICONS.inquire,
         children: [{ title: 'List', path: PATH_BATIBOOT.inquire.list }],
       },
       {
         title: 'Message',
-        roles: ['admin'],
+        roles: ['admin/mail/all'],
         path: PATH_BATIBOOT.mail.all,
         icon: ICONS.mail,
       },
@@ -164,7 +164,7 @@ const navConfig = [
     items: [
       {
         title: 'user & role',
-        roles: ['admin'],
+        roles: ['admin/user/designation', 'admin/user/department','admin/user/list','admin/user/role'],
         path: PATH_BATIBOOT.user.root,
         icon: ICONS.user,
         children: [
@@ -181,7 +181,7 @@ const navConfig = [
     items: [
       {
         title: 'Help & Assistance',
-        roles: ['admin'],
+        roles: ['admin/dashboard','agent/dashboard'],
         path: PATH_BATIBOOT.help.root,
         icon: ICONS.help,
         children: [{ title: 'Help', path: PATH_BATIBOOT.help.faq }],
@@ -189,7 +189,7 @@ const navConfig = [
 
       {
         title: 'Rules & Regulations',
-        roles: ['admin'],
+        roles: ['admin/dashboard','agent/dashboard'],
         path: PATH_BATIBOOT.rules,
         icon: ICONS.information,
       },

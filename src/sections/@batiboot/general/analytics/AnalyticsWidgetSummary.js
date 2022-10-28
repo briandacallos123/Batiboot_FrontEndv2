@@ -17,7 +17,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   width: theme.spacing(8),
   height: theme.spacing(8),
   justifyContent: 'center',
-  marginBottom: theme.spacing(3),
+  marginBottom: theme.spacing(2),
 }));
 
 // ----------------------------------------------------------------------
@@ -34,7 +34,7 @@ export default function AnalyticsWidgetSummary({ title, total, icon, color = 'pr
   return (
     <Card
       sx={{
-        py: 5,
+        py: { xs: 2, md: 5 },
         boxShadow: 0,
         textAlign: 'center',
         color: (theme) => theme.palette[color].darker,

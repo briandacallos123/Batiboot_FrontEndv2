@@ -20,7 +20,16 @@ import {
   TableContainer,
   TablePagination,
   FormControlLabel,
+  Skeleton,
 } from '@mui/material';
+
+// redux
+// eslint-disable-next-line
+import { useDispatch, useSelector } from '../../redux/store';
+import { getAllOrders } from '../../redux/slices/adminOrder';
+import { getAllInvoice } from '../../redux/slices/adminInvoice';
+
+import useAuth from '../../hooks/useAuth';
 // routes
 import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -28,9 +37,8 @@ import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
 // _mock_
-// import { _invoices } from '../../_mock/_invoice';
-import { _invoices } from '../../_mock/batiboot/invoice_mock/_invoice';
-
+import { _invoices } from '../../_mock';
+import _order from '../../_mock/batiboot/order.json';
 // components
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -39,16 +47,22 @@ import Scrollbar from '../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../components/table';
 // sections
-import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
-import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@batiboot/invoice/list';
+import QuotationSkeleton from './OrderSkeleton';
+// import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
+
+import { OrderTableRow, OrderTableToolbar } from '../../sections/@batiboot/order/list';
+// import { OrderTableRow, OrderTableToolbar } from '../../sections/@batiboot/orders/order/list';
+import OrderListAnalytics from '../../sections/@batiboot/orders/order/OrderListAnalytics';
 import InvoiceCreateModal from './GeneralInvoiceCreate';
 import InvoiceViewDetailsModal from './GeneralInvoiceView';
 import UserModal from '../../sections/@batiboot/modal/UserModal';
+import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
+import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@batiboot/invoice/list';
 
 // ----------------------------------------------------------------------
 
 const SERVICE_OPTIONS = [
-  'all',
+  'All',
   'Product Sourcing',
   'Importing',
   'Product Rebranding',
@@ -71,11 +85,11 @@ const TABLE_HEAD = [
 
 export default function GeneralInvoice() {
   const theme = useTheme();
-
+  const { user } = useAuth();
+  const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-
+  const { invoice, totalData, ccc, invoiceArr, isLoading } = useSelector((state) => state.adminInvoice);
   const navigate = useNavigate();
-
   const { pathname } = useLocation();
 
   const {
@@ -95,18 +109,14 @@ export default function GeneralInvoice() {
     onChangeDense,
     onChangePage,
     onChangeRowsPerPage,
-  } = useTable({ defaultOrderBy: 'createDate' });
+    resetPage,
+  } = useTable({ defaultOrderBy: 'orderCreated' });
 
-  /* const [tableData, setTableData] = useState(_invoices); */
-
-  const [tableData, setTableData] = useState(_invoices);
-
-  /*   const [tempInvTo, setTempInvTo] = useState(_invoiceTo.filter((key) => key.id === tempInvFrom.id))
-  const [tempItems, setTempItems] = useState(_tempItems.filter((key) => key.id === tempInvTo.id)) */
+  const [tableData, setTableData] = useState(_order);
 
   const [filterName, setFilterName] = useState('');
 
-  const [filterService, setFilterService] = useState('all');
+  const [filterService, setFilterService] = useState('All');
 
   const [filterStartDate, setFilterStartDate] = useState(null);
 
@@ -142,16 +152,17 @@ export default function GeneralInvoice() {
   const handleEditRow = (id) => {
     navigate(PATH_BATIBOOT.invoice.edit(id));
     setIsEdit(!isEdit);
-    setIdentifier(id);
+    // setIdentifier(id)
     handleOpenModal();
   };
-
+  const [modalViewData, setModalViewData] = useState([]);
   const handleViewRow = (id) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
     setIsView(!isView);
-    setIdentifier(id);
+    setIdentifier(id)
     handleOpenViewModal();
+    setModalViewData(id);
   };
 
   const dataFiltered = applySortFilter({
@@ -173,29 +184,28 @@ export default function GeneralInvoice() {
 
   const denseHeight = dense ? 56 : 76;
 
-  const getLengthByStatus = (status) => tableData.filter((item) => item.status === status).length;
+  const getLengthByStatus = (inquireQuoStatus) =>
+    tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus).length;
 
-  const getTotalPriceByStatus = (status) =>
+  const getTotalPriceByStatus = (inquireQuoStatus) =>
     sumBy(
-      tableData.filter((item) => item.status === status),
-      'totalPrice'
+      tableData.filter((item) => item.inquireQuoStatus === inquireQuoStatus),
+      'amount'
     );
 
-  const getPercentByStatus = (status) => (getLengthByStatus(status) / tableData.length) * 100;
+  const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'paid', label: 'Paid', color: 'success', count: getLengthByStatus('paid') },
-    { value: 'unpaid', label: 'Unpaid', color: 'warning', count: getLengthByStatus('unpaid') },
-    { value: 'overdue', label: 'Overdue', color: 'error', count: getLengthByStatus('overdue') },
+    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
+    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
+
   const [openModal, setOpenModal] = React.useState(false);
   const [openViewModal, setOpenViewModal] = React.useState(false);
 
-  const handleOpenModal = () => {
-    setOpenModal(!openModal);
-  };
+  const handleOpenModal = () => setOpenModal(!openModal);
   const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
 
   const handleCloseModal = () => {
@@ -205,67 +215,109 @@ export default function GeneralInvoice() {
     setOpenViewModal(false);
     setIdentifier('');
   };
-  // const { pathname } = useLocation();
-  //   const { sent, invoiceNumber, createDate, dueDate, status, invoiceTo, totalPrice } = row;
 
-  // alert(tempInvFrom.name)
+  const [Status, setStatus] = React.useState(-1);
 
-  const tempArray = {
-    /* 'id' : tempInvFrom.length,
-    'invoiceFrom': {
-      'name': tempInvFrom.name,
-      'address': tempInvFrom.address,
-      'contact': tempInvFrom.contact
-    },
-    'invoiceTo': {
-      'name': tempInvTo.name,
-      'address': tempInvTo.address,
-      'contact': tempInvTo.contact
-    },
-    'items': {
-        'itemDescription' : tempItems.itemDescription,
-        'createDate' : tempItems.createDate,
-        'dueDate': tempItems.dueDate,
-        'actualCBM': tempItems.actualCBM,
-        'rateCBM' : tempItems.rateCBM,
-        'totalAmount': tempItems.totalAmount,
-        'orderStatus' : tempItems.orderStatus
-    } */
+  useEffect(() => {
+    const payload = {};
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services = filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    console.log('payload', payload);
+    console.log('payload', payload);
+    dispatch(getAllInvoice(payload));
+  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
+
+  /* console.log(appointmentsArr) */
+
+  const handleTabClick = (type) => {
+    resetPage();
+    let status = 0;
+    switch (type) {
+      case 'all':
+        status = -1;
+        break;
+      case 'pending':
+        status = 0;
+        break;
+      case 'approved':
+        status = 1;
+        break;
+      case 'cancelled':
+        status = 2;
+        break;
+      case 'done':
+        status = 3;
+        break;
+      default:
+        status = -1;
+        break;
+    }
+    setStatus(status);
+    const payload = {};
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // payload.status = status;
+    payload.services = filterService;
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    dispatch(getAllInvoice(payload));
   };
+
+  // Skeleton
+  const [ordersData, setOrdersData] = useState({});
+  const [showSkel, setshowSkel] = useState(false);
+  useEffect(() => {
+    setshowSkel(false);
+    if (Object.keys(ordersData).length) {
+      if (Object.keys(ordersData.allIds).length) {
+        setshowSkel(true);
+      }
+    }
+  }, [ordersData]);
+
+  useEffect(() => {
+    setOrdersData(invoice);
+  }, [invoice]);
+
+  const [showSkelDatatable, setshowSkelDatatable] = useState(false);
+  useEffect(() => {
+    setshowSkelDatatable(!isLoading);
+  }, [isLoading]);
+
+  console.log(totalData);
 
   return (
     <Page title="Batiboot: Invoice">
-      <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs
-          heading="Invoice List"
-          links={[
-            { name: 'Dashboard', href: PATH_BATIBOOT.root },
-            { name: 'Invoice', href: PATH_BATIBOOT.invoice.root },
-            { name: 'List' },
-          ]}
-          action={
-            <Button
-              variant="contained"
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-              /*  component={RouterLink}
-              to={PATH_BATIBOOT.invoice.create} */
-              onClick={handleOpenModal}
-            >
-              New Invoice
-            </Button>
-          }
-        />
-        <Box>
-          {
-            /* <InvoiceCreateModal   
-            open={openModal}
-            onClose={handleCloseModal}
-            edit={isEdit}
-            identifier={identifier}/>
-             */
-            <InvoiceViewDetailsModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
-          }
+    <Container maxWidth={themeStretch ? false : 'lg'}>
+      <HeaderBreadcrumbs
+        heading="Invoice List"
+        links={[
+          { name: 'Dashboard', href: PATH_BATIBOOT.root },
+          { name: 'Invoice', href: PATH_BATIBOOT.invoice.root },
+          { name: 'List' },
+        ]}
+        action={
+          <Button
+            variant="contained"
+            startIcon={<Iconify icon={'eva:plus-fill'} />}
+            /*  component={RouterLink}
+            to={PATH_BATIBOOT.invoice.create} */
+            onClick={handleOpenModal}
+          >
+            New Invoice
+          </Button>
+        }
+      />
 
+        <Box>
+          {/* UserRolesCreate Modal */}
           <UserModal
             open={openModal}
             onClose={handleCloseModal}
@@ -274,7 +326,18 @@ export default function GeneralInvoice() {
             pathname={pathname}
             nameLink={'Invoice'}
           />
+          {
+            /*  <OrderCreateModal 
+           open={openModal}
+           onClose={handleCloseModal} 
+           edit={isEdit}
+           identifier={identifier}
+          />
+          */
+          <InvoiceViewDetailsModal open={openViewModal} onClose={handleCloseModal} data={invoiceArr} identifier={identifier} />
+          }
         </Box>
+
         <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack
@@ -282,7 +345,7 @@ export default function GeneralInvoice() {
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-              <InvoiceAnalytic
+           <InvoiceAnalytic
                 title="Total"
                 total={tableData.length}
                 percent={100}
@@ -327,24 +390,54 @@ export default function GeneralInvoice() {
         </Card>
 
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onFilterStatus}
-            sx={{ px: 2, bgcolor: 'background.neutral' }}
-          >
-            {TABS.map((tab) => (
-              <Tab
-                disableRipple
-                key={tab.value}
-                value={tab.value}
-                icon={<Label color={tab.color}> {tab.count} </Label>}
-                label={tab.label}
-              />
-            ))}
-          </Tabs>
+          {showSkel ? (
+            <Tabs
+              allowScrollButtonsMobile
+              variant="scrollable"
+              scrollButtons="auto"
+              value={filterStatus}
+              onChange={onFilterStatus}
+              sx={{ px: 2, bgcolor: 'background.neutral' }}
+            >
+              {TABS.map((tab) => (
+                <Tab
+                  disableRipple
+                  key={tab.value}
+                  value={tab.value}
+                  icon={<Label color={tab.color}> {tab.count} </Label>}
+                  label={tab.label}
+                  onClick={() => handleTabClick(tab.value)}
+                />
+              ))}
+            </Tabs>
+          ) : (
+            <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
+                <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
+              </Box>
+            </Stack>
+          )}
 
           <Divider />
 
@@ -408,6 +501,24 @@ export default function GeneralInvoice() {
               )}
 
               <Table size={dense ? 'small' : 'medium'}>
+                {/* <TableBody>
+                  {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                    <InquireQuoTableRow
+                      key={row.id}
+                      row={row}
+                      selected={selected.includes(row.id)}
+                      onSelectRow={() => onSelectRow(row.id)}
+                      onViewRow={() => handleViewRow(row.id)}
+                      onEditRow={() => handleEditRow(row.id)}
+                      onDeleteRow={() => handleDeleteRow(row.id)}
+                    />
+                  ))}
+
+                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
+
+                  <TableNoData isNotFound={isNotFound} />
+                </TableBody> */}
+
                 <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
@@ -424,21 +535,27 @@ export default function GeneralInvoice() {
                 />
 
                 <TableBody>
-                  {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                    <InvoiceTableRow
-                      key={row.id}
-                      row={row}
-                      selected={selected.includes(row.id)}
-                      onSelectRow={() => onSelectRow(row.id)}
-                      onViewRow={() => handleViewRow(row.id)}
-                      onEditRow={() => handleEditRow(row.id)}
-                      onDeleteRow={() => handleDeleteRow(row.id)}
-                    />
-                  ))}
+                  {showSkel && showSkelDatatable
+                    ? invoiceArr.map((items) => (
+                        <InvoiceTableRow
+                          // isDesktop={isDesktop}
+                          showSkeleton={showSkel}
+                          key={items.id}
+                          row={invoice.byId[items.id]}
+                          selected={selected.includes(items.id)}
+                          onSelectRow={() => onSelectRow(items.id)}
+                          onDeleteRow={() => handleDeleteRow(items.id)}
+                          onEditRow={() => handleEditRow(invoice.byId[items.id].fname)}
+                          onViewRow={() => handleViewRow(items.id)}
+                          // onEditRow={() => handleEditRow(items.id)}
+                          // handleClickOpen={handleClickOpen}
+                        />
+                      ))
+                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
 
-                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
+                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 
-                  <TableNoData isNotFound={isNotFound} />
+                  <TableNoData isNotFound={totalData === 0 ?? !true} />
                 </TableBody>
               </Table>
             </TableContainer>
@@ -448,7 +565,8 @@ export default function GeneralInvoice() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={dataFiltered.length}
+              count={totalData}
+              // count={quotationsArr?.length+1}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={onChangePage}
@@ -488,28 +606,28 @@ function applySortFilter({
 
   tableData = stabilizedThis.map((el) => el[0]);
 
-  if (filterName) {
-    tableData = tableData.filter(
-      (item) =>
-        item.invoiceNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
-        item.invoiceTo.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-    );
-  }
+  // if (filterName) {
+  //   tableData = tableData.filter(
+  //     (item) =>
+  //       item.orderNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
+  //       item.pName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+  //   );
+  // }
 
-  if (filterStatus !== 'all') {
-    tableData = tableData.filter((item) => item.status === filterStatus);
-  }
+  // if (filterStatus !== 'all') {
+  //   tableData = tableData.filter((item) => item.inquireQuoStatus === filterStatus);
+  // }
 
-  if (filterService !== 'all') {
-    tableData = tableData.filter((item) => item.items.some((c) => c.service === filterService));
-  }
+  // if (filterService !== 'all') {
+  //   tableData = tableData.filter((item) => item.items.some((c) => c.service === filterService));
+  // }
 
-  if (filterStartDate && filterEndDate) {
-    tableData = tableData.filter(
-      (item) =>
-        item.createDate.getTime() >= filterStartDate.getTime() && item.createDate.getTime() <= filterEndDate.getTime()
-    );
-  }
+  // if (filterStartDate && filterEndDate) {
+  //   /* tableData = tableData.filter(
+  //     (item) =>
+  //       item.orderCreated.getTime() >= filterStartDate.getTime() && item.dueDate.getTime() <= filterEndDate.getTime()
+  //   ); */
+  // }
 
   return tableData;
 }

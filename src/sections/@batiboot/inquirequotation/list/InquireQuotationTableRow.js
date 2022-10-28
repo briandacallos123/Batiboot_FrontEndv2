@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
-
 // MUI
 import { useTheme } from '@mui/material/styles';
 import {
@@ -13,6 +12,7 @@ import {
   IconButton,
   Skeleton,
   Box,
+  MenuItem,
   AvatarGroup,
 } from '@mui/material';
 
@@ -249,9 +249,8 @@ export default function InquireQuotationTableRow({
                 // color={(row.type_text === 'TELEMEDICINE' && 'success') || 'fce'}
                 sx={{ textTransform: 'capitalize' }}
               >
-                {row.isCancel === 1 ? 'Cancelled' : ""}
-                {row.isOrder === 0 && row.isCancel === 0 ? 'Pending' : ""}
-
+                {row.isCancel === 1 ? 'Cancelled' : ''}
+                {row.isOrder === 0 && row.isCancel === 0 ? 'Pending' : ''}
               </Label>
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }}>
@@ -276,8 +275,7 @@ export default function InquireQuotationTableRow({
               onClose={handleCloseMenu}
               actions={
                 <>
-
-                  {showSkeleton ? (
+                  {/* {showSkeleton ? (
                     <IconButton disabled={row.isCancel === 1} sx={{ backgroundColor: 'primary.main',display:user.user_role === 'user' ? "none":"" }} onClick={handleAcceptOrder}>
                       <Iconify icon="eva:clipboard-outline" sx={{ width: 25, height: 25, color: '#fff' }} />
                     </IconButton>
@@ -301,7 +299,37 @@ export default function InquireQuotationTableRow({
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', justifyItems: 'flex-end' }}>
                       <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px' }} />
                     </Box>
-                  )}
+                  )} */}
+                  <MenuItem
+                    onClick={() => {
+                      handleAcceptOrder();
+                      handleCloseMenu();
+                    }}
+                    sx={ row.isCancel === 1 ? {display:"none"} : {display:"flex", color: 'green'} }
+                  >
+                    <Iconify icon={'eva:checkmark-fill'} />
+                    Approve
+                  </MenuItem>
+
+                  <MenuItem
+                    onClick={() => {
+                      onViewRow();
+                      handleCloseMenu();
+                    }}
+                  >
+                    <Iconify icon={'eva:eye-fill'} />
+                    View
+                  </MenuItem>
+
+                  <MenuItem
+                    onClick={() => {
+                      onEditRow();
+                      handleCloseMenu();
+                    }}
+                  >
+                    <Iconify icon={'eva:edit-fill'} />
+                    Edit
+                  </MenuItem>
                 </>
               }
             />

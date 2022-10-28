@@ -58,8 +58,6 @@ import UserModal from '../../../sections/@batiboot/modal/UserModal';
 
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
 
-
-
 // ----------------------------------------------------------------------
 
 const SERVICE_OPTIONS = [
@@ -155,7 +153,7 @@ export default function OrderList() {
     // setIdentifier(id)
     handleOpenModal();
   };
-const [modalViewData, setModalViewData] = useState([]);
+  const [modalViewData, setModalViewData] = useState([]);
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
@@ -163,7 +161,6 @@ const [modalViewData, setModalViewData] = useState([]);
     //  setIdentifier(id)
     handleOpenViewModal();
     setModalViewData(data);
-    
   };
 
   const dataFiltered = applySortFilter({
@@ -224,7 +221,7 @@ const [modalViewData, setModalViewData] = useState([]);
     payload.page = page;
     payload.rowcount = rowsPerPage;
     // // payload.status = Status;
-    payload.services =filterService;
+    payload.services = filterService;
     // console.log(filterService);
     payload.search = filterName;
     payload.startDate = filterStartDate;
@@ -232,8 +229,7 @@ const [modalViewData, setModalViewData] = useState([]);
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAllOrders(payload));
-
-  }, [dispatch, page, rowsPerPage,filterService, filterName, filterStartDate, filterEndDate]);
+  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
   /* console.log(appointmentsArr) */
 
@@ -272,8 +268,6 @@ const [modalViewData, setModalViewData] = useState([]);
     dispatch(getAllOrders(payload));
   };
 
- 
-
   // Skeleton
   const [ordersData, setOrdersData] = useState({});
   const [showSkel, setshowSkel] = useState(false);
@@ -290,7 +284,6 @@ const [modalViewData, setModalViewData] = useState([]);
     setOrdersData(orders);
   }, [orders]);
 
-
   const [showSkelDatatable, setshowSkelDatatable] = useState(false);
   useEffect(() => {
     setshowSkelDatatable(!isLoading);
@@ -302,7 +295,7 @@ const [modalViewData, setModalViewData] = useState([]);
     <Page title="Batiboot: Order List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-            heading="Order List"
+          heading="Order List"
           links={[
             { name: 'Dashboard', href: PATH_BATIBOOT.root },
             { name: 'Order', href: PATH_BATIBOOT.order.root },
@@ -321,19 +314,19 @@ const [modalViewData, setModalViewData] = useState([]);
           }
         />
 
-   
-
         <Box>
           {/* UserRolesCreate Modal */}
           <UserModal
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
+            view={isView}
             identifier={identifier}
             pathname={pathname}
             nameLink={'Order List'}
+            data={modalViewData}
           />
-            {
+          {
             /*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
@@ -341,10 +334,14 @@ const [modalViewData, setModalViewData] = useState([]);
            identifier={identifier}
           />
           */
-            <OrderListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} data={modalViewData} />
+            <OrderListViewModal
+              open={openViewModal}
+              onClose={handleCloseModal}
+              identifier={identifier}
+              data={modalViewData}
+            />
           }
         </Box>
-
 
         <Card sx={{ mb: 5 }}>
           <Scrollbar>
@@ -353,7 +350,7 @@ const [modalViewData, setModalViewData] = useState([]);
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-               <OrderListAnalytics
+              <OrderListAnalytics
                 title="Total"
                 total={tableData.length}
                 percent={100}
@@ -398,7 +395,6 @@ const [modalViewData, setModalViewData] = useState([]);
         </Card>
 
         <Card>
-          
           {showSkel ? (
             <Tabs
               allowScrollButtonsMobile
@@ -419,7 +415,6 @@ const [modalViewData, setModalViewData] = useState([]);
                 />
               ))}
             </Tabs>
-
           ) : (
             <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
               <Box sx={{ display: 'flex' }}>
@@ -511,9 +506,6 @@ const [modalViewData, setModalViewData] = useState([]);
               )}
 
               <Table size={dense ? 'small' : 'medium'}>
-              
-              
-
                 {/* <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <InquireQuoTableRow
@@ -526,16 +518,14 @@ const [modalViewData, setModalViewData] = useState([]);
                       onDeleteRow={() => handleDeleteRow(row.id)}
                     />
                   ))}
-
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
-
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 
-              <TableHeadCustom
+                <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
-                  headLabel={ TABLE_HEAD }
+                  headLabel={TABLE_HEAD}
                   rowCount={tableData.length}
                   numSelected={selected.length}
                   onSort={onSort}
@@ -564,7 +554,7 @@ const [modalViewData, setModalViewData] = useState([]);
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i,k) => <QuotationSkeleton key={k}/>)}
+                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 

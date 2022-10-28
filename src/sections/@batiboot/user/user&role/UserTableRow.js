@@ -227,7 +227,7 @@ export default function OrderTableRow({
             )}
           </TableCell>
 
-          <TableCell align="center">
+          {/* <TableCell align="center">
             {showSkeleton ? (
               <Typography>
                 {row.shift_id.name} 
@@ -235,7 +235,7 @@ export default function OrderTableRow({
             ) : (
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
             )}
-          </TableCell>
+          </TableCell> */}
 
        
           <TableCell align="left">

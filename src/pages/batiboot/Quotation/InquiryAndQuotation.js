@@ -77,6 +77,7 @@ const TABLE_HEAD = [
   { id: 'created_at', label: 'Created', align: 'center', width: 140 },
   { id: 'inquireQuoStatus', label: 'Status', align: 'center', width: 140 },
   { id: 'actions', label: 'Actions', align: 'center' },
+  { id: 'name', label: 'name', align: 'center', width: 140 },
 ];
 
 // ----------------------------------------------------------------------
@@ -195,10 +196,11 @@ export default function InquireQuotation() {
   const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
-    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
-    { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
+    { value: 'all', label: 'All', color: 'info', count: totalData },
+    { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'approved', label: 'Approved', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'canceled', label: 'Canceled', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'done', label: 'Done', color: 'default', count: getLengthByStatus('pending') },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -322,6 +324,7 @@ export default function InquireQuotation() {
             onClose={handleCloseModal}
             edit={isEdit}
             identifier={identifier}
+            data={modalViewData}
             pathname={pathname}
             nameLink={'Inquiry Quotation'}
           />
@@ -339,6 +342,15 @@ export default function InquireQuotation() {
               identifier={identifier}
               data={modalViewData}
             />
+            // <UserModal
+            //   open={openViewModal}
+            //   onClose={handleCloseModal}
+            //   view={isView}
+            //   data={modalViewData}
+            //   identifier={identifier}
+            //   pathname={pathname}
+            //   nameLink={'Inquiry Quotation view'}
+            // />
           }
         </Box>
 
@@ -366,10 +378,10 @@ export default function InquireQuotation() {
                 color={theme.palette.success.main}
               />
               <InquireQuoListAnalytics
-                title="Received"
-                total={getLengthByStatus('received')}
-                percent={getPercentByStatus('received')}
-                price={getTotalPriceByStatus('received')}
+                title="Pending"
+                total={getLengthByStatus('pending')}
+                percent={getPercentByStatus('pending')}
+                price={getTotalPriceByStatus('pending')}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
@@ -509,9 +521,7 @@ export default function InquireQuotation() {
                       onDeleteRow={() => handleDeleteRow(row.id)}
                     />
                   ))}
-
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
-
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 
@@ -601,17 +611,17 @@ function applySortFilter({
 
   tableData = stabilizedThis.map((el) => el[0]);
 
-  // if (filterName) {
-  //   tableData = tableData.filter(
-  //     (item) =>
-  //       item.orderNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
-  //       item.pName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-  //   );
-  // }
+  if (filterName) {
+    tableData = tableData.filter(
+      (item) =>
+        item.orderNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
+        item.pName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    );
+  }
 
-  // if (filterStatus !== 'all') {
-  //   tableData = tableData.filter((item) => item.inquireQuoStatus === filterStatus);
-  // }
+  if (filterStatus !== 'all') {
+    tableData = tableData.filter((item) => item.isOrder === filterStatus);
+  }
 
   // if (filterService !== 'all') {
   //   tableData = tableData.filter((item) => item.items.some((c) => c.service === filterService));

@@ -67,8 +67,8 @@ import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboo
 const TABLE_HEAD = [
 
   { id: 'department', label: 'Department', align: 'center' },
-  { id: 'user', label: 'user', align: 'left' },
-  { id: 'status', label: 'Status', align: 'left' },
+  // { id: 'user', label: 'user', align: 'left' },
+  { id: 'status', label: 'Status', align: 'center' },
   { id: '' },
 ];
 
@@ -81,12 +81,12 @@ export default function UserDesignation() {
   const { themeStretch } = useSettings();
   const { usersDepartment, totalData, ccc, usersDepartmentArr, isLoading } = useSelector((state) => state.adminUserDepartment);
   const { roles, rolesArr,  } = useSelector((state) => state.getRole);
-  console.log("rolesss", rolesArr);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const SERVICE_OPTIONS = [
-    {id: "All", name:"All"}, ...rolesArr
+    {id: "All", name:"All"}
   ];
 
   
@@ -282,7 +282,7 @@ console.log("filter servies", filterService);
   useEffect(() => {
     setOrdersData(usersDepartment);
   }, [usersDepartment]);
-console.log("gggggggggggggg",usersDepartment);
+
 
   const [showSkelDatatable, setshowSkelDatatable] = useState(false);
   useEffect(() => {
@@ -366,7 +366,7 @@ console.log("gggggggggggggg",usersDepartment);
 
               {showSkel ? (
                 <UserListAnalytics
-                  title="Banned"
+                  title="Inactive"
                   total={ccc.banned}
                   percent={(ccc.banned * 100) / (ccc.active+ccc.banned)}
                   icon="eva:bell-fill"

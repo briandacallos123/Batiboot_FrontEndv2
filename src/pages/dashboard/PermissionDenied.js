@@ -10,13 +10,13 @@ import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // guards
 import RoleBasedGuard from '../../guards/RoleBasedGuard';
-
+import useAuth from '../../hooks/useAuth';
 // ----------------------------------------------------------------------
 
 export default function PermissionDenied() {
   const { themeStretch } = useSettings();
-
-  const [role, setRole] = useState(['admin','agent']);
+  const { user } = useAuth();
+  const [role, setRole] = useState(user.permission);
 
   const handleChangeRole = (event, newRole) => {
     if (newRole !== null) {
@@ -48,7 +48,7 @@ export default function PermissionDenied() {
           </ToggleButton>
         </ToggleButtonGroup>
 
-        <RoleBasedGuard hasContent roles={[role]}>
+        <RoleBasedGuard hasContent roles={role}>
           <Box
             sx={{
               display: 'grid',

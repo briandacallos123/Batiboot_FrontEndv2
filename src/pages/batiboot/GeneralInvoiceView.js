@@ -13,25 +13,29 @@ import { _userList, _invoices } from '../../_mock';
 // components
 import { DialogAnimate } from '../../components/animate';
 import Iconify from '../../components/Iconify';
-import './modalStyle.scss';
+import Scrollbar from '../../components/Scrollbar';
+import './modalStyle2.scss';
 
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import ProductNewEditForm from '../../sections/@batiboot/inquirequotation/InquireQuotationModal';
 import InvoiceCreate from '../../sections/@batiboot/invoice/new-edit-form';
 import InvoiceDetails from '../../sections/@batiboot/invoice/details';
+import SideBar from '../../sections/@batiboot/invoice/details/SideBar';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------
 
 export default function InvoiceViewDetailsModal(props) {
-  const { open, selectedValue, onClose, edit, identifier } = props;
+  const { open, selectedValue, onClose, edit, identifier, data } = props;
+  console.log("data", data.filter((item) => item.id === identifier));
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const theme = useTheme();
-
-  const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
-
+console.log(identifier);
+  const currentInvoice = _invoices.find((invoice) => invoice.id === "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1");
+  // const currentInvoice = data.filter((item) => item.id === identifier);
+console.log(_invoices);
   const handleCloseModal = () => onClose(selectedValue);
 
   return (
@@ -64,7 +68,7 @@ export default function InvoiceViewDetailsModal(props) {
 
         <div className="mpp-body">
           <Page title="Batiboot: View Invoice">
-            <Container maxWidth={themeStretch ? false : 'lg'}>
+          <Container sx={{ height: { xs: '100%', md: '87vh' } }} maxWidth={themeStretch ? false : 'lg'}>
               {/* <HeaderBreadcrumbs
             heading={'View Invoice'}
             links={[
@@ -84,6 +88,7 @@ export default function InvoiceViewDetailsModal(props) {
           /> */}
               {/*  <UserRolesCreateForm isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} isIdentifier={identifier} /> */}
               {/* <InvoiceCreate isEdit={isEdit} currentUser={currentUser} handleCloseModal={handleCloseModal} currentInvoice={currentInvoice} /> */}
+
               <InvoiceDetails invoice={currentInvoice} />
             </Container>
           </Page>

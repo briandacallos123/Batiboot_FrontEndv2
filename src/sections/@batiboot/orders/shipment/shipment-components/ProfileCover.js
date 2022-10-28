@@ -14,8 +14,7 @@ import useAuth from '../../../../../hooks/useAuth';
 import MyAvatar from '../../../../../components/MyAvatar';
 import Image from '../../../../../components/Image';
 
-
-import './ProfileSass.scss'
+import './ProfileSass.scss';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -55,21 +54,19 @@ ProfileCover.propTypes = {
 export default function ProfileCover({ myProfile }) {
   const { user } = useAuth();
 
-  const { phoneNumber, cover, email  } = myProfile;
+  const { phoneNumber, cover, email } = myProfile;
 
   const LabelStyle = styled(Typography)(({ theme }) => ({
-      ...theme.typography.subtitle2,
-      color: theme.palette.text.primary,
-      marginBottom: theme.spacing(1),
+    ...theme.typography.subtitle2,
+    color: theme.palette.text.primary,
+    marginBottom: theme.spacing(1),
   }));
   return (
     <RootStyle>
-    
-      <Grid sx={{ position: 'absolute', right: 0, pr: 3, pt: 2, zIndex: 99,}}>
-        <LabelStyle variant='h6'>TR-No: 11304</LabelStyle>
+      <Grid sx={{ position: 'absolute', right: 0, pr: 3, pt: 2, zIndex: 99 }}>
+        <LabelStyle variant="h6">TR-No: 11304</LabelStyle>
       </Grid>
-   
-       <InfoStyle>
+      <InfoStyle sx={{ pb: 1 }}>
         <MyAvatar
           sx={{
             mx: 'auto',
@@ -89,11 +86,10 @@ export default function ProfileCover({ myProfile }) {
             textAlign: { xs: 'center', md: 'left' },
           }}
         >
-          <Typography variant="h4">{user?.displayName}</Typography>
-          <Typography sx={{ opacity: 0.72 }}>{email}</Typography>
+          <Typography variant="h4">{user.name}</Typography>
+          <Typography sx={{ opacity: 0.72 }}>{user.email}</Typography>
           <Typography sx={{ opacity: 0.72 }}>{phoneNumber}</Typography>
         </Box>
-        
       </InfoStyle>
       <Image alt="profile cover" src={cover} sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> */}
     </RootStyle>

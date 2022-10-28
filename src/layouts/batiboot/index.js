@@ -14,7 +14,6 @@ import DashboardHeader from './header';
 import NavbarVertical from './navbar/NavbarVertical';
 import NavbarHorizontal from './navbar/NavbarHorizontal';
 
-import RoleBasedGuard from '../../guards/RoleBasedGuard';
 // ----------------------------------------------------------------------
 
 const MainStyle = styled('main', {

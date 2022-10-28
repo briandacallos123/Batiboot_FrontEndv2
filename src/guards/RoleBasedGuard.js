@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { m } from 'framer-motion';
 // @mui
@@ -9,12 +10,14 @@ import { MotionContainer, varBounce } from '../components/animate';
 // assets
 import { ForbiddenIllustration } from '../assets';
 
+
 // ----------------------------------------------------------------------
 
 RoleBasedGuard.propTypes = {
   hasContent: PropTypes.bool,
   roles: PropTypes.arrayOf(PropTypes.string), // Example ['admin', 'leader']
   children: PropTypes.node.isRequired,
+  accessibleRoles: PropTypes.arrayOf(PropTypes.string), // Example ['admin', 'leader']
 };
 
 export default function RoleBasedGuard({ hasContent, roles, children }) {
@@ -22,11 +25,16 @@ export default function RoleBasedGuard({ hasContent, roles, children }) {
   const { user } = useAuth();
 
   // const currentRole = 'user';
-  const currentRole = user?.user_role; // admin;
-  console.log(typeof roles !== 'undefined' && !roles.includes(currentRole));
-  console.log(currentRole);
-  
-  if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
+  const currentRole = user?.permission; // admin;
+  // console.log(currentRole);
+ 
+  // console.log(roles);
+
+    // console.log(typeof roles !== 'undefined' && !roles.some(r => currentRole.includes(r)));
+
+ console.log('hasContent', hasContent);
+
+  if (typeof roles !== 'undefined' && !roles.some(r => currentRole.includes(r))) {
     return hasContent ? (
       <Container component={MotionContainer} sx={{ textAlign: 'center' }}>
         <m.div variants={varBounce().in}>
@@ -45,6 +53,8 @@ export default function RoleBasedGuard({ hasContent, roles, children }) {
       </Container>
     ) : null;
   }
+
+ 
 
   return <>{children}</>;
 }

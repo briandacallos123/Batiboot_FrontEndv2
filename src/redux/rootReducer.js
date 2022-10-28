@@ -25,6 +25,8 @@ import userOrderReducer from './slices/userOrder';
 
 import adminDashboardReducer from './slices/adminDashboard';
 import userDashboardReducer from './slices/userDashboard';
+
+import adminInvoiceReducer from './slices/adminInvoice';
 // ----------------------------------------------------------------------
 
 const rootPersistConfig = {
@@ -65,6 +67,8 @@ const rootReducer = combineReducers({
   userOrder: userOrderReducer,
   adminDashboard: adminDashboardReducer,
   userDashboard: userDashboardReducer,
+  adminInvoice: adminInvoiceReducer,
+  
 });
 
 export { rootPersistConfig, rootReducer };

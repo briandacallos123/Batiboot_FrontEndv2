@@ -7,18 +7,26 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack } from '@mui/material';
+import { Box, Card, Stack, Drawer, Grid, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // routes
 import { PATH_BATIBOOT } from '../../../../routes/paths';
 // mock
 import { _invoiceAddressFrom } from '../../../../_mock/batiboot/invoice_mock/_invoice';
+// hook
+import useResponsive from '../../../../hooks/useResponsive';
 // components
+import Iconify from '../../../../components/Iconify';
 import { FormProvider } from '../../../../components/hook-form';
 //
+import useAuth from '../../../../hooks/useAuth';
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
 import InvoiceNewEditStatusDate from './InvoiceNewEditStatusDate';
-
+import InvoiceData from '../../orders/shipment/shipment-components/invoice-details/InvoiceDetails';
+import QuotationData from '../../orders/shipment/shipment-components/quotation-data/Quotation';
+import SideBar from '../details/SideBar';
+import Scrollbar from '../../../../components/Scrollbar';
 // ----------------------------------------------------------------------
 
 InvoiceNewEditForm.propTypes = {
@@ -28,9 +36,13 @@ InvoiceNewEditForm.propTypes = {
   formRef: PropTypes.any,
 };
 
-export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef }) {
+const SIDEBAR_WIDTH = 320;
+const SIDEBAR_COLLAPSE_WIDTH = 96;
 
+export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef }) {
   const navigate = useNavigate();
+  const { user, createInvoice } = useAuth();
+  const isDesktop = useResponsive('up', 'md');
 
   const [loadingSave, setLoadingSave] = useState(false);
 
@@ -40,11 +52,15 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     createDate: Yup.string().nullable().required('Create date is required'),
     dueDate: Yup.string().nullable().required('Due date is required'),
     invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
+    status: Yup.string().nullable().required('Status is required'),
   });
+const id = "INV-".concat(Math.floor( Math.random() * 9999999));
+const [invoicePId, setInvoicePId] = useState(id);
+
 
   const defaultValues = useMemo(
     () => ({
-      invoiceNumber: currentInvoice?.invoiceNumber || '',
+      invoiceNumber: currentInvoice?.invoiceNumber || id,
       createDate: currentInvoice?.createDate || null,
       dueDate: currentInvoice?.dueDate || null,
       address: currentInvoice?.address || null,
@@ -94,11 +110,12 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      setLoadingSave(true);
-      handleCloseModal();
-      navigate(PATH_BATIBOOT.invoice.list);
-      console.log(JSON.stringify(newInvoice, null, 2));
+      // reset();
+      // setLoadingSave(true);
+      // handleCloseModal();
+      // navigate(PATH_BATIBOOT.invoice.list);
+      // console.log(JSON.stringify(newInvoice, null, 2));
+
     } catch (error) {
       console.error(error);
     }
@@ -109,11 +126,27 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // console.log(JSON.stringify(newInvoice, null, 2));
+      const dateDue = `${newInvoice.dueDate.getFullYear()}-${newInvoice.dueDate.getMonth()}-${newInvoice.dueDate.getDate()}`;
+      const dateCreate = `${newInvoice.createDate.getFullYear()}-${newInvoice.createDate.getMonth()}-${newInvoice.createDate.getDate()}`;
+
+      const data = {
+        from: newInvoice.invoiceFrom.address,
+        to: newInvoice.invoiceTo.address,
+        invoice_number: newInvoice.invoiceNumber,
+        status: newInvoice.status,
+        details: JSON.stringify(newInvoice.items),
+        due_date: dateDue,
+        created_date: dateCreate,
+      }
+      console.log(data);
+      await createInvoice(data);
       reset();
       handleCloseModal();
       setLoadingSend(false);
       navigate(PATH_BATIBOOT.invoice.list);
-      console.log(JSON.stringify(newInvoice, null, 2));
+
     } catch (error) {
       console.error(error);
     }
@@ -122,31 +155,55 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
   return (
     <FormProvider methods={methods}>
       <Card>
-        <InvoiceNewEditAddress />
-        <InvoiceNewEditStatusDate />
-        <InvoiceNewEditDetails />
+        {isEdit ? (
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+   <Stack height={{ xs: '80vh', md: '100%' }} sx={{ flexGrow: 1 }}>
+              <Scrollbar>
+                <InvoiceNewEditAddress />
+                <InvoiceNewEditStatusDate invoiceId={invoicePId}/>
+                <InvoiceNewEditDetails />
+              </Scrollbar>
+            </Stack>
+
+            <SideBar invoice={currentInvoice} edit={isEdit} />
+          </Box>
+        ) : (
+          <Grid container>
+            <Grid item xs={12} md={2} bgcolor="background.neutral" />
+            <Grid item xs={12} md={8}>
+            <Stack height={{ xs: '80vh', md: '80vh' }}>
+                <Scrollbar>
+                  <InvoiceNewEditAddress />
+                  <InvoiceNewEditStatusDate invoiceId={invoicePId}/>
+                  <InvoiceNewEditDetails />
+                </Scrollbar>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={2} bgcolor="background.neutral" />
+          </Grid>
+        )}
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ my: 3 }}>
-      <LoadingButton
+        <LoadingButton
           color="error"
           size="small"
           variant="contained"
           loading={loadingSave && isSubmitting}
           onClick={handleCloseModal}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
-        
+
         <LoadingButton
           color="inherit"
           size="small"
           variant="contained"
           loading={loadingSave && isSubmitting}
           onClick={handleSubmit(handleSaveAsDraft)}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
 
@@ -155,8 +212,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           variant="contained"
           loading={loadingSend && isSubmitting}
           onClick={handleSubmit(handleCreateAndSend)}
-          type='submit'
-          sx={{display:'none'}}
+          type="submit"
+          sx={{ display: 'none' }}
           ref={formRef}
         />
       </Stack>

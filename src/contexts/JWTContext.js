@@ -83,59 +83,95 @@ const handlers = {
     isAuthenticated: true,
   }),
   NEW_USER_EMAIL_VERIFICATION: (state, action) => {
-    const { user } = action.payload;
+
 
     return {
       ...state,
       isAuthenticated: false,
-      user,
+
     };
   },
   RESEND_EMAIL_VERIFICATION: (state, action) => {
-    const { user } = action.payload;
+
 
     return {
       ...state,
       isAuthenticated: false,
-      user,
+
     };
   },
 
   CREATE_QUOTATION: (state, action) => {
-    const { user } = action.payload;
+
 
     return {
       ...state,
       isAuthenticated: true,
-      user,
+
     };
   },
   ACCEPT_ORDER: (state, action) => {
-    const { user } = action.payload;
+
 
     return {
       ...state,
       isAuthenticated: true,
-      user,
+
     };
   },
   CREATE_USER_MANAGEMENT: (state, action) => {
-    const { user } = action.payload;
+
 
     return {
       ...state,
       isAuthenticated: true,
-      user,
+
     };
   },
 
   CANCEL_QUOTATION: (state, action) => {
-    const { user } = action.payload;
 
     return {
       ...state,
       isAuthenticated: true,
-      user,
+
+    };
+
+  },
+
+  CREATE_INVOICE: (state, action) => {
+ 
+
+    return {
+      ...state,
+      isAuthenticated: true,
+
+    };
+  },
+
+  CREATE_USER_ROLE: (state, action) => {
+
+
+    return {
+      ...state,
+      isAuthenticated: true,
+
+    };
+  },
+
+  CREATE_USER_DEPARTMENT: (state, action) => {
+
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
+  CREATE_USER_DESIGNATION: (state, action) => {
+
+
+    return {
+      ...state,
+      isAuthenticated: true,
     };
   },
 
@@ -161,6 +197,11 @@ const AuthContext = createContext({
   acceptOrder: () => Promise.resolve(),
   createUserManagement: () => Promise.resolve(),
   cancelQuotation: () => Promise.resolve(),
+  createInvoice: () => Promise.resolve(),
+  createUserRole: () => Promise.resolve(),
+  createUserDepartment: () => Promise.resolve(),
+  createUserDesignation: () => Promise.resolve(),
+
 });
 
 // ----------------------------------------------------------------------
@@ -568,6 +609,99 @@ function AuthProvider({ children }) {
     });
   };
 
+  const createInvoice = async (data) => {
+    const response = await axios.post('/api/invoice', data,
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      
+      }
+    );
+    const user = response.data;
+
+    // alert(user.email)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CREATE_INVOICE',
+      payload: {
+        user,
+      },
+    });
+  };
+
+  const createUserRole = async (data) => {
+    const response = await axios.post('/api/management/role/add', data,
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      
+      }
+    );
+    const user = response.data;
+
+    // alert(user)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CREATE_USER_ROLE',
+      payload: {
+        user,
+      },
+    });
+  };
+
+  const createUserDepartment = async (data) => {
+    const response = await axios.post('/api/management/department/add', data,
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      
+      }
+    );
+    const user = response.data;
+
+    // alert(user)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CREATE_USER_DEPARTMENT',
+      payload: {
+        user,
+      },
+    });
+  };
+
+  const createUserDesignation = async (data) => {
+    const response = await axios.post('/api/management/designation/add', data,
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      
+      }
+    );
+    const user = response.data;
+
+    // alert(user)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CREATE_USER_DESIGNATION',
+      payload: {
+        user,
+      },
+    });
+  };
+
+
 
 
   const logout = async () => {
@@ -597,6 +731,10 @@ function AuthProvider({ children }) {
         acceptOrder,
         createUserManagement,
         cancelQuotation,
+        createInvoice,
+        createUserRole,
+        createUserDepartment,
+        createUserDesignation,
       }}
     >
       {children}

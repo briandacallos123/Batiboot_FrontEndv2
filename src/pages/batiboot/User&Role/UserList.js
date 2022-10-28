@@ -72,10 +72,10 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
   { id: 'email', label: 'Email', align: 'left' },
   { id: 'phone', label: 'Phone', align: 'left' },
-  { id: 'designation', label: 'Designation', align: 'left' },
+  { id: 'designation', label: 'Designation', align: 'center' },
   { id: 'role', label: 'Role', align: 'left' },
   // { id: 'isVerified', label: 'Verified', align: 'center' },
-  { id: 'shift', label: 'Shift', align: 'left' },
+  // { id: 'shift', label: 'Shift', align: 'left' },
   { id: 'status', label: 'Status', align: 'left' },
   { id: '' },
 ];;
@@ -676,7 +676,7 @@ useEffect(()=>{
 
           <Box sx={{ position: 'relative' }}>
             <TablePagination
-              rowsPerPageOptions={[1, 10, 25]}
+              rowsPerPageOptions={[5, 10, 25]}
               component="div"
               count={totalData}
               // count={quotationsArr?.length+1}

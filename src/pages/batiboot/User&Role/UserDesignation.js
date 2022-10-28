@@ -50,7 +50,7 @@ import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } fr
 import QuotationSkeleton from './OrderSkeleton';
 // import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
 import UserListAnalytics from '../../../sections/@batiboot/user/user&role/Analytics/UserListAnalytics';
-import { UserTableToolbar, UserDepartmentTableRow } from '../../../sections/@batiboot/user/user&role';
+import { UserTableToolbar, UserDesignationTableRow } from '../../../sections/@batiboot/user/user&role';
 // import { OrderTableRow, OrderTableToolbar } from '../../sections/@batiboot/orders/order/list';
 import OrderListAnalytics from '../../../sections/@batiboot/orders/order/OrderListAnalytics';
 // import OrderCreateModal from './OrderListCreate';
@@ -67,8 +67,8 @@ import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboo
 const TABLE_HEAD = [
 
   { id: 'designation', label: 'Designation', align: 'center' },
-  { id: 'user', label: 'user', align: 'left' },
-  { id: 'status', label: 'Status', align: 'left' },
+  // { id: 'user', label: 'user', align: 'left' },
+  { id: 'status', label: 'Status', align: 'center' },
   { id: '' },
 ];
 
@@ -81,12 +81,12 @@ export default function UserDesignation() {
   const { themeStretch } = useSettings();
   const { usersDesignation, totalData, ccc, usersDesignationArr, isLoading } = useSelector((state) => state.adminUserDesignation);
   const { roles, rolesArr,  } = useSelector((state) => state.getRole);
-  console.log("rolesss", rolesArr);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const SERVICE_OPTIONS = [
-    {id: "All", name:"All"}, ...rolesArr
+    {id: "All", name:"All"}, 
   ];
 
   
@@ -196,7 +196,7 @@ console.log("filter servies", filterService);
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: ccc.active+ccc.banned},
     { value: 'active', label: 'Active', color: 'success', count: ccc.active },
-    { value: 'banned', label: 'Banned', color: 'error', count: ccc.banned },
+    { value: 'Inactive', label: 'Inactive', color: 'error', count: ccc.banned },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -318,7 +318,7 @@ console.log("filter servies", filterService);
             edit={isEdit}
             identifier={identifier}
             pathname={pathname}
-            nameLink={'Department'}
+            nameLink={'Designations'}
           />
             {
             /*  <OrderCreateModal 
@@ -366,7 +366,7 @@ console.log("filter servies", filterService);
 
               {showSkel ? (
                 <UserListAnalytics
-                  title="Banned"
+                  title="Inactive"
                   total={ccc.banned}
                   percent={(ccc.banned * 100) / (ccc.active+ccc.banned)}
                   icon="eva:bell-fill"
@@ -530,7 +530,7 @@ console.log("filter servies", filterService);
                 <TableBody>
                   {showSkel && showSkelDatatable
                     ? usersDesignationArr.map((items) => (
-                        <UserDepartmentTableRow
+                        <UserDesignationTableRow
                           // isDesktop={isDesktop}
                           showSkeleton={showSkel}
                           key={items.id}

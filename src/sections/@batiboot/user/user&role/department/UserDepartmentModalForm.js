@@ -19,7 +19,7 @@ import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel, TableCont
 } from '@mui/material';
 
 // UTILS
-
+import useAuth from '../../../../../hooks/useAuth';
 
 // ROUTES
 import { PATH_BATIBOOT } from '../../../../../routes/paths';
@@ -56,14 +56,14 @@ UserCreateDepartmentForm.propsType = {
 }
 
 export default function UserCreateDepartmentForm(props) {
-
+    const { createUserDepartment } = useAuth()
     const { isEdit, currentUser, handleCloseModal, formRef } = props
 
     const navigate = useNavigate()
     const location = useLocation()
 
 
-    const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
   const handleSaveAsDraft = async () => {
     setLoadingSave(true);
@@ -80,18 +80,27 @@ export default function UserCreateDepartmentForm(props) {
     }
   };
 
-  const handleCreateAndSend = async () => {
+  const handleCreateAndSend = async (data) => {
     setLoadingSend(true);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      handleCloseModal();
-      setLoadingSend(false);
+        data.status_id = data.status;
+        data.company_id = 1;
+        data.title = data.department;
+
+         await createUserDepartment(data);
+        enqueueSnackbar('Department Created!', { variant: 'success',persist: false, });
+       reset();
+       handleCloseModal();
+       setLoadingSend(false);
    /*    navigate(PATH_BATIBOOT.invoice.list);
       console.log(JSON.stringify(newInvoice, null, 2)); */
     } catch (error) {
       console.error(error);
+      if(error.message === "Department Exists") {
+        enqueueSnackbar('Department Exists!', { variant: 'error',persist: false, });
+        }
     }
   };
 
@@ -125,7 +134,7 @@ export default function UserCreateDepartmentForm(props) {
 
     const NewUserSchema = Yup.object().shape({
         department: Yup.string().required('Role is required'),
-       // status: Yup.string().required('Status is required'),
+        status: Yup.string().required('Status is required'),
     });
 
     const defaultValues = useMemo(
@@ -266,7 +275,7 @@ export default function UserCreateDepartmentForm(props) {
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>
-            <Grid item xs={12} md={8}>
+            {/* <Grid item xs={12} md={8}>
                 <Card sx={{ py: 2, px: 3, mx: 3, mt: 2}}>
                 <Box sx={{ pt: 3 }} >              
                     <RHFSelect name="user" label="User" placeholder="User" onChange={onAddTemp}>
@@ -337,9 +346,9 @@ export default function UserCreateDepartmentForm(props) {
                 </Scrollbar>
                 </Box>
                 </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-            <Card sx={{ py: 2, px: 3, mx: 3, mt: 2}}>
+            </Grid> */}
+            <Grid item xs={12} md={6}>
+            <Card sx={{ py: 2, px: 3, mx: 3, my: 3}}>
                 <Box
                 sx={{
                     display: 'grid',
@@ -360,11 +369,11 @@ export default function UserCreateDepartmentForm(props) {
                     GETDEPARTMENT(role.role.toLowerCase());
                 }}
             /> */}
-                <RHFTextField name="department" label="Department" onInput={(e) => GETDEPARTMENT(e.target.value.toLowerCase())}/>
-                <RHFSelect name="status" label="Status" placeholder="Status" value={tempStatus} onChange={(e) => GETSTATUS(e.target.value)}>
+                <RHFTextField name="department" label="Department" placeholder="ex. Management" onInput={(e) => GETDEPARTMENT(e.target.value.toLowerCase())}/>
+                <RHFSelect name="status" label="Status" placeholder="Status" >
                     <option value="" />
                     {_status.map((option, i) => (
-                    <option key={i} value={option.status}>
+                    <option key={i} value={option.id}>
                         {option.status}
                     </option>
                     ))}

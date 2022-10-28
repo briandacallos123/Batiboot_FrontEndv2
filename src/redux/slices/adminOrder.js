@@ -50,9 +50,8 @@ const slice = createSlice({
       state.orders.byId = objFromArray(data);
       state.orders.allIds = Object.keys(state.orders.byId);
       state.ordersArr = data;
-      state.totalData = data.length;
+      state.totalData = total;
       state.ccc  = ccc;
-      console.log(action.payload)
     },
   },
 });

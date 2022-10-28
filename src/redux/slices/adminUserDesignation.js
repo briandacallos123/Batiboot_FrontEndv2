@@ -48,7 +48,7 @@ const slice = createSlice({
       state.usersDesignation.allIds = Object.keys(state.usersDesignation.byId);
       state.usersDesignationArr = data;
       state.totalData = total;
-      // state.ccc  = ccc;
+      state.ccc  = ccc;
     },
   },
 });

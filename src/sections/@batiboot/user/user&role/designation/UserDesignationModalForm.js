@@ -19,6 +19,7 @@ import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel, TableCont
 } from '@mui/material';
 
 // UTILS
+import useAuth from '../../../../../hooks/useAuth';
 
 
 // ROUTES
@@ -57,41 +58,56 @@ UserCreateDesignationForm.propsType = {
 }
 
 export default function UserCreateDesignationForm(props) {
-
+    const { createUserDesignation } = useAuth()
     const { isEdit, currentUser, handleCloseModal, identifier, formRef } = props
     const navigate = useNavigate()
     const location = useLocation()
 
     const [loadingSave, setLoadingSave] = useState(false);
     const [loadingSend, setLoadingSend] = useState(false);
-    const handleSaveAsDraft = async () => {
+    const handleSaveAsDraft = async (data) => {
         setLoadingSave(true);
 
         try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        reset();
-        setLoadingSave(true);
-        handleCloseModal();
-        //  navigate(PATH_BATIBOOT.invoice.list);
-    //   console.log(JSON.stringify(newInvoice, null, 2));
-        } catch (error) {
-        console.error(error);
-        }
+            await new Promise((resolve) => setTimeout(resolve, 500));
+              data.company_id = 1;
+              
+      
+               await createUserDesignation(data);
+              enqueueSnackbar('Designation Created!', { variant: 'success',persist: false, });
+             reset();
+             handleCloseModal();
+             setLoadingSend(false);
+         /*    navigate(PATH_BATIBOOT.invoice.list);
+            console.log(JSON.stringify(newInvoice, null, 2)); */
+          } catch (error) {
+            console.error(error);
+            if(error.message === "Designation Exists") {
+              enqueueSnackbar('Designation Exists!', { variant: 'error',persist: false, });
+              }
+          }
     };
 
-    const handleCreateAndSend = async () => {
+    const handleCreateAndSend = async (data) => {
         setLoadingSend(true);
 
         try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        reset();
-        handleCloseModal();
-        setLoadingSend(false);
-    /*    navigate(PATH_BATIBOOT.invoice.list);
-        console.log(JSON.stringify(newInvoice, null, 2)); */
-        } catch (error) {
-        console.error(error);
-        }
+            await new Promise((resolve) => setTimeout(resolve, 500));
+              data.company_id = 1;
+              data.status_id = data.status;
+               await createUserDesignation(data);
+              enqueueSnackbar('Designation Created!', { variant: 'success',persist: false, });
+             reset();
+             handleCloseModal();
+             setLoadingSend(false);
+         /*    navigate(PATH_BATIBOOT.invoice.list);
+            console.log(JSON.stringify(newInvoice, null, 2)); */
+          } catch (error) {
+            console.error(error);
+            if(error.message === "Designation Exists") {
+              enqueueSnackbar('Designation Exists!', { variant: 'error',persist: false, });
+              }
+          }
     };
 
     const TABLE_HEAD = [
@@ -269,7 +285,7 @@ export default function UserCreateDesignationForm(props) {
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
-                <Grid item xs={12} md={8}>
+                {/* <Grid item xs={12} md={8}>
                     <Card sx={{ py: 2, px: 3, mx: 3, mt: 2}}>
                     <Box sx={{ pt: 3 }} >              
                         <RHFSelect name="user" label="User" placeholder="User" onChange={onAddTemp}>
@@ -340,9 +356,9 @@ export default function UserCreateDesignationForm(props) {
                     </Scrollbar>
                     </Box>
                     </Card>
-                </Grid>
-            <Grid item xs={12} md={4}>
-            <Card sx={{ py: 5, px: 3, mt: 2, mr: 3 }}>
+                </Grid> */}
+            <Grid item xs={12} md={6}>
+            <Card sx={{ py: 2, px: 3, mx: 3, my: 3}}>
                 <Box
                 sx={{
                     display: 'grid',
@@ -359,21 +375,11 @@ export default function UserCreateDesignationForm(props) {
                     </option>
                     ))}
                 </RHFSelect> */}
-                <Autocomplete
-                    name="role"
-                    options={_userRole}
-                    renderInput={params => (
-                        <TextField {...params} label="Designations" name="designation" variant="outlined" />
-                    )}
-                    getOptionLabel={option => option.role}
-                    onChange={(_event, role) => {
-                        GETROLE(role.role.toLowerCase());
-                    }}
-                />
-                <RHFSelect name="status" label="Status" placeholder="Status" value={tempStatus} onChange={(e) => GETSTATUS(e.target.value)}>
+               <RHFTextField name="title" label="Title" placeholder="ex. Account Manager " />
+                <RHFSelect name="status" label="Status" placeholder="Status" >
                     <option value="" />
                     {_status.map((option, i) => (
-                    <option key={i} value={option.status}>
+                    <option key={i} value={option.id}>
                         {option.status}
                     </option>
                     ))}
