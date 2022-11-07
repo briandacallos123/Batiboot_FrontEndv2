@@ -27,6 +27,16 @@ import adminDashboardReducer from './slices/adminDashboard';
 import userDashboardReducer from './slices/userDashboard';
 
 import adminInvoiceReducer from './slices/adminInvoice';
+
+// For Line Chart Data
+import adminDashboardFulfillmentReducer from './slices/adminDashboardFulfillment';
+import adminDashboardProductSourcingReducer from './slices/adminDashboardProductSourcing';
+import adminDashboardImportingReducer from './slices/adminDashboardImporting';
+import adminDashboardWarehousingReducer from './slices/adminDashboardWarehousing';
+import adminDashboardProductRebrandingReducer from './slices/adminDashboardProductRebranding';
+import adminDashboardPrivateLabelReducer from './slices/adminDashboardPrivateLabel';
+// For Line Chart Data
+
 // ----------------------------------------------------------------------
 
 const rootPersistConfig = {
@@ -68,7 +78,14 @@ const rootReducer = combineReducers({
   adminDashboard: adminDashboardReducer,
   userDashboard: userDashboardReducer,
   adminInvoice: adminInvoiceReducer,
-  
+  // For Linechart Data
+  adminDashboardFulfillment: adminDashboardFulfillmentReducer,
+  adminDashboardProductSourcing: adminDashboardProductSourcingReducer,
+  adminDashboardImporting: adminDashboardImportingReducer,
+  adminDashboardWarehousing: adminDashboardWarehousingReducer,
+  adminDashboardProductRebranding: adminDashboardProductRebrandingReducer,
+  adminDashboardPrivateLabel: adminDashboardPrivateLabelReducer,
+  // For Linechart Data
 });
 
 export { rootPersistConfig, rootReducer };

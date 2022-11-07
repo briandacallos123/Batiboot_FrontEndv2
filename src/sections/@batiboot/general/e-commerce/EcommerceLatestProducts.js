@@ -1,4 +1,5 @@
 // @mui
+// import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { Box, Link, Card, CardHeader, Typography, Stack } from '@mui/material';
@@ -12,6 +13,7 @@ import Image from '../../../../components/Image';
 import Scrollbar from '../../../../components/Scrollbar';
 import { ColorPreview } from '../../../../components/color-utils';
 
+
 // ----------------------------------------------------------------------
 
 EcommerceLatestProducts.propTypes = {
@@ -19,6 +21,8 @@ EcommerceLatestProducts.propTypes = {
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,
 };
+
+
 
 export default function EcommerceLatestProducts({ title, subheader, list, ...other }) {
   return (
@@ -38,6 +42,19 @@ export default function EcommerceLatestProducts({ title, subheader, list, ...oth
 
 // ----------------------------------------------------------------------
 
+// const UserTable = () =>
+// {
+//   const [users, setUsers] = useState([]);
+
+//   useEffect(() => {
+//       fetch("http://127.0.0.1:8000/api/testing/index")
+//       .then((response) => response.json())
+//       .then((json) => setUsers(json))
+//   }, []);
+
+//   console.log(users);
+// }
+
 ProductItem.propTypes = {
   product: PropTypes.shape({
     orderNumber: PropTypes.number,
@@ -46,7 +63,20 @@ ProductItem.propTypes = {
   }),
 };
 
+
+
 function ProductItem({ product }) {
+
+  // const [users, setUsers] = useState([]);
+
+  // useEffect(() => {
+  //     fetch("http://127.0.0.1:8000/api/testing/latestinquiries")
+  //     .then((response) => response.json())
+  //     .then((json) => setUsers(json))
+  // }, []);
+
+  // console.log(users);
+
   const { pName, orderNumber, inquireQuoStatus } = product;
   const theme = useTheme();
   return (
@@ -64,7 +94,7 @@ function ProductItem({ product }) {
         </Stack>
       </Box>
 
-      <Label
+      {/* <Label
         variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
         color={
           (inquireQuoStatus === 'approved' && 'success') ||
@@ -75,7 +105,7 @@ function ProductItem({ product }) {
         sx={{ textTransform: 'capitalize' }}
       >
         {inquireQuoStatus}
-      </Label>
+      </Label> */}
     </Stack>
   );
 }

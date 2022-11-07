@@ -4,6 +4,16 @@ import { useTheme } from '@mui/material/styles';
 import { Container, Grid, Button } from '@mui/material';
 // hooks
 import { getAllDashboard } from '../../redux/slices/adminDashboard';
+
+// LineChartData
+import { getAllDashboardFulfillment } from '../../redux/slices/adminDashboardFulfillment';
+import { getAllDashboardProductSourcing } from '../../redux/slices/adminDashboardProductSourcing';
+import { getAllDashboardImporting } from '../../redux/slices/adminDashboardImporting';
+import { getAllDashboardWarehousing } from '../../redux/slices/adminDashboardWarehousing';
+import { getAllDashboardProductRebranding } from '../../redux/slices/adminDashboardProductRebranding';
+import { getAllDashboardPrivateLabel } from '../../redux/slices/adminDashboardPrivateLabel';
+// LineChartData 
+
 import { useDispatch, useSelector } from '../../redux/store';
 import useAuth from '../../hooks/useAuth';
 import useSettings from '../../hooks/useSettings';
@@ -52,9 +62,25 @@ export default function GeneralDashboard() {
   const { themeStretch } = useSettings();
   
   const { dashboards, totalData, ccc, dashboardsArr, isLoading } = useSelector((state) => state.adminDashboard);
+  // LINECHART
+  const { data, dataArr, } = useSelector((state) => state.adminDashboardFulfillment);
+  const { productsourcingdata, productsourcingArr, } = useSelector((state) => state.adminDashboardProductSourcing);
+  const { Importingdata, ImportingArr, } = useSelector((state) => state.adminDashboardImporting);
+  const { Warehousingdata, WarehousingArr, } = useSelector((state) => state.adminDashboardWarehousing);
+  const { ProductRebrandingdata, ProductRebrandingArr, } = useSelector((state) => state.adminDashboardProductRebranding);
+  const { PrivateLabeldata, PrivateLabelArr, } = useSelector((state) => state.adminDashboardPrivateLabel);
+ // LINECHART
   
+  // console.log(productsourcingArr);
+
   useEffect(() => {
     dispatch(getAllDashboard());
+    dispatch(getAllDashboardFulfillment());
+    dispatch(getAllDashboardProductSourcing());
+    dispatch(getAllDashboardImporting());
+    dispatch(getAllDashboardWarehousing());
+    dispatch(getAllDashboardProductRebranding());
+    dispatch(getAllDashboardPrivateLabel());
   }, [dispatch])
 
 
@@ -224,56 +250,57 @@ export default function GeneralDashboard() {
             <Grid item xs={12} md={8}>
               <AnalyticsWebsiteVisits
                 title="Services"
-                subheader="Transctions in a year"
+                subheader="Transactions in a year"
                 chartLabels={[
                   '01/01/2022',
-                  '02/01/2022',
-                  '03/01/2022',
-                  '04/01/2022',
-                  '05/01/2022',
-                  '06/01/2022',
-                  '07/01/2022',
-                  '08/01/2022',
-                  '09/01/2022',
-                  '10/01/2022',
-                  '11/01/2022',
+                  '02/02/2022',
+                  '03/03/2022',
+                  '04/04/2022',
+                  '05/05/2022',
+                  '06/06/2022',
+                  '07/07/2022',
+                  '08/08/2022',
+                  '09/09/2022',
+                  '10/10/2022',
+                  '11/11/2022',
+                  '12/12/2022',
                 ]}
                 chartData={[
                   {
                     name: 'Product Sourcing',
                     type: 'column',
                     fill: 'solid',
-                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                    data: productsourcingArr,
                   },
                   {
                     name: 'Product Rebranding',
                     type: 'area',
                     fill: 'gradient',
-                    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                    data: ProductRebrandingArr,
                   },
                   {
                     name: 'Importing',
                     type: 'line',
                     fill: 'solid',
-                    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                    data: ImportingArr,
                   },
                   {
                     name: 'Private Label',
                     type: 'column',
                     fill: 'solid',
-                    data: [45, 18, 30, 35, 40, 41, 50, 10, 14, 25, 30],
+                    data: PrivateLabelArr,
                   },
                   {
                     name: 'Warehousing',
-                    type: 'area',
+                    type: 'line',
                     fill: 'solid',
-                    data: [15, 30, 8, 55, 21, 30, 43, 12, 35, 20, 30],
+                    data: WarehousingArr,
                   },
                   {
                     name: 'Fulfillment',
                     type: 'line',
                     fill: 'solid',
-                    data: [40, 30, 55, 22, 14, 33, 40, 9, 33, 49, 12],
+                    data: dataArr,
                   },
                 ]}
               />
