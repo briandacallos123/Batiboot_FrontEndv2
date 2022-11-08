@@ -12,6 +12,8 @@ import { getAllDashboardImporting } from '../../redux/slices/adminDashboardImpor
 import { getAllDashboardWarehousing } from '../../redux/slices/adminDashboardWarehousing';
 import { getAllDashboardProductRebranding } from '../../redux/slices/adminDashboardProductRebranding';
 import { getAllDashboardPrivateLabel } from '../../redux/slices/adminDashboardPrivateLabel';
+
+import { getAllDashboardLatesInquiries } from '../../redux/slices/adminDashboardLatesInquiries';
 // LineChartData 
 
 import { useDispatch, useSelector } from '../../redux/store';
@@ -70,7 +72,8 @@ export default function GeneralDashboard() {
   const { ProductRebrandingdata, ProductRebrandingArr, } = useSelector((state) => state.adminDashboardProductRebranding);
   const { PrivateLabeldata, PrivateLabelArr, } = useSelector((state) => state.adminDashboardPrivateLabel);
  // LINECHART
-  
+  const { LatesInquiriesdata, LatesInquiriesArr, } = useSelector((state) => state.adminDashboardLatesInquiries);
+
   // console.log(productsourcingArr);
 
   useEffect(() => {
@@ -81,6 +84,7 @@ export default function GeneralDashboard() {
     dispatch(getAllDashboardWarehousing());
     dispatch(getAllDashboardProductRebranding());
     dispatch(getAllDashboardPrivateLabel());
+    dispatch(getAllDashboardLatesInquiries());
   }, [dispatch])
 
 

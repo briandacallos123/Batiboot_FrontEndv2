@@ -37,6 +37,7 @@ import adminDashboardProductRebrandingReducer from './slices/adminDashboardProdu
 import adminDashboardPrivateLabelReducer from './slices/adminDashboardPrivateLabel';
 // For Line Chart Data
 
+import adminDashboardlatestInquiriesReducer from './slices/adminDashboardLatesInquiries';
 // ----------------------------------------------------------------------
 
 const rootPersistConfig = {
@@ -86,6 +87,9 @@ const rootReducer = combineReducers({
   adminDashboardProductRebranding: adminDashboardProductRebrandingReducer,
   adminDashboardPrivateLabel: adminDashboardPrivateLabelReducer,
   // For Linechart Data
+
+  adminDashboardLatesInquiries: adminDashboardPrivateLabelReducer,
+
 });
 
 export { rootPersistConfig, rootReducer };

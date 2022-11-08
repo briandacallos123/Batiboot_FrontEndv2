@@ -16,8 +16,8 @@ function objFromArray(array, key = 'id') {
 const initialState = {
   isLoading: false,
   error: null,
-  Importingdata: { byId: {}, allIds: [] },
-  ImportingArr: [],
+  LatesInquiriesdata: { byId: {}, allIds: [] },
+  LatesInquiriesArr: [],
   totalData: 0,
   // ccc:{
   //   approved: 0,
@@ -29,7 +29,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name:'adminDashboardImporting',
+  name:'adminDashboardLatesInquiries',
   initialState,
   reducers: {
     // START LOADING
@@ -47,9 +47,9 @@ const slice = createSlice({
     getDashboardSuccess(state, action) {
       const {data,total,ccc} = action.payload;
       state.isLoading = false;
-      state.Importingdata.byId = objFromArray(data);
-      state.Importingdata.allIds = Object.keys(state.Importingdata.byId);
-      state.ImportingArr = data;
+      state.LatesInquiriesdata.byId = objFromArray(data);
+      state.LatesInquiriesdata.allIds = Object.keys(state.LatesInquiriesdata.byId);
+      state.LatesInquiriesArr = data;
       state.totalData = total;
       state.ccc  = ccc;
     },
@@ -64,14 +64,14 @@ export default slice.reducer;
 /* export const {  } = slice.actions; */
 // ----------------------------------------------------------------------
 
-export function getAllDashboardImporting() {
+export function getAllDashboardLatesInquiries() {
   const {accessToken} = localStorage
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.get('/api/testing/Importing');
+      const response = await V4axios.get('/api/testing/latestinquiries');
       dispatch(slice.actions.getDashboardSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
