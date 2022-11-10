@@ -14,8 +14,7 @@ import { getAllDashboardProductRebranding } from '../../redux/slices/adminDashbo
 import { getAllDashboardPrivateLabel } from '../../redux/slices/adminDashboardPrivateLabel';
 import { getAllDashboardlatestinquires } from '../../redux/slices/adminDashboardLatestInquires';
 
-
-// LineChartData 
+// LineChartData
 
 import { useDispatch, useSelector } from '../../redux/store';
 import useAuth from '../../hooks/useAuth';
@@ -66,21 +65,18 @@ export default function GeneralDashboard() {
   const theme = useTheme();
 
   const { themeStretch } = useSettings();
-  
+
   const { dashboards, totalData, ccc, dashboardsArr, isLoading } = useSelector((state) => state.adminDashboard);
   // LINECHART
-  const { data, dataArr, } = useSelector((state) => state.adminDashboardFulfillment);
-  const { productsourcingdata, productsourcingArr, } = useSelector((state) => state.adminDashboardProductSourcing);
-  const { Importingdata, ImportingArr, } = useSelector((state) => state.adminDashboardImporting);
-  const { Warehousingdata, WarehousingArr, } = useSelector((state) => state.adminDashboardWarehousing);
-  const { ProductRebrandingdata, ProductRebrandingArr, } = useSelector((state) => state.adminDashboardProductRebranding);
-  const { PrivateLabeldata, PrivateLabelArr, } = useSelector((state) => state.adminDashboardPrivateLabel);
+  const { data, dataArr } = useSelector((state) => state.adminDashboardFulfillment);
+  const { productsourcingdata, productsourcingArr } = useSelector((state) => state.adminDashboardProductSourcing);
+  const { Importingdata, ImportingArr } = useSelector((state) => state.adminDashboardImporting);
+  const { Warehousingdata, WarehousingArr } = useSelector((state) => state.adminDashboardWarehousing);
+  const { ProductRebrandingdata, ProductRebrandingArr } = useSelector((state) => state.adminDashboardProductRebranding);
+  const { PrivateLabeldata, PrivateLabelArr } = useSelector((state) => state.adminDashboardPrivateLabel);
   // LINECHART
 
-  const { latestinquiresdata, latestinquiresArr, } = useSelector((state) => state.adminDashboardLatestInquires);
-  
-
-
+  const { latestinquiresdata, latestinquiresArr } = useSelector((state) => state.adminDashboardLatestInquires);
 
   useEffect(() => {
     dispatch(getAllDashboard());
@@ -91,8 +87,7 @@ export default function GeneralDashboard() {
     dispatch(getAllDashboardProductRebranding());
     dispatch(getAllDashboardPrivateLabel());
     dispatch(getAllDashboardlatestinquires());
-    
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <Page title="Batiboot: Dashboard">
@@ -210,11 +205,21 @@ export default function GeneralDashboard() {
           </Grid>
 
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Warehousing" total={dashboardsArr.totalWarehousing} color="warning" icon={'fa-solid:warehouse'} />
+            <AnalyticsWidgetSummary
+              title="Warehousing"
+              total={dashboardsArr.totalWarehousing}
+              color="warning"
+              icon={'fa-solid:warehouse'}
+            />
           </Grid>
 
           <Grid item xs={6} sm={4} md={2}>
-            <AnalyticsWidgetSummary title="Fulfillment" total={dashboardsArr.totalFulfillment} color="info" icon={'ant-design:gift-filled'} />
+            <AnalyticsWidgetSummary
+              title="Fulfillment"
+              total={dashboardsArr.totalFulfillment}
+              color="info"
+              icon={'ant-design:gift-filled'}
+            />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={4}>
@@ -315,7 +320,6 @@ export default function GeneralDashboard() {
               />
             </Grid>
             <Grid item xs={12} md={4}>
-            
               <EcommerceLatestProducts title="Latest Inquiries" list={_order} sx={{ pr: 3 }} />
             </Grid>
           </Grid>
