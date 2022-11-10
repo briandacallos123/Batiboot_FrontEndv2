@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "orderNumber": "ORD-NO: 1294",
+    "pName": "Nike Zoom",
+    "pDescription": "Shoes",
+    "orderCreated": "06-02-2022",
+    "serviceType": "Product Rebranding",
+    "quantity": "40",
+    "budget": 1130.0,
+    "orderStatus": "approved",
+    "inquireQuoStatus": "approved"
+  },
+  {
+    "id": 2,
+    "orderNumber": "ORD-NO: 1256",
+    "pName": "Asus ROG",
+    "pDescription": "Gaming Laptop",
+    "orderCreated": "12-02-2021",
+    "serviceType": "Importing",
+    "quantity": "40",
+    "budget": 2340.0,
+    "orderStatus": "pending",
+    "inquireQuoStatus": "approved"
+  },
+  {
+    "id": 3,
+    "orderNumber": "ORD-NO: 1274",
+    "pName": "Notebook",
+    "pDescription": "Notebook",
+    "orderCreated": "06-08-2022",
+    "serviceType": "Product Sourcing",
+    "quantity": "40",
+    "budget": 5.0,
+    "orderStatus": "rejected",
+    "inquireQuoStatus": "received"
+  },
+  {
+    "id": 4,
+    "orderNumber": "ORD-NO: 1344",
+    "pName": "Parker",
+    "pDescription": "Pen",
+    "orderCreated": "06-13-2022",
+    "serviceType": "Warehousing",
+    "quantity": "20",
+    "budget": 140.0,
+    "orderStatus": "draft",
+    "inquireQuoStatus": "draft"
+  }
+]

@@ -16,8 +16,8 @@ function objFromArray(array, key = 'id') {
 const initialState = {
   isLoading: false,
   error: null,
-  LatesInquiriesdata: { byId: {}, allIds: [] },
-  LatesInquiriesArr: [],
+  latestinquiresdata: { byId: {}, allIds: [] },
+  latestinquireslArr: [],
   totalData: 0,
   // ccc:{
   //   approved: 0,
@@ -29,7 +29,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name:'adminDashboardLatesInquiries',
+  name:'adminDashboardlatestInquires',
   initialState,
   reducers: {
     // START LOADING
@@ -47,14 +47,12 @@ const slice = createSlice({
     getDashboardSuccess(state, action) {
       const {data,total,ccc} = action.payload;
       state.isLoading = false;
-      state.LatesInquiriesdata.byId = objFromArray(data);
-      state.LatesInquiriesdata.allIds = Object.keys(state.LatesInquiriesdata.byId);
-      state.LatesInquiriesArr = data;
+      state.latestinquiresdata.byId = objFromArray(data);
+      state.latestinquiresdata.allIds = Object.keys(state.latestinquiresdata.byId);
+      state.latestinquiresArr = data;
       state.totalData = total;
       state.ccc  = ccc;
     },
-
-    
   },
 });
 
@@ -64,7 +62,7 @@ export default slice.reducer;
 /* export const {  } = slice.actions; */
 // ----------------------------------------------------------------------
 
-export function getAllDashboardLatesInquiries() {
+export function getAllDashboardlatestinquires() {
   const {accessToken} = localStorage
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;

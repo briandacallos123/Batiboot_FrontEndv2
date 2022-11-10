@@ -12,8 +12,9 @@ import { getAllDashboardImporting } from '../../redux/slices/adminDashboardImpor
 import { getAllDashboardWarehousing } from '../../redux/slices/adminDashboardWarehousing';
 import { getAllDashboardProductRebranding } from '../../redux/slices/adminDashboardProductRebranding';
 import { getAllDashboardPrivateLabel } from '../../redux/slices/adminDashboardPrivateLabel';
+import { getAllDashboardlatestinquires } from '../../redux/slices/adminDashboardLatestInquires';
 
-import { getAllDashboardLatesInquiries } from '../../redux/slices/adminDashboardLatesInquiries';
+
 // LineChartData 
 
 import { useDispatch, useSelector } from '../../redux/store';
@@ -32,7 +33,10 @@ import {
   _bookingReview,
 } from '../../_mock';
 
+// import _order from '../../_mock/batiboot/order.json';
+
 import _order from '../../_mock/batiboot/order.json';
+
 // components
 import Page from '../../components/Page';
 // sections
@@ -71,10 +75,12 @@ export default function GeneralDashboard() {
   const { Warehousingdata, WarehousingArr, } = useSelector((state) => state.adminDashboardWarehousing);
   const { ProductRebrandingdata, ProductRebrandingArr, } = useSelector((state) => state.adminDashboardProductRebranding);
   const { PrivateLabeldata, PrivateLabelArr, } = useSelector((state) => state.adminDashboardPrivateLabel);
- // LINECHART
-  const { LatesInquiriesdata, LatesInquiriesArr, } = useSelector((state) => state.adminDashboardLatesInquiries);
+  // LINECHART
 
-  // console.log(productsourcingArr);
+  const { latestinquiresdata, latestinquiresArr, } = useSelector((state) => state.adminDashboardLatestInquires);
+  
+
+
 
   useEffect(() => {
     dispatch(getAllDashboard());
@@ -84,10 +90,9 @@ export default function GeneralDashboard() {
     dispatch(getAllDashboardWarehousing());
     dispatch(getAllDashboardProductRebranding());
     dispatch(getAllDashboardPrivateLabel());
-    dispatch(getAllDashboardLatesInquiries());
+    dispatch(getAllDashboardlatestinquires());
+    
   }, [dispatch])
-
-
 
   return (
     <Page title="Batiboot: Dashboard">
@@ -310,6 +315,7 @@ export default function GeneralDashboard() {
               />
             </Grid>
             <Grid item xs={12} md={4}>
+            
               <EcommerceLatestProducts title="Latest Inquiries" list={_order} sx={{ pr: 3 }} />
             </Grid>
           </Grid>
