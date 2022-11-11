@@ -27,7 +27,7 @@ import {
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../redux/store';
 import { getAllOrders } from '../../redux/slices/adminOrder';
-import { getAllInvoice } from '../../redux/slices/adminInvoice';
+import { getAllInvoice, deleteInvoice } from '../../redux/slices/adminInvoice';
 
 import useAuth from '../../hooks/useAuth';
 // routes
@@ -112,7 +112,7 @@ export default function OrderList() {
     resetPage,
   } = useTable({ defaultOrderBy: 'orderCreated' });
 
-  const [tableData, setTableData] = useState(_order);
+  const [tableData, setTableData] = useState(invoiceArr);
 
   const [filterName, setFilterName] = useState('');
 
@@ -128,6 +128,21 @@ export default function OrderList() {
   const [isView, setIsView] = useState(false);
   const [identifier, setIdentifier] = useState('');
 
+  useEffect(() => {
+    const payload = {};
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services = filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    console.log('payload', payload);
+    console.log('payload', payload);
+    dispatch(getAllInvoice(payload));
+  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
+  // console.log('invoiceArr: ', invoiceArr);
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
     setPage(0);
@@ -141,6 +156,11 @@ export default function OrderList() {
     const deleteRow = tableData.filter((row) => row.id !== id);
     setSelected([]);
     setTableData(deleteRow);
+
+    // back end delete
+    const payload = {};
+    payload.invoice_id = id;
+    dispatch(deleteInvoice(payload));
   };
 
   const handleDeleteRows = (selected) => {
@@ -159,7 +179,7 @@ export default function OrderList() {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
     setIsView(!isView);
-    setIdentifier(data)
+    setIdentifier(data);
     handleOpenViewModal();
     setModalViewData(data);
   };
@@ -216,21 +236,6 @@ export default function OrderList() {
   };
 
   const [Status, setStatus] = React.useState(-1);
-
-  useEffect(() => {
-    const payload = {};
-    payload.page = page;
-    payload.rowcount = rowsPerPage;
-    // // payload.status = Status;
-    payload.services = filterService;
-    // console.log(filterService);
-    payload.search = filterName;
-    payload.startDate = filterStartDate;
-    payload.endDate = filterEndDate;
-    console.log('payload', payload);
-    console.log('payload', payload);
-    dispatch(getAllInvoice(payload));
-  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
   /* console.log(appointmentsArr) */
 
@@ -294,26 +299,26 @@ export default function OrderList() {
 
   return (
     <Page title="Batiboot: Invoice">
-    <Container maxWidth={themeStretch ? false : 'lg'}>
-      <HeaderBreadcrumbs
-        heading="Invoice List"
-        links={[
-          { name: 'Dashboard', href: PATH_BATIBOOT.root },
-          { name: 'Invoice', href: PATH_BATIBOOT.invoice.root },
-          { name: 'List' },
-        ]}
-        action={
-          <Button
-            variant="contained"
-            startIcon={<Iconify icon={'eva:plus-fill'} />}
-            /*  component={RouterLink}
+      <Container maxWidth={themeStretch ? false : 'lg'}>
+        <HeaderBreadcrumbs
+          heading="Invoice List"
+          links={[
+            { name: 'Dashboard', href: PATH_BATIBOOT.root },
+            { name: 'Invoice', href: PATH_BATIBOOT.invoice.root },
+            { name: 'List' },
+          ]}
+          action={
+            <Button
+              variant="contained"
+              startIcon={<Iconify icon={'eva:plus-fill'} />}
+              /*  component={RouterLink}
             to={PATH_BATIBOOT.invoice.create} */
-            onClick={handleOpenModal}
-          >
-            New Invoice
-          </Button>
-        }
-      />
+              onClick={handleOpenModal}
+            >
+              New Invoice
+            </Button>
+          }
+        />
 
         <Box>
           {/* UserRolesCreate Modal */}
@@ -333,7 +338,12 @@ export default function OrderList() {
            identifier={identifier}
           />
           */
-          <InvoiceViewDetailsModal open={openViewModal} onClose={handleCloseModal} data={invoiceArr} identifier={identifier} />
+            <InvoiceViewDetailsModal
+              open={openViewModal}
+              onClose={handleCloseModal}
+              data={invoiceArr}
+              identifier={identifier}
+            />
           }
         </Box>
 
@@ -344,7 +354,7 @@ export default function OrderList() {
               divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
               sx={{ py: 2 }}
             >
-           <InvoiceAnalytic
+              <InvoiceAnalytic
                 title="Total"
                 total={tableData.length}
                 percent={100}
@@ -535,7 +545,7 @@ export default function OrderList() {
 
                 <TableBody>
                   {showSkel && showSkelDatatable
-                    ? invoiceArr.map((items) => (
+                    ? tableData.map((items) => (
                         <InvoiceTableRow
                           // isDesktop={isDesktop}
                           showSkeleton={showSkel}

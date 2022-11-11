@@ -78,6 +78,17 @@ export function getAllInvoice(payload) {
   };
 }
 
-export function getUpdate() {
-  return 1;
+export function deleteInvoice(payload) {
+  const { accessToken } = localStorage;
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.post('/api/invoice/delete', payload);
+      dispatch(slice.actions.getInvoiceSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
 }
