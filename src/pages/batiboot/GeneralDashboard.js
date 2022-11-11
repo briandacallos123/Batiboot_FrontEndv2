@@ -320,7 +320,12 @@ export default function GeneralDashboard() {
               />
             </Grid>
             <Grid item xs={12} md={4}>
-              <EcommerceLatestProducts title="Latest Inquiries" list={_order} sx={{ pr: 3 }} />
+                
+              <EcommerceLatestProducts 
+              title="Latest Inquiries" 
+              list={latestinquiresArr} 
+              sx={{ pr: 3 }} 
+              />
             </Grid>
           </Grid>
 

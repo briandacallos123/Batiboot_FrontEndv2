@@ -17,54 +17,57 @@ import { ColorPreview } from '../../../../components/color-utils';
 EcommerceLatestProducts.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
-  list: PropTypes.array.isRequired,
 };
 
-export default function EcommerceLatestProducts({ title, subheader, list, ...other }) {
+export default function EcommerceLatestProducts({title, subheader, list, ...other}) {
+
+  
   return (
+    
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-
-      <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.map((product) => (
-            <ProductItem key={product.id} product={product} />
-          ))}
-        </Stack>
-      </Scrollbar>
+        <Scrollbar>
+          <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+            {list && list.map((product) => (
+              <ProductItem key={product.id} product={product} />
+            ))}
+          </Stack>
+        </Scrollbar>
     </Card>
+     
   );
 }
 
 // ----------------------------------------------------------------------
 
-ProductItem.propTypes = {
-  product: PropTypes.shape({
-    orderNumber: PropTypes.number,
-    pName: PropTypes.string,
-    inquireQuoStatus: PropTypes.string,
-  }),
-};
+// ProductItem.propTypes = {
+//   product: PropTypes.shape({
+//     updated_at: PropTypes.number,
+//     product_name: PropTypes.string,
+//     // updated_at: PropTypes.string,
+//   }),
+// };
 
 function ProductItem({ product }) {
-  const { pName, orderNumber, inquireQuoStatus } = product;
+  const { product_name:productName,updated_at:updateAt } = product;
+  // const { pName, orderNumber, inquireQuoStatus } = product;
   const theme = useTheme();
   return (
     <Stack direction="row" spacing={2}>
-      <Avatar alt={pName} color={createAvatar(pName).color} sx={{ mr: 1 }}>
-        {createAvatar(pName).name}
+      <Avatar alt={productName} color={createAvatar(productName).color} sx={{ mr: 1 }}>
+        {createAvatar(productName).name}
       </Avatar>
       <Box sx={{ flexGrow: 0.97 }}>
-        <Link sx={{ color: 'text.primary', typography: 'subtitle2' }}>{pName}</Link>
+        <Link sx={{ color: 'text.primary', typography: 'subtitle2' ,textTransform:'capitalize'} } >{productName}</Link>
 
         <Stack direction="row">
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {orderNumber}
+            {updateAt}
           </Typography>
         </Stack>
       </Box>
 
-      <Label
+      {/* <Label
         variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
         color={
           (inquireQuoStatus === 'approved' && 'success') ||
@@ -75,7 +78,7 @@ function ProductItem({ product }) {
         sx={{ textTransform: 'capitalize' }}
       >
         {inquireQuoStatus}
-      </Label>
+      </Label> */}
     </Stack>
   );
 }
