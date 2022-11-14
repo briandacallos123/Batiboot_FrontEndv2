@@ -89,8 +89,10 @@ export default function OrderList() {
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
   const { invoice, totalData, ccc, invoiceArr, isLoading } = useSelector((state) => state.adminInvoice);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const [reload, setReload] = useState(false);
 
   const {
     dense,
@@ -128,7 +130,7 @@ export default function OrderList() {
   const [isView, setIsView] = useState(false);
   const [identifier, setIdentifier] = useState('');
 
-  useEffect(() => {
+  const utils = () => {
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -141,8 +143,15 @@ export default function OrderList() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAllInvoice(payload));
-  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
-  // console.log('invoiceArr: ', invoiceArr);
+  };
+
+  useEffect(() => {
+    utils();
+  }, [dispatch]);
+  // if (invoiceArr) {
+  //   localStorage.setItem('data', JSON.stringify(invoiceArr));
+  // }
+
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
     setPage(0);
@@ -157,10 +166,21 @@ export default function OrderList() {
     setSelected([]);
     setTableData(deleteRow);
 
+    // local storage delete
+
+    // const localData = JSON.parse(localStorage.getItem('data'));
+    // const newData = localData.filter((item) => item.id !== id);
+    // localStorage.removeItem('data');
+    // localStorage.setItem('data', JSON.stringify(newData));
+
+    // setReload(!reload);
     // back end delete
     const payload = {};
     payload.invoice_id = id;
     dispatch(deleteInvoice(payload));
+
+    // delte front end
+    utils();
   };
 
   const handleDeleteRows = (selected) => {
@@ -545,7 +565,7 @@ export default function OrderList() {
 
                 <TableBody>
                   {showSkel && showSkelDatatable
-                    ? tableData.map((items) => (
+                    ? invoiceArr.map((items) => (
                         <InvoiceTableRow
                           // isDesktop={isDesktop}
                           showSkeleton={showSkel}
