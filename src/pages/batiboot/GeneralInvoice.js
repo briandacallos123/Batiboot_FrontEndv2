@@ -178,9 +178,8 @@ export default function OrderList() {
     const payload = {};
     payload.invoice_id = id;
     dispatch(deleteInvoice(payload));
-
-    // delte front end
-    utils();
+// delte front end
+utils();
   };
 
   const handleDeleteRows = (selected) => {

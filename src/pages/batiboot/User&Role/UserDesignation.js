@@ -27,7 +27,7 @@ import {
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
 import { getAllRoles } from '../../../redux/slices/getRole';
-import { getAllUsersDesignation } from '../../../redux/slices/adminUserDesignation';
+import { getAllUsersDesignation, DeleteDesignation } from '../../../redux/slices/adminUserDesignation';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -135,10 +135,19 @@ export default function UserDesignation() {
     setFilterService(event.target.value);
   };
 
+  
+
   const handleDeleteRow = (id) => {
     const deleteRow = tableData.filter((row) => row.id !== id);
     setSelected([]);
     setTableData(deleteRow);
+
+    const payload = {};
+    payload.designation_id = id;
+    dispatch(DeleteDesignation(payload));
+
+    utils();
+    
   };
 
   const handleDeleteRows = (selected) => {
@@ -215,8 +224,7 @@ console.log("filter servies", filterService);
 
   const [Status, setStatus] = React.useState("all");
 
-  useEffect(async() => {
-
+  const utils = async() => {
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -230,7 +238,12 @@ console.log("filter servies", filterService);
     console.log('payload', payload);
     await dispatch(getAllUsersDesignation(payload));
     await dispatch(getAllRoles());
-    
+  };
+
+  useEffect(async() => {
+
+    utils();
+
   }, [dispatch, page, rowsPerPage,filterService, filterName, filterStartDate, filterEndDate, Status]);
 
   /* console.log(appointmentsArr) */
@@ -262,6 +275,7 @@ console.log("filter servies", filterService);
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
     dispatch(getAllUsersDesignation(payload));
+    // dispatch(getAllUsersDesignation(payload));
     // dispatch(getAllRoles());
   };
 
