@@ -63,6 +63,7 @@ export default function UserModal(props) {
   // alert(_invoices.find((invoice) => invoice.id === identifier))
 
   const handleCloseModal = () => onClose(selectedValue);
+  console.log('CURRENT INVOICE MODAL : ', identifier);
   const Path = () => {
     if (/* pathname === PATH_BATIBOOT.invoice.create */ nameLink === 'Invoice' && !isEdit) {
       return (
@@ -76,6 +77,16 @@ export default function UserModal(props) {
       );
     }
     if (nameLink === 'Invoice' && isEdit)
+      return (
+        <InvoiceCreate
+          isEdit={isEdit}
+          currentUser={currentUser}
+          handleCloseModal={handleCloseModal}
+          currentInvoice={identifier}
+          formRef={formRef}
+        />
+      );
+    if (nameLink === 'Invoice' && !isEdit)
       return (
         <InvoiceCreate
           isEdit={isEdit}

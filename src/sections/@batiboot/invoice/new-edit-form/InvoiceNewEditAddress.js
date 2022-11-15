@@ -15,7 +15,14 @@ import InvoiceAddressListDialog from './InvoiceAddressListDialog';
 
 // ----------------------------------------------------------------------
 
-export default function InvoiceNewEditAddress() {
+// InvoiceNewEditAddress.propTypes = {
+//   from: PropTypes.string,
+//   name: PropTypes.string,
+//   phone: PropTypes.string,
+// };
+
+export default function InvoiceNewEditAddress(prop) {
+  const { address_from: addressFrom, address_to: addressTo } = prop;
   const {
     watch,
     setValue,
@@ -58,7 +65,7 @@ export default function InvoiceNewEditAddress() {
           />
         </Stack>
 
-        <AddressInfo name={invoiceFrom.name} address={invoiceFrom.address} />
+        <AddressInfo name={addressFrom} address={addressFrom} />
       </Stack>
 
       <Stack sx={{ width: 1 }}>
@@ -85,7 +92,7 @@ export default function InvoiceNewEditAddress() {
         </Stack>
 
         {invoiceTo ? (
-          <AddressInfo name={invoiceTo.name} address={invoiceTo.address} />
+          <AddressInfo name={addressTo} address={addressTo} />
         ) : (
           <Typography typography="caption" sx={{ color: 'error.main' }}>
             {errors.invoiceTo ? errors.invoiceTo.message : null}

@@ -54,9 +54,9 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
     status: Yup.string().nullable().required('Status is required'),
   });
-const id = "INV-".concat(Math.floor( Math.random() * 9999999));
-const [invoicePId, setInvoicePId] = useState(id);
+  const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : currentInvoice.invoice_number;
 
+  const [invoicePId, setInvoicePId] = useState(id);
 
   const defaultValues = useMemo(
     () => ({
@@ -115,7 +115,6 @@ const [invoicePId, setInvoicePId] = useState(id);
       // handleCloseModal();
       // navigate(PATH_BATIBOOT.invoice.list);
       // console.log(JSON.stringify(newInvoice, null, 2));
-
     } catch (error) {
       console.error(error);
     }
@@ -139,14 +138,13 @@ const [invoicePId, setInvoicePId] = useState(id);
         details: JSON.stringify(newInvoice.items),
         due_date: dateDue,
         created_date: dateCreate,
-      }
+      };
       console.log(data);
       await createInvoice(data);
       reset();
       handleCloseModal();
       setLoadingSend(false);
       navigate(PATH_BATIBOOT.invoice.list);
-
     } catch (error) {
       console.error(error);
     }
@@ -159,8 +157,8 @@ const [invoicePId, setInvoicePId] = useState(id);
           <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
             <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
               <Scrollbar>
-                <InvoiceNewEditAddress />
-                <InvoiceNewEditStatusDate invoiceId={invoicePId}/>
+                <InvoiceNewEditAddress currentInvoice={currentInvoice} />
+                <InvoiceNewEditStatusDate invoiceId={invoicePId} />
                 <InvoiceNewEditDetails />
               </Scrollbar>
             </Stack>
@@ -174,7 +172,7 @@ const [invoicePId, setInvoicePId] = useState(id);
               <Stack height={{ xs: '100%', md: '75vh' }}>
                 <Scrollbar>
                   <InvoiceNewEditAddress />
-                  <InvoiceNewEditStatusDate invoiceId={invoicePId}/>
+                  <InvoiceNewEditStatusDate invoiceId={invoicePId} />
                   <InvoiceNewEditDetails />
                 </Scrollbar>
               </Stack>

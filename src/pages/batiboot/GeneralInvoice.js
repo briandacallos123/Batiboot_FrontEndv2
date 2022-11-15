@@ -147,7 +147,7 @@ export default function OrderList() {
 
   useEffect(() => {
     utils();
-  }, [dispatch]);
+  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
   // if (invoiceArr) {
   //   localStorage.setItem('data', JSON.stringify(invoiceArr));
   // }
@@ -191,7 +191,7 @@ export default function OrderList() {
 
   const handleEditRow = (id) => {
     setIsEdit(!isEdit);
-    // setIdentifier(id)
+    setIdentifier(id);
     handleOpenModal();
   };
   const [modalViewData, setModalViewData] = useState([]);
@@ -574,7 +574,7 @@ export default function OrderList() {
                           selected={selected.includes(items.id)}
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
-                          onEditRow={() => handleEditRow(invoice.byId[items.id].fname)}
+                          onEditRow={() => handleEditRow(invoice.byId[items.id])}
                           onViewRow={() => handleViewRow(items.id)}
                           // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
