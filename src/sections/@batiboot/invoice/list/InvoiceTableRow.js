@@ -93,7 +93,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                 sx={{ color: 'error.main' }}
               >
                 <Iconify icon={'eva:trash-2-outline'} />
-                Delete
+                Delet
               </MenuItem>
 
               <MenuItem
