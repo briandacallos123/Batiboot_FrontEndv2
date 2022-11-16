@@ -3,7 +3,18 @@ import { useState, useEffect } from 'react';
 
 // MUI
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Checkbox, TableRow, TableCell, Typography, IconButton, Skeleton, Box, AvatarGroup, MenuItem } from '@mui/material';
+import {
+  Avatar,
+  Checkbox,
+  TableRow,
+  TableCell,
+  Typography,
+  IconButton,
+  Skeleton,
+  Box,
+  AvatarGroup,
+  MenuItem,
+} from '@mui/material';
 
 // Components
 import Label from '../../../../components/Label';
@@ -59,25 +70,25 @@ export default function OrderTableRow({
     <>
       {isDesktop === false ? (
         <TableRow hover selected={selected}>
-          <TableCell padding="checkbox" >
-            <Checkbox checked={selected} onClick={onSelectRow}  size={isDesktop ? 'medium' : 'small'}/>
+          <TableCell padding="checkbox">
+            <Checkbox checked={selected} onClick={onSelectRow} size={isDesktop ? 'medium' : 'small'} />
           </TableCell>
 
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <Avatar alt={`${row.product_name}`} src={row.patientdp} sx={{ mr: 2,width: '25px', height: '25px' }} />
+              <Avatar alt={`${row.product_name}`} src={row.patientdp} sx={{ mr: 2, width: '25px', height: '25px' }} />
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '25px', height: '25px', mr: 2 }} />
             )}
             {showSkeleton ? (
-              <Typography noWrap sx={{fontSize: 13}}> 
+              <Typography noWrap sx={{ fontSize: 13 }}>
                 {row.name}
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
           </TableCell>
-{/* 
+          {/* 
           <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
             {showSkeleton ? (
               <Typography>{row.clinic_name}</Typography>
@@ -88,14 +99,14 @@ export default function OrderTableRow({
 
           <TableCell align="left">
             {showSkeleton ? (
-              <Typography sx={{fontSize: 12}}>
+              <Typography sx={{ fontSize: 12 }}>
                 {row.date_text} • {row.time_text} <span className="a-weekname">({row.day_text})</span>
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
             )}
           </TableCell>
-{/* 
+          {/* 
           <TableCell align="center">
             {showSkeleton ? (
               <Box>
@@ -182,11 +193,9 @@ export default function OrderTableRow({
             )}
           </TableCell> */}
 
-        <TableCell align="center">
+          <TableCell align="center">
             {showSkeleton ? (
-              <Typography>
-                {row.title} 
-              </Typography>
+              <Typography>{row.title}</Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
             )}
@@ -201,66 +210,52 @@ export default function OrderTableRow({
           </TableCell> */}
 
           <TableCell align="center">
-        <Label
-             variant={'filled'}
-          color={
-            (row.status_id.name === "Active" && 'success') ||
-            // (orderStatus === 'pending' && 'warning') ||
-            (row.status === 'Banned' && 'error') ||
-            'default'
-          }
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {/* {orderStatus} */}
-         {row.status_id.name}
-        </Label>
-        </TableCell>
+            <Label
+              variant={'filled'}
+              color={
+                (row.status_id.name === 'Active' && 'success') ||
+                // (orderStatus === 'pending' && 'warning') ||
+                (row.status === 'Banned' && 'error') ||
+                'default'
+              }
+              sx={{ textTransform: 'capitalize' }}
+            >
+              {/* {orderStatus} */}
+              {row.status_id.name}
+            </Label>
+          </TableCell>
 
-       
+          <TableCell align="center">
+            <TableMoreMenu
+              open={openMenu}
+              onOpen={handleOpenMenu}
+              onClose={handleCloseMenu}
+              actions={
+                <>
+                  <MenuItem
+                    onClick={() => {
+                      onDeleteRow();
+                      handleCloseMenu();
+                    }}
+                    sx={{ color: 'error.main' }}
+                  >
+                    <Iconify icon={'eva:trash-2-outline'} />
+                    Delete
+                  </MenuItem>
 
-    
-
-      <TableCell align="center">
-        <TableMoreMenu
-          open={openMenu}
-          onOpen={handleOpenMenu}
-          onClose={handleCloseMenu}
-          actions={
-            <>
-              <MenuItem
-                onClick={() => {
-                  onDeleteRow();
-                  handleCloseMenu();
-                }}
-                sx={{ color: 'error.main' }}
-              >
-                <Iconify icon={'eva:trash-2-outline'} />
-                Delete
-              </MenuItem>
-
-              <MenuItem
-                onClick={() => {
-                  onViewRow();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:eye-fill'} />
-                View
-              </MenuItem>
-
-              <MenuItem
-                onClick={() => {
-                  onEditRow();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:edit-fill'} />
-                Edit
-              </MenuItem>
-            </>
-          }
-        />
-      </TableCell>
+                  <MenuItem
+                    onClick={() => {
+                      onEditRow();
+                      handleCloseMenu();
+                    }}
+                  >
+                    <Iconify icon={'eva:edit-fill'} />
+                    Edit
+                  </MenuItem>
+                </>
+              }
+            />
+          </TableCell>
         </TableRow>
       )}
     </>

@@ -1,7 +1,8 @@
 // @mui
 import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Box, Link, Card, CardHeader, Typography, Stack } from '@mui/material';
+import { Box, Link, Card, CardHeader, Typography, Stack, Skeleton } from '@mui/material';
 // utils
 import { fCurrency } from '../../../../utils/formatNumber';
 //
@@ -19,37 +20,45 @@ EcommerceLatestProducts.propTypes = {
   subheader: PropTypes.string,
 };
 
-export default function EcommerceLatestProducts({title, subheader, list, ...other}) {
+export default function EcommerceLatestProducts({ title, subheader, list, ...other }) {
+  const [ordersData, setOrdersData] = useState({});
+  const [showSkel, setshowSkel] = useState(false);
+  useEffect(() => {
+    setshowSkel(false);
+    if (Object.keys(ordersData).length) {
+      if (Object.keys(ordersData.allIds).length) {
+        setshowSkel(true);
+      }
+    }
+  }, [ordersData]);
+  // useEffect(() => {
+  //   setOrdersData(list);
+  // }, [list]);
 
-  
   return (
-    
-    <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
-        <Scrollbar>
-          <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-            {list && list.map((product) => (
-              <ProductItem key={product.id} product={product} />
-            ))}
-          </Stack>
-        </Scrollbar>
-    </Card>
-     
+    <Box {...other}>
+      <Scrollbar>
+        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+          {/* {showSkel
+            ? list.map((product) => <ProductItem key={product.id} product={product} />)
+            : [...Array(list.length)].map((i) => (
+                <Skeleton
+                  animation="wave"
+                  variant="rectangular"
+                  sx={{ width: 'auto', height: '30px', borderRadius: '5px' }}
+                />
+              ))} */}
+          {list && list.map((product) => <ProductItem key={product.id} product={product} />)}
+        </Stack>
+      </Scrollbar>
+    </Box>
   );
 }
 
 // ----------------------------------------------------------------------
 
-// ProductItem.propTypes = {
-//   product: PropTypes.shape({
-//     updated_at: PropTypes.number,
-//     product_name: PropTypes.string,
-//     // updated_at: PropTypes.string,
-//   }),
-// };
-
 function ProductItem({ product }) {
-  const { product_name:productName,updated_at:updateAt } = product;
+  const { product_name: productName, updated_at: updateAt } = product;
   // const { pName, orderNumber, inquireQuoStatus } = product;
   const theme = useTheme();
   return (
@@ -58,7 +67,7 @@ function ProductItem({ product }) {
         {createAvatar(productName).name}
       </Avatar>
       <Box sx={{ flexGrow: 0.97 }}>
-        <Link sx={{ color: 'text.primary', typography: 'subtitle2' ,textTransform:'capitalize'} } >{productName}</Link>
+        <Link sx={{ color: 'text.primary', typography: 'subtitle2', textTransform: 'capitalize' }}>{productName}</Link>
 
         <Stack direction="row">
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
@@ -66,19 +75,6 @@ function ProductItem({ product }) {
           </Typography>
         </Stack>
       </Box>
-
-      {/* <Label
-        variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-        color={
-          (inquireQuoStatus === 'approved' && 'success') ||
-          (inquireQuoStatus === 'received' && 'warning') ||
-          (inquireQuoStatus === 'draft' && 'error') ||
-          'default'
-        }
-        sx={{ textTransform: 'capitalize' }}
-      >
-        {inquireQuoStatus}
-      </Label> */}
     </Stack>
   );
 }

@@ -61,15 +61,7 @@ import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@batiboot/i
 
 // ----------------------------------------------------------------------
 
-const SERVICE_OPTIONS = [
-  'All',
-  'Product Sourcing',
-  'Importing',
-  'Product Rebranding',
-  'Private Label',
-  'Warehousing',
-  'Fulfillment',
-];
+const SERVICE_OPTIONS = ['All', 'Paid', 'Unpaid', 'Overdue'];
 
 const TABLE_HEAD = [
   { id: 'invoiceNumber', label: 'Client', align: 'left' },
@@ -235,9 +227,9 @@ export default function OrderList() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
-    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
-    { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
+    { value: 'paid', label: 'Paid', color: 'success', count: getLengthByStatus('paid') },
+    { value: 'unpaid', label: 'Unpaid', color: 'warning', count: getLengthByStatus('Unpaid') },
+    { value: 'overdue', label: 'Overdue', color: 'default', count: getLengthByStatus('overdue') },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -265,13 +257,13 @@ export default function OrderList() {
       case 'all':
         status = -1;
         break;
-      case 'pending':
+      case 'unpaid':
         status = 0;
         break;
-      case 'approved':
+      case 'paid':
         status = 1;
         break;
-      case 'cancelled':
+      case 'overdue':
         status = 2;
         break;
       case 'done':
@@ -404,14 +396,6 @@ export default function OrderList() {
                 price={getTotalPriceByStatus('overdue')}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
-              />
-              <InvoiceAnalytic
-                title="Draft"
-                total={getLengthByStatus('draft')}
-                percent={getPercentByStatus('draft')}
-                price={getTotalPriceByStatus('draft')}
-                icon="eva:file-fill"
-                color={theme.palette.text.secondary}
               />
             </Stack>
           </Scrollbar>

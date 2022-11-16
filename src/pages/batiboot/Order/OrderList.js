@@ -195,9 +195,9 @@ export default function OrderList() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
-    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
-    { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
+    { value: 'accepted', label: 'Accepted', color: 'success', count: getLengthByStatus('accepted') },
+    { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'Rejected', label: 'Rejected', color: theme.palette.error.main, count: getLengthByStatus('rejected') },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -243,10 +243,10 @@ export default function OrderList() {
       case 'pending':
         status = 0;
         break;
-      case 'approved':
+      case 'accepted':
         status = 1;
         break;
-      case 'cancelled':
+      case 'rejected':
         status = 2;
         break;
       case 'done':
@@ -301,17 +301,17 @@ export default function OrderList() {
             { name: 'Order', href: PATH_BATIBOOT.order.root },
             { name: 'List' },
           ]}
-          action={
-            <Button
-              variant="contained"
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-              component={RouterLink}
-              to={PATH_BATIBOOT.order.createOrder}
-              onClick={handleOpenModal}
-            >
-              Add Order
-            </Button>
-          }
+          // action={
+          //   <Button
+          //     variant="contained"
+          //     startIcon={<Iconify icon={'eva:plus-fill'} />}
+          //     component={RouterLink}
+          //     to={PATH_BATIBOOT.order.createOrder}
+          //     onClick={handleOpenModal}
+          //   >
+          //     Add Order
+          //   </Button>
+          // }
         />
 
         <Box>
@@ -357,10 +357,10 @@ export default function OrderList() {
                 color={theme.palette.info.main}
               />
               <OrderListAnalytics
-                title="Approved"
-                total={getLengthByStatus('approved')}
-                percent={getPercentByStatus('approved')}
-                price={getTotalPriceByStatus('approved')}
+                title="Accepted"
+                total={getLengthByStatus('accepted')}
+                percent={getPercentByStatus('accepted')}
+                price={getTotalPriceByStatus('accepted')}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
@@ -379,14 +379,6 @@ export default function OrderList() {
                 price={getTotalPriceByStatus('rejected')}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
-              />
-              <OrderListAnalytics
-                title="Draft"
-                total={getLengthByStatus('draft')}
-                percent={getPercentByStatus('draft')}
-                price={getTotalPriceByStatus('draft')}
-                icon="eva:file-fill"
-                color={theme.palette.text.secondary}
               />
             </Stack>
           </Scrollbar>

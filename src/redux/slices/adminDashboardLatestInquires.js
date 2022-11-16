@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // utils
-import /* axios, */ {V4axios} from '../../utils/axios';
+import { /* axios, */ V4axios } from '../../utils/axios';
 //
 import { dispatch } from '../store';
 
@@ -29,7 +29,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name:'adminDashboardlatestInquires',
+  name: 'adminDashboardlatestInquires',
   initialState,
   reducers: {
     // START LOADING
@@ -45,13 +45,13 @@ const slice = createSlice({
 
     // GET QUOTATION SUCCESS
     getDashboardSuccess(state, action) {
-      const {data,total,ccc} = action.payload;
+      const { data, total, ccc } = action.payload;
       state.isLoading = false;
       state.latestinquiresdata.byId = objFromArray(data);
       state.latestinquiresdata.allIds = Object.keys(state.latestinquiresdata.byId);
       state.latestinquiresArr = data;
       state.totalData = total;
-      state.ccc  = ccc;
+      state.ccc = ccc;
     },
   },
 });
@@ -63,9 +63,9 @@ export default slice.reducer;
 // ----------------------------------------------------------------------
 
 export function getAllDashboardlatestinquires() {
-  const {accessToken} = localStorage
+  const { accessToken } = localStorage;
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
@@ -76,4 +76,3 @@ export function getAllDashboardlatestinquires() {
     }
   };
 }
-
