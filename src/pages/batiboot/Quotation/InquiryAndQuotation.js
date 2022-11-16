@@ -89,6 +89,7 @@ export default function InquireQuotation() {
   const { quotations, totalData, ccc, quotationsArr, isLoading } = useSelector((state) => state.adminQuotation);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  // const [reRender, setRender] = useState(false);
 
   const {
     dense,
@@ -217,7 +218,7 @@ export default function InquireQuotation() {
 
   const [Status, setStatus] = React.useState(-1);
 
-  useEffect(() => {
+  const utils = () => {
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -230,6 +231,10 @@ export default function InquireQuotation() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAllQuotations(payload));
+  };
+
+  useEffect(() => {
+    utils();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
   /* console.log(appointmentsArr) */
@@ -552,6 +557,7 @@ export default function InquireQuotation() {
                           onDeleteRow={() => handleDeleteRow(items.id)}
                           onViewRow={() => handleViewRow(items)}
                           onEditRow={() => handleEditRow(quotations.byId[items.id].fname)}
+                          utils={utils}
                           // handleClickOpen={handleClickOpen}
                         />
                       ))

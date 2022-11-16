@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useReducer } from 'react';
-import {getAllQuotations} from '../redux/slices/userQuotation';
+import { getAllQuotations } from '../redux/slices/userQuotation';
 
 // utils
 import axios from '../utils/axios';
@@ -83,98 +83,70 @@ const handlers = {
     isAuthenticated: true,
   }),
   NEW_USER_EMAIL_VERIFICATION: (state, action) => {
-
-
     return {
       ...state,
       isAuthenticated: false,
-
     };
   },
   RESEND_EMAIL_VERIFICATION: (state, action) => {
-
-
     return {
       ...state,
       isAuthenticated: false,
-
     };
   },
 
   CREATE_QUOTATION: (state, action) => {
-
-
     return {
       ...state,
       isAuthenticated: true,
-
     };
   },
   ACCEPT_ORDER: (state, action) => {
-
-
     return {
       ...state,
       isAuthenticated: true,
-
     };
   },
   CREATE_USER_MANAGEMENT: (state, action) => {
-
-
     return {
       ...state,
       isAuthenticated: true,
-
     };
   },
 
   CANCEL_QUOTATION: (state, action) => {
-
     return {
       ...state,
       isAuthenticated: true,
-
     };
-
   },
 
   CREATE_INVOICE: (state, action) => {
- 
-
     return {
       ...state,
       isAuthenticated: true,
-
     };
   },
 
   CREATE_USER_ROLE: (state, action) => {
-
-
     return {
       ...state,
       isAuthenticated: true,
-
     };
   },
 
   CREATE_USER_DEPARTMENT: (state, action) => {
-
     return {
       ...state,
       isAuthenticated: true,
     };
   },
   CREATE_USER_DESIGNATION: (state, action) => {
-
-
     return {
       ...state,
       isAuthenticated: true,
     };
   },
-
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -201,7 +173,6 @@ const AuthContext = createContext({
   createUserRole: () => Promise.resolve(),
   createUserDepartment: () => Promise.resolve(),
   createUserDesignation: () => Promise.resolve(),
-
 });
 
 // ----------------------------------------------------------------------
@@ -262,7 +233,8 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, pass) => {
-    const response = await axios.post('/api/account/login',
+    const response = await axios.post(
+      '/api/account/login',
       {
         email,
         pass,
@@ -270,7 +242,6 @@ function AuthProvider({ children }) {
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-
         },
       }
     );
@@ -351,14 +322,11 @@ function AuthProvider({ children }) {
     });
   };
   const accountChangePassword = async (data) => {
-    const response = await axios.put(
-      '/api/account/update-profile/password',data,
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      }
-    );
+    const response = await axios.put('/api/account/update-profile/password', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
     const user = response.data;
     dispatch({
       type: 'ACCOUNTCHANGEPASSWORD',
@@ -391,15 +359,11 @@ function AuthProvider({ children }) {
   };
 
   const updateProfile = async (data) => {
-    const response = await axios.post(
-      '/api/account/update-profile',
-    data,
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      }
-    );
+    const response = await axios.post('/api/account/update-profile', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
 
     const user = response.data;
     dispatch({
@@ -496,12 +460,9 @@ function AuthProvider({ children }) {
   const createQuotation = async (data) => {
     const response = await axios.post(
       '/api/quotations',
-      
-       
-      data,
-      
 
-     
+      data,
+
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
@@ -509,7 +470,6 @@ function AuthProvider({ children }) {
           // "Access-Control-Allow-Methods": "POST, GET, PUT, OPTIONS, DELETE" ,
           // 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
         },
-      
       }
     );
     const user = response.data;
@@ -527,14 +487,12 @@ function AuthProvider({ children }) {
   };
 
   const acceptOrder = async (data) => {
+    console.log('BRIAN DITO KO!!!! ', data);
     const response = await axios.post(
       '/api/orders',
-      
-       
-      data,
-      
 
-     
+      data,
+
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
@@ -559,17 +517,13 @@ function AuthProvider({ children }) {
   const createUserManagement = async (data) => {
     const response = await axios.post(
       '/api/management/user/register',
-      
-       
-      data,
-      
 
-     
+      data,
+
       {
         headers: {
           'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
         },
-      
       }
     );
     const user = response.data;
@@ -587,14 +541,11 @@ function AuthProvider({ children }) {
   };
 
   const cancelQuotation = async (data) => {
-    const response = await axios.put( '/api/quotations/cancel', data,
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      
-      }
-    );
+    const response = await axios.put('/api/quotations/cancel', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
     const user = response.data;
 
     // alert(user.email)
@@ -610,14 +561,11 @@ function AuthProvider({ children }) {
   };
 
   const createInvoice = async (data) => {
-    const response = await axios.post('/api/invoice', data,
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      
-      }
-    );
+    const response = await axios.post('/api/invoice', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
     const user = response.data;
 
     // alert(user.email)
@@ -633,14 +581,11 @@ function AuthProvider({ children }) {
   };
 
   const createUserRole = async (data) => {
-    const response = await axios.post('/api/management/role/add', data,
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      
-      }
-    );
+    const response = await axios.post('/api/management/role/add', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
     const user = response.data;
 
     // alert(user)
@@ -656,14 +601,11 @@ function AuthProvider({ children }) {
   };
 
   const createUserDepartment = async (data) => {
-    const response = await axios.post('/api/management/department/add', data,
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      
-      }
-    );
+    const response = await axios.post('/api/management/department/add', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
     const user = response.data;
 
     // alert(user)
@@ -679,14 +621,11 @@ function AuthProvider({ children }) {
   };
 
   const createUserDesignation = async (data) => {
-    const response = await axios.post('/api/management/designation/add', data,
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      
-      }
-    );
+    const response = await axios.post('/api/management/designation/add', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
     const user = response.data;
 
     // alert(user)
@@ -701,14 +640,10 @@ function AuthProvider({ children }) {
     });
   };
 
-
-
-
   const logout = async () => {
-    dispatch(getAllQuotations())
+    dispatch(getAllQuotations());
     setSession(null);
     dispatch({ type: 'LOGOUT' });
-  
   };
 
   return (

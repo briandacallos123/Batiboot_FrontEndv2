@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+// import { approveQuotation } from 'src/redux/slices/adminQuotation';
 
 // MUI
 import { useTheme } from '@mui/material/styles';
@@ -15,6 +16,8 @@ import {
   MenuItem,
   AvatarGroup,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { approveQuotation } from '../../../../redux/slices/adminQuotation';
 
 // Components
 import Label from '../../../../components/Label';
@@ -53,13 +56,15 @@ export default function InquireQuotationTableRow({
   handleClickOpen,
   showSkeleton,
   isDesktop,
+  utils,
 }) {
   const { acceptOrder, user } = useAuth();
   const theme = useTheme();
   /* const { name, avatarUrl, address, role, isVerified, status, state, city, zipCode } = row; */
-
+  const dispatch = useDispatch();
   const [openMenu, setOpenMenuActions] = useState(null);
 
+  // console.log('RENDER!!!: ', onRender);
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
   };
@@ -69,15 +74,21 @@ export default function InquireQuotationTableRow({
   };
 
   const handleAcceptOrder = async () => {
-    const form = new FormData();
-    form.append('quotation_id', row.id);
-    try {
-      await acceptOrder(form);
-      alert('Order accepted');
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
+    // const form = new FormData();
+    // form.append('quotation_id', row.id);
+    // console.log('FORM: ', form.getAll);
+
+    const payload = {};
+    payload.id = row.id;
+    await dispatch(approveQuotation(payload));
+    utils();
+    // try {
+    //   await acceptOrder(quoteId);
+    //   alert('Order accepted');
+    // } catch (error) {
+    //   console.error(error);
+    //   alert(error.message);
+    // }
   };
 
   return (
@@ -246,11 +257,13 @@ export default function InquireQuotationTableRow({
             {showSkeleton ? (
               <Label
                 // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                // color={(row.type_text === 'TELEMEDICINE' && 'success') || 'fce'}
+                // color={(row.status === 1 && 'success') || 'fce'}
                 sx={{ textTransform: 'capitalize' }}
               >
                 {row.isCancel === 1 ? 'Cancelled' : ''}
                 {row.isOrder === 0 && row.isCancel === 0 ? 'Pending' : ''}
+                {row.status === 1 && row.isOrder === 1 ? 'Approved' : ''}
+                {/* {row.status === 0 && row.isOrder === 0 ? 'Pending' : ''} */}
               </Label>
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }}>
