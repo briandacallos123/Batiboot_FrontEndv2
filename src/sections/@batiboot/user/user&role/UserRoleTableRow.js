@@ -265,16 +265,6 @@ export default function OrderTableRow({
 
               <MenuItem
                 onClick={() => {
-                  onViewRow();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:eye-fill'} />
-                View
-              </MenuItem>
-
-              <MenuItem
-                onClick={() => {
                   onEditRow();
                   handleCloseMenu();
                 }}

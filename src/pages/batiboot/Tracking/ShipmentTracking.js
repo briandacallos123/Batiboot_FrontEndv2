@@ -213,11 +213,11 @@ export default function ShipmentTracking() {
             { name: 'Order', href: PATH_BATIBOOT.order.root },
             { name: 'Shipment Tracking' },
           ]}
-          action={
-            <Button variant="contained" startIcon={<Iconify icon={'eva:plus-fill'} />} onClick={handleOpenModal}>
-              Shipment
-            </Button>
-          }
+          // action={
+          //   <Button variant="contained" startIcon={<Iconify icon={'eva:plus-fill'} />} onClick={handleOpenModal}>
+          //     Shipment
+          //   </Button>
+          // }
         />
         <Box>
           <UserModal
@@ -228,11 +228,7 @@ export default function ShipmentTracking() {
             pathname={pathname}
             nameLink={'Tracking'}
           />
-           <ShipmentListViewModal 
-            open={openViewModal}
-            onClose={handleCloseModal}
-            identifier={identifier}
-          />
+          <ShipmentListViewModal open={openViewModal} onClose={handleCloseModal} identifier={identifier} />
         </Box>
 
         <Card sx={{ mb: 5 }}>

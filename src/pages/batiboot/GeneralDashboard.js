@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Container, Grid, Button } from '@mui/material';
+import { Container, Grid, Button, Skeleton, Card, CardHeader } from '@mui/material';
 // hooks
 import { getAllDashboard } from '../../redux/slices/adminDashboard';
 
@@ -89,6 +89,20 @@ export default function GeneralDashboard() {
     dispatch(getAllDashboardlatestinquires());
   }, [dispatch]);
 
+  const [ordersData, setOrdersData] = useState({});
+  const [showSkel, setshowSkel] = useState(false);
+  useEffect(() => {
+    setshowSkel(false);
+    if (Object.keys(ordersData).length) {
+      if (Object.keys(ordersData.allIds).length) {
+        setshowSkel(true);
+      }
+    }
+  }, [ordersData]);
+
+  useEffect(() => {
+    setOrdersData(latestinquiresdata);
+  }, [latestinquiresdata]);
   return (
     <Page title="Batiboot: Dashboard">
       <Container maxWidth={themeStretch ? false : 'xl'}>
@@ -320,12 +334,21 @@ export default function GeneralDashboard() {
               />
             </Grid>
             <Grid item xs={12} md={4}>
-                
-              <EcommerceLatestProducts 
-              title="Latest Inquiries" 
-              list={latestinquiresArr} 
-              sx={{ pr: 3 }} 
-              />
+              <Card>
+                <CardHeader title="Latest Inquiries" />
+                {showSkel ? (
+                  <EcommerceLatestProducts title="Latest Inquiries" list={latestinquiresArr} sx={{ pr: 3 }} />
+                ) : (
+                  [...Array(4)].map((i) => (
+                    <Skeleton
+                      animation="wave"
+                      variant="rectangular"
+                      sx={{ width: 'auto', height: '30px', borderRadius: '5px', margin: 5 }}
+                    />
+                  ))
+                )}
+              </Card>
+              {/* <EcommerceLatestProducts title="Latest Inquiries" list={latestinquiresArr} sx={{ pr: 3 }} /> */}
             </Grid>
           </Grid>
 
