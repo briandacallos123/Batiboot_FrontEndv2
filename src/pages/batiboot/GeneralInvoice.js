@@ -178,8 +178,8 @@ export default function OrderList() {
     const payload = {};
     payload.invoice_id = id;
     dispatch(deleteInvoice(payload));
-// delte front end
-utils();
+    // delte front end
+    utils();
   };
 
   const handleDeleteRows = (selected) => {
@@ -579,7 +579,12 @@ utils();
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
+                    : [...Array(rowsPerPage)].map((i, k) => {
+                        if (!invoiceArr.length) {
+                          return true;
+                        }
+                        return <QuotationSkeleton key={k} />;
+                      })}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 

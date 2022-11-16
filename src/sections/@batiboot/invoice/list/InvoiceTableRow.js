@@ -44,13 +44,13 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={row.name} color={createAvatar(row.name).color} sx={{ mr: 2 }}>
-          {createAvatar(row.name).name}
+        <Avatar alt={row?.name} color={createAvatar(row?.name).color} sx={{ mr: 2 }}>
+          {createAvatar(row?.name).name}
         </Avatar>
 
         <Stack>
           <Typography variant="subtitle2" noWrap>
-            {row.invoice_number}
+            {row?.invoice_number}
           </Typography>
 
           <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
@@ -59,8 +59,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
         </Stack>
       </TableCell>
 
-      <TableCell align="left">{row.created_at}</TableCell>
-      <TableCell align="left">{row.due_date}</TableCell>
+      <TableCell align="left">{row?.created_at}</TableCell>
+      <TableCell align="left">{row?.due_date}</TableCell>
       <TableCell align="center">0</TableCell>
       <TableCell align="center">0</TableCell>
 
@@ -68,13 +68,14 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
-            (row.status === 'Paid' && 'success') ||
-            (row.status === 'Unpaid' && 'warning') ||
-            (row.status === 'Overdue' && 'error')
+            (row?.status === 'Draft' && 'error') ||
+            (row?.status === 'Paid' && 'success') ||
+            (row?.status === 'Unpaid' && 'warning') ||
+            (row?.status === 'Overdue' && 'error')
           }
           sx={{ textTransform: 'capitalize' }}
         >
-          {row.status}
+          {row?.status}
         </Label>
       </TableCell>
 
