@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // utils
-import /* axios, */ {V4axios} from '../../utils/axios';
+import { /* axios, */ V4axios } from '../../utils/axios';
 //
 import { dispatch } from '../store';
 
@@ -17,19 +17,19 @@ const initialState = {
   isLoading: false,
   error: null,
   quotations: { byId: {}, allIds: [] },
-  quotationsArr : [],
-  totalData:0,
-  ccc:{
+  quotationsArr: [],
+  totalData: 0,
+  ccc: {
     approved: 0,
     cancelled: 0,
     done: 0,
-    pending:0,
+    pending: 0,
     total: 0,
   },
 };
 
 const slice = createSlice({
-  name:'adminQuotation',
+  name: 'adminQuotation',
   initialState,
   reducers: {
     // START LOADING
@@ -45,13 +45,13 @@ const slice = createSlice({
 
     // GET QUOTATION SUCCESS
     getQuotationSuccess(state, action) {
-      const {data,total,ccc} = action.payload;
+      const { data, total, ccc } = action.payload;
       state.isLoading = false;
       state.quotations.byId = objFromArray(data);
       state.quotations.allIds = Object.keys(state.quotations.byId);
       state.quotationsArr = data;
       state.totalData = total;
-      state.ccc  = ccc;
+      state.ccc = ccc;
     },
   },
 });
@@ -63,17 +63,16 @@ export default slice.reducer;
 // ----------------------------------------------------------------------
 
 export function getAllQuotations(payload) {
-  const {accessToken} = localStorage
+  const { accessToken } = localStorage;
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.post('/api/quotations/all',payload);
+      const response = await V4axios.post('/api/quotations/all', payload);
       dispatch(slice.actions.getQuotationSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
-
