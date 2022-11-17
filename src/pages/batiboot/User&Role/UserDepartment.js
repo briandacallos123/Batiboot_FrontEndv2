@@ -27,7 +27,7 @@ import {
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
 import { getAllRoles } from '../../../redux/slices/getRole';
-import { getAllUsersDepartment } from '../../../redux/slices/adminUserDepartment';
+import { getAllUsersDepartment, DeleteDepartments} from '../../../redux/slices/adminUserDepartment';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -139,6 +139,12 @@ export default function UserDesignation() {
     const deleteRow = tableData.filter((row) => row.id !== id);
     setSelected([]);
     setTableData(deleteRow);
+
+    const payload = {};
+    payload.Department_id = id;
+    dispatch(DeleteDepartments(payload));
+
+    utils();
   };
 
   const handleDeleteRows = (selected) => {
@@ -215,8 +221,7 @@ console.log("filter servies", filterService);
 
   const [Status, setStatus] = React.useState("all");
 
-  useEffect(async() => {
-
+  const utils = async() => {
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -230,6 +235,11 @@ console.log("filter servies", filterService);
     console.log('payload', payload);
     await dispatch(getAllUsersDepartment(payload));
     await dispatch(getAllRoles());
+  };
+
+  useEffect(async() => {
+
+    utils();
     
   }, [dispatch, page, rowsPerPage,filterService, filterName, filterStartDate, filterEndDate, Status]);
 
@@ -528,7 +538,8 @@ console.log("filter servies", filterService);
                 />
 
                 <TableBody>
-                  {showSkel && showSkelDatatable
+                  {/* && showSkelDatatable */}
+                  {showSkel 
                     ? usersDepartmentArr.map((items) => (
                         <UserDepartmentTableRow
                           // isDesktop={isDesktop}

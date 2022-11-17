@@ -542,7 +542,8 @@ console.log("filter servies", filterService);
                 />
 
                 <TableBody>
-                  {showSkel && showSkelDatatable
+                  {/* && showSkelDatatable */}
+                  {showSkel 
                     ? usersDesignationArr.map((items) => (
                         <UserDesignationTableRow
                           // isDesktop={isDesktop}
