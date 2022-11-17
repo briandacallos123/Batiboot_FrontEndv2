@@ -79,7 +79,7 @@ export default function SideBar({ invoice, edit }) {
       paddingBottom={{ xs: 5, md: 0 }}
       paddingLeft={{ xs: 2, md: 4 }}
       paddingRight={{ xs: 2, md: 0 }}
-      height={{ xs: '100%', md: '87vh' }}
+      height={{ xs: '100%', md: '70vh' }}
     >
       <Scrollbar>
         <QuotationData isIdentifier={''} />
