@@ -23,6 +23,8 @@ import {
   RHFRadioGroup,
   RHFUploadMultiFile,
 } from '../../../components/hook-form';
+//
+import InquireQuotationModalAddress from './InquireQuotationModalAddress';
 
 // ----------------------------------------------------------------------
 
@@ -180,7 +182,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       gender: currentProduct?.gender || GENDER_OPTION[2].value,
       category: currentProduct?.category || SERVICE_OPTION[0],
       quantity: currentProduct?.quantity || 0,
-      services: currentProduct?.services || SERVICE_OPTION[0]
+      services: currentProduct?.services || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
@@ -256,6 +258,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
+              <InquireQuotationModalAddress />
               <RHFTextField name="name" label="Product Name" />
 
               <div>
@@ -284,34 +287,17 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
           <Stack spacing={3}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3} mt={2}>
-                <RHFTextField name="quantity" label="Quantities" />
-
-                {/* 
-                <RHFTextField name="sku" label="Product SKU" /> */}
-
-                {/*   <div>
-                  <LabelStyle>Gender</LabelStyle>
-                  <RHFRadioGroup
-                    name="gender"
-                    options={GENDER_OPTION}
-                    sx={{
-                      '& .MuiFormControlLabel-root': { mr: 4 },
-                    }}
-                  />
-                </div> */}
-
-                <RHFSelect name="category" label="Services">
+                <RHFSelect name="service" label="Services" placeholder="Services">
+                  <option value={''} />
                   {SERVICE_OPTION.map((category) => (
                     <option key={category} value={category}>
                       {category}
                     </option>
                   ))}
                 </RHFSelect>
-              </Stack>
-            </Card>
 
-            <Card sx={{ p: 3 }}>
-              <Stack spacing={3} mb={2}>
+                <RHFTextField name="quantity" label="Quantities" />
+
                 <RHFTextField
                   name="price"
                   label="Price per piece"
@@ -324,19 +310,13 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                     type: 'number',
                   }}
                 />
-                {/* 
-                <RHFTextField
-                  name="priceSale"
-                  label="Sale Price"
-                  placeholder="0.00"
-                  value={getValues('priceSale') === 0 ? '' : getValues('priceSale')}
-                  onChange={(event) => setValue('price', Number(event.target.value))}
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    type: 'number',
-                  }}
-                /> */}
+              </Stack>
+            </Card>
+
+            <Card sx={{ p: 3 }}>
+              <Stack spacing={3} mb={2}>
+                <RHFTextField name="email" label="Email Address" />
+                <RHFTextField name="contact" label="Contact Number" />
               </Stack>
             </Card>
           </Stack>
