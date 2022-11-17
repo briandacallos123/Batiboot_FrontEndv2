@@ -1,4 +1,5 @@
 import { paramCase } from 'change-case';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
@@ -22,7 +23,9 @@ import {
   useTheme,
   DialogTitle,
   DialogActions,
+  MenuItem,
 } from '@mui/material';
+import { FormProvider, RHFSelect } from '../../../components/hook-form';
 // routes
 import { PATH_BATIBOOT } from '../../../routes/paths';
 // hooks
@@ -37,6 +40,7 @@ import Scrollbar from '../../../components/Scrollbar';
 import SideBar from './SideBar';
 import Page from '../../../components/Page';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
+import UserModal from '../../../sections/@batiboot/modal/UserModal';
 import ProductNewEditForm from '../../../sections/@batiboot/inquirequotation/InquireQuotationModal';
 import InvoiceCreate from '../../../sections/@batiboot/invoice/new-edit-form';
 import OrderGallery from '../../../sections/@batiboot/orders/order/OrderGallery';
@@ -46,7 +50,10 @@ import './modalStyle.scss';
 
 // ----------------------------------------------------------------------
 
+const STATUS_OPTION = ['Pending', 'Approve', 'Reject'];
+
 export default function OrderListViewModal(props) {
+  const [openModal, setOpenModal] = React.useState(false);
   const { user } = useAuth();
   const { open, selectedValue, onClose, isView, identifier, data } = props;
   const { themeStretch } = useSettings();
@@ -54,7 +61,11 @@ export default function OrderListViewModal(props) {
   const { loading = false } = props;
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
   const theme = useTheme();
-  const handleCloseModal = () => onClose(selectedValue);
+  const handleCloseModal = () => {
+    onClose(selectedValue);
+    setIsEdit(false);
+    setOpenModal(false);
+  };
   const modalStyle = {
     position: 'absolute',
     top: '100%',
@@ -65,8 +76,26 @@ export default function OrderListViewModal(props) {
     p: 4,
   };
   console.log(data);
+  const [isEdit, setIsEdit] = useState(false);
+  const [status, setStatus] = useState('Pending');
+  const handleStatus = (event) => {
+    setStatus(event.target.value);
+  };
+  const handleOpenModal = () => setOpenModal(!openModal);
+
   return (
     <>
+      <Box>
+        {/* UserRolesCreate Modal */}
+        <UserModal
+          open={openModal}
+          onClose={handleCloseModal}
+          edit={isEdit}
+          identifier={identifier}
+          pathname={pathname}
+          nameLink={'Invoice'}
+        />
+      </Box>
       <DialogAnimate className="dialog-center" open={open} fullScreen maxWidth={'md'}>
         <div className="mpp-main">
           <div className="mpp-header">
@@ -136,8 +165,36 @@ export default function OrderListViewModal(props) {
                             <Typography variant="h6" marginBottom={2}>
                               {data?.price}
                             </Typography>
-
-                            <Typography variant="overline" color="primary.main">
+                            <Typography aphy variant="overline" color="primary.main">
+                              Status
+                            </Typography>
+                            <Grid sx={{ marginY: 2 }}>
+                              <TextField
+                                select
+                                value={status}
+                                onChange={handleStatus}
+                                sx={{
+                                  textTransform: 'capitalize',
+                                }}
+                              >
+                                {STATUS_OPTION.map((option) => (
+                                  <MenuItem
+                                    key={option}
+                                    value={option}
+                                    sx={{
+                                      mx: 1,
+                                      my: 0.5,
+                                      borderRadius: 0.75,
+                                      typography: 'body2',
+                                      textTransform: 'capitalize',
+                                    }}
+                                  >
+                                    {option}
+                                  </MenuItem>
+                                ))}
+                              </TextField>
+                            </Grid>
+                            <Typography aphy variant="overline" color="primary.main">
                               Description
                             </Typography>
 
@@ -175,14 +232,33 @@ export default function OrderListViewModal(props) {
                   </Button>
                 </Box>
               ) : (
-                <Grid sx={{ marginX: 2 }}>
-                  <Button size="small" sx={{ backgroundColor: 'primary.main', marginX: 1 }} variant="contained">
-                    Approve
-                  </Button>
-                  <Button size="small" sx={{ backgroundColor: 'primary.main' }} variant="contained">
-                    Billing
-                  </Button>
-                </Grid>
+                <>
+                  {status === 'Approve' ? (
+                    <>
+                      <Grid sx={{ ml: 1 }}>
+                        <Button
+                          size="small"
+                          sx={{ backgroundColor: 'primary.main' }}
+                          variant="contained"
+                          onClick={handleCloseModal}
+                        >
+                          Save
+                        </Button>
+                      </Grid>
+                      <Grid sx={{ ml: 1 }}>
+                        <Button
+                          size="small"
+                          sx={{ backgroundColor: 'primary.main' }}
+                          variant="contained"
+                          to={PATH_BATIBOOT.invoice.create}
+                          onClick={handleOpenModal}
+                        >
+                          Save & Create invoice
+                        </Button>
+                      </Grid>
+                    </>
+                  ) : null}
+                </>
               )}
             </DialogActions>
           </div>
