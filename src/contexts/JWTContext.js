@@ -458,22 +458,15 @@ function AuthProvider({ children }) {
   };
 
   const createQuotation = async (data) => {
-    const response = await axios.post(
-      '/api/quotations',
-
-      data,
-
-      {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-          // 'Access-Control-Allow-Origin': '*',
-          // "Access-Control-Allow-Methods": "POST, GET, PUT, OPTIONS, DELETE" ,
-          // 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-        },
-      }
-    );
+    const response = await axios.post('/api/quotations', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        // 'Access-Control-Allow-Origin': '*',
+        // "Access-Control-Allow-Methods": "POST, GET, PUT, OPTIONS, DELETE" ,
+        // 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+      },
+    });
     const user = response.data;
-
     // alert(user.email)
     // alert(accessToken)
     // setSession(accessToken);
@@ -487,7 +480,6 @@ function AuthProvider({ children }) {
   };
 
   const acceptOrder = async (data) => {
-    console.log('BRIAN DITO KO!!!! ', data);
     const response = await axios.post(
       '/api/orders',
 

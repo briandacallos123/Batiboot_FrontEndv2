@@ -14,6 +14,8 @@ import Iconify from '../../../components/Iconify';
 //
 import InquireQuotationModalAddressListDialog from './InquireQuotationModalAddressListDialog';
 
+import { RHFTextField } from '../../../components/hook-form';
+
 // ----------------------------------------------------------------------
 
 // InvoiceNewEditAddress.propTypes = {
@@ -62,13 +64,22 @@ export default function InquireQuotationModalAddress(prop) {
           <InquireQuotationModalAddressListDialog
             open={openFrom}
             onClose={onCloseFrom}
+            // kailangan ko makuha yung nirereturn nito
             selected={(selectedId) => invoiceFrom?.id === selectedId}
+            // ito din
             onSelect={(address) => setValue('invoiceFrom', address)}
             addressOptions={_invoiceAddressFrom}
           />
         </Stack>
 
-        <AddressInfo name={addressFrom} address={addressFrom} />
+        {invoiceFrom && (
+          <AddressInfo
+            type="invoice_from"
+            name={invoiceFrom?.name}
+            address={invoiceFrom?.address}
+            phone={invoiceFrom?.contact}
+          />
+        )}
       </Stack>
 
       <Stack sx={{ width: 1 }}>
@@ -95,7 +106,12 @@ export default function InquireQuotationModalAddress(prop) {
         </Stack>
 
         {invoiceTo ? (
-          <AddressInfo name={addressTo} address={addressTo} />
+          <AddressInfo
+            name={invoiceTo?.name}
+            address={invoiceTo?.address}
+            phone={invoiceTo?.contact}
+            type="invoice_to"
+          />
         ) : (
           <Typography typography="caption" sx={{ color: 'error.main' }}>
             {errors.invoiceTo ? errors.invoiceTo.message : null}
@@ -114,14 +130,45 @@ AddressInfo.propTypes = {
   phone: PropTypes.string,
 };
 
-function AddressInfo({ name, address, phone }) {
+function AddressInfo({ name, address, phone, type }) {
   return (
     <>
-      <Typography variant="subtitle2">{name}</Typography>
-      <Typography variant="body2" sx={{ mt: 1, mb: 0.5 }}>
+      {/* <Typography variant="subtitle2">{name}</Typography>
+      <Typography name={type === 'from' ? 'address_from' : 'address_to'} variant="body2" sx={{ mt: 1, mb: 0.5 }}>
         {address}
       </Typography>
-      <Typography variant="body2">Phone: {phone}</Typography>
+      <Typography variant="body2">Phone: {phone}</Typography> */}
+
+      <RHFTextField
+        name={type === 'from' ? 'address_from' : 'address_to'}
+        label={name}
+        disabled
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        sx={{ mb: '-1rem' }}
+      />
+      <RHFTextField
+        name={type === 'from' ? 'address_from' : 'address_to'}
+        label={address}
+        disabled
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        sx={{ mb: '-1rem' }}
+      />
+      <RHFTextField
+        name={type === 'from' ? 'address_from' : 'address_to'}
+        label={phone}
+        disabled
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        sx={{ mb: '-1rem' }}
+      />
     </>
   );
 }

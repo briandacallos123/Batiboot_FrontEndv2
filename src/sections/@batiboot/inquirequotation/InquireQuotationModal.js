@@ -109,55 +109,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
     }
   };
 
-  const handleCreateAndSend = async (data) => {
-    /* console.log("woooooooo", getValues("images"),user.email,user.id); */
-    setLoadingSend(true);
-    try {
-      /*  email : user?.email || '' ,
-      id: user?.id || '',
-      name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      images: currentProduct?.images || [],
-      code: currentProduct?.code || '',
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || 0,
-      priceSale: currentProduct?.priceSale || 0,
-      tags: currentProduct?.tags || [TAGS_OPTION[0]],
-      inStock: true,
-      taxes: true,
-      gender: currentProduct?.gender || GENDER_OPTION[2].value,
-      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1], */
-      /*  data.quotationfiles = rawFile;
-      console.log(data); */
-
-      const form = new FormData();
-      form.append('email', user?.email);
-      form.append('id', user?.id);
-      form.append('name', data.name);
-      form.append('description', data.description);
-      form.append('code', data.code);
-      form.append('sku', data.sku);
-      form.append('price', data.price);
-      form.append('priceSale', data.priceSale);
-      form.append('tags', data.tags);
-      form.append('inStock', data.inStock);
-      form.append('taxes', data.taxes);
-      form.append('quantity', data.quantity);
-      form.append('services', data.category);
-      rawFile.map((file) => form.append('images[]', file));
-
-      await createQuotation(form);
-      // await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      handleCloseModal();
-      setLoadingSend(false);
-      window.location.reload();
-      /*    navigate(PATH_BATIBOOT.invoice.list);
-      console.log(JSON.stringify(newInvoice, null, 2)); */
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const NewProductSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required'),
@@ -204,6 +155,61 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   } = methods;
 
   const values = watch();
+  console.log('VALUES: ', values);
+  const handleCreateAndSend = async (data) => {
+    /* console.log("woooooooo", getValues("images"),user.email,user.id); */
+    setLoadingSend(true);
+    try {
+      /*  email : user?.email || '' ,
+      id: user?.id || '',
+      name: currentProduct?.name || '',
+      description: currentProduct?.description || '',
+      images: currentProduct?.images || [],
+      code: currentProduct?.code || '',
+      sku: currentProduct?.sku || '',
+      price: currentProduct?.price || 0,
+      priceSale: currentProduct?.priceSale || 0,
+      tags: currentProduct?.tags || [TAGS_OPTION[0]],
+      inStock: true,
+      taxes: true,
+      gender: currentProduct?.gender || GENDER_OPTION[2].value,
+      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1], */
+      /*  data.quotationfiles = rawFile;
+      console.log(data); */
+
+      const form = new FormData();
+      form.append('email', user?.email);
+      form.append('id', user?.id);
+      form.append('name', data.name);
+      form.append('description', data.description);
+      // form.append('code', data.code);
+      // form.append('sku', data.sku);
+      form.append('price', data.price);
+      // form.append('priceSale', data.priceSale);
+      // form.append('tags', data.tags);
+      // form.append('inStock', data.inStock);
+      // form.append('taxes', data.taxes);
+      form.append('contact_number', data.contact);
+      form.append('address_from', values.invoiceFrom.name);
+      form.append('address_to', values.invoiceTo.name);
+      form.append('quantity', data.quantity);
+      form.append('services', data.category);
+      rawFile.map((file) => form.append('images[]', file));
+
+      await createQuotation(form);
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+
+      reset();
+      handleCloseModal();
+      setLoadingSend(false);
+      window.location.reload();
+
+      /*    navigate(PATH_BATIBOOT.invoice.list);
+      console.log(JSON.stringify(newInvoice, null, 2)); */
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (isEdit && currentProduct) {
@@ -259,6 +265,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
               <InquireQuotationModalAddress />
+
               <RHFTextField name="name" label="Product Name" />
 
               <div>
