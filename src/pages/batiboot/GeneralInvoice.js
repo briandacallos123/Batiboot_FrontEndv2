@@ -1,6 +1,7 @@
 import sumBy from 'lodash/sumBy';
+import { paramCase } from 'change-case';
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -33,11 +34,12 @@ import useAuth from '../../hooks/useAuth';
 // routes
 import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../routes/paths';
 // hooks
+
 import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
 // _mock_
-import { _invoices } from '../../_mock';
+import { _userList, _invoices } from '../../_mock';
 import _order from '../../_mock/batiboot/order.json';
 // components
 import Page from '../../components/Page';
@@ -58,7 +60,7 @@ import InvoiceViewDetailsModal from './GeneralInvoiceView';
 import UserModal from '../../sections/@batiboot/modal/UserModal';
 import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@batiboot/invoice/list';
-
+import TrackingAddModal from './TrackingAddModal';
 // ----------------------------------------------------------------------
 
 const SERVICE_OPTIONS = ['All', 'Paid', 'Unpaid', 'Overdue'];
@@ -80,6 +82,8 @@ export default function OrderList() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
+  const { name = '' } = useParams();
+  const currentUser = _userList.find((user) => paramCase(user.name) === name);
   const { invoice, totalData, ccc, invoiceArr, isLoading } = useSelector((state) => state.adminInvoice);
 
   const navigate = useNavigate();
@@ -120,6 +124,7 @@ export default function OrderList() {
 
   const [isEdit, setIsEdit] = useState(false);
   const [isView, setIsView] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
   const [identifier, setIdentifier] = useState('');
 
   const utils = () => {
@@ -185,10 +190,16 @@ export default function OrderList() {
     setIdentifier(id);
     handleOpenModal();
   };
+
+  const handleAddTracking = (id) => {
+    setIsAdd(!isAdd);
+    setIdentifier(id);
+    handleOpenTrackingModal();
+  };
+
   const [modalViewData, setModalViewData] = useState([]);
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
-
     setIsView(!isView);
     setIdentifier(data);
     handleOpenViewModal();
@@ -234,15 +245,20 @@ export default function OrderList() {
 
   const [openModal, setOpenModal] = React.useState(false);
   const [openViewModal, setOpenViewModal] = React.useState(false);
+  // const [openTrackingModal, setOpenTrackingModal] = React.useState(false);
+  const [openTrackingModal, setOpenTrackingModal] = React.useState(false);
 
   const handleOpenModal = () => setOpenModal(!openModal);
   const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
+  const handleOpenTrackingModal = () => setOpenTrackingModal(!openTrackingModal);
 
   const handleCloseModal = () => {
     setIsEdit(false);
+    setIsAdd(false);
     setIsView(false);
     setOpenModal(false);
     setOpenViewModal(false);
+    setOpenTrackingModal(false);
     setIdentifier('');
   };
 
@@ -341,21 +357,15 @@ export default function OrderList() {
             pathname={pathname}
             nameLink={'Invoice'}
           />
-          {
-            /*  <OrderCreateModal 
-           open={openModal}
-           onClose={handleCloseModal} 
-           edit={isEdit}
-           identifier={identifier}
+
+          <InvoiceViewDetailsModal
+            open={openViewModal}
+            onClose={handleCloseModal}
+            data={invoiceArr}
+            identifier={identifier}
           />
-          */
-            <InvoiceViewDetailsModal
-              open={openViewModal}
-              onClose={handleCloseModal}
-              data={invoiceArr}
-              identifier={identifier}
-            />
-          }
+
+          <TrackingAddModal open={openTrackingModal} onClose={handleCloseModal} data={invoiceArr} />
         </Box>
 
         <Card sx={{ mb: 5 }}>
@@ -559,6 +569,7 @@ export default function OrderList() {
                           onDeleteRow={() => handleDeleteRow(items.id)}
                           onEditRow={() => handleEditRow(invoice.byId[items.id])}
                           onViewRow={() => handleViewRow(items.id)}
+                          onAddTracking={() => handleAddTracking()}
                           // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
                         />
