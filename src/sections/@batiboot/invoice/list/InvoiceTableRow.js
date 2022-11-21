@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { Checkbox, TableRow, TableCell, Typography, Stack, Link, MenuItem } from '@mui/material';
 // utils
 import { fDate } from '../../../../utils/formatTime';
@@ -20,11 +21,20 @@ InvoiceTableRow.propTypes = {
   selected: PropTypes.bool,
   onSelectRow: PropTypes.func,
   onViewRow: PropTypes.func,
+  onAddTracking: PropTypes.func,
   onEditRow: PropTypes.func,
   onDeleteRow: PropTypes.func,
 };
 
-export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
+export default function InvoiceTableRow({
+  row,
+  selected,
+  onSelectRow,
+  onViewRow,
+  onAddTracking,
+  onEditRow,
+  onDeleteRow,
+}) {
   const theme = useTheme();
 
   const [openMenu, setOpenMenuActions] = useState(null);
@@ -116,6 +126,18 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                 <Iconify icon={'eva:edit-fill'} />
                 Edit
               </MenuItem>
+
+              {row?.status === 'Paid' ? (
+                <MenuItem
+                  onClick={() => {
+                    onAddTracking();
+                    handleCloseMenu();
+                  }}
+                >
+                  <LocalShippingIcon sx={{ fontSize: 'small', color: 'green' }} />
+                  Create Shipment
+                </MenuItem>
+              ) : null}
             </>
           }
         />
