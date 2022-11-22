@@ -63,10 +63,7 @@ import UserModal from '../../../sections/@batiboot/modal/UserModal';
 
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
 
-
-
 // ----------------------------------------------------------------------
-
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
@@ -78,7 +75,7 @@ const TABLE_HEAD = [
   // { id: 'shift', label: 'Shift', align: 'left' },
   { id: 'status', label: 'Status', align: 'left' },
   { id: '' },
-];;
+];
 
 // ----------------------------------------------------------------------
 
@@ -88,16 +85,13 @@ export default function OrderList() {
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
   const { users, totalData, ccc, usersArr, isLoading } = useSelector((state) => state.adminUser);
-  const { roles, rolesArr,  } = useSelector((state) => state.getRole);
-  console.log("rolesss", rolesArr);
+  const { roles, rolesArr } = useSelector((state) => state.getRole);
+  console.log('rolesss', rolesArr);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const SERVICE_OPTIONS = [
-    {id: "All", name:"All"}, ...rolesArr
-  ];
+  const SERVICE_OPTIONS = [{ id: 'All', name: 'All' }, ...rolesArr];
 
-  
   const {
     dense,
     page,
@@ -121,7 +115,7 @@ export default function OrderList() {
   const [tableData, setTableData] = useState(_order);
 
   const [filterName, setFilterName] = useState('');
- 
+
   const [filterService, setFilterService] = useState('All');
 
   const [filterStartDate, setFilterStartDate] = useState(null);
@@ -138,7 +132,7 @@ export default function OrderList() {
 
   const handleKeyCode = (e) => {
     setKeyCode(e);
-  }
+  };
 
   const handleFilterName = (filterName, key) => {
     setFilterName(filterName);
@@ -168,7 +162,7 @@ export default function OrderList() {
     // setIdentifier(id)
     handleOpenModal();
   };
-const [modalViewData, setModalViewData] = useState([]);
+  const [modalViewData, setModalViewData] = useState([]);
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
@@ -176,9 +170,8 @@ const [modalViewData, setModalViewData] = useState([]);
     //  setIdentifier(id)
     handleOpenViewModal();
     setModalViewData(data);
-    
   };
-console.log("filter servies", filterService);
+  console.log('filter servies', filterService);
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
@@ -210,7 +203,7 @@ console.log("filter servies", filterService);
   // const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: ccc.active+ccc.banned},
+    { value: 'all', label: 'All', color: 'info', count: ccc.active + ccc.banned },
     { value: 'active', label: 'Active', color: 'success', count: ccc.active },
     { value: 'banned', label: 'Banned', color: 'error', count: ccc.banned },
   ];
@@ -229,10 +222,9 @@ console.log("filter servies", filterService);
     setIdentifier('');
   };
 
-  const [Status, setStatus] = React.useState("all");
+  const [Status, setStatus] = React.useState('all');
 
   useEffect(() => {
-
     /* const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -247,109 +239,96 @@ console.log("filter servies", filterService);
     dispatch(getAllUsers(payload)); */
 
     dispatch(getAllRoles());
-    dispatch(getAllDesignations())
-    dispatch(getAllDepartments())
-    dispatch(getAllShifts())
-
+    dispatch(getAllDesignations());
+    dispatch(getAllDepartments());
+    dispatch(getAllShifts());
   }, [dispatch]);
 
   // filter name
-  useEffect(()=>{
+  useEffect(() => {
     const payload = {};
-    if((filterName.length > 2 && keyCode !== "Space" && keyCode !== "Backspace") || (filterName === "")){
-
-    payload.page = page;
-    payload.rowcount = rowsPerPage;
-    // // payload.status = Status;
-    payload.services =filterService;
-    // console.log(filterService);
-    payload.search = filterName;
-    payload.startDate = filterStartDate;
-    payload.endDate = filterEndDate;
-    payload.tab = Status;
-    
-    
-    dispatch(getAllUsers(payload));
-    }
-  },[dispatch,filterName])
-
-  // filter service
-  useEffect(()=>{
-      const payload = {};
-     
+    if ((filterName.length > 2 && keyCode !== 'Space' && keyCode !== 'Backspace') || filterName === '') {
       payload.page = page;
       payload.rowcount = rowsPerPage;
       // // payload.status = Status;
-      payload.services =filterService;
+      payload.services = filterService;
       // console.log(filterService);
       payload.search = filterName;
       payload.startDate = filterStartDate;
       payload.endDate = filterEndDate;
       payload.tab = Status;
-      
-      
+
       dispatch(getAllUsers(payload));
-      
-  },[dispatch,filterService])
+    }
+  }, [dispatch, filterName]);
 
-   // filter status
-   useEffect(()=>{
+  // filter service
+  useEffect(() => {
     const payload = {};
-   
+
     payload.page = page;
     payload.rowcount = rowsPerPage;
     // // payload.status = Status;
-    payload.services =filterService;
+    payload.services = filterService;
     // console.log(filterService);
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
     payload.tab = Status;
-    
-    
-    dispatch(getAllUsers(payload));
-    
-},[dispatch,Status])
 
-   // filter page
-   useEffect(()=>{
+    dispatch(getAllUsers(payload));
+  }, [dispatch, filterService]);
+
+  // filter status
+  useEffect(() => {
     const payload = {};
-   
+
     payload.page = page;
     payload.rowcount = rowsPerPage;
     // // payload.status = Status;
-    payload.services =filterService;
+    payload.services = filterService;
     // console.log(filterService);
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
     payload.tab = Status;
-    
-    
+
     dispatch(getAllUsers(payload));
-    
-},[dispatch,page])
+  }, [dispatch, Status]);
 
-// filter rowsPerPage
-useEffect(()=>{
-  const payload = {};
- 
-  payload.page = page;
-  payload.rowcount = rowsPerPage;
-  // // payload.status = Status;
-  payload.services =filterService;
-  // console.log(filterService);
-  payload.search = filterName;
-  payload.startDate = filterStartDate;
-  payload.endDate = filterEndDate;
-  payload.tab = Status;
-  
-  
-  dispatch(getAllUsers(payload));
-  
-},[dispatch,rowsPerPage])
+  // filter page
+  useEffect(() => {
+    const payload = {};
 
-  
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services = filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    payload.tab = Status;
+
+    dispatch(getAllUsers(payload));
+  }, [dispatch, page]);
+
+  // filter rowsPerPage
+  useEffect(() => {
+    const payload = {};
+
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services = filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    payload.tab = Status;
+
+    dispatch(getAllUsers(payload));
+  }, [dispatch, rowsPerPage]);
 
   /* console.log(appointmentsArr) */
 
@@ -370,7 +349,7 @@ useEffect(()=>{
     //     setStatus(type);
     //     break;
     // }
-  setStatus(type);
+    setStatus(type);
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -382,8 +361,6 @@ useEffect(()=>{
     dispatch(getAllUsers(payload));
     // dispatch(getAllRoles());
   };
-
- 
 
   // Skeleton
   const [ordersData, setOrdersData] = useState({});
@@ -401,19 +378,18 @@ useEffect(()=>{
     setOrdersData(users);
   }, [users]);
 
-
   const [showSkelDatatable, setshowSkelDatatable] = useState(false);
   useEffect(() => {
     setshowSkelDatatable(!isLoading);
   }, [isLoading]);
 
-  console.log(totalData);
+  console.log(ccc.active);
 
   return (
     <Page title="Batiboot: User List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-            heading="User List"
+          heading="User List"
           links={[
             { name: 'Dashboard', href: PATH_BATIBOOT.root },
             { name: 'User', href: PATH_BATIBOOT.user.list },
@@ -426,8 +402,6 @@ useEffect(()=>{
           }
         />
 
-   
-
         <Box>
           {/* UserRolesCreate Modal */}
           <UserModal
@@ -438,7 +412,7 @@ useEffect(()=>{
             pathname={pathname}
             nameLink={'User'}
           />
-            {
+          {
             /*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
@@ -450,8 +424,7 @@ useEffect(()=>{
           }
         </Box>
 
-
-   <Card sx={{ mb: 5 }}>
+        <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack
               direction="row"
@@ -474,7 +447,7 @@ useEffect(()=>{
                 <UserListAnalytics
                   title="Active"
                   total={ccc.active}
-                  percent={(ccc.active * 100) / (ccc.active+ccc.banned)}
+                  percent={(ccc.active * 100) / (ccc.active + ccc.banned)}
                   icon="eva:checkmark-circle-2-fill"
                   color={theme.palette.success.main}
                 />
@@ -486,7 +459,7 @@ useEffect(()=>{
                 <UserListAnalytics
                   title="Banned"
                   total={ccc.banned}
-                  percent={(ccc.banned * 100) / (ccc.active+ccc.banned)}
+                  percent={(ccc.banned * 100) / (ccc.active + ccc.banned)}
                   icon="eva:bell-fill"
                   color={theme.palette.error.main}
                 />
@@ -497,9 +470,7 @@ useEffect(()=>{
           </Scrollbar>
         </Card>
 
-
         <Card>
-          
           {showSkel ? (
             <Tabs
               allowScrollButtonsMobile
@@ -520,7 +491,6 @@ useEffect(()=>{
                 />
               ))}
             </Tabs>
-
           ) : (
             <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
               <Box sx={{ display: 'flex' }}>
@@ -542,8 +512,6 @@ useEffect(()=>{
                 <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
                 <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
               </Box>
-
-             
             </Stack>
           )}
 
@@ -611,9 +579,6 @@ useEffect(()=>{
               )}
 
               <Table size={dense ? 'small' : 'medium'}>
-              
-              
-
                 {/* <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <InquireQuoTableRow
@@ -632,10 +597,10 @@ useEffect(()=>{
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 
-              <TableHeadCustom
+                <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
-                  headLabel={ TABLE_HEAD }
+                  headLabel={TABLE_HEAD}
                   rowCount={tableData.length}
                   numSelected={selected.length}
                   onSort={onSort}
@@ -664,7 +629,7 @@ useEffect(()=>{
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i,k) => <QuotationSkeleton key={k}/>)}
+                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 

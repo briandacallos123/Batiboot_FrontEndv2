@@ -60,6 +60,8 @@ import UserModal from '../../../sections/@batiboot/modal/UserModal';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  { id: 'customer_name', label: 'Customer Name', align: 'left' },
+  { id: 'blankSpace' },
   { id: 'product_name', label: 'Product Name', align: 'left' },
   { id: 'services', label: 'Type', align: 'left' },
   { id: 'price', label: 'Price', align: 'left' },
@@ -188,9 +190,9 @@ export default function InquireQuotation() {
   const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('approved') },
-    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('received') },
+    { value: 'all', label: 'All', color: 'info', count: totalData },
+    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('Approved') },
+    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('Received') },
     { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
   ];
 
@@ -580,7 +582,12 @@ export default function InquireQuotation() {
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
+                    : [...Array(rowsPerPage)].map((i, k) => {
+                        if (!quotationsArr.length) {
+                          return true;
+                        }
+                        return <QuotationSkeleton key={k} />;
+                      })}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 
