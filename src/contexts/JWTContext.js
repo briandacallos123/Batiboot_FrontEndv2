@@ -101,6 +101,12 @@ const handlers = {
       isAuthenticated: true,
     };
   },
+  GET_SERVICES: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
   ACCEPT_ORDER: (state, action) => {
     return {
       ...state,

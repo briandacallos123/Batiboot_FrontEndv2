@@ -19,6 +19,7 @@ const initialState = {
   quotations: { byId: {}, allIds: [] },
   quotationsArr: [],
   totalData: 0,
+  quotationServices: [],
   ccc: {
     approved: 0,
     cancelled: 0,
@@ -41,6 +42,11 @@ const slice = createSlice({
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
+    },
+
+    getQuotationServices(state, action) {
+      const { data } = action.payload;
+      state.quotationServices = data.services;
     },
 
     // GET QUOTATION SUCCESS
@@ -73,6 +79,21 @@ export function getAllQuotations(payload) {
     try {
       const response = await V4axios.post('/api/quotations/all', payload);
       dispatch(slice.actions.getQuotationSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getQuotationServices() {
+  const { accessToken } = localStorage;
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.get('/api/quotations/all/services');
+      dispatch(slice.actions.getQuotationServices(response));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

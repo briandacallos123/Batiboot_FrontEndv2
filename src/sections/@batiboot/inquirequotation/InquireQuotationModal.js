@@ -155,7 +155,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   } = methods;
 
   const values = watch();
-  console.log('VALUES: ', values);
+
   const handleCreateAndSend = async (data) => {
     /* console.log("woooooooo", getValues("images"),user.email,user.id); */
     setLoadingSend(true);
@@ -193,7 +193,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       form.append('address_from', values.invoiceFrom.name);
       form.append('address_to', values.invoiceTo.name);
       form.append('quantity', data.quantity);
-      form.append('services', data.category);
+      form.append('services', data.service);
       rawFile.map((file) => form.append('images[]', file));
 
       await createQuotation(form);

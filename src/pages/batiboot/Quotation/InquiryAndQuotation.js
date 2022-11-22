@@ -26,7 +26,7 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAllQuotations } from '../../../redux/slices/adminQuotation';
+import { getAllQuotations, getQuotationServices } from '../../../redux/slices/adminQuotation';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -59,16 +59,6 @@ import UserModal from '../../../sections/@batiboot/modal/UserModal';
 
 // ----------------------------------------------------------------------
 
-const SERVICE_OPTIONS = [
-  'All',
-  'Product Sourcing',
-  'Importing',
-  'Product Rebranding',
-  'Private Label',
-  'Warehousing',
-  'Fulfillment',
-];
-
 const TABLE_HEAD = [
   { id: 'product_name', label: 'Product Name', align: 'left' },
   { id: 'services', label: 'Type', align: 'left' },
@@ -86,7 +76,9 @@ export default function InquireQuotation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData, ccc, quotationsArr, isLoading } = useSelector((state) => state.adminQuotation);
+  const { quotations, totalData, ccc, quotationsArr, isLoading, quotationServices } = useSelector(
+    (state) => state.adminQuotation
+  );
   const navigate = useNavigate();
   const { pathname } = useLocation();
   // const [reRender, setRender] = useState(false);
@@ -233,9 +225,36 @@ export default function InquireQuotation() {
     dispatch(getAllQuotations(payload));
   };
 
+  const getServices = () => {
+    dispatch(getQuotationServices());
+  };
+
   useEffect(() => {
     utils();
+    getServices();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
+
+  // const SERVICE_OPTIONS = [
+  //   'All',
+  //   'Product Sourcing',
+  //   'Importing',
+  //   'Product Rebranding',
+  //   'Private Label',
+  //   'Warehousing',
+  //   'Fulfillment',
+  // ];
+  // console.log('SERVICES: ', quotationServices);
+
+  const SERVICE_OPTIONS = quotationServices.reduce(
+    (item, currentItem) => {
+      if (!item.includes(currentItem.services)) {
+        item.push(currentItem.services);
+      }
+      return item;
+    },
+    ['All']
+  );
+  // console.log('DATA KOTO: ', data);
 
   /* console.log(appointmentsArr) */
 
