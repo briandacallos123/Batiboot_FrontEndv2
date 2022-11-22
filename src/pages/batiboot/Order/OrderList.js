@@ -546,7 +546,12 @@ export default function OrderList() {
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
+                    : [...Array(rowsPerPage)].map((i, k) => {
+                        if (!ordersArr.length) {
+                          return true;
+                        }
+                        return <QuotationSkeleton key={k} />;
+                      })}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 

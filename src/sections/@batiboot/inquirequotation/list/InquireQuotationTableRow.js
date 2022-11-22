@@ -113,14 +113,25 @@ export default function InquireQuotationTableRow({
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
           </TableCell>
-          {/* 
-          <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+          <TableCell>{''}</TableCell>
+          <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <Typography>{row.clinic_name}</Typography>
+              <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
+                {row.product_name}
+              </Typography>
             ) : (
-              <Skeleton animation="wave" sx={{ width: '390px', height: '25px' }} />
+              <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
-          </TableCell> */}
+            {showSkeleton ? (
+              <AvatarGroup max={2} spacing="small">
+                {row.attachments.map((attachment, k) => (
+                  <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
+                ))}
+              </AvatarGroup>
+            ) : (
+              <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
+            )}
+          </TableCell>
 
           <TableCell align="left">
             {showSkeleton ? (
@@ -131,55 +142,6 @@ export default function InquireQuotationTableRow({
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
             )}
           </TableCell>
-          {/* 
-          <TableCell align="center">
-            {showSkeleton ? (
-              <Box>
-                {row.payment_status ? (
-                  <Iconify
-                    icon={'eva:checkmark-circle-fill'}
-                    sx={{
-                      width: 20,
-                      height: 20,
-                      color: 'success.main',
-                    }}
-                  />
-                ) : (
-                  <div className="a-verified">
-                    <Iconify
-                      icon={'eva:close-circle-outline'}
-                      sx={{
-                        width: 20,
-                        height: 20,
-                        color: 'error.main',
-                      }}
-                    />
-                    Payment First!
-                  </div>
-                )}
-              </Box>
-            ) : (
-              <Box sx={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }}>
-                <Skeleton variant="circular" animation="wave" sx={{ width: '30px', height: '30px' }} />
-              </Box>
-            )}
-          </TableCell> */}
-
-          {/* <TableCell align="center">
-            {showSkeleton ? (
-              <Label
-                variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                color={(row.type_text === 'TELEMEDICINE' && 'success') || 'fce'}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                {row.type_text}
-              </Label>
-            ) : (
-              <Box sx={{ display: 'flex', justifyContent: 'center', justifyItems: 'center' }}>
-                <Skeleton animation="wave" sx={{ width: '110px', height: '33px' }} />
-              </Box>
-            )}
-          </TableCell> */}
 
           <TableCell align="right">
             {showSkeleton ? (
@@ -194,6 +156,7 @@ export default function InquireQuotationTableRow({
           </TableCell>
         </TableRow>
       ) : (
+        // --------------------------------------------------------------
         <TableRow hover selected={selected}>
           <TableCell padding="checkbox">
             <Checkbox checked={selected} onClick={onSelectRow} />
@@ -201,11 +164,7 @@ export default function InquireQuotationTableRow({
 
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <AvatarGroup max={2} spacing="small">
-                {row.attachments.map((attachment, k) => (
-                  <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
-                ))}
-              </AvatarGroup>
+              <Avatar alt="pic">{row.product_name.charAt(0)}</Avatar>
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
             )}
@@ -217,7 +176,25 @@ export default function InquireQuotationTableRow({
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
           </TableCell>
-
+          <TableCell>{''}</TableCell>
+          <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+            {showSkeleton ? (
+              <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
+                {row.product_name}
+              </Typography>
+            ) : (
+              <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
+            )}
+            {showSkeleton ? (
+              <AvatarGroup max={2} spacing="small">
+                {row.attachments.map((attachment, k) => (
+                  <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
+                ))}
+              </AvatarGroup>
+            ) : (
+              <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
+            )}
+          </TableCell>
           <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
             {showSkeleton ? (
               <Typography>{row.services}</Typography>
@@ -256,9 +233,15 @@ export default function InquireQuotationTableRow({
           <TableCell align="center">
             {showSkeleton ? (
               <Label
-                // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                variant={theme.palette.mode === 'ghost' ? 'ghost' : 'filled'}
                 // color={(row.status === 1 && 'success') || 'fce'}
                 sx={{ textTransform: 'capitalize' }}
+                color={
+                  (row.isOrder === 0 && row.isCancel === 0 && 'warning') ||
+                  (row.status === 1 && row.isOrder === 1 && 'success') ||
+                  (row.isCancel === 1 && 'error') ||
+                  'default'
+                }
               >
                 {row.isCancel === 1 ? 'Cancelled' : ''}
                 {row.isOrder === 0 && row.isCancel === 0 ? 'Pending' : ''}
