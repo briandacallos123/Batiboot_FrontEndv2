@@ -24,12 +24,21 @@ TrackingTableRow.propTypes = {
   onDeleteRow: PropTypes.func,
 };
 
-export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
+export default function TrackingTableRow({ 
+  row, 
+  selected, 
+  onSelectRow, 
+  onViewRow, 
+  onEditRow, 
+  onDeleteRow 
+  }) {
   const theme = useTheme();
 
-  const { trackingNo, orderNumber, pName, origin, destination, orderReceived, trackingStatus } = row;
+  // const { trackingNo, orderNumber, pName, origin, destination, orderReceived, trackingStatus } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
+  
+    
 
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
@@ -45,7 +54,7 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
         <Checkbox checked={selected} onClick={onSelectRow} />
       </TableCell>
 
-      <TableCell align="center">{trackingNo}</TableCell>
+      <TableCell align="center">TR-NO-{row?.tracking_no}</TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
         {/* <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>
@@ -56,20 +65,21 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
         </Typography> */}
         <Stack>
           <Typography variant="subtitle2" noWrap>
-            {pName}
+            {row?.product_name}
           </Typography>
 
           <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
-            {orderNumber}
+            {/* {orderNumber} */}
+            INV-{row?.invoice_number}
           </Link>
         </Stack>
       </TableCell>
 
-      <TableCell align="left">{origin}</TableCell>
+      <TableCell align="left">{row?.origin}</TableCell>
 
-      <TableCell align="left">{destination}</TableCell>
+      <TableCell align="left">{row?.destination}</TableCell>
 
-      <TableCell align="left">{fDate(orderReceived)}</TableCell>
+      <TableCell align="left">{row?.order_received_date}</TableCell>
 
       {/*   <TableCell align="center">{trackingStatus}</TableCell> */}
 
@@ -77,15 +87,23 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
-            (trackingStatus === 'delivered' && 'success') ||
-            (trackingStatus === 'in transit' && 'warning') ||
-            (trackingStatus === 'out for shipping' && 'error') ||
-            (trackingStatus === 'received' && 'default') ||
-            'default'
+            // (trackingStatus === 'Delivered' && 'success') ||
+            // (trackingStatus === 'Delivery In Progress' && 'warning') ||
+            // (trackingStatus === 'Not Delivered' && 'error') ||
+            // (trackingStatus === 'Received' && 'success') ||
+            // (trackingStatus === 'Preparing' && 'default') ||
+            // 'default'
+
+            (row?.status === 'Delivered' && 'success') ||
+            (row?.status === 'Delivery In Progress' && 'warning') ||
+            (row?.status === 'Not Delivered' && 'error') ||
+            (row?.status === 'Received' && 'success') ||
+            (row?.status === 'Preparing' && 'primary') ||
+            'primary'
           }
           sx={{ textTransform: 'capitalize' }}
         >
-          {trackingStatus}
+          {row?.status}
         </Label>
       </TableCell>
 

@@ -36,9 +36,12 @@ import adminDashboardWarehousingReducer from './slices/adminDashboardWarehousing
 import adminDashboardProductRebrandingReducer from './slices/adminDashboardProductRebranding';
 import adminDashboardPrivateLabelReducer from './slices/adminDashboardPrivateLabel';
 // For Line Chart Data
+
 // mark 11/9/2022 10am
 import adminDashboardLatestInquiriesReducer from './slices/adminDashboardLatestInquires';
 // ----------------------------------------------------------------------
+
+import adminTrackingReducer from './slices/adminTracking';
 
 const rootPersistConfig = {
   key: 'root',
@@ -90,7 +93,7 @@ const rootReducer = combineReducers({
 
   // mark 11/09/2022 10am
   adminDashboardLatestInquires: adminDashboardLatestInquiriesReducer,
-  
+  adminTracking: adminTrackingReducer,
 
 
 });
