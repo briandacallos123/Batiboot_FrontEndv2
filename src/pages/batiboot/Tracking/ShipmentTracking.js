@@ -56,9 +56,6 @@ import ShipmentListViewModal from './ShipmentTrackingView';
 import UserModal from '../../../sections/@batiboot/modal/UserModal';
 // import { InvoiceTableRow, InvoiceTableToolbar } from '../../sections/@batiboot/invoice/list';
 
-
-
-
 // ----------------------------------------------------------------------
 
 const SERVICE_OPTIONS = [
@@ -96,7 +93,6 @@ export default function ShipmentTracking() {
   const { pathname } = useLocation();
   const [reload, setReload] = useState(false);
 
-
   const {
     dense,
     page,
@@ -116,7 +112,7 @@ export default function ShipmentTracking() {
     onChangeRowsPerPage,
   } = useTable({ defaultOrderBy: 'orderReceived' });
 
-  const [tableData, setTableData] = useState(_tracking);
+  const [tableData, setTableData] = useState(trackingArr);
 
   const [filterName, setFilterName] = useState('');
 
@@ -150,7 +146,7 @@ export default function ShipmentTracking() {
     utils();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
-  console.log('ETO NAAAAAA',trackingArr);
+  console.log('ETO NAAAAAA', trackingArr);
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -183,7 +179,8 @@ export default function ShipmentTracking() {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
     setIsView(!isView);
-    //  setIdentifier(id)
+    setIdentifier(id);
+    // handleOpenModal();
     handleOpenViewModal();
   };
 
@@ -279,6 +276,7 @@ export default function ShipmentTracking() {
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
+            view={isView}
             identifier={identifier}
             pathname={pathname}
             nameLink={'Tracking'}
@@ -431,27 +429,25 @@ export default function ShipmentTracking() {
                 />
 
                 <TableBody>
-                  
                   {showSkel && showSkelDatatable
                     ? trackingArr.map((items) => (
-                    <TrackingTableRow
-                      showSkeleton={showSkel}
-                      key={items.id}
-                      row={tracking.byId[items.id]}
-                      selected={selected.includes(items.id)}
-                      onSelectRow={() => onSelectRow(items.id)}
-                      onDeleteRow={() => handleDeleteRow(items.id)}
-                      onEditRow={() => handleEditRow(tracking.byId[items.id])}
-                      onViewRow={() => handleViewRow(items.id)}
-                      />
-                    ))
+                        <TrackingTableRow
+                          showSkeleton={showSkel}
+                          key={items.id}
+                          row={tracking.byId[items.id]}
+                          selected={selected.includes(items.id)}
+                          onSelectRow={() => onSelectRow(items.id)}
+                          onDeleteRow={() => handleDeleteRow(items.id)}
+                          onEditRow={() => handleEditRow(tracking.byId[items.id])}
+                          onViewRow={() => handleViewRow(tracking.byId[items.id])}
+                        />
+                      ))
                     : [...Array(rowsPerPage)].map((i, k) => {
                         if (!trackingArr.length) {
                           return true;
                         }
                         return <QuotationSkeleton key={k} />;
                       })}
-                  
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
 

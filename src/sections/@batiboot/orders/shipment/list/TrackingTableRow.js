@@ -24,21 +24,12 @@ TrackingTableRow.propTypes = {
   onDeleteRow: PropTypes.func,
 };
 
-export default function TrackingTableRow({ 
-  row, 
-  selected, 
-  onSelectRow, 
-  onViewRow, 
-  onEditRow, 
-  onDeleteRow 
-  }) {
+export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
   const theme = useTheme();
 
   // const { trackingNo, orderNumber, pName, origin, destination, orderReceived, trackingStatus } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
-  
-    
 
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
@@ -68,7 +59,7 @@ export default function TrackingTableRow({
             {row?.product_name}
           </Typography>
 
-          <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
+          <Link noWrap variant="body2" onClick={onEditRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
             {/* {orderNumber} */}
             INV-{row?.invoice_number}
           </Link>
@@ -133,6 +124,16 @@ export default function TrackingTableRow({
               >
                 <Iconify icon={'eva:eye-fill'} />
                 View
+              </MenuItem>
+
+              <MenuItem
+                onClick={() => {
+                  onViewRow(row.id);
+                  handleCloseMenu();
+                }}
+              >
+                <Iconify icon={'fluent:status-20-filled'} />
+                Edit Status
               </MenuItem>
             </>
           }
