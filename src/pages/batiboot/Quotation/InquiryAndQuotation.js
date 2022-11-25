@@ -204,7 +204,7 @@ export default function InquireQuotation() {
     { value: 'all', label: 'All', color: 'info', count: totalData },
     { value: 'approved', label: 'Approved', color: 'success', count: totalDataApproved },
     { value: 'received', label: 'Received', color: 'warning', count: totalDataReceived },
-    { value: 'pending', label: 'Pending', color: '',backgroundColor:'green', count: totalDataPendings },
+    { value: 'pending', label: 'Pending', color:'',backgroundColor:'green', count: totalDataPendings },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
