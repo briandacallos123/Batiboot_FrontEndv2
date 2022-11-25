@@ -60,11 +60,11 @@ export default function InvoiceTableRow({
 
         <Stack>
           <Typography variant="subtitle2" noWrap>
-            {row?.invoice_number}
+            INV-{row?.invoice_number}
           </Typography>
 
           <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
-            {/* {`INV-${invoiceNumber}`} */}
+            {row?.product_name}{/* {`INV-${invoiceNumber}`} */}
           </Link>
         </Stack>
       </TableCell>

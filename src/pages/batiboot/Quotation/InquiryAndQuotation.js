@@ -26,7 +26,9 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAllQuotations, getQuotationServices } from '../../../redux/slices/adminQuotation';
+import { getAllQuotations, getQuotationServices, getAllQuotationsData, getAllQuotationsPendings,getAllQuotationsApproved,getAllShipmentReceived} from '../../../redux/slices/adminQuotation';
+// import { getAllQuotationsApproved } from '../../../redux/slices/adminQuotationApproved';
+// import { getAllQuotationsPendings } from '../../../redux/slices/adminQuotationPendings';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -78,9 +80,18 @@ export default function InquireQuotation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData, ccc, quotationsArr, isLoading, quotationServices } = useSelector(
-    (state) => state.adminQuotation
-  );
+  const { 
+    quotations, 
+    totalData, 
+    totalDataPendings,
+    totalDataApproved, 
+    totalDataReceived,
+    ccc, 
+    quotationsArr, 
+    isLoading, 
+    quotationServices } = useSelector((state) => state.adminQuotation );
+
+ 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   // const [reRender, setRender] = useState(false);
@@ -191,9 +202,9 @@ export default function InquireQuotation() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: totalData },
-    { value: 'approved', label: 'Approved', color: 'success', count: getLengthByStatus('Approved') },
-    { value: 'received', label: 'Received', color: 'warning', count: getLengthByStatus('Received') },
-    { value: 'draft', label: 'Draft', color: 'default', count: getLengthByStatus('draft') },
+    { value: 'approved', label: 'Approved', color: 'success', count: totalDataApproved },
+    { value: 'received', label: 'Received', color: 'warning', count: totalDataReceived },
+    { value: 'pending', label: 'Pending', color: '',backgroundColor:'green', count: totalDataPendings },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -229,13 +240,21 @@ export default function InquireQuotation() {
 
   const getServices = () => {
     dispatch(getQuotationServices());
-  };
-
+    dispatch(getAllQuotationsData());
+    dispatch(getAllQuotationsPendings());
+    dispatch(getAllQuotationsApproved()); 
+    dispatch(getAllShipmentReceived()); 
+   };
+  
   useEffect(() => {
     utils();
     getServices();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
+  console.log('Total Data', totalData );
+  // console.log('Total Data Approved', totalDataApproved );
+  console.log('Total Data Pendings', totalDataPendings );
+  console.log('Total Data Received', totalDataReceived );
   // const SERVICE_OPTIONS = [
   //   'All',
   //   'Product Sourcing',
@@ -316,7 +335,6 @@ export default function InquireQuotation() {
     setshowSkelDatatable(!isLoading);
   }, [isLoading]);
 
-  console.log(totalData);
 
   return (
     <Page title="Batiboot: Inquire/Quotation">
@@ -386,36 +404,37 @@ export default function InquireQuotation() {
             >
               <InquireQuoListAnalytics
                 title="Total"
-                total={tableData.length}
-                percent={100}
-                price={sumBy(tableData, 'amount')}
+                total={totalData}
+                percent={totalData}
+                price={totalData}
                 icon="ic:round-receipt"
                 color={theme.palette.info.main}
               />
               <InquireQuoListAnalytics
+                title="Pending"
+                total={totalDataPendings}
+                percent={totalDataPendings}
+                price={totalDataPendings}
+                icon="eva:file-fill"
+                color={theme.palette.text.secondary}
+              />
+              <InquireQuoListAnalytics
                 title="Approved"
-                total={getLengthByStatus('approved')}
-                percent={getPercentByStatus('approved')}
-                price={getTotalPriceByStatus('approved')}
+                total={totalDataApproved}
+                percent={totalDataApproved}
+                price={totalDataApproved}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
               <InquireQuoListAnalytics
                 title="Received"
-                total={getLengthByStatus('received')}
-                percent={getPercentByStatus('received')}
-                price={getTotalPriceByStatus('received')}
+                total={totalDataReceived}
+                percent={totalDataReceived}
+                price={totalDataReceived}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
-              <InquireQuoListAnalytics
-                title="Draft"
-                total={getLengthByStatus('draft')}
-                percent={getPercentByStatus('draft')}
-                price={getTotalPriceByStatus('draft')}
-                icon="eva:file-fill"
-                color={theme.palette.text.secondary}
-              />
+              
             </Stack>
           </Scrollbar>
         </Card>

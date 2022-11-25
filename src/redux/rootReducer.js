@@ -43,6 +43,7 @@ import adminDashboardLatestInquiriesReducer from './slices/adminDashboardLatestI
 
 import adminTrackingReducer from './slices/adminTracking';
 
+
 const rootPersistConfig = {
   key: 'root',
   storage,
@@ -94,7 +95,6 @@ const rootReducer = combineReducers({
   // mark 11/09/2022 10am
   adminDashboardLatestInquires: adminDashboardLatestInquiriesReducer,
   adminTracking: adminTrackingReducer,
-
 
 });
 

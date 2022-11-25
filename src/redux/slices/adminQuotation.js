@@ -19,6 +19,9 @@ const initialState = {
   quotations: { byId: {}, allIds: [] },
   quotationsArr: [],
   totalData: 0,
+  totalDataPendings: 0,
+  totalDataApproved: 0,
+  totalDataReceived: 0,
   quotationServices: [],
   ccc: {
     approved: 0,
@@ -47,6 +50,25 @@ const slice = createSlice({
     getQuotationServices(state, action) {
       const { data } = action.payload;
       state.quotationServices = data.services;
+    },
+
+    getPendings(state, action){
+      const {total} = action.payload;
+      state.totalDataPendings = total;
+    },
+
+    getApproved(state, action){
+      const {total} = action.payload;
+      console.log('TOTAL APPROVED' , total)
+      state.totalDataApproved = total;
+      
+    },
+    
+    getReceived(state, action){
+      const {total} = action.payload;
+      console.log('TOTAL RECEIVED' , total)
+      state.totalDataReceived = total;
+      
     },
 
     // GET QUOTATION SUCCESS
@@ -119,3 +141,67 @@ export function approveQuotation(payload) {
     }
   };
 }
+
+
+export function getAllQuotationsData() {
+  const { accessToken } = localStorage;
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.get('/api/Get/All/Quotations/Total');
+      dispatch(slice.actions.getQuotationSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+
+export function getAllQuotationsPendings() {
+  const { accessToken } = localStorage;
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.get('/api/Get/All/Pending/Quotations/Total');
+      dispatch(slice.actions.getPendings(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getAllQuotationsApproved() {
+  const { accessToken } = localStorage;
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.get('/api/Get/All/Approved/Quotations/Total');
+      dispatch(slice.actions.getApproved(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getAllShipmentReceived() {
+  const { accessToken } = localStorage;
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.get('/api/Get/All/Received/Shipment/Total');
+      dispatch(slice.actions.getReceived(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+
