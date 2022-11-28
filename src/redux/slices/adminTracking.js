@@ -18,10 +18,8 @@ const initialState = {
   error: null,
   tracking: { byId: {}, allIds: [] },
   trackingArr: [],
+  totalShipmentStatusArr: [],
   totalData: 0,
-  totalDataReceived: 0,
-  totalDataProgress: 0,
-  totalDataPreparing: 0,
     ccc: {
     approved: 0,
     cancelled: 0,
@@ -45,21 +43,9 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
-     getReceived(state, action){
-      const {total} = action.payload;
-      state.totalDataReceived = total;
-      
-    },
-
-    getProgress(state, action){
-      const {total} = action.payload;
-      state.totalDataProgress = total;
-      
-    },
-    getPreparing(state, action){
-      const {total} = action.payload;
-      state.totalDataPreparing = total;
+    getTotalShipmentStatusArr(state, action){
+      const {data} = action.payload;
+      state.totalShipmentStatusArr = data;
       
     },
     // GET QUOTATION SUCCESS
@@ -99,45 +85,15 @@ export function getAlltracking() {
   };
 }
 
-export function getAllShipmentReceived() {
-  const { accessToken } = localStorage;
+export function getAllShipmentStatus() {
+  const {accessToken} = localStorage
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.get('/api/Get/All/Received/Shipment/Total');
-      dispatch(slice.actions.getReceived(response.data));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-
-export function getAllShipmentProgress() {
-  const { accessToken } = localStorage;
-  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await V4axios.get('/api/Get/All/Progress/Shipment/Total');
-      dispatch(slice.actions.getProgress(response.data));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-
-export function getAllShipmentPreparing() {
-  const { accessToken } = localStorage;
-  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await V4axios.get('/api/Get/All/Preparing/Shipment/Total');
-      dispatch(slice.actions.getPreparing(response.data));
+      const response = await V4axios.get('/api/Get/All/Shipment/Total/Status');
+      dispatch(slice.actions.getTotalShipmentStatusArr(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

@@ -27,7 +27,7 @@ import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAlltracking,getAllShipmentProgress,getAllShipmentPreparing,getAllShipmentReceived } from '../../../redux/slices/adminTracking';
+import { getAlltracking,getAllShipmentStatus } from '../../../redux/slices/adminTracking';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -87,7 +87,7 @@ export default function ShipmentTracking() {
   const { themeStretch } = useSettings();
   const { name = '' } = useParams();
   // const currentUser = _userList.find((user) => paramCase(user.name) === name);
-  const { tracking, totalData,totalDataProgress,totalDataPreparing,totalDataReceived, ccc, trackingArr, isLoading } = useSelector((state) => state.adminTracking);
+  const { tracking,totalShipmentStatusArr, totalData, ccc, trackingArr, isLoading } = useSelector((state) => state.adminTracking);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -140,20 +140,17 @@ export default function ShipmentTracking() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAlltracking(payload));
+    dispatch(getAllShipmentStatus()); 
     
   };
- const getServices = () => {
-    dispatch(getAllShipmentReceived()); 
-    dispatch(getAllShipmentProgress()); 
-    dispatch(getAllShipmentPreparing()); 
-   };
+
 
   useEffect(() => {
     utils();
-    getServices();
+   
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
-  console.log('ETO NAAAAAA', trackingArr);
+
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -251,11 +248,11 @@ export default function ShipmentTracking() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: totalData},
-    { value: 'Preparing', label: 'Preparing', color: 'success', count: getLengthByStatus('delivered') },
-    { value: 'Delivery In Progress', label: 'Delivery In Progress', color: 'success', count: getLengthByStatus('delivered') },
-    { value: 'Delivered', label: 'Delivered', color: 'warning', count: getLengthByStatus('in transit') },
-    { value: 'Received', label: 'Received', color: 'error', count: totalDataReceived},
-    { value: 'Not Delivered', label: 'Not Delivered', color: 'error', count: getLengthByStatus('received') },
+    { value: 'Preparing', label: 'Preparing', color: 'success', count: totalShipmentStatusArr.totalPreparing },
+    { value: 'Delivery In Progress', label: 'Delivery In Progress', color: 'success', count: totalShipmentStatusArr.totalDeliveryInProgress },
+    { value: 'Delivered', label: 'Delivered', color: 'warning', count: totalShipmentStatusArr.totalProductDelivered },
+    { value: 'Received', label: 'Received', color: 'error', count: totalShipmentStatusArr.totalReceived},
+    { value: 'Not Delivered', label: 'Not Delivered', color: 'error', count: totalShipmentStatusArr.totalNotDelivered },
   ];
 
   return (
@@ -303,43 +300,43 @@ export default function ShipmentTracking() {
               />
               <TrackingListAnalytics
                 title="Preparing"
-                total={totalDataPreparing}
-                percent={totalDataPreparing}
-                price={totalDataPreparing}
+                total={totalShipmentStatusArr.totalPreparing}
+                percent={totalShipmentStatusArr.totalPreparing}
+                price={totalShipmentStatusArr.totalPreparing}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
               
               <TrackingListAnalytics
                 title="Progress"
-                total={totalDataProgress}
-                percent={totalDataProgress}
-                price={totalDataProgress}
+                total={totalShipmentStatusArr.totalDeliveryInProgress}
+                percent={totalShipmentStatusArr.totalDeliveryInProgress}
+                price={totalShipmentStatusArr.totalDeliveryInProgress}
                 icon="icon-park-solid:delivery"
                 color={theme.palette.success.main}
               />
               <TrackingListAnalytics
                 title="Delivered"
-                total={getLengthByStatus('in transit')}
-                percent={getPercentByStatus('in transit')}
+                total={totalShipmentStatusArr.totalProductDelivered}
+                percent={totalShipmentStatusArr.totalProductDelivered}
                 icon="carbon:delivery"
                 color={theme.palette.success.main}
               />
               
               <TrackingListAnalytics
                 title="Received"
-                total={totalDataReceived}
-                percent={totalDataReceived}
-                price={totalDataReceived}
+                total={totalShipmentStatusArr.totalReceived}
+                percent={totalShipmentStatusArr.totalReceived}
+                price={totalShipmentStatusArr.totalReceived}
                 icon="mdi:package-variant-closed-check"
                 color={theme.palette.success.main}
               />
 
               <TrackingListAnalytics
                 title="Not Delivered"
-                total={getLengthByStatus('received')}
-                percent={getPercentByStatus('received')}
-                price={getTotalPriceByStatus('received')}
+                total={totalShipmentStatusArr.totalNotDelivered}
+                percent={totalShipmentStatusArr.totalNotDelivered}
+                price={totalShipmentStatusArr.totalNotDelivered}
                 icon="mdi:package-variant-closed-remove"
                 color={theme.palette.error.main}
               />
