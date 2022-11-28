@@ -20,12 +20,21 @@ import Iconify from '../../../../../components/Iconify';
 import ShippingDetails from './list/ShippingDetails';
 import Scrollbar from '../../../../../components/Scrollbar';
 import palette from '../../../../../theme/palette';
+import ShipmentStatusModal from './ShipmentStatusModal';
 
 export default function TrackingModal({ currentUser, handleClose, isIdentifier, formRef }) {
+  const [openModal, setOpenModal] = useState(false);
   const [display, setDisplay] = useState(false);
-
   const setDisplayHandle = () => setDisplay(!display);
   const setSwapDisplay = () => setDisplay(display);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
   return (
     <div>
       <Grid
@@ -69,21 +78,40 @@ export default function TrackingModal({ currentUser, handleClose, isIdentifier, 
                 bgcolor: 'white',
               }}
             >
-              <Grid
-                sx={{
-                  mt: 1,
-                  mb: 2,
-                }}
-              >
-                <LoadingButton
-                  type="button"
-                  /* onClick={} */
-                  size="small"
-                  variant="contained"
+              <Grid container direction="row" justifyContent="space-between">
+                <Grid
+                  sx={{
+                    mt: 1,
+                    mb: 2,
+                  }}
                 >
-                  View Timeline
-                </LoadingButton>
+                  <LoadingButton
+                    type="button"
+                    /* onClick={} */
+                    size="small"
+                    variant="contained"
+                  >
+                    View Timeline
+                  </LoadingButton>
+                </Grid>
+                <Grid
+                  sx={{
+                    mt: 1,
+                    mb: 2,
+                  }}
+                >
+                  <LoadingButton
+                    type="button"
+                    /* onClick={} */
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleOpenModal()}
+                  >
+                    Shipment Status
+                  </LoadingButton>
+                </Grid>
               </Grid>
+
               <Scrollbar>
                 <TrackingTimeLine />
               </Scrollbar>
@@ -94,6 +122,9 @@ export default function TrackingModal({ currentUser, handleClose, isIdentifier, 
             <ShippingDetails isIdentifier={isIdentifier} /> {/*    </Scrollbar> */}{' '}
           </Grid>
         </Grid>
+      </Grid>
+      <Grid>
+        <ShipmentStatusModal open={openModal} handleClose={() => handleCloseModal()} />
       </Grid>
     </div>
   );

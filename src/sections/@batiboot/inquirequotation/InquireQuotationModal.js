@@ -313,7 +313,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
                   onChange={(event) => setValue('price', Number(event.target.value))}
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">₱</InputAdornment>,
                     type: 'number',
                   }}
                 />
