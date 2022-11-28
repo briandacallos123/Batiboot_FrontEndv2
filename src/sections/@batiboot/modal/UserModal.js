@@ -61,7 +61,7 @@ export default function UserModal(props) {
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
 
   const theme = useTheme();
-  console.log('DATA EDIT BRI: ', dataEdit);
+
   const formRef = useRef(null);
 
   const onSaveChanges = () => {
@@ -69,11 +69,13 @@ export default function UserModal(props) {
       formRef.current.click();
     }
   };
+
   const onSaveAsDraft = () => {
     if (formRef) {
       formRef.current.click();
     }
   };
+
   // alert(nameLink)
   // alert(_invoices.find((invoice) => invoice.id === identifier))
 

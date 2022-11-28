@@ -101,6 +101,12 @@ const handlers = {
       isAuthenticated: true,
     };
   },
+  UPDATE_QUOTATION: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
   GET_SERVICES: (state, action) => {
     return {
       ...state,
@@ -172,6 +178,7 @@ const AuthContext = createContext({
   newUserEmailVerification: () => Promise.resolve(),
   resendEmailVerification: () => Promise.resolve(),
   createQuotation: () => Promise.resolve(),
+  updateQuotation: () => Promise.resolve(),
   acceptOrder: () => Promise.resolve(),
   createUserManagement: () => Promise.resolve(),
   cancelQuotation: () => Promise.resolve(),
@@ -484,6 +491,21 @@ function AuthProvider({ children }) {
       },
     });
   };
+  const updateQuotation = async (data) => {
+    const response = await axios.post('/api/quotation/update/information', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
+    const user = response.data;
+
+    dispatch({
+      type: 'UPDATE_QUOTATION',
+      payload: {
+        user,
+      },
+    });
+  };
 
   const acceptOrder = async (data) => {
     const response = await axios.post(
@@ -661,6 +683,7 @@ function AuthProvider({ children }) {
         newUserEmailVerification,
         resendEmailVerification,
         createQuotation,
+        updateQuotation,
         acceptOrder,
         createUserManagement,
         cancelQuotation,

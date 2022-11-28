@@ -89,11 +89,12 @@ ProductNewEditForm.propTypes = {
 
 export default function ProductNewEditForm({ isEdit, currentProduct, formRef, handleCloseModal, dataEdit }) {
   const navigate = useNavigate();
-  const { createQuotation, user } = useAuth();
+  const { createQuotation, user, updateQuotation } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
   const [rawFile, setrawFiles] = useState(null);
+
   const handleSaveAsDraft = async () => {
     setLoadingSave(true);
 
@@ -138,9 +139,14 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       quantity: dataEdit?.quantity || 0,
       service: dataEdit?.services || '',
     }),
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
   );
+
+  // if (isEdit) {
+  //   console.log('EDIT: ', defaultValues);
+  // }
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
@@ -159,27 +165,22 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
 
   const values = watch();
 
-  const handleCreateAndSend = async (data) => {
-    /* console.log("woooooooo", getValues("images"),user.email,user.id); */
+  const handleEditSubmit = async (data) => {
     setLoadingSend(true);
     try {
-      /*  email : user?.email || '' ,
-      id: user?.id || '',
-      name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      images: currentProduct?.images || [],
-      code: currentProduct?.code || '',
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || 0,
-      priceSale: currentProduct?.priceSale || 0,
-      tags: currentProduct?.tags || [TAGS_OPTION[0]],
-      inStock: true,
-      taxes: true,
-      gender: currentProduct?.gender || GENDER_OPTION[2].value,
-      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1], */
-      /*  data.quotationfiles = rawFile;
-      console.log(data); */
+      await updateQuotation(values);
+      setLoadingSend(false);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  const handleCreateAndSend = async (data) => {
+    /* console.log("woooooooo", getValues("images"),user.email,user.id); */
+
+    setLoadingSend(true);
+    try {
       const form = new FormData();
       form.append('email', user?.email);
       form.append('id', user?.id);
@@ -198,7 +199,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       form.append('quantity', data.quantity);
       form.append('services', data.service);
       rawFile.map((file) => form.append('images[]', file));
-
       await createQuotation(form);
       // await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -215,9 +215,9 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   };
 
   useEffect(() => {
-    // if (isEdit && currentProduct) {
-    //   reset(defaultValues);
-    // }
+    if (isEdit && currentProduct) {
+      reset(defaultValues);
+    }
     if (!isEdit) {
       reset(defaultValues);
     }
@@ -347,7 +347,9 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
             size="small"
             variant="contained"
             loading={loadingSend && isSubmitting}
-            onClick={handleSubmit(handleCreateAndSend)}
+            // handleEditSubmit
+            // handleCreateAndSend
+            onClick={handleSubmit(isEdit ? handleEditSubmit : handleCreateAndSend)}
             type="submit"
             sx={{ display: 'none' }}
             ref={formRef}
