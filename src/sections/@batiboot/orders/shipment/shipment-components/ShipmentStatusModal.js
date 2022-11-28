@@ -86,7 +86,7 @@ export default function ShipmentStatusModal(props) {
             </Stack>
             <Grid Container direction="row" justifyContent="center" alignItems="center">
               <Button variant="contained" onClick={handleClose} startIcon={<Iconify icon={'carbon:delivery-parcel'} />}>
-                Confirm
+                Save
               </Button>
             </Grid>
           </Stack>
