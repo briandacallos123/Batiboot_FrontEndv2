@@ -27,7 +27,7 @@ import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAlltracking } from '../../../redux/slices/adminTracking';
+import { getAlltracking,getAllShipmentProgress,getAllShipmentPreparing,getAllShipmentReceived } from '../../../redux/slices/adminTracking';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -87,7 +87,7 @@ export default function ShipmentTracking() {
   const { themeStretch } = useSettings();
   const { name = '' } = useParams();
   // const currentUser = _userList.find((user) => paramCase(user.name) === name);
-  const { tracking, totalData, ccc, trackingArr, isLoading } = useSelector((state) => state.adminTracking);
+  const { tracking, totalData,totalDataProgress,totalDataPreparing,totalDataReceived, ccc, trackingArr, isLoading } = useSelector((state) => state.adminTracking);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -140,10 +140,17 @@ export default function ShipmentTracking() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAlltracking(payload));
+    
   };
+ const getServices = () => {
+    dispatch(getAllShipmentReceived()); 
+    dispatch(getAllShipmentProgress()); 
+    dispatch(getAllShipmentPreparing()); 
+   };
 
   useEffect(() => {
     utils();
+    getServices();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
   console.log('ETO NAAAAAA', trackingArr);
@@ -243,16 +250,12 @@ export default function ShipmentTracking() {
   const getPercentByStatus = (trackingStatus) => (getLengthByStatus(trackingStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'delivered', label: 'Delivered', color: 'success', count: getLengthByStatus('delivered') },
-    { value: 'in transit', label: 'In-Transit', color: 'warning', count: getLengthByStatus('in transit') },
-    {
-      value: 'out for shipping',
-      label: 'Out-for-shipping',
-      color: 'error',
-      count: getLengthByStatus('out for shipping'),
-    },
-    { value: 'received', label: 'Received', color: 'default', count: getLengthByStatus('received') },
+    { value: 'all', label: 'All', color: 'info', count: totalData},
+    { value: 'Preparing', label: 'Preparing', color: 'success', count: getLengthByStatus('delivered') },
+    { value: 'Delivery In Progress', label: 'Delivery In Progress', color: 'success', count: getLengthByStatus('delivered') },
+    { value: 'Delivered', label: 'Delivered', color: 'warning', count: getLengthByStatus('in transit') },
+    { value: 'Received', label: 'Received', color: 'error', count: totalDataReceived},
+    { value: 'Not Delivered', label: 'Not Delivered', color: 'error', count: getLengthByStatus('received') },
   ];
 
   return (
@@ -293,39 +296,52 @@ export default function ShipmentTracking() {
             >
               <TrackingListAnalytics
                 title="Total"
-                total={tableData.length}
-                percent={100}
+                total={totalData}
+                percent={totalData}
                 icon="ic:round-receipt"
                 color={theme.palette.info.main}
               />
               <TrackingListAnalytics
-                title="Delivered"
-                total={getLengthByStatus('delivered')}
-                percent={getPercentByStatus('delivered')}
-                icon="eva:checkmark-circle-2-fill"
-                color={theme.palette.success.main}
-              />
-              <TrackingListAnalytics
-                title="In Transit"
-                total={getLengthByStatus('in transit')}
-                percent={getPercentByStatus('in transit')}
+                title="Preparing"
+                total={totalDataPreparing}
+                percent={totalDataPreparing}
+                price={totalDataPreparing}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
+              
               <TrackingListAnalytics
-                title="Out for Shipping"
-                total={getLengthByStatus('out for shipping')}
-                percent={getPercentByStatus('out for shipping')}
-                icon="eva:bell-fill"
-                color={theme.palette.error.main}
+                title="Progress"
+                total={totalDataProgress}
+                percent={totalDataProgress}
+                price={totalDataProgress}
+                icon="icon-park-solid:delivery"
+                color={theme.palette.success.main}
               />
               <TrackingListAnalytics
+                title="Delivered"
+                total={getLengthByStatus('in transit')}
+                percent={getPercentByStatus('in transit')}
+                icon="carbon:delivery"
+                color={theme.palette.success.main}
+              />
+              
+              <TrackingListAnalytics
                 title="Received"
+                total={totalDataReceived}
+                percent={totalDataReceived}
+                price={totalDataReceived}
+                icon="mdi:package-variant-closed-check"
+                color={theme.palette.success.main}
+              />
+
+              <TrackingListAnalytics
+                title="Not Delivered"
                 total={getLengthByStatus('received')}
                 percent={getPercentByStatus('received')}
                 price={getTotalPriceByStatus('received')}
-                icon="eva:file-fill"
-                color={theme.palette.text.secondary}
+                icon="mdi:package-variant-closed-remove"
+                color={theme.palette.error.main}
               />
             </Stack>
           </Scrollbar>

@@ -87,7 +87,7 @@ export default function InquireQuotation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData, ccc, quotationsArr, isLoading, quotationServices } = useSelector(
+  const { quotations, totalData,totalDataPendings,totalDataApproved,totalDataReceived,ccc, quotationsArr, isLoading, quotationServices } = useSelector(
     (state) => state.adminQuotation
   );
   const navigate = useNavigate();
@@ -258,6 +258,10 @@ export default function InquireQuotation() {
 
   const getServices = () => {
     dispatch(getQuotationServices());
+    dispatch(getAllQuotationsData());
+    dispatch(getAllQuotationsPendings());
+    dispatch(getAllQuotationsApproved());
+    dispatch(getAllShipmentReceived());
   };
 
   useEffect(() => {
