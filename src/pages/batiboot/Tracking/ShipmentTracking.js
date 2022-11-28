@@ -1,6 +1,6 @@
 import sumBy from 'lodash/sumBy';
-import React, { useState } from 'react';
-import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link as RouterLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -23,6 +23,15 @@ import {
 } from '@mui/material';
 // routes
 import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
+
+// redux
+// eslint-disable-next-line
+import { useDispatch, useSelector } from '../../../redux/store';
+import { getAlltracking } from '../../../redux/slices/adminTracking';
+
+import useAuth from '../../../hooks/useAuth';
+// routes
+
 // hooks
 import useTabs from '../../../hooks/useTabs';
 import useSettings from '../../../hooks/useSettings';
@@ -37,6 +46,7 @@ import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import { TableNoData, TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../../components/table';
+import QuotationSkeleton from '../OrderSkeleton';
 // sections
 // import InvoiceAnalytic from '../../sections/@batiboot/invoice/InvoiceAnalytic';
 import { TrackingTableRow, TrackingTableToolbar } from '../../../sections/@batiboot/orders/shipment/list';
@@ -72,11 +82,16 @@ const TABLE_HEAD = [
 
 export default function ShipmentTracking() {
   const theme = useTheme();
-
+  const { user } = useAuth();
+  const dispatch = useDispatch();
   const { themeStretch } = useSettings();
+  const { name = '' } = useParams();
+  // const currentUser = _userList.find((user) => paramCase(user.name) === name);
+  const { tracking, totalData, ccc, trackingArr, isLoading } = useSelector((state) => state.adminTracking);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const [reload, setReload] = useState(false);
 
   const {
     dense,
@@ -97,7 +112,7 @@ export default function ShipmentTracking() {
     onChangeRowsPerPage,
   } = useTable({ defaultOrderBy: 'orderReceived' });
 
-  const [tableData, setTableData] = useState(_tracking);
+  const [tableData, setTableData] = useState(trackingArr);
 
   const [filterName, setFilterName] = useState('');
 
@@ -111,6 +126,27 @@ export default function ShipmentTracking() {
   const [isEdit, setIsEdit] = useState(false);
   const [isView, setIsView] = useState(false);
   const [identifier, setIdentifier] = useState('');
+
+  const utils = () => {
+    const payload = {};
+    payload.page = page;
+    payload.rowcount = rowsPerPage;
+    // // payload.status = Status;
+    payload.services = filterService;
+    // console.log(filterService);
+    payload.search = filterName;
+    payload.startDate = filterStartDate;
+    payload.endDate = filterEndDate;
+    console.log('payload', payload);
+    console.log('payload', payload);
+    dispatch(getAlltracking(payload));
+  };
+
+  useEffect(() => {
+    utils();
+  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
+
+  console.log('ETO NAAAAAA', trackingArr);
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -143,7 +179,8 @@ export default function ShipmentTracking() {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
     setIsView(!isView);
-    //  setIdentifier(id)
+    setIdentifier(id);
+    // handleOpenModal();
     handleOpenViewModal();
   };
 
@@ -188,6 +225,21 @@ export default function ShipmentTracking() {
     setOpenViewModal(false);
     setIdentifier('');
   };
+  const [showSkel, setshowSkel] = useState(false);
+  useEffect(() => {
+    setshowSkel(false);
+    if (Object.keys(tracking).length) {
+      if (Object.keys(tracking.allIds).length) {
+        setshowSkel(true);
+      }
+    }
+  }, [tracking]);
+
+  const [showSkelDatatable, setshowSkelDatatable] = useState(false);
+  useEffect(() => {
+    setshowSkelDatatable(!isLoading);
+  }, [isLoading]);
+
   const getPercentByStatus = (trackingStatus) => (getLengthByStatus(trackingStatus) / tableData.length) * 100;
 
   const TABS = [
@@ -224,6 +276,7 @@ export default function ShipmentTracking() {
             open={openModal}
             onClose={handleCloseModal}
             edit={isEdit}
+            view={isView}
             identifier={identifier}
             pathname={pathname}
             nameLink={'Tracking'}
@@ -376,17 +429,25 @@ export default function ShipmentTracking() {
                 />
 
                 <TableBody>
-                  {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                    <TrackingTableRow
-                      key={row.id}
-                      row={row}
-                      selected={selected.includes(row.id)}
-                      onSelectRow={() => onSelectRow(row.id)}
-                      onViewRow={() => handleViewRow(row.id)}
-                      onEditRow={() => handleEditRow(row.id)}
-                      onDeleteRow={() => handleDeleteRow(row.id)}
-                    />
-                  ))}
+                  {showSkel && showSkelDatatable
+                    ? trackingArr.map((items) => (
+                        <TrackingTableRow
+                          showSkeleton={showSkel}
+                          key={items.id}
+                          row={tracking.byId[items.id]}
+                          selected={selected.includes(items.id)}
+                          onSelectRow={() => onSelectRow(items.id)}
+                          onDeleteRow={() => handleDeleteRow(items.id)}
+                          onEditRow={() => handleEditRow(tracking.byId[items.id])}
+                          onViewRow={() => handleViewRow(tracking.byId[items.id])}
+                        />
+                      ))
+                    : [...Array(rowsPerPage)].map((i, k) => {
+                        if (!trackingArr.length) {
+                          return true;
+                        }
+                        return <QuotationSkeleton key={k} />;
+                      })}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
 

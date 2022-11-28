@@ -180,18 +180,19 @@ export default function InquireQuotationTableRow({
           <TableCell>{''}</TableCell>
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
-                {row.product_name}
-              </Typography>
+              <AvatarGroup max={2} spacing="small">
+              {row.attachments.map((attachment, k) => (
+                <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
+              ))}
+            </AvatarGroup>
+              
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
             {showSkeleton ? (
-              <AvatarGroup max={2} spacing="small">
-                {row.attachments.map((attachment, k) => (
-                  <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
-                ))}
-              </AvatarGroup>
+              <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
+              {row.product_name}
+            </Typography>
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
             )}

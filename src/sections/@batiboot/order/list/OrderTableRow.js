@@ -229,7 +229,7 @@ export default function OrderTableRow({
           sx={{ textTransform: 'capitalize' }}
         >
           {/* {orderStatus} */}
-         {row.isOrder === 1 ? 'Accepted' : 'Pending'}
+         <span >{row.isOrder === 1 ? 'Accepted' : 'Accepted' }</span> 
         </Label>
       </TableCell>
 
