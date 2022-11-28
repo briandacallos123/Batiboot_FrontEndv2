@@ -27,7 +27,8 @@ import { RHFTextField } from '../../../components/hook-form';
 export default function InquireQuotationModalAddress(prop) {
   const theme = useTheme();
 
-  const { address_from: addressFrom, address_to: addressTo } = prop;
+  const { editData, isEdit } = prop;
+
   const {
     watch,
     setValue,
@@ -38,11 +39,14 @@ export default function InquireQuotationModalAddress(prop) {
 
   const values = watch();
 
-  const { toggle: openFrom, onOpen: onOpenFrom, onClose: onCloseFrom } = useToggle();
+  const { toggle: openFrom, onOpen: onOpenFrom, onClose: onCloseasFrom } = useToggle();
 
   const { toggle: openTo, onOpen: onOpenTo, onClose: onCloseTo } = useToggle();
 
   const { invoiceFrom, invoiceTo } = values;
+
+  // console.log('INVOICE FROM: ', invoiceFrom);
+  console.log('INVOICE To: ', invoiceTo);
 
   return (
     <Stack
@@ -63,7 +67,7 @@ export default function InquireQuotationModalAddress(prop) {
 
           <InquireQuotationModalAddressListDialog
             open={openFrom}
-            onClose={onCloseFrom}
+            onClose={onCloseasFrom}
             // kailangan ko makuha yung nirereturn nito
             selected={(selectedId) => invoiceFrom?.id === selectedId}
             // ito din
@@ -72,12 +76,20 @@ export default function InquireQuotationModalAddress(prop) {
           />
         </Stack>
 
-        {invoiceFrom && (
+        {!isEdit ? (
+          invoiceFrom && (
+            <AddressInfo
+              // type="from"
+              name={invoiceFrom?.name}
+              // address={invoiceFrom?.address}
+              phone={invoiceFrom?.contact}
+            />
+          )
+        ) : (
           <AddressInfo
-            type="invoice_from"
-            name={invoiceFrom?.name}
-            address={invoiceFrom?.address}
-            phone={invoiceFrom?.contact}
+            name={editData?.address_from}
+            // address={invoiceFrom?.address}
+            phone={editData?.contact_number}
           />
         )}
       </Stack>
@@ -105,32 +117,48 @@ export default function InquireQuotationModalAddress(prop) {
           />
         </Stack>
 
-        {invoiceTo ? (
+        {/* {!isEdit ? (
           <AddressInfo
             name={invoiceTo?.name}
-            address={invoiceTo?.address}
+            // address={invoiceTo?.address}
             phone={invoiceTo?.contact}
-            type="invoice_to"
+            // type="invoice_to"
           />
         ) : (
-          <Typography typography="caption" sx={{ color: 'error.main' }}>
-            {errors.invoiceTo ? errors.invoiceTo.message : null}
-          </Typography>
+          <AddressInfo
+            name={editData?.address_to}
+            // address={invoiceTo?.address}
+            phone={editData?.contact_number}
+            // type="invoice_to"
+          />
+        )} */}
+        {!isEdit ? (
+          invoiceTo && (
+            <AddressInfo
+              // type="from"
+              name={invoiceTo?.name}
+              // address={invoiceFrom?.address}
+              phone={invoiceTo?.contact}
+            />
+          )
+        ) : (
+          <AddressInfo
+            name={editData?.address_to}
+            // address={invoiceFrom?.address}
+            phone={editData?.contact_number}
+          />
         )}
       </Stack>
     </Stack>
   );
 }
 
-// ----------------------------------------------------------------------
-
 AddressInfo.propTypes = {
-  address: PropTypes.string,
-  name: PropTypes.string,
-  phone: PropTypes.string,
+  type: PropTypes.string,
+  editData: PropTypes.array,
 };
 
-function AddressInfo({ name, address, phone, type }) {
+function AddressInfo({ name, phone }) {
   return (
     <>
       {/* <Typography variant="subtitle2">{name}</Typography>
@@ -140,16 +168,21 @@ function AddressInfo({ name, address, phone, type }) {
       <Typography variant="body2">Phone: {phone}</Typography> */}
 
       <RHFTextField
-        name={type === 'from' ? 'address_from' : 'address_to'}
+        name={name}
         label={name}
         disabled
         variant="standard"
         InputProps={{
           disableUnderline: true,
         }}
-        sx={{ mb: '-1rem' }}
+        sx={{
+          mb: '-1rem',
+          // label: {
+          //   display: 'none',
+          // },
+        }}
       />
-      <RHFTextField
+      {/* <RHFTextField
         name={type === 'from' ? 'address_from' : 'address_to'}
         label={address}
         disabled
@@ -158,9 +191,9 @@ function AddressInfo({ name, address, phone, type }) {
           disableUnderline: true,
         }}
         sx={{ mb: '-1rem' }}
-      />
+      /> */}
       <RHFTextField
-        name={type === 'from' ? 'address_from' : 'address_to'}
+        name={phone}
         label={phone}
         disabled
         variant="standard"

@@ -78,7 +78,7 @@ export default function InquireQuotation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData, ccc, quotationsArr, isLoading, quotationServices } = useSelector(
+  const { quotations, totalData, ccc, quotationsArr, isLoading, quotationServices, quotationToEdit } = useSelector(
     (state) => state.adminQuotation
   );
   const navigate = useNavigate();
@@ -117,8 +117,10 @@ export default function InquireQuotation() {
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
   const [modalViewData, setModalViewData] = useState([]);
+
   const [isEdit, setIsEdit] = useState(false);
   const [isView, setIsView] = useState(false);
+  const [dataEdit, setDataEdit] = useState('');
   const [identifier, setIdentifier] = useState('');
 
   const handleFilterName = (filterName) => {
@@ -142,10 +144,18 @@ export default function InquireQuotation() {
     setTableData(deleteRows);
   };
 
-  const handleEditRow = (id) => {
-    setIsEdit(!isEdit);
+  const handleEditRow = async (id) => {
     // setIdentifier(id)
+    setDataEdit(id);
     handleOpenModal();
+    setIsEdit(true);
+    // const payload = {};
+    // payload.page = page;
+    // payload.rowcount = rowsPerPage;
+    // payload.email = id.email;
+    // payload.id = id.user_id;
+    // console.log('Payload: ', payload.page, payload.rowcount, payload.email, payload.id);
+    // await dispatch(getQuotationsByUser(payload));
   };
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
@@ -227,15 +237,26 @@ export default function InquireQuotation() {
     dispatch(getAllQuotations(payload));
   };
 
+  // const getUserQuotation = (obj) => {
+  //   const payload = {};
+  //   payload.page = page;
+  //   payload.rowcount = rowsPerPage;
+  //   payload.email = obj.email;
+  //   payload.id = obj.id;
+
+  //   dispatch(getQuotationsByUser(payload));
+  // };
+
   const getServices = () => {
     dispatch(getQuotationServices());
   };
 
+  // console.log('QUOTATIONS: ', quotations);
   useEffect(() => {
     utils();
     getServices();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
-
+  // console.log('WIW: ', quotationToEdit);
   // const SERVICE_OPTIONS = [
   //   'All',
   //   'Product Sourcing',
@@ -316,8 +337,6 @@ export default function InquireQuotation() {
     setshowSkelDatatable(!isLoading);
   }, [isLoading]);
 
-  console.log(totalData);
-
   return (
     <Page title="Batiboot: Inquire/Quotation">
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -350,6 +369,7 @@ export default function InquireQuotation() {
             identifier={identifier}
             pathname={pathname}
             nameLink={'Inquiry Quotation'}
+            dataEdit={dataEdit}
           />
           {
             /* <InquireAndQuotationCreateModal
@@ -577,7 +597,7 @@ export default function InquireQuotation() {
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
                           onViewRow={() => handleViewRow(items)}
-                          onEditRow={() => handleEditRow(quotations.byId[items.id].fname)}
+                          onEditRow={() => handleEditRow(quotations.byId[items.id])}
                           utils={utils}
                           // handleClickOpen={handleClickOpen}
                         />

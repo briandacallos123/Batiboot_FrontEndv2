@@ -35,7 +35,20 @@ import Scrollbar from '../../../components/Scrollbar';
 import './modalStyle.scss';
 
 export default function UserModal(props) {
-  const { open, selectedValue, onClose, edit, identifier, pathname, nameLink, pathLink, data, view } = props;
+  const {
+    open,
+    selectedValue,
+    onClose,
+    edit,
+    identifier,
+    pathname,
+    nameLink,
+    pathLink,
+    data,
+    view,
+    dataEdit,
+    getUserQuotation,
+  } = props;
 
   const { themeStretch } = useSettings();
 
@@ -46,9 +59,11 @@ export default function UserModal(props) {
   const currentUser = _userList.find((user) => paramCase(user.name) === name);
 
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
-  const theme = useTheme();
 
+  const theme = useTheme();
+  console.log('DATA EDIT BRI: ', dataEdit);
   const formRef = useRef(null);
+
   const onSaveChanges = () => {
     if (formRef) {
       formRef.current.click();
@@ -63,7 +78,7 @@ export default function UserModal(props) {
   // alert(_invoices.find((invoice) => invoice.id === identifier))
 
   const handleCloseModal = () => onClose(selectedValue);
-  console.log('CURRENT INVOICE MODAL : ', identifier);
+
   const Path = () => {
     if (/* pathname === PATH_BATIBOOT.invoice.create */ nameLink === 'Invoice' && !isEdit) {
       return (
@@ -100,7 +115,7 @@ export default function UserModal(props) {
       return <ProductNewEditForm isEdit={isEdit} formRef={formRef} handleCloseModal={handleCloseModal} />;
     }
     if (nameLink === 'Inquiry Quotation' && isEdit) {
-      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} />;
+      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} dataEdit={dataEdit} />;
     }
     if (nameLink === 'Inquiry Quotation view' && isView) {
       return <InquiryAndQuotationViewModal data={data} identifier={identifier} handleCloseModal={handleCloseModal} />;

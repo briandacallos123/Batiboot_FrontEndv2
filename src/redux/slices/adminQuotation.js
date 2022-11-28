@@ -18,6 +18,7 @@ const initialState = {
   error: null,
   quotations: { byId: {}, allIds: [] },
   quotationsArr: [],
+  quotationToEdit: null,
   totalData: 0,
   quotationServices: [],
   ccc: {
@@ -43,7 +44,10 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
+    getQuotationByUser(state, action) {
+      const { data } = action.payload;
+      state.quotationToEdit = data;
+    },
     getQuotationServices(state, action) {
       const { data } = action.payload;
       state.quotationServices = data.services;
@@ -84,6 +88,20 @@ export function getAllQuotations(payload) {
     }
   };
 }
+// export function getQuotationsByUser(payload) {
+//   const { accessToken } = localStorage;
+//   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//   //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+//   return async () => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const response = await V4axios.post('/api/quotations/user/get', payload);
+//       dispatch(slice.actions.getQuotationByUser(response.data));
+//     } catch (error) {
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
 
 export function getQuotationServices() {
   const { accessToken } = localStorage;

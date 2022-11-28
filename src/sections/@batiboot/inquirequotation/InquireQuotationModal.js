@@ -87,7 +87,7 @@ ProductNewEditForm.propTypes = {
   handleCloseModal: PropTypes.func,
 };
 
-export default function ProductNewEditForm({ isEdit, currentProduct, formRef, handleCloseModal }) {
+export default function ProductNewEditForm({ isEdit, currentProduct, formRef, handleCloseModal, dataEdit }) {
   const navigate = useNavigate();
   const { createQuotation, user } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
@@ -118,22 +118,25 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
 
   const defaultValues = useMemo(
     () => ({
-      email: user?.email || '',
-      id: user?.id || '',
-      name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      images: currentProduct?.images || [],
-      code: currentProduct?.code || '',
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || 0,
-      priceSale: currentProduct?.priceSale || 0,
-      tags: currentProduct?.tags || [TAGS_OPTION[0]],
-      inStock: true,
-      taxes: true,
-      gender: currentProduct?.gender || GENDER_OPTION[2].value,
-      category: currentProduct?.category || SERVICE_OPTION[0],
-      quantity: currentProduct?.quantity || 0,
-      services: currentProduct?.services || '',
+      email: dataEdit?.email || '',
+      id: dataEdit?.id || '',
+      name: dataEdit?.product_name || '',
+      description: dataEdit?.description || '',
+      images: dataEdit?.attachments || [],
+      address_from: dataEdit?.address_from || '',
+      address_to: dataEdit?.address_to || '',
+      contact: dataEdit?.contact_number || '',
+      // code: currentProduct?.code || '',
+      // sku: currentProduct?.sku || '',
+      price: dataEdit?.price || 0,
+      // priceSale: currentProduct?.priceSale || 0,
+      // tags: currentProduct?.tags || [TAGS_OPTION[0]],
+      // inStock: true,
+      // taxes: true,
+      // gender: currentProduct?.gender || GENDER_OPTION[2].value,
+      // category: currentProduct?.category || SERVICE_OPTION[0],
+      quantity: dataEdit?.quantity || 0,
+      service: dataEdit?.services || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
@@ -212,9 +215,9 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   };
 
   useEffect(() => {
-    if (isEdit && currentProduct) {
-      reset(defaultValues);
-    }
+    // if (isEdit && currentProduct) {
+    //   reset(defaultValues);
+    // }
     if (!isEdit) {
       reset(defaultValues);
     }
@@ -264,7 +267,8 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
-              <InquireQuotationModalAddress />
+              <InquireQuotationModalAddress isEdit={isEdit} editData={dataEdit} />
+              {/* <InquireQuotationModalAddress editData={isEdit && dataEdit} isEdit={isEdit} /> */}
 
               <RHFTextField name="name" label="Product Name" />
 
@@ -274,9 +278,10 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
               </div>
 
               <div>
-                <LabelStyle>Images</LabelStyle>
+                <LabelStyle>Images Edit</LabelStyle>
                 <RHFUploadMultiFile
                   showPreview
+                  isEdit={isEdit}
                   name="images"
                   accept="image/*"
                   maxSize={3145728}

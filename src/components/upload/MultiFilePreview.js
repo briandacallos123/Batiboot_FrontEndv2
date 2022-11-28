@@ -19,7 +19,7 @@ MultiFilePreview.propTypes = {
   showPreview: PropTypes.bool,
 };
 
-export default function MultiFilePreview({ showPreview = false, files, onRemove }) {
+export default function MultiFilePreview({ showPreview = false, files, onRemove, isEdit }) {
   const hasFile = files.length > 0;
 
   return (
@@ -27,6 +27,48 @@ export default function MultiFilePreview({ showPreview = false, files, onRemove 
       <AnimatePresence>
         {files.map((file, index) => {
           const { key, name, size, preview } = getFileData(file, index);
+          if (isEdit) {
+            return (
+              <ListItem
+                key={key}
+                component={m.div}
+                {...varFade().inRight}
+                sx={{
+                  p: 0,
+                  m: 0.5,
+                  width: 80,
+                  height: 80,
+                  borderRadius: 1.25,
+                  overflow: 'hidden',
+                  position: 'relative',
+                  display: 'inline-flex',
+                  border: (theme) => `solid 1px ${theme.palette.divider}`,
+                }}
+              >
+                <Image alt="preview" src={`${process.env.REACT_APP_HOST_API_KEY}${file?.path}`} ratio="1/1" />
+
+                {onRemove && (
+                  <IconButton
+                    size="small"
+                    onClick={() => onRemove(file)}
+                    sx={{
+                      top: 6,
+                      p: '2px',
+                      right: 6,
+                      position: 'absolute',
+                      color: 'common.white',
+                      bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+                      '&:hover': {
+                        bgcolor: (theme) => alpha(theme.palette.grey[900], 0.48),
+                      },
+                    }}
+                  >
+                    <Iconify icon={'eva:close-fill'} />
+                  </IconButton>
+                )}
+              </ListItem>
+            );
+          }
 
           if (showPreview) {
             return (

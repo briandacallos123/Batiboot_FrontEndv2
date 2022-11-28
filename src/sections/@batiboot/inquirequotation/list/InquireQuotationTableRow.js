@@ -57,6 +57,7 @@ export default function InquireQuotationTableRow({
   showSkeleton,
   isDesktop,
   utils,
+  getUserQuotation,
 }) {
   const { acceptOrder, user } = useAuth();
   const theme = useTheme();

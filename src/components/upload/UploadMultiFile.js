@@ -40,6 +40,7 @@ export default function UploadMultiFile({
   onRemove,
   onRemoveAll,
   helperText,
+  isEdit,
   sx,
   ...other
 }) {
@@ -67,7 +68,7 @@ export default function UploadMultiFile({
 
       {fileRejections.length > 0 && <RejectionFiles fileRejections={fileRejections} />}
 
-      <MultiFilePreview files={files} showPreview={showPreview} onRemove={onRemove} />
+      <MultiFilePreview files={files} showPreview={showPreview} onRemove={onRemove} isEdit={isEdit} />
 
       {files.length > 0 && (
         <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
