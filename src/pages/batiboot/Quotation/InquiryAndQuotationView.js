@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { paramCase } from 'change-case';
 import { useParams, useLocation, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -22,6 +23,7 @@ import {
   useTheme,
   DialogTitle,
   DialogActions,
+  MenuItem,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
@@ -49,6 +51,7 @@ import Scrollbar from '../../../components/Scrollbar';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------
+const STATUS_OPTION = ['Pending', 'Approve', 'Received'];
 
 export default function InquiryAndQuotationViewModal(props, row) {
   const { open, selectedValue, onClose, edit, identifier, data } = props;
@@ -100,6 +103,10 @@ export default function InquiryAndQuotationViewModal(props, row) {
       console.error(error);
       alert(error.message);
     }
+  };
+  const [status, setStatus] = useState('Pending');
+  const handleStatus = (event) => {
+    setStatus(event.target.value);
   };
 
   return (
@@ -179,11 +186,38 @@ export default function InquiryAndQuotationViewModal(props, row) {
                         <Typography variant="h6" marginBottom={2}>
                           {data?.price}
                         </Typography>
-
+                        <Typography variant="overline" color="primary.main">
+                          Status
+                        </Typography>
+                        <Grid sx={{ marginY: 2 }}>
+                          <TextField
+                            select
+                            value={status}
+                            onChange={handleStatus}
+                            sx={{
+                              textTransform: 'capitalize',
+                            }}
+                          >
+                            {STATUS_OPTION.map((option) => (
+                              <MenuItem
+                                key={option}
+                                value={option}
+                                sx={{
+                                  mx: 1,
+                                  my: 0.5,
+                                  borderRadius: 0.75,
+                                  typography: 'body2',
+                                  textTransform: 'capitalize',
+                                }}
+                              >
+                                {option}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Grid>
                         <Typography variant="overline" color="primary.main">
                           Description
                         </Typography>
-
                         <Box sx={{ ml: -1.8 }}>
                           <ReactQuill value={data?.description} readOnly={'true'} theme="bubble" />
                         </Box>
@@ -209,33 +243,40 @@ export default function InquiryAndQuotationViewModal(props, row) {
               >
                 Cancel
               </Button>
-              <LoadingButton type="button" onClick={''} size="small" variant="contained" color="inherit">
-                Delete
-              </LoadingButton>
-              {user.user_role === 'user' ? (
-                <Box>
-                  {/* <Button  disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: 'primary.main',mx:2 }} variant="contained">
-              Edit
-              </Button> */}
+
+              {status === 'Pending' ? null : (
+                //   <Box>
+                //     {/* <Button  disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: 'primary.main',mx:2 }} variant="contained">
+                // Edit
+                // </Button> */}
+                //     <Button
+                //       onClick={handleCancelQuotation}
+                //       disabled={data.isCancel === 1}
+                //       size="small"
+                //       sx={{ backgroundColor: '#D22B2B' }}
+                //       variant="contained"
+                //     >
+                //       Cancel
+                //     </Button>
+                //   </Box>
+                <>
                   <Button
-                    onClick={handleCancelQuotation}
-                    disabled={data.isCancel === 1}
+                    disabled={data?.isCancel === 1}
                     size="small"
-                    sx={{ backgroundColor: '#D22B2B' }}
+                    sx={{ backgroundColor: 'primary.main' }}
                     variant="contained"
                   >
-                    Cancel
+                    save
                   </Button>
-                </Box>
-              ) : (
-                <Button
-                  disabled={data?.isCancel === 1}
-                  size="small"
-                  sx={{ backgroundColor: 'primary.main' }}
-                  variant="contained"
-                >
-                  Approve
-                </Button>
+                  <Button
+                    disabled={data?.isCancel === 1}
+                    size="small"
+                    sx={{ backgroundColor: 'primary.main' }}
+                    variant="contained"
+                  >
+                    save & Create Order
+                  </Button>
+                </>
               )}
             </DialogActions>
           </div>
