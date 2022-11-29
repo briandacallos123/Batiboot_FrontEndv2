@@ -194,7 +194,7 @@ export default function OrderListViewModal(props) {
                                 ))}
                               </TextField>
                             </Grid>
-                            <Typography aphy variant="overline" color="primary.main">
+                            <Typography variant="overline" color="primary.main">
                               Description
                             </Typography>
 
