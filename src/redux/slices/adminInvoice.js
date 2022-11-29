@@ -18,6 +18,7 @@ const initialState = {
   error: null,
   invoice: { byId: {}, allIds: [] },
   invoiceArr: [],
+  totalInvoiceStatusArr: [],
   totalData: 0,
   ccc: {
     approved: 0,
@@ -41,6 +42,12 @@ const slice = createSlice({
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
+    },
+
+    getTotalInvoiceStatusArr(state, action){
+      const {data} = action.payload;
+      state.totalInvoiceStatusArr = data;
+      
     },
 
     // GET QUOTATION SUCCESS
@@ -72,6 +79,21 @@ export function getAllInvoice(payload) {
     try {
       const response = await V4axios.post('/api/invoice/all', payload);
       dispatch(slice.actions.getInvoiceSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getAllInvoiceStatus() {
+  const {accessToken} = localStorage
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.get('/api/Get/All/Invoice/Total/Status');
+      dispatch(slice.actions.getTotalInvoiceStatusArr(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

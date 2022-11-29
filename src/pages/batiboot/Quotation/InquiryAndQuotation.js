@@ -29,10 +29,7 @@ import { useDispatch, useSelector } from '../../../redux/store';
 import {
   getAllQuotations,
   getQuotationServices,
-  getAllQuotationsData,
-  getAllQuotationsPendings,
-  getAllQuotationsApproved,
-  getAllShipmentReceived,
+  getAllQuotationStatus,
 } from '../../../redux/slices/adminQuotation';
 // import { getAllQuotationsApproved } from '../../../redux/slices/adminQuotationApproved';
 // import { getAllQuotationsPendings } from '../../../redux/slices/adminQuotationPendings';
@@ -87,7 +84,7 @@ export default function InquireQuotation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData,totalDataPendings,totalDataApproved,totalDataReceived,ccc, quotationsArr, isLoading, quotationServices } = useSelector(
+  const { quotations, totalData,totalQuotationStatusArr,ccc, quotationsArr, isLoading, quotationServices } = useSelector(
     (state) => state.adminQuotation
   );
   const navigate = useNavigate();
@@ -210,9 +207,9 @@ export default function InquireQuotation() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: totalData },
-    { value: 'approved', label: 'Approved', color: 'success', count: totalDataApproved },
-    { value: 'received', label: 'Received', color: 'warning', count: totalDataReceived },
-    { value: 'pending', label: 'Pending', color: '', backgroundColor: 'green', count: totalDataPendings },
+    { value: 'approved', label: 'Approved', color: 'success', count: totalQuotationStatusArr.totalPending},
+    { value: 'received', label: 'Received', color: 'warning', count: totalQuotationStatusArr.totalApproved},
+    { value: 'pending', label: 'Pending', color: '', backgroundColor: 'green', count: totalQuotationStatusArr.totalReceived},
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -258,10 +255,7 @@ export default function InquireQuotation() {
 
   const getServices = () => {
     dispatch(getQuotationServices());
-    dispatch(getAllQuotationsData());
-    dispatch(getAllQuotationsPendings());
-    dispatch(getAllQuotationsApproved());
-    dispatch(getAllShipmentReceived());
+    dispatch(getAllQuotationStatus());
   };
 
   useEffect(() => {
@@ -428,25 +422,25 @@ export default function InquireQuotation() {
               />
               <InquireQuoListAnalytics
                 title="Pending"
-                total={totalDataPendings}
-                percent={totalDataPendings}
-                price={totalDataPendings}
+                total={totalQuotationStatusArr.totalPending}
+                percent={totalQuotationStatusArr.totalPending}
+                price={totalQuotationStatusArr.totalPending}
                 icon="eva:file-fill"
                 color={theme.palette.text.secondary}
               />
               <InquireQuoListAnalytics
                 title="Approved"
-                total={totalDataApproved}
-                percent={totalDataApproved}
-                price={totalDataApproved}
+                total={totalQuotationStatusArr.totalApproved}
+                percent={totalQuotationStatusArr.totalApproved}
+                price={totalQuotationStatusArr.totalApproved}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
               <InquireQuoListAnalytics
                 title="Received"
-                total={totalDataReceived}
-                percent={totalDataReceived}
-                price={totalDataReceived}
+                total={totalQuotationStatusArr.totalReceived}
+                percent={totalQuotationStatusArr.totalReceived}
+                price={totalQuotationStatusArr.totalReceived}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />

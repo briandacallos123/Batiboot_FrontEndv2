@@ -28,7 +28,7 @@ import {
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../redux/store';
 import { getAllOrders } from '../../redux/slices/adminOrder';
-import { getAllInvoice, deleteInvoice } from '../../redux/slices/adminInvoice';
+import { getAllInvoice, deleteInvoice,getAllInvoiceStatus } from '../../redux/slices/adminInvoice';
 
 import useAuth from '../../hooks/useAuth';
 // routes
@@ -84,7 +84,7 @@ export default function OrderList() {
   const { themeStretch } = useSettings();
   const { name = '' } = useParams();
   const currentUser = _userList.find((user) => paramCase(user.name) === name);
-  const { invoice, totalData, ccc, invoiceArr, isLoading } = useSelector((state) => state.adminInvoice);
+  const { invoice, totalData,totalInvoiceStatusArr, ccc, invoiceArr, isLoading } = useSelector((state) => state.adminInvoice);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -140,6 +140,7 @@ export default function OrderList() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAllInvoice(payload));
+    dispatch(getAllInvoiceStatus());
   };
 
   useEffect(() => {
@@ -237,10 +238,11 @@ export default function OrderList() {
   const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: tableData.length },
-    { value: 'paid', label: 'Paid', color: 'success', count: getLengthByStatus('paid') },
-    { value: 'unpaid', label: 'Unpaid', color: 'warning', count: getLengthByStatus('Unpaid') },
-    { value: 'overdue', label: 'Overdue', color: 'default', count: getLengthByStatus('overdue') },
+    { value: 'all', label: 'All', color: 'info', count: totalData },
+    { value: 'Draft', label: 'Draft', color: 'success', count: totalInvoiceStatusArr.totalDraft },
+    { value: 'paid', label: 'Paid', color: 'success', count: totalInvoiceStatusArr.totalPaid },
+    { value: 'unpaid', label: 'Unpaid', color: 'warning', count: totalInvoiceStatusArr.totalUnpaid },
+    { value: 'overdue', label: 'Overdue', color: 'warning', count: totalInvoiceStatusArr.totalOverdue },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -377,36 +379,45 @@ export default function OrderList() {
             >
               <InvoiceAnalytic
                 title="Total"
-                total={tableData.length}
-                percent={100}
-                price={sumBy(tableData, 'totalPrice')}
+                total={totalData}
+                percent={totalData}
+                price={totalData}
                 icon="ic:round-receipt"
                 color={theme.palette.info.main}
               />
               <InvoiceAnalytic
+                title="Draft"
+                total={totalInvoiceStatusArr.totalDraft}
+                percent={totalInvoiceStatusArr.totalDraft}
+                price={totalInvoiceStatusArr.totalDraft}
+                icon="eva:bell-fill"
+                color={theme.palette.error.main}
+              />
+              <InvoiceAnalytic
                 title="Paid"
-                total={getLengthByStatus('paid')}
-                percent={getPercentByStatus('paid')}
-                price={getTotalPriceByStatus('paid')}
+                total={totalInvoiceStatusArr.totalPaid}
+                percent={totalInvoiceStatusArr.totalPaid}
+                price={totalInvoiceStatusArr.totalPaid}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
               <InvoiceAnalytic
                 title="Unpaid"
-                total={getLengthByStatus('unpaid')}
-                percent={getPercentByStatus('unpaid')}
-                price={getTotalPriceByStatus('unpaid')}
+                total={totalInvoiceStatusArr.totalUnpaid}
+                percent={totalInvoiceStatusArr.totalUnpaid}
+                price={totalInvoiceStatusArr.totalUnpaid}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
               <InvoiceAnalytic
                 title="Overdue"
-                total={getLengthByStatus('overdue')}
-                percent={getPercentByStatus('overdue')}
-                price={getTotalPriceByStatus('overdue')}
+                total={totalInvoiceStatusArr.totalOverdue}
+                percent={totalInvoiceStatusArr.totalOverdue}
+                price={totalInvoiceStatusArr.totalOverdue}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />
+              
             </Stack>
           </Scrollbar>
         </Card>
