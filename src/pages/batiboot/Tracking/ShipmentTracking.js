@@ -27,7 +27,7 @@ import { PATH_BATIBOOT, PATH_DASHBOARD } from '../../../routes/paths';
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAlltracking,getAllShipmentStatus } from '../../../redux/slices/adminTracking';
+import { getAlltracking, getAllShipmentStatus } from '../../../redux/slices/adminTracking';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -87,7 +87,9 @@ export default function ShipmentTracking() {
   const { themeStretch } = useSettings();
   const { name = '' } = useParams();
   // const currentUser = _userList.find((user) => paramCase(user.name) === name);
-  const { tracking,totalShipmentStatusArr, totalData, ccc, trackingArr, isLoading } = useSelector((state) => state.adminTracking);
+  const { tracking, totalShipmentStatusArr, totalData, ccc, trackingArr, isLoading } = useSelector(
+    (state) => state.adminTracking
+  );
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -140,17 +142,12 @@ export default function ShipmentTracking() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAlltracking(payload));
-    dispatch(getAllShipmentStatus()); 
-    
+    dispatch(getAllShipmentStatus());
   };
-
 
   useEffect(() => {
     utils();
-   
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
-
-
 
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -247,11 +244,16 @@ export default function ShipmentTracking() {
   const getPercentByStatus = (trackingStatus) => (getLengthByStatus(trackingStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: totalData},
+    { value: 'all', label: 'All', color: 'info', count: totalData },
     { value: 'Preparing', label: 'Preparing', color: 'success', count: totalShipmentStatusArr.totalPreparing },
-    { value: 'Delivery In Progress', label: 'Delivery In Progress', color: 'success', count: totalShipmentStatusArr.totalDeliveryInProgress },
+    {
+      value: 'Delivery In Progress',
+      label: 'Delivery In Progress',
+      color: 'success',
+      count: totalShipmentStatusArr.totalDeliveryInProgress,
+    },
     { value: 'Delivered', label: 'Delivered', color: 'warning', count: totalShipmentStatusArr.totalProductDelivered },
-    { value: 'Received', label: 'Received', color: 'error', count: totalShipmentStatusArr.totalReceived},
+    { value: 'Received', label: 'Received', color: 'error', count: totalShipmentStatusArr.totalReceived },
     { value: 'Not Delivered', label: 'Not Delivered', color: 'error', count: totalShipmentStatusArr.totalNotDelivered },
   ];
 
@@ -306,7 +308,7 @@ export default function ShipmentTracking() {
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
-              
+
               <TrackingListAnalytics
                 title="Progress"
                 total={totalShipmentStatusArr.totalDeliveryInProgress}
@@ -322,7 +324,7 @@ export default function ShipmentTracking() {
                 icon="carbon:delivery"
                 color={theme.palette.success.main}
               />
-              
+
               <TrackingListAnalytics
                 title="Received"
                 total={totalShipmentStatusArr.totalReceived}
@@ -462,9 +464,9 @@ export default function ShipmentTracking() {
                         return <QuotationSkeleton key={k} />;
                       })}
 
-                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
+                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 
-                  <TableNoData isNotFound={isNotFound} />
+                  <TableNoData isNotFound={totalData === 0 ?? !true} />
                 </TableBody>
               </Table>
             </TableContainer>
@@ -474,7 +476,7 @@ export default function ShipmentTracking() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={dataFiltered.length}
+              count={totalData}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={onChangePage}
