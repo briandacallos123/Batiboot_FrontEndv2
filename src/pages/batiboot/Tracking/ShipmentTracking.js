@@ -245,6 +245,7 @@ export default function ShipmentTracking() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: totalData },
+    { value: 'Pending', label: 'Pending', color: 'success', count: totalShipmentStatusArr.totalPending },
     { value: 'Preparing', label: 'Preparing', color: 'success', count: totalShipmentStatusArr.totalPreparing },
     {
       value: 'Delivery In Progress',
@@ -299,6 +300,14 @@ export default function ShipmentTracking() {
                 percent={totalData}
                 icon="ic:round-receipt"
                 color={theme.palette.info.main}
+              />
+              <TrackingListAnalytics
+                title="Pending"
+                total={totalShipmentStatusArr.totalPending}
+                percent={totalShipmentStatusArr.totalPending}
+                price={totalShipmentStatusArr.totalPending}
+                icon="material-symbols:pending-actions"
+                color={theme.palette.warning.main}
               />
               <TrackingListAnalytics
                 title="Preparing"
