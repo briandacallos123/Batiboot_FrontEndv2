@@ -61,11 +61,13 @@ export default function OrderListViewModal(props) {
   const { loading = false } = props;
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
   const theme = useTheme();
+
   const handleCloseModal = () => {
     onClose(selectedValue);
     setIsEdit(false);
     setOpenModal(false);
   };
+
   const modalStyle = {
     position: 'absolute',
     top: '100%',
@@ -75,7 +77,7 @@ export default function OrderListViewModal(props) {
     boxShadow: 24,
     p: 4,
   };
-  console.log(data);
+
   const [isEdit, setIsEdit] = useState(false);
   const [status, setStatus] = useState('Pending');
   const handleStatus = (event) => {
@@ -94,6 +96,7 @@ export default function OrderListViewModal(props) {
           identifier={identifier}
           pathname={pathname}
           nameLink={'Invoice'}
+          data={data}
         />
       </Box>
       <DialogAnimate className="dialog-center" open={open} fullScreen maxWidth={'md'}>

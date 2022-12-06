@@ -166,6 +166,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   const values = watch();
 
   const handleEditSubmit = async (data) => {
+    // console.log('VALUES: ', values);
     setLoadingSend(true);
     try {
       await updateQuotation(values);
@@ -179,12 +180,12 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   const handleCreateAndSend = async (data) => {
     /* console.log("woooooooo", getValues("images"),user.email,user.id); */
 
-    setLoadingSend(true);
     try {
       const form = new FormData();
       form.append('email', user?.email);
       form.append('id', user?.id);
       form.append('name', data.name);
+      // form.append('product', data.name);
       form.append('description', data.description);
       // form.append('code', data.code);
       // form.append('sku', data.sku);
@@ -200,7 +201,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       form.append('services', data.service);
       rawFile.map((file) => form.append('images[]', file));
       await createQuotation(form);
-      // await new Promise((resolve) => setTimeout(resolve, 500));
 
       reset();
       handleCloseModal();

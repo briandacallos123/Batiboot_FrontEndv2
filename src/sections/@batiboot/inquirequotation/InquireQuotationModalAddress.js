@@ -46,6 +46,7 @@ export default function InquireQuotationModalAddress(prop) {
   const { invoiceFrom, invoiceTo } = values;
 
   // console.log('INVOICE FROM: ', invoiceFrom);
+  console.log('INVOICE FROM: ', invoiceFrom);
   console.log('INVOICE To: ', invoiceTo);
 
   return (

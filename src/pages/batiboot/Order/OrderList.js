@@ -154,6 +154,7 @@ export default function OrderList() {
     handleOpenModal();
   };
   const [modalViewData, setModalViewData] = useState([]);
+
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 

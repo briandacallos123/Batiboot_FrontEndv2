@@ -17,7 +17,7 @@ import { _invoiceAddressFrom } from '../../../../_mock/batiboot/invoice_mock/_in
 import useResponsive from '../../../../hooks/useResponsive';
 // components
 import Iconify from '../../../../components/Iconify';
-import { FormProvider } from '../../../../components/hook-form';
+import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 //
 import useAuth from '../../../../hooks/useAuth';
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
@@ -27,6 +27,7 @@ import InvoiceData from '../../orders/shipment/shipment-components/invoice-detai
 import QuotationData from '../../orders/shipment/shipment-components/quotation-data/Quotation';
 import SideBar from '../details/SideBar';
 import Scrollbar from '../../../../components/Scrollbar';
+// import { RHFSelect } from '../../../../components/hook-form';
 // ----------------------------------------------------------------------
 
 InvoiceNewEditForm.propTypes = {
@@ -39,7 +40,7 @@ InvoiceNewEditForm.propTypes = {
 const SIDEBAR_WIDTH = 320;
 const SIDEBAR_COLLAPSE_WIDTH = 96;
 
-export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef }) {
+export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef, data }) {
   const navigate = useNavigate();
   const { user, createInvoice } = useAuth();
   const isDesktop = useResponsive('up', 'md');
@@ -67,7 +68,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
       orderStatus: currentInvoice?.orderStatus || '',
       invoiceFrom: currentInvoice?.invoiceFrom || _invoiceAddressFrom[0],
       invoiceTo: currentInvoice?.invoiceTo || null,
-      items: currentInvoice?.items || [{ itemDescription: '', actualCBM: 0, rateCBM: 0, totalAmount: 0 }],
+      items: currentInvoice?.items || [{ totalAmount: 0 }],
+      // items: currentInvoice?.items || [{ itemDescription: '', actualCBM: 0, rateCBM: 0, totalAmount: 0 }],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentInvoice]
@@ -101,9 +103,11 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     ...values,
     items: values.items.map((item) => ({
       ...item,
-      total: item.actualCBM * item.rateCBM,
+      total: item.price * item.quantity,
     })),
   };
+
+  console.log('My INVOICE: ', newInvoice);
 
   const handleSaveAsDraft = async () => {
     setLoadingSave(true);
@@ -130,7 +134,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
       const dateDue = `${newInvoice.dueDate.getFullYear()}-${newInvoice.dueDate.getMonth()}-${newInvoice.dueDate.getDate()}`;
       const dateCreate = `${newInvoice.createDate.getFullYear()}-${newInvoice.createDate.getMonth()}-${newInvoice.createDate.getDate()}`;
 
-      const data = {
+      const valData = {
         from: newInvoice.invoiceFrom.address,
         to: newInvoice.invoiceTo.address,
         invoice_number: newInvoice.invoiceNumber,
@@ -138,9 +142,13 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
         details: JSON.stringify(newInvoice.items),
         due_date: dateDue,
         created_date: dateCreate,
+        id: data.id,
+        product_name: data.product_name,
+        // id: 18,
+        // id: newInvoice.id,
       };
-      console.log(data);
-      await createInvoice(data);
+      // console.log('DATA KO: ', valData);
+      await createInvoice(valData);
       reset();
       handleCloseModal();
       setLoadingSend(false);

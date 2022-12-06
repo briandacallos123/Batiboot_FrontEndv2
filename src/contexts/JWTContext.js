@@ -581,7 +581,7 @@ function AuthProvider({ children }) {
   };
 
   const createInvoice = async (data) => {
-    const response = await axios.post('/api/invoice', data, {
+    const response = await axios.post('/api/orders/insert/invoice', data, {
       headers: {
         'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
       },
@@ -607,6 +607,7 @@ function AuthProvider({ children }) {
       },
     });
     const user = response.data;
+    console.log('RESPONSE: ', user);
 
     // alert(user)
     // alert(accessToken)

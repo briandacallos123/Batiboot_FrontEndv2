@@ -76,6 +76,8 @@ export default function UserModal(props) {
     }
   };
 
+  // console.log('BAKA MINGMING YAN, VIEW DATA: ', data);
+
   // alert(nameLink)
   // alert(_invoices.find((invoice) => invoice.id === identifier))
 
@@ -90,6 +92,7 @@ export default function UserModal(props) {
           handleCloseModal={handleCloseModal}
           currentInvoice={currentInvoice}
           formRef={formRef}
+          data={data}
         />
       );
     }
@@ -123,7 +126,7 @@ export default function UserModal(props) {
       return <InquiryAndQuotationViewModal data={data} identifier={identifier} handleCloseModal={handleCloseModal} />;
     }
     if (nameLink === 'Order List' && !isEdit) {
-      return <OrderListModalForm isEdit={isEdit} handleCloseModal={handleCloseModal} formRef={formRef} />;
+      return <OrderListModalForm isEdit={isEdit} data={data} handleCloseModal={handleCloseModal} formRef={formRef} />;
     }
     if (nameLink === 'Order List' && isEdit) {
       return <OrderListModalForm isEdit={isEdit} handleCloseModal={handleCloseModal} formRef={formRef} />;

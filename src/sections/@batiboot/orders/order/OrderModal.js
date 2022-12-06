@@ -56,7 +56,7 @@ OrderListModalForm.propTypes = {
   formRef: PropTypes.any,
 };
 
-export default function OrderListModalForm({ isEdit, currentProduct, formRef, handleCloseModal }) {
+export default function OrderListModalForm({ isEdit, currentProduct, formRef, handleCloseModal, data }) {
   const navigate = useNavigate();
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);

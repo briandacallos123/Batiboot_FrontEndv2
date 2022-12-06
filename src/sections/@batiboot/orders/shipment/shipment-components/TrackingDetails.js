@@ -9,7 +9,7 @@ import Iconify from '../../../../../components/Iconify';
 import { RHFSelect, RHFTextField } from '../../../../../components/hook-form';
 
 // ----------------------------------------------------------------------
-const STATUS_OPTION = ['Preparing', 'Delivery in progress', 'Received', 'Not Delivered'];
+const STATUS_OPTION = ['Pending', 'Preparing', 'Delivery in progress', 'Received', 'Not Delivered'];
 
 export default function TrackingDetails() {
   const [trackingNum, setTrackingNum] = React.useState('2022001');
