@@ -194,7 +194,7 @@ export default function OrderList() {
   const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: tableData.length },
+    { value: 'all', label: 'All', color: 'info', count: totalData },
     { value: 'accepted', label: 'Accepted', color: 'success', count: getLengthByStatus('accepted') },
     { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
     { value: 'Rejected', label: 'Rejected', color: theme.palette.error.main, count: getLengthByStatus('rejected') },
@@ -350,17 +350,17 @@ export default function OrderList() {
             >
               <OrderListAnalytics
                 title="Total"
-                total={tableData.length}
-                percent={100}
-                price={sumBy(tableData, 'amount')}
+                total={totalData}
+                percent={totalData}
+                price={totalData}
                 icon="ic:round-receipt"
                 color={theme.palette.info.main}
               />
               <OrderListAnalytics
                 title="Accepted"
-                total={getLengthByStatus('accepted')}
-                percent={getPercentByStatus('accepted')}
-                price={getTotalPriceByStatus('accepted')}
+                total={getLengthByStatus('Accepted')}
+                percent={getPercentByStatus('Accepted')}
+                price={getTotalPriceByStatus('Accepted')}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
