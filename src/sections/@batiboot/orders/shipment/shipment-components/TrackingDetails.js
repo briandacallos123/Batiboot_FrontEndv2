@@ -50,6 +50,7 @@ export default function TrackingDetails() {
               label="Order Recieve Date"
               inputFormat="MM/dd/yyyy"
               value={value}
+              name="date"
               onChange={handleChange}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -64,6 +65,7 @@ export default function TrackingDetails() {
                 sx={{
                   textTransform: 'capitalize',
                 }}
+                name="status"
               >
                 {STATUS_OPTION.map((option) => (
                   <MenuItem

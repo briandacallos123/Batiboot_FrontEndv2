@@ -28,7 +28,7 @@ import {
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../redux/store';
 import { getAllOrders } from '../../redux/slices/adminOrder';
-import { getAllInvoice, deleteInvoice,getAllInvoiceStatus } from '../../redux/slices/adminInvoice';
+import { getAllInvoice, deleteInvoice, getAllInvoiceStatus } from '../../redux/slices/adminInvoice';
 
 import useAuth from '../../hooks/useAuth';
 // routes
@@ -84,7 +84,9 @@ export default function OrderList() {
   const { themeStretch } = useSettings();
   const { name = '' } = useParams();
   const currentUser = _userList.find((user) => paramCase(user.name) === name);
-  const { invoice, totalData,totalInvoiceStatusArr, ccc, invoiceArr, isLoading } = useSelector((state) => state.adminInvoice);
+  const { invoice, totalData, totalInvoiceStatusArr, ccc, invoiceArr, isLoading } = useSelector(
+    (state) => state.adminInvoice
+  );
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -367,7 +369,7 @@ export default function OrderList() {
             identifier={identifier}
           />
 
-          <TrackingAddModal open={openTrackingModal} onClose={handleCloseModal} data={invoiceArr} />
+          <TrackingAddModal open={openTrackingModal} onClose={handleCloseModal} identifier={identifier} />
         </Box>
 
         <Card sx={{ mb: 5 }}>
@@ -417,7 +419,6 @@ export default function OrderList() {
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />
-              
             </Stack>
           </Scrollbar>
         </Card>
@@ -580,7 +581,7 @@ export default function OrderList() {
                           onDeleteRow={() => handleDeleteRow(items.id)}
                           onEditRow={() => handleEditRow(invoice.byId[items.id])}
                           onViewRow={() => handleViewRow(items.id)}
-                          onAddTracking={() => handleAddTracking()}
+                          onAddTracking={() => handleAddTracking(items)}
                           // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
                         />
