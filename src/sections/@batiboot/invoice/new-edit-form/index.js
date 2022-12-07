@@ -55,8 +55,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
     status: Yup.string().nullable().required('Status is required'),
   });
-  const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : currentInvoice.invoice_number;
-
+  // const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : currentInvoice.invoice_number;
+  const id = !isEdit ? Math.floor(Math.random() * 9999999) : currentInvoice.invoice_number;
   const [invoicePId, setInvoicePId] = useState(id);
 
   const defaultValues = useMemo(
