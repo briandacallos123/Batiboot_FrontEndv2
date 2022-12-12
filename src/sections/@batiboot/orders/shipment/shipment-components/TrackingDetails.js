@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import * as Yup from 'yup';
+// form
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
+import { DatePicker } from '@mui/x-date-pickers';
 import { Box, Stack, Button, Divider, Typography, InputAdornment, MenuItem, TextField, Grid } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 // utils
@@ -13,8 +18,28 @@ const STATUS_OPTION = ['Pending', 'Preparing', 'Delivery in progress', 'Received
 
 export default function TrackingDetails() {
   const [trackingNum, setTrackingNum] = React.useState('2022001');
-  const [value, setValue] = React.useState(' ');
+  // const [value, setValue] = React.useState(' ');
   const [status, setStatus] = useState('Preparing');
+
+  const TrackingSchema = Yup.object().shape({
+    receiveDate: Yup.string().nullable().required('Date is required'),
+  });
+
+  const defaultValues = useMemo(
+    () => ({
+      date: new Date(),
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const methods = useForm({
+    resolver: yupResolver(TrackingSchema),
+    defaultValues,
+  });
+
+  const { control, setValue } = methods;
+
   const handleStatus = (event) => {
     setStatus(event.target.value);
   };
@@ -46,13 +71,30 @@ export default function TrackingDetails() {
             sx={{ width: 1, p: 2 }}
           >
             {/* <TextField size="small" label="Order Recieve Date" InputLabelProps={{ shrink: true }} /> */}
-            <DesktopDatePicker
+            {/* <DesktopDatePicker
               label="Order Recieve Date"
               inputFormat="MM/dd/yyyy"
               value={value}
               name="date"
               onChange={handleChange}
               renderInput={(params) => <TextField {...params} />}
+            /> */}
+
+            <Controller
+              name="receiveDate"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <DatePicker
+                  label="Receive Date"
+                  value={field.value}
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} fullWidth error={!!error} helperText={error?.message} />
+                  )}
+                />
+              )}
             />
 
             {/* <TextField size="small" label="Status" InputLabelProps={{ shrink: true }} /> */}
