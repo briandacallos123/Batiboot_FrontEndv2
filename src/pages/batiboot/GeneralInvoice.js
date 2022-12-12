@@ -254,7 +254,7 @@ export default function OrderList() {
 
   const handleOpenModal = () => setOpenModal(!openModal);
   const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
-  const handleOpenTrackingModal = () => setOpenTrackingModal(!openTrackingModal);
+  const handleOpenTrackingModal = () => setOpenTrackingModal(true);
 
   const handleCloseModal = () => {
     setIsEdit(false);

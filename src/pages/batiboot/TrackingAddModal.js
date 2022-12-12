@@ -50,35 +50,47 @@ export default function TrackingAddModal(props) {
   const theme = useTheme();
   const currentInvoice = _invoices.find((invoice) => invoice.id === 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1');
   // const currentInvoice = data.filter((item) => item.id === identifier);
-  console.log(_invoices);
   const handleCloseModal = () => onClose(selectedValue);
 
-  const NewProductSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required'),
-    images: Yup.array().min(1, 'Images is required'),
-    price: Yup.number().moreThan(0, 'Price should not be $0.00'),
+  const schema = Yup.object().shape({
+    origin: Yup.string().required('origin is required'),
+    destination: Yup.string().required('destination is required'),
+    trackingNumber: Yup.string().required('trackingNumber is required'),
+    // date: Yup.string().required('date is required'),
+    status: Yup.string().required('status is required'),
+    // name: Yup.string().required('Name is required'),
+    // description: Yup.string().required('Description is required'),
+    // images: Yup.array().min(1, 'Images is required'),
+    // price: Yup.number().moreThan(0, 'Price should not be $0.00'),
   });
+  // const schema = Yup.object().shape({
+  //   origin: Yup.string().required('origin is required'),
+  // });
+  const defaultValues = {
+    origin: '',
+    order_recieve_date: new Date(),
+    destination: '',
+    trackingNumber: '',
+    status: 0,
+  };
 
   const methods = useForm({
-    resolver: yupResolver(NewProductSchema),
-    //  defaultValues,
+    resolver: yupResolver(schema),
+    defaultValues,
   });
 
   const {
-    reset,
-    watch,
     control,
-    setValue,
-    getValues,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
-  const values = watch();
+  const onSubmit = async (data) => {
+    console.log(data);
+    /*   const { invoice_number: invoiceNumber, id: invoiceId, product_name: productName } = identifier;
 
-  const submit = () => {
-    console.log(values);
+    const newData = { ...data, invoiceNumber, invoiceId, productName };
+    console.log(newData); */
   };
 
   return (
@@ -108,39 +120,40 @@ export default function TrackingAddModal(props) {
             </Stack>
           </DialogTitle>
         </div>
-
-        <div className="mpp-body">
-          <Page title="Batiboot: Create Tracking">
-            <Grid container>
-              <Grid item xs={12} md={2} bgcolor="background.neutral" />
-              <Grid item xs={12} md={8}>
-                <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
-                  <Scrollbar>
-                    <TrackingLocation />
-                    <TrackingDetails />
-                  </Scrollbar>
-                </Stack>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <div className="mpp-body">
+            <Page title="Batiboot: Create Tracking">
+              <Grid container>
+                <Grid item xs={12} md={2} bgcolor="background.neutral" />
+                <Grid item xs={12} md={8}>
+                  <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
+                    <Scrollbar>
+                      <TrackingLocation />
+                      <TrackingDetails />
+                    </Scrollbar>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} md={2} bgcolor="background.neutral" />
               </Grid>
-              <Grid item xs={12} md={2} bgcolor="background.neutral" />
-            </Grid>
-          </Page>
-        </div>
+            </Page>
+          </div>
 
-        <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>
-          <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
-            <Button
-              onClick={handleCloseModal}
-              variant="outlined"
-              size="small"
-              sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
-            >
-              Cancel
-            </Button>
-            <LoadingButton type="button" onClick={submit} size="small" variant="contained">
-              {/* {!isEdit ? `Create ${nameLink}` : 'Save Changes'}   */} Confirm
-            </LoadingButton>
-          </DialogActions>
-        </div>
+          <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>
+            <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
+              <Button
+                onClick={handleCloseModal}
+                variant="outlined"
+                size="small"
+                sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
+              >
+                Cancel
+              </Button>
+              <LoadingButton type="submit" size="small" variant="contained">
+                {/* {!isEdit ? `Create ${nameLink}` : 'Save Changes'}   */} Create Tracking
+              </LoadingButton>
+            </DialogActions>
+          </div>
+        </FormProvider>
       </div>
     </DialogAnimate>
   );
