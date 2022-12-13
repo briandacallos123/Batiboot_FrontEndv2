@@ -141,7 +141,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
         status: newInvoice.status,
         details: JSON.stringify(newInvoice.items),
         due_date: dateDue,
-        created_date: dateCreate,
+        created_at: dateCreate,
         id: data.id,
         product_name: data.product_name,
         // id: 18,

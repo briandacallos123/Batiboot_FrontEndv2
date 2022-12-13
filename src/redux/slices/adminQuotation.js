@@ -1,6 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // utils
+import axios from 'axios';
 import { /* axios, */ V4axios } from '../../utils/axios';
+
 //
 import { dispatch } from '../store';
 
@@ -13,12 +15,17 @@ function objFromArray(array, key = 'id') {
   }, {});
 }
 
+export const UpdateQuotation = createAsyncThunk('quotation/add', async (data) => {
+  return data;
+});
+
 const initialState = {
   isLoading: false,
   error: null,
   quotations: { byId: {}, allIds: [] },
   quotationsArr: [],
   quotationToEdit: null,
+  quotationArrNew: [],
   totalData: 0,
   quotationServices: [],
   totalQuotationStatusArr: [],
@@ -54,12 +61,10 @@ const slice = createSlice({
       state.quotationServices = data.services;
     },
 
-    getTotalQuotationStatusArr(state, action){
-      const {data} = action.payload;
+    getTotalQuotationStatusArr(state, action) {
+      const { data } = action.payload;
       state.totalQuotationStatusArr = data;
-      
     },
-
 
     // GET QUOTATION SUCCESS
     getQuotationSuccess(state, action) {
@@ -68,11 +73,24 @@ const slice = createSlice({
       state.quotations.byId = objFromArray(data);
       state.quotations.allIds = Object.keys(state.quotations.byId);
       state.quotationsArr = data;
+      state.quotationArr = data;
       state.totalData = total;
       state.ccc = ccc;
     },
 
+    // updateQuotationArr(state, action) {
+    //   const { data } = action.payload;
+    //   const newQuotation = [...action.quotationArr, ...data];
+    //   state.quotationsArr = newQuotation;
+    // },
+
     // approve quotation
+  },
+  extraReducers: {
+    [UpdateQuotation.fulfilled]: (state, action) => {
+      const newQuotationArr = [...state.quotationArr, ...action.payload];
+      state.quotationArr = newQuotationArr;
+    },
   },
 });
 
@@ -96,6 +114,15 @@ export function getAllQuotations(payload) {
     }
   };
 }
+
+export function fetchData(payload) {
+  getAllQuotationStatus(payload);
+}
+
+// export const updateQuotation = (data) => {
+//   console.log('dATA MO: ', data);
+//   // dispatch(slice.actions.updateQuotationArr(data));
+// };
 // export function getQuotationsByUser(payload) {
 //   const { accessToken } = localStorage;
 //   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -147,9 +174,9 @@ export function approveQuotation(payload) {
 }
 
 export function getAllQuotationStatus() {
-  const {accessToken} = localStorage
+  const { accessToken } = localStorage;
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
@@ -160,6 +187,3 @@ export function getAllQuotationStatus() {
     }
   };
 }
-
-
-

@@ -6,13 +6,17 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+
+import { useDispatch } from 'react-redux';
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment } from '@mui/material';
+import { fetchData } from '../../../redux/slices/adminQuotation';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 import useAuth from '../../../hooks/useAuth';
+// import {  } from '../../../redux/slices/adminQuotation';
 // components
 import {
   FormProvider,
@@ -87,13 +91,14 @@ ProductNewEditForm.propTypes = {
   handleCloseModal: PropTypes.func,
 };
 
-export default function ProductNewEditForm({ isEdit, currentProduct, formRef, handleCloseModal, dataEdit }) {
+export default function ProductNewEditForm({ isEdit, currentProduct, formRef, handleCloseModal, dataEdit, utils }) {
   const navigate = useNavigate();
   const { createQuotation, user, updateQuotation } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
   const [rawFile, setrawFiles] = useState(null);
+  const dispatch = useDispatch();
 
   const handleSaveAsDraft = async () => {
     setLoadingSave(true);
@@ -201,11 +206,11 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       form.append('services', data.service);
       rawFile.map((file) => form.append('images[]', file));
       await createQuotation(form);
-
+      utils();
       reset();
       handleCloseModal();
       setLoadingSend(false);
-      window.location.reload();
+      // window.location.reload();
 
       /*    navigate(PATH_BATIBOOT.invoice.list);
       console.log(JSON.stringify(newInvoice, null, 2)); */

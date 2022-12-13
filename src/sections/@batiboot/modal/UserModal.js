@@ -48,6 +48,7 @@ export default function UserModal(props) {
     view,
     dataEdit,
     getUserQuotation,
+    utils,
   } = props;
 
   const { themeStretch } = useSettings();
@@ -117,7 +118,7 @@ export default function UserModal(props) {
         />
       );
     if (nameLink === 'Inquiry Quotation' && !isEdit) {
-      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} handleCloseModal={handleCloseModal} />;
+      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} handleCloseModal={handleCloseModal} utils={utils} />;
     }
     if (nameLink === 'Inquiry Quotation' && isEdit) {
       return <ProductNewEditForm isEdit={isEdit} formRef={formRef} dataEdit={dataEdit} />;

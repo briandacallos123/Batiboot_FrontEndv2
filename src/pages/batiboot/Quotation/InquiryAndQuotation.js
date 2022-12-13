@@ -26,11 +26,7 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import {
-  getAllQuotations,
-  getQuotationServices,
-  getAllQuotationStatus,
-} from '../../../redux/slices/adminQuotation';
+import { getAllQuotations, getQuotationServices, getAllQuotationStatus } from '../../../redux/slices/adminQuotation';
 // import { getAllQuotationsApproved } from '../../../redux/slices/adminQuotationApproved';
 // import { getAllQuotationsPendings } from '../../../redux/slices/adminQuotationPendings';
 
@@ -62,7 +58,7 @@ import InquireAndQuotationCreateModal from './InquiryAndQuotationCreate';
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
 import InquiryAndQuotationViewModal from './InquiryAndQuotationView';
 import UserModal from '../../../sections/@batiboot/modal/UserModal';
-
+// import { useProvider } from '../../../contexts/JWTContext';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -84,11 +80,12 @@ export default function InquireQuotation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { quotations, totalData,totalQuotationStatusArr,ccc, quotationsArr, isLoading, quotationServices } = useSelector(
-    (state) => state.adminQuotation
-  );
+  const { quotations, totalData, totalQuotationStatusArr, ccc, quotationsArr, isLoading, quotationServices } =
+    useSelector((state) => state.adminQuotation);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
   // const [reRender, setRender] = useState(false);
 
   const {
@@ -207,9 +204,15 @@ export default function InquireQuotation() {
 
   const TABS = [
     { value: 'all', label: 'All', color: 'info', count: totalData },
-    { value: 'approved', label: 'Approved', color: 'success', count: totalQuotationStatusArr.totalPending},
-    { value: 'received', label: 'Received', color: 'warning', count: totalQuotationStatusArr.totalApproved},
-    { value: 'pending', label: 'Pending', color: '', backgroundColor: 'green', count: totalQuotationStatusArr.totalReceived},
+    { value: 'approved', label: 'Approved', color: 'success', count: totalQuotationStatusArr.totalPending },
+    { value: 'received', label: 'Received', color: 'warning', count: totalQuotationStatusArr.totalApproved },
+    {
+      value: 'pending',
+      label: 'Pending',
+      color: '',
+      backgroundColor: 'green',
+      count: totalQuotationStatusArr.totalReceived,
+    },
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -238,20 +241,10 @@ export default function InquireQuotation() {
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
-    console.log('payload', payload);
-    console.log('payload', payload);
+    // console.log('payload', payload);
+    // console.log('payload', payload);
     dispatch(getAllQuotations(payload));
   };
-
-  // const getUserQuotation = (obj) => {
-  //   const payload = {};
-  //   payload.page = page;
-  //   payload.rowcount = rowsPerPage;
-  //   payload.email = obj.email;
-  //   payload.id = obj.id;
-
-  //   dispatch(getQuotationsByUser(payload));
-  // };
 
   const getServices = () => {
     dispatch(getQuotationServices());
@@ -262,6 +255,8 @@ export default function InquireQuotation() {
     utils();
     getServices();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
+
+  // useEffect(() => {}, [quotationsArr]);
 
   // const SERVICE_OPTIONS = [
   //   'All',
@@ -378,6 +373,7 @@ export default function InquireQuotation() {
             pathname={pathname}
             nameLink={'Inquiry Quotation'}
             dataEdit={dataEdit}
+            utils={utils}
           />
           {
             /* <InquireAndQuotationCreateModal

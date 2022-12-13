@@ -581,23 +581,27 @@ function AuthProvider({ children }) {
   };
 
   const createInvoice = async (data) => {
-    const response = await axios.post('/api/orders/insert/invoice', data, {
-      headers: {
-        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-      },
-    });
-    const user = response.data;
+    try {
+      const response = await axios.post('/api/orders/insert/invoice', data, {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      });
+      const user = response.data;
 
-    // alert(user.email)
-    // alert(accessToken)
-    // setSession(accessToken);
+      // alert(user.email)
+      // alert(accessToken)
+      // setSession(accessToken);
 
-    dispatch({
-      type: 'CREATE_INVOICE',
-      payload: {
-        user,
-      },
-    });
+      dispatch({
+        type: 'CREATE_INVOICE',
+        payload: {
+          user,
+        },
+      });
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   const createUserRole = async (data) => {
