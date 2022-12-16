@@ -28,14 +28,14 @@ import SideBar from '../../sections/@batiboot/invoice/details/SideBar';
 
 export default function InvoiceViewDetailsModal(props) {
   const { open, selectedValue, onClose, edit, identifier, data } = props;
-  console.log("data", data.filter((item) => item.id === identifier));
+  // console.log("data", data.filter((item) => item.id === identifier));
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const theme = useTheme();
-console.log(identifier);
+// console.log(identifier);
   const currentInvoice = _invoices.find((invoice) => invoice.id === "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1");
   // const currentInvoice = data.filter((item) => item.id === identifier);
-console.log(_invoices);
+// console.log(_invoices);
   const handleCloseModal = () => onClose(selectedValue);
 
   return (
