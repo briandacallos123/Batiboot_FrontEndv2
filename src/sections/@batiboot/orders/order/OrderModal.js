@@ -10,6 +10,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment } from '@mui/material';
+import { useDispatch } from 'react-redux';
+
+import { UpdateOrder } from '../../../../redux/slices/adminOrder';
+
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // components
@@ -56,12 +60,20 @@ OrderListModalForm.propTypes = {
   formRef: PropTypes.any,
 };
 
-export default function OrderListModalForm({ isEdit, currentProduct, formRef, handleCloseModal, data }) {
+export default function OrderListModalForm({
+  isEdit,
+  currentProduct,
+  formRef,
+  handleCloseModal,
+  data,
+  identifier,
+  utils,
+}) {
   const navigate = useNavigate();
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-
+  const dispatch = useDispatch();
   const NewProductSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required'),
@@ -71,22 +83,41 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
 
   const defaultValues = useMemo(
     () => ({
-      name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      images: currentProduct?.images || [],
-      code: currentProduct?.code || '',
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || 0,
-      priceSale: currentProduct?.priceSale || 0,
-      tags: currentProduct?.tags || [TAGS_OPTION[0]],
-      inStock: true,
-      taxes: true,
-      gender: currentProduct?.gender || GENDER_OPTION[2].value,
-      services: currentProduct?.service || SERVICE_OPTION[0],
+      name: identifier?.product_name || '',
+      description: identifier?.description || '',
+      images: identifier?.attachments || [],
+      price: identifier?.price || 0,
+      services: identifier?.services || SERVICE_OPTION[0],
+      id: identifier?.id || '',
+      quantity: identifier?.quantity || '',
+      contact_number: identifier?.contact_number || '',
+      email: identifier?.email || '',
+      address_from: identifier?.address_from || '',
+      address_to: identifier?.address_to || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentProduct]
+    [identifier]
   );
+
+  // from current Product to identifier for edit.
+  // const defaultValues = useMemo(
+  //   () => ({
+  //     name: currentProduct?.name || '',
+  //     description: currentProduct?.description || '',
+  //     images: currentProduct?.images || [],
+  //     code: currentProduct?.code || '',
+  //     sku: currentProduct?.sku || '',
+  //     price: currentProduct?.price || 0,
+  //     priceSale: currentProduct?.priceSale || 0,
+  //     tags: currentProduct?.tags || [TAGS_OPTION[0]],
+  //     inStock: true,
+  //     taxes: true,
+  //     gender: currentProduct?.gender || GENDER_OPTION[2].value,
+  //     services: currentProduct?.service || SERVICE_OPTION[0],
+  //   }),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [currentProduct]
+  // );
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
@@ -166,10 +197,15 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
   };
 
   const handleCreateAndSend = async () => {
-    setLoadingSend(true);
+    // console.log('VALUES: ', values);
+    // console.log('isEdit: ', isEdit);
+    // setLoadingSend(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      if (isEdit) {
+        await dispatch(UpdateOrder(values));
+        utils();
+      }
       reset();
       handleCloseModal();
       setLoadingSend(false);
@@ -230,7 +266,7 @@ export default function OrderListModalForm({ isEdit, currentProduct, formRef, ha
                   />
                 </div> */}
 
-                <RHFSelect name="category" label="Services">
+                <RHFSelect name="services" label="Services">
                   {SERVICE_OPTION.map((category) => (
                     <option key={category} value={category}>
                       {category}

@@ -105,6 +105,7 @@ export default function UserModal(props) {
           handleCloseModal={handleCloseModal}
           currentInvoice={identifier}
           formRef={formRef}
+          identifier={identifier}
         />
       );
     if (nameLink === 'Invoice' && !isEdit)
@@ -115,6 +116,7 @@ export default function UserModal(props) {
           handleCloseModal={handleCloseModal}
           currentInvoice={currentInvoice}
           formRef={formRef}
+          data={identifier}
         />
       );
     if (nameLink === 'Inquiry Quotation' && !isEdit) {
@@ -130,7 +132,15 @@ export default function UserModal(props) {
       return <OrderListModalForm isEdit={isEdit} data={data} handleCloseModal={handleCloseModal} formRef={formRef} />;
     }
     if (nameLink === 'Order List' && isEdit) {
-      return <OrderListModalForm isEdit={isEdit} handleCloseModal={handleCloseModal} formRef={formRef} />;
+      return (
+        <OrderListModalForm
+          isEdit={isEdit}
+          handleCloseModal={handleCloseModal}
+          formRef={formRef}
+          identifier={identifier}
+          utils={utils}
+        />
+      );
     }
     // USER ROLES MODAL
     if (nameLink === 'Roles' && !isEdit) {

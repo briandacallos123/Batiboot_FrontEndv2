@@ -1,25 +1,32 @@
 // form
+
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import DatePicker from '@mui/lab/DatePicker';
 import { Stack, TextField, MenuItem } from '@mui/material';
+import { useEffect, useRef } from 'react';
 // components
 import { RHFSelect, RHFTextField } from '../../../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['paid', 'unpaid', 'overdue', 'draft'];
+const STATUS_OPTIONS = ['Paid', 'Unpaid', 'Overdue', 'Draft'];
 
 // ----------------------------------------------------------------------
 
-export default function InvoiceNewEditStatusDate({invoiceId}) {
+export default function InvoiceNewEditStatusDate(prop) {
   const { control, watch } = useFormContext();
+  const { getValue } = prop;
 
-  const values = watch();
-  const id = Math.floor( Math.random() * 9999999);
+  // useEffect(() => {
+  //   myRef.current = 5;
+  // }, [invoiceId]);
+
+  // console.log('WATCH: ', watch());
+
   return (
     <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ p: 3, bgcolor: 'background.neutral' }}>
-      <RHFTextField disabled name="invoiceNumber" label="Invoice number" value={invoiceId} />
+      <RHFTextField value={getValue('invoiceNumber')} disabled name="invoiceNumber" label="Invoice number" />
 
       <RHFSelect
         fullWidth
@@ -46,12 +53,13 @@ export default function InvoiceNewEditStatusDate({invoiceId}) {
       </RHFSelect>
 
       <Controller
-        name="createDate"
+        name="created_at"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <DatePicker
             label="Date create"
             value={field.value}
+            name="created_at"
             onChange={(newValue) => {
               field.onChange(newValue);
             }}

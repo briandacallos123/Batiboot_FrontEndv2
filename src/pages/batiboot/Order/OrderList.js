@@ -150,7 +150,7 @@ export default function OrderList() {
 
   const handleEditRow = (id) => {
     setIsEdit(!isEdit);
-    // setIdentifier(id)
+    setIdentifier(id);
     handleOpenModal();
   };
   const [modalViewData, setModalViewData] = useState([]);
@@ -216,8 +216,7 @@ export default function OrderList() {
   };
 
   const [Status, setStatus] = React.useState(-1);
-
-  useEffect(() => {
+  const utils = () => {
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -230,6 +229,9 @@ export default function OrderList() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAllOrders(payload));
+  };
+  useEffect(() => {
+    utils();
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
   /* console.log(appointmentsArr) */
@@ -324,6 +326,7 @@ export default function OrderList() {
             identifier={identifier}
             pathname={pathname}
             nameLink={'Order List'}
+            utils={utils}
           />
           {
             /*  <OrderCreateModal 
@@ -541,7 +544,9 @@ export default function OrderList() {
                           selected={selected.includes(items.id)}
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
-                          onEditRow={() => handleEditRow(orders.byId[items.id].fname)}
+                          onEditRow={() => handleEditRow(items)}
+                          // bring back this if edit do not work.
+                          // onEditRow={() => handleEditRow(orders.byId[items.id].fname)}
                           onViewRow={() => handleViewRow(items)}
                           // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}

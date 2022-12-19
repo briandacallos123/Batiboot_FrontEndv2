@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // utils
-import /* axios, */ {V4axios} from '../../utils/axios';
+import { /* axios, */ V4axios } from '../../utils/axios';
 //
 import { dispatch } from '../store';
 
@@ -13,23 +13,51 @@ function objFromArray(array, key = 'id') {
   }, {});
 }
 
+export const UpdateOrder = createAsyncThunk('order/update', async (payload) => {
+  console.log('HERE');
+  const { accessToken } = localStorage;
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  try {
+    const response = await V4axios.post('/api/order/update/information', payload);
+    // dispatch(slice.actions.getOrderSuccess(response.data));
+    return response.data;
+  } catch (error) {
+    dispatch(slice.actions.hasError(error));
+  }
+});
+
+// export function UpdateOrder(payload) {
+//   const { accessToken } = localStorage;
+//   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//   //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+//   return async () => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const response = await V4axios.post('/api/order/update/information', payload);
+//       dispatch(slice.actions.getOrderSuccess(response.data));
+//     } catch (error) {
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
 const initialState = {
   isLoading: false,
   error: null,
   orders: { byId: {}, allIds: [] },
-  ordersArr : [],
-  totalData:0,
-  ccc:{
+  ordersArr: [],
+  totalData: 0,
+  ccc: {
     approved: 0,
     cancelled: 0,
     done: 0,
-    pending:0,
+    pending: 0,
     total: 0,
   },
 };
 
 const slice = createSlice({
-  name:'adminOrder',
+  name: 'adminOrder',
   initialState,
   reducers: {
     // START LOADING
@@ -45,14 +73,19 @@ const slice = createSlice({
 
     // GET QUOTATION SUCCESS
     getOrderSuccess(state, action) {
-      const {data,total,ccc} = action.payload;
+      const { data, total, ccc } = action.payload;
       state.isLoading = false;
       state.orders.byId = objFromArray(data);
       state.orders.allIds = Object.keys(state.orders.byId);
       state.ordersArr = data;
       state.totalData = data.length;
-      state.ccc  = ccc;
-      console.log(action.payload)
+      state.ccc = ccc;
+      console.log(action.payload);
+    },
+  },
+  extraReducers: {
+    [UpdateOrder.fulfilled]: (state, action) => {
+      console.log('Action payload: ', action.payload);
     },
   },
 });
@@ -64,17 +97,16 @@ export default slice.reducer;
 // ----------------------------------------------------------------------
 
 export function getAllOrders(payload) {
-  const {accessToken} = localStorage
+  const { accessToken } = localStorage;
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.post('/api/orders/all',payload);
+      const response = await V4axios.post('/api/orders/all', payload);
       dispatch(slice.actions.getOrderSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
-

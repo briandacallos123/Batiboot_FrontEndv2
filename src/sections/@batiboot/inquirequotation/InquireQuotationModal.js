@@ -207,6 +207,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       rawFile.map((file) => form.append('images[]', file));
       await createQuotation(form);
       utils();
+      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       reset();
       handleCloseModal();
       setLoadingSend(false);

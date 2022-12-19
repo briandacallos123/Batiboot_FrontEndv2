@@ -13,6 +13,10 @@ import Iconify from '../../../../components/Iconify';
 //
 import InvoiceAddressListDialog from './InvoiceAddressListDialog';
 
+// import { RHFTextField } from '../../../components/hook-form';
+
+import { RHFTextField } from '../../../../components/hook-form';
+
 // ----------------------------------------------------------------------
 
 // InvoiceNewEditAddress.propTypes = {
@@ -22,12 +26,14 @@ import InvoiceAddressListDialog from './InvoiceAddressListDialog';
 // };
 
 export default function InvoiceNewEditAddress(prop) {
-  const { address_from: addressFrom, address_to: addressTo } = prop;
+  const { address_from: addressFrom, address_to: addressTo, identifier, isEdit, data } = prop;
   const {
     watch,
     setValue,
     formState: { errors },
   } = useFormContext();
+
+  console.log('addressFrom SA ORDERS EDIT: ', addressFrom);
 
   const upMd = useResponsive('up', 'md');
 
@@ -65,7 +71,11 @@ export default function InvoiceNewEditAddress(prop) {
           />
         </Stack>
 
-        <AddressInfo name={addressFrom} address={addressFrom} />
+        {isEdit ? (
+          <AddressInfo name={invoiceFrom} address={addressFrom} />
+        ) : (
+          <AddressInfo name={invoiceFrom} address={addressFrom} />
+        )}
       </Stack>
 
       <Stack sx={{ width: 1 }}>
@@ -91,13 +101,13 @@ export default function InvoiceNewEditAddress(prop) {
           />
         </Stack>
 
-        {invoiceTo ? (
-          <AddressInfo name={addressTo} address={addressTo} />
+        {/* {invoiceTo ? (
+          <AddressInfo name={invoiceTo} address={invoiceTo} />
         ) : (
           <Typography typography="caption" sx={{ color: 'error.main' }}>
             {errors.invoiceTo ? errors.invoiceTo.message : null}
           </Typography>
-        )}
+        )} */}
       </Stack>
     </Stack>
   );
@@ -114,11 +124,24 @@ AddressInfo.propTypes = {
 function AddressInfo({ name, address, phone }) {
   return (
     <>
-      <Typography variant="subtitle2">{name}</Typography>
+      {/* <Typography variant="subtitle2">{name ?? ''}</Typography>
       <Typography variant="body2" sx={{ mt: 1, mb: 0.5 }}>
-        {address}
+        {address ?? ''}
       </Typography>
-      <Typography variant="body2">Phone: {phone}</Typography>
+      <Typography variant="body2">Phone: {phone ?? ''}</Typography> */}
+
+      <RHFTextField
+        name={name || ''}
+        label={name || ''}
+        disabled
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        sx={{
+          mb: '-1rem',
+        }}
+      />
     </>
   );
 }

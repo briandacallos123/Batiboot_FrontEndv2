@@ -135,12 +135,9 @@ export default function OrderList() {
     payload.rowcount = rowsPerPage;
     // // payload.status = Status;
     payload.services = filterService;
-    // console.log(filterService);
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
-    console.log('payload', payload);
-    console.log('payload', payload);
     dispatch(getAllInvoice(payload));
     dispatch(getAllInvoiceStatus());
   };
@@ -181,7 +178,6 @@ export default function OrderList() {
     // delte front end
     utils();
   };
-
   const handleDeleteRows = (selected) => {
     const deleteRows = tableData.filter((row) => !selected.includes(row.id));
     setSelected([]);
@@ -268,8 +264,6 @@ export default function OrderList() {
 
   const [Status, setStatus] = React.useState(-1);
 
-  /* console.log(appointmentsArr) */
-
   const handleTabClick = (type) => {
     resetPage();
     let status = 0;
@@ -325,8 +319,6 @@ export default function OrderList() {
   useEffect(() => {
     setshowSkelDatatable(!isLoading);
   }, [isLoading]);
-
-  console.log(totalData);
 
   return (
     <Page title="Batiboot: Invoice">
@@ -579,7 +571,9 @@ export default function OrderList() {
                           selected={selected.includes(items.id)}
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
-                          onEditRow={() => handleEditRow(invoice.byId[items.id])}
+                          onEditRow={() => handleEditRow(items)}
+                          // bring back if edit dn't work
+                          // onEditRow={() => handleEditRow(invoice.byId[items.id])}
                           onViewRow={() => handleViewRow(items.id)}
                           onAddTracking={() => handleAddTracking(items)}
                           // onEditRow={() => handleEditRow(items.id)}

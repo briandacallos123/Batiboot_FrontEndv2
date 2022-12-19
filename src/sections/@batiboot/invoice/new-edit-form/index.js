@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Stack, Drawer, Grid, IconButton } from '@mui/material';
+import { Box, Card, Stack, Drawer, Grid, IconButton, MenuItem } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 // routes
 import { PATH_BATIBOOT } from '../../../../routes/paths';
@@ -17,7 +17,7 @@ import { _invoiceAddressFrom } from '../../../../_mock/batiboot/invoice_mock/_in
 import useResponsive from '../../../../hooks/useResponsive';
 // components
 import Iconify from '../../../../components/Iconify';
-import { FormProvider, RHFTextField } from '../../../../components/hook-form';
+import { FormProvider, RHFTextField, RHFSelect } from '../../../../components/hook-form';
 //
 import useAuth from '../../../../hooks/useAuth';
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
@@ -40,7 +40,7 @@ InvoiceNewEditForm.propTypes = {
 const SIDEBAR_WIDTH = 320;
 const SIDEBAR_COLLAPSE_WIDTH = 96;
 
-export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef, data }) {
+export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleCloseModal, formRef, data, identifier }) {
   const navigate = useNavigate();
   const { user, createInvoice } = useAuth();
   const isDesktop = useResponsive('up', 'md');
@@ -56,23 +56,24 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     status: Yup.string().nullable().required('Status is required'),
   });
   // const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : currentInvoice.invoice_number;
-  const id = !isEdit ? Math.floor(Math.random() * 9999999) : currentInvoice.invoice_number;
-  const [invoicePId, setInvoicePId] = useState(id);
+  const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : identifier?.invoice_number;
 
+  console.log('IDENTIFIER: ', identifier);
   const defaultValues = useMemo(
     () => ({
-      invoiceNumber: currentInvoice?.invoiceNumber || id,
-      createDate: currentInvoice?.createDate || null,
-      dueDate: currentInvoice?.dueDate || null,
-      address: currentInvoice?.address || null,
-      orderStatus: currentInvoice?.orderStatus || '',
-      invoiceFrom: currentInvoice?.invoiceFrom || _invoiceAddressFrom[0],
-      invoiceTo: currentInvoice?.invoiceTo || null,
-      items: currentInvoice?.items || [{ totalAmount: 0 }],
+      invoiceNumber: id || '',
+      created_at: identifier?.created_at || null,
+      dueDate: identifier?.due_date || null,
+      // address: identifier?.address || null,
+      status: identifier?.status || null,
+      invoiceFrom: identifier?.address_from || _invoiceAddressFrom[0],
+      invoiceTo: identifier?.address_to || null,
+      details: identifier?.details || [{ totalAmount: 0 }],
+      id: identifier?.id || '',
       // items: currentInvoice?.items || [{ itemDescription: '', actualCBM: 0, rateCBM: 0, totalAmount: 0 }],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentInvoice]
+    [identifier, id]
   );
 
   const methods = useForm({
@@ -84,6 +85,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     reset,
     watch,
     handleSubmit,
+    getValues,
     formState: { isSubmitting },
   } = methods;
 
@@ -101,13 +103,11 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
 
   const newInvoice = {
     ...values,
-    items: values.items.map((item) => ({
+    details: values.details.map((item) => ({
       ...item,
       total: item.price * item.quantity,
     })),
   };
-
-  console.log('My INVOICE: ', newInvoice);
 
   const handleSaveAsDraft = async () => {
     setLoadingSave(true);
@@ -126,9 +126,11 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
 
   const handleCreateAndSend = async () => {
     setLoadingSend(true);
+    console.log(values);
+    return false;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
 
       // console.log(JSON.stringify(newInvoice, null, 2));
       const dateDue = `${newInvoice.dueDate.getFullYear()}-${newInvoice.dueDate.getMonth()}-${newInvoice.dueDate.getDate()}`;
@@ -138,7 +140,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
         from: newInvoice.invoiceFrom.address,
         to: newInvoice.invoiceTo.address,
         invoice_number: newInvoice.invoiceNumber,
-        status: newInvoice.status,
+        statusText: newInvoice.status,
         details: JSON.stringify(newInvoice.items),
         due_date: dateDue,
         created_at: dateCreate,
@@ -147,7 +149,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
         // id: 18,
         // id: newInvoice.id,
       };
-      // console.log('DATA KO: ', valData);
+
       await createInvoice(valData);
       reset();
       handleCloseModal();
@@ -165,8 +167,11 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
             <Stack height={{ xs: '100%', md: '75vh' }} sx={{ flexGrow: 1 }}>
               <Scrollbar>
-                <InvoiceNewEditAddress currentInvoice={currentInvoice} />
-                <InvoiceNewEditStatusDate invoiceId={invoicePId} />
+                <InvoiceNewEditAddress identifier={identifier} />
+                <InvoiceNewEditStatusDate identifier={identifier} getValue={getValues} isEdit={isEdit} />
+                {/* <InvoiceNewEditAddress currentInvoice={currentInvoice} />
+                <InvoiceNewEditStatusDate  /> */}
+
                 <InvoiceNewEditDetails />
               </Scrollbar>
             </Stack>
@@ -179,8 +184,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
             <Grid item xs={12} md={8}>
               <Stack height={{ xs: '100%', md: '75vh' }}>
                 <Scrollbar>
-                  <InvoiceNewEditAddress />
-                  <InvoiceNewEditStatusDate invoiceId={invoicePId} />
+                  <InvoiceNewEditAddress data={data} />
+                  <InvoiceNewEditStatusDate getValue={getValues} />
                   <InvoiceNewEditDetails />
                 </Scrollbar>
               </Stack>
