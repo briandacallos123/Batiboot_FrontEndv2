@@ -239,14 +239,14 @@ export default function InquireQuotationTableRow({
                 // color={(row.status === 1 && 'success') || 'fce'}
                 sx={{ textTransform: 'capitalize' }}
                 color={
-                  (row.isOrder === 0 && row.isCancel === 0 && 'warning') ||
+                  (row.isOrder === 0 && row.status === 0 && 'warning') ||
                   (row.status === 1 && row.isOrder === 1 && 'success') ||
                   (row.isCancel === 1 && 'error') ||
                   'default'
                 }
               >
-                {row.isCancel === 1 ? 'Cancelled' : ''}
-                {row.isOrder === 0 && row.isCancel === 0 ? 'Pending' : ''}
+                {row.isCancel === 1 ? 'Saved Draft' : ''}
+                {row.isOrder === 0 && row.status === 0 ? 'Pending' : ''}
                 {row.status === 1 && row.isOrder === 1 ? 'Approved' : ''}
                 {/* {row.status === 0 && row.isOrder === 0 ? 'Pending' : ''} */}
               </Label>
