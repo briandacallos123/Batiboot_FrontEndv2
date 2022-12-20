@@ -220,16 +220,17 @@ export default function OrderTableRow({
           <TableCell align="left">
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          // color={
-          //   (orderStatus === 'approved' && 'success') ||
-          //   (orderStatus === 'pending' && 'warning') ||
-          //   (orderStatus === 'rejected' && 'error') ||
-          //   'default'
-          // }
+          color={
+            (row?.order_status === 'Draft' && 'error') ||
+            (row?.order_status === 'Accepted' && 'success') ||
+            (row?.order_status === 'Rejected' && 'error') ||
+            // (orderStatus === 'rejected' && 'error') ||
+            'error'
+          }
           sx={{ textTransform: 'capitalize' }}
-        >
+        >{row?.order_status}
           {/* {orderStatus} */}
-         <span >{row.isOrder === 1 ? 'Accepted' : 'Accepted' }</span> 
+         {/* <span >{row.order_status}</span>  */}
         </Label>
       </TableCell>
 

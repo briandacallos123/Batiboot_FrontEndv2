@@ -69,7 +69,7 @@ export function getAllDashboardPrivateLabel() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.get('/api/testing/PrivateLabel');
+      const response = await V4axios.get('/api/dashboard/linechart/PrivateLabel');
       dispatch(slice.actions.getDashboardSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

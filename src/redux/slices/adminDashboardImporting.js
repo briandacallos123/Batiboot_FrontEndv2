@@ -71,7 +71,7 @@ export function getAllDashboardImporting() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.get('/api/testing/Importing');
+      const response = await V4axios.get('api/dashboard/linechart/Importing');
       dispatch(slice.actions.getDashboardSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

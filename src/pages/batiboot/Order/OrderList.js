@@ -195,9 +195,9 @@ export default function OrderList() {
   const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: totalData },
-    { value: 'accepted', label: 'Accepted', color: 'success', count: getLengthByStatus('accepted') },
-    { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'All', label: 'All', color: 'info', count: totalData },
+    { value: 'Draft', label: 'Draft', color: 'success', count: getLengthByStatus('Draft') },
+    { value: 'Accepted', label: 'Accepted', color: 'warning', count: getLengthByStatus('Accepted') },
     { value: 'Rejected', label: 'Rejected', color: theme.palette.error.main, count: getLengthByStatus('rejected') },
   ];
 
@@ -358,6 +358,14 @@ export default function OrderList() {
                 color={theme.palette.info.main}
               />
               <OrderListAnalytics
+                title="Draft"
+                total={getLengthByStatus('Draft')}
+                percent={getPercentByStatus('Draft')}
+                price={getTotalPriceByStatus('Draft')}
+                icon="eva:clock-fill"
+                color={theme.palette.warning.main}
+              />
+              <OrderListAnalytics
                 title="Accepted"
                 total={getLengthByStatus('Accepted')}
                 percent={getPercentByStatus('Accepted')}
@@ -366,18 +374,10 @@ export default function OrderList() {
                 color={theme.palette.success.main}
               />
               <OrderListAnalytics
-                title="Pending"
-                total={getLengthByStatus('pending')}
-                percent={getPercentByStatus('pending')}
-                price={getTotalPriceByStatus('pending')}
-                icon="eva:clock-fill"
-                color={theme.palette.warning.main}
-              />
-              <OrderListAnalytics
                 title="Rejected"
-                total={getLengthByStatus('rejected')}
-                percent={getPercentByStatus('rejected')}
-                price={getTotalPriceByStatus('rejected')}
+                total={getLengthByStatus('Rejected')}
+                percent={getPercentByStatus('Rejected')}
+                price={getTotalPriceByStatus('Rejected')}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />
