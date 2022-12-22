@@ -26,6 +26,7 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
+
 import { getAllQuotations, getQuotationServices, getAllQuotationStatus } from '../../../redux/slices/adminQuotation';
 // import { getAllQuotationsApproved } from '../../../redux/slices/adminQuotationApproved';
 // import { getAllQuotationsPendings } from '../../../redux/slices/adminQuotationPendings';
@@ -117,6 +118,8 @@ export default function InquireQuotation() {
   const [filterStartDate, setFilterStartDate] = useState(null);
 
   const [filterEndDate, setFilterEndDate] = useState(null);
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
+  // const [orderModalOpen, setOrderModalOpen] = useState(false);
 
   const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
   const [modalViewData, setModalViewData] = useState([]);
@@ -130,6 +133,8 @@ export default function InquireQuotation() {
     setFilterName(filterName);
     setPage(0);
   };
+
+  const openOrderModal = () => setOrderModalOpen(!orderModalOpen);
 
   const handleFilterService = (event) => {
     setFilterService(event.target.value);
@@ -216,10 +221,13 @@ export default function InquireQuotation() {
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
+  const [orderModal, setOpenOrderModal] = React.useState(false);
   const [openViewModal, setOpenViewModal] = React.useState(false);
 
   const handleOpenModal = () => setOpenModal(!openModal);
   const handleOpenViewModal = () => setOpenViewModal(!openViewModal);
+
+  const handleOpenOrderModal = () => setOpenOrderModal(true);
 
   const handleCloseModal = () => {
     setIsEdit(false);
@@ -227,6 +235,7 @@ export default function InquireQuotation() {
     setOpenModal(false);
     setOpenViewModal(false);
     setIdentifier('');
+    setOpenOrderModal(false);
   };
 
   const [Status, setStatus] = React.useState(-1);
@@ -375,6 +384,14 @@ export default function InquireQuotation() {
             dataEdit={dataEdit}
             utils={utils}
           />
+          <UserModal
+            modalViewData={modalViewData}
+            open={orderModal}
+            onClose={handleCloseModal}
+            nameLink={'Order List'}
+            utils={utils}
+          />
+
           {
             /* <InquireAndQuotationCreateModal
             open={openModal}
@@ -388,6 +405,7 @@ export default function InquireQuotation() {
               onClose={handleCloseModal}
               identifier={identifier}
               data={modalViewData}
+              handleOpenOrderModal={handleOpenOrderModal}
             />
             // <UserModal
             //   open={openViewModal}

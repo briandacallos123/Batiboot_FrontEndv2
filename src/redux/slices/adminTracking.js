@@ -57,7 +57,7 @@ const slice = createSlice({
       state.trackingArr = data;
       state.totalData = data.length;
       state.ccc = ccc;
-      console.log(action.payload);
+      // console.log(action.payload);
     },
   },
 });
@@ -76,7 +76,7 @@ export function getAlltracking() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await V4axios.get('/api/Get/All/Shipment');
-      console.log('RESPONSE TO', response);
+      // console.log('RESPONSE TO', response);
       dispatch(slice.actions.trackingSuccess(response.data));
 
     } catch (error) {

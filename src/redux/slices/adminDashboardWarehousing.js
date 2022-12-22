@@ -69,7 +69,7 @@ export function getAllDashboardWarehousing() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.get('/api/testing/Warehousing');
+      const response = await V4axios.get('/api/dashboard/linechart/Warehousing');
       dispatch(slice.actions.getDashboardSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

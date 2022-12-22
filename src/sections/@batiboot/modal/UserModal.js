@@ -49,6 +49,8 @@ export default function UserModal(props) {
     dataEdit,
     getUserQuotation,
     utils,
+    inquiryModalData,
+    modalViewData,
   } = props;
 
   const { themeStretch } = useSettings();
@@ -129,7 +131,16 @@ export default function UserModal(props) {
       return <InquiryAndQuotationViewModal data={data} identifier={identifier} handleCloseModal={handleCloseModal} />;
     }
     if (nameLink === 'Order List' && !isEdit) {
-      return <OrderListModalForm isEdit={isEdit} data={data} handleCloseModal={handleCloseModal} formRef={formRef} />;
+      return (
+        <OrderListModalForm
+          isEdit={isEdit}
+          inquiryModalData={inquiryModalData}
+          data={data}
+          handleCloseModal={handleCloseModal}
+          formRef={formRef}
+          modalViewData={modalViewData}
+        />
+      );
     }
     if (nameLink === 'Order List' && isEdit) {
       return (

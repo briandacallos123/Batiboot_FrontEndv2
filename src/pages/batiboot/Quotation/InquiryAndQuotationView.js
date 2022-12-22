@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { paramCase } from 'change-case';
-import { useParams, useLocation, Navigate } from 'react-router-dom';
+import { useParams, useLocation, Navigate, Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
 // @mui
@@ -54,7 +54,7 @@ import Scrollbar from '../../../components/Scrollbar';
 const STATUS_OPTION = ['Pending', 'Approve', 'Received'];
 
 export default function InquiryAndQuotationViewModal(props, row) {
-  const { open, selectedValue, onClose, edit, identifier, data } = props;
+  const { open, selectedValue, onClose, edit, identifier, data, handleOpenOrderModal } = props;
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const { acceptOrder, cancelQuotation, user } = useAuth();
@@ -273,9 +273,21 @@ export default function InquiryAndQuotationViewModal(props, row) {
                     size="small"
                     sx={{ backgroundColor: 'primary.main' }}
                     variant="contained"
+                    onClick={handleOpenOrderModal}
                   >
                     save & Create Order
                   </Button>
+                  {/*  action={
+                    <Button
+                      variant="contained"
+                      startIcon={<Iconify icon={'eva:plus-fill'} />}
+                      
+                      to={PATH_BATIBOOT.order.createOrder}
+                      onClick={handleOpenModal}
+                    >
+                      Add Order
+                    </Button>
+          } */}
                 </>
               )}
             </DialogActions>

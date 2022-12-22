@@ -138,6 +138,8 @@ export default function OrderList() {
     payload.search = filterName;
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
+    // console.log('payload', payload);
+    // console.log('payload', payload);
     dispatch(getAllInvoice(payload));
     dispatch(getAllInvoiceStatus());
   };
@@ -319,6 +321,8 @@ export default function OrderList() {
   useEffect(() => {
     setshowSkelDatatable(!isLoading);
   }, [isLoading]);
+
+  console.log(totalData);
 
   return (
     <Page title="Batiboot: Invoice">

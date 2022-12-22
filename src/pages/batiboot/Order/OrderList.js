@@ -195,9 +195,9 @@ export default function OrderList() {
   const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: totalData },
-    { value: 'accepted', label: 'Accepted', color: 'success', count: getLengthByStatus('accepted') },
-    { value: 'pending', label: 'Pending', color: 'warning', count: getLengthByStatus('pending') },
+    { value: 'All', label: 'All', color: 'info', count: totalData },
+    { value: 'Draft', label: 'Draft', color: 'success', count: getLengthByStatus('Draft') },
+    { value: 'Accepted', label: 'Accepted', color: 'warning', count: getLengthByStatus('Accepted') },
     { value: 'Rejected', label: 'Rejected', color: theme.palette.error.main, count: getLengthByStatus('rejected') },
   ];
 
@@ -304,17 +304,17 @@ export default function OrderList() {
             { name: 'Order', href: PATH_BATIBOOT.order.root },
             { name: 'List' },
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     startIcon={<Iconify icon={'eva:plus-fill'} />}
-          //     component={RouterLink}
-          //     to={PATH_BATIBOOT.order.createOrder}
-          //     onClick={handleOpenModal}
-          //   >
-          //     Add Order
-          //   </Button>
-          // }
+          action={
+            <Button
+              variant="contained"
+              startIcon={<Iconify icon={'eva:plus-fill'} />}
+              component={RouterLink}
+              to={PATH_BATIBOOT.order.createOrder}
+              onClick={handleOpenModal}
+            >
+              Add Order
+            </Button>
+          }
         />
 
         <Box>
@@ -328,20 +328,14 @@ export default function OrderList() {
             nameLink={'Order List'}
             utils={utils}
           />
-          {
-            /*  <OrderCreateModal 
-           open={openModal}
-           onClose={handleCloseModal} 
-           edit={isEdit}
-           identifier={identifier}
+          {/* <OrderCreateModal open={openModal} onClose={handleCloseModal} edit={isEdit} identifier={identifier} />
+          { */}
+          <OrderListViewModal
+            open={openViewModal}
+            onClose={handleCloseModal}
+            identifier={identifier}
+            data={modalViewData}
           />
-          */
-            <OrderListViewModal
-              open={openViewModal}
-              onClose={handleCloseModal}
-              identifier={identifier}
-              data={modalViewData}
-            />
           }
         </Box>
 
@@ -361,6 +355,14 @@ export default function OrderList() {
                 color={theme.palette.info.main}
               />
               <OrderListAnalytics
+                title="Draft"
+                total={getLengthByStatus('Draft')}
+                percent={getPercentByStatus('Draft')}
+                price={getTotalPriceByStatus('Draft')}
+                icon="eva:clock-fill"
+                color={theme.palette.warning.main}
+              />
+              <OrderListAnalytics
                 title="Accepted"
                 total={getLengthByStatus('Accepted')}
                 percent={getPercentByStatus('Accepted')}
@@ -369,18 +371,10 @@ export default function OrderList() {
                 color={theme.palette.success.main}
               />
               <OrderListAnalytics
-                title="Pending"
-                total={getLengthByStatus('pending')}
-                percent={getPercentByStatus('pending')}
-                price={getTotalPriceByStatus('pending')}
-                icon="eva:clock-fill"
-                color={theme.palette.warning.main}
-              />
-              <OrderListAnalytics
                 title="Rejected"
-                total={getLengthByStatus('rejected')}
-                percent={getPercentByStatus('rejected')}
-                price={getTotalPriceByStatus('rejected')}
+                total={getLengthByStatus('Rejected')}
+                percent={getPercentByStatus('Rejected')}
+                price={getTotalPriceByStatus('Rejected')}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />

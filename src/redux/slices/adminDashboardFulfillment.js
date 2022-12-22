@@ -69,7 +69,7 @@ export function getAllDashboardFulfillment() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.get('/api/testing/Fulfillment');
+      const response = await V4axios.get('/api/dashboard/linechart/Fulfillment');
       dispatch(slice.actions.getDashboardSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

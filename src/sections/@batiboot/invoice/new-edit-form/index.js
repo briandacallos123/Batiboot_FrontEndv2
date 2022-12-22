@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Stack, Drawer, Grid, IconButton, MenuItem } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useSnackbar } from 'notistack';
 // routes
 import { PATH_BATIBOOT } from '../../../../routes/paths';
 // mock
@@ -18,7 +19,9 @@ import useResponsive from '../../../../hooks/useResponsive';
 // components
 import Iconify from '../../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFSelect } from '../../../../components/hook-form';
+
 //
+
 import useAuth from '../../../../hooks/useAuth';
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
@@ -44,7 +47,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
   const navigate = useNavigate();
   const { user, createInvoice } = useAuth();
   const isDesktop = useResponsive('up', 'md');
-
+  const { enqueueSnackbar } = useSnackbar();
   const [loadingSave, setLoadingSave] = useState(false);
 
   const [loadingSend, setLoadingSend] = useState(false);
@@ -57,8 +60,6 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
   });
   // const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : currentInvoice.invoice_number;
   const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : identifier?.invoice_number;
-
-  console.log('IDENTIFIER: ', identifier);
   const defaultValues = useMemo(
     () => ({
       invoiceNumber: id || '',
@@ -126,7 +127,6 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
 
   const handleCreateAndSend = async () => {
     setLoadingSend(true);
-    console.log(values);
     return false;
 
     try {

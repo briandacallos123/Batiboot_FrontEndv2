@@ -59,7 +59,7 @@ const slice = createSlice({
       state.invoiceArr = data;
       state.totalData = data.length;
       state.ccc = ccc;
-      console.log(action.payload);
+      // console.log(action.payload);
     },
   },
 });

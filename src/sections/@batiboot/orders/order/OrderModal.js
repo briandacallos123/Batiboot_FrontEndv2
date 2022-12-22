@@ -68,6 +68,7 @@ export default function OrderListModalForm({
   data,
   identifier,
   utils,
+  modalViewData,
 }) {
   const navigate = useNavigate();
   const [loadingSave, setLoadingSave] = useState(false);
@@ -81,24 +82,27 @@ export default function OrderListModalForm({
     price: Yup.number().moreThan(0, 'Price should not be $0.00'),
   });
 
+  console.log('Modal View Data: ', modalViewData);
+
   const defaultValues = useMemo(
     () => ({
-      name: identifier?.product_name || '',
-      description: identifier?.description || '',
-      images: identifier?.attachments || [],
-      price: identifier?.price || 0,
-      services: identifier?.services || SERVICE_OPTION[0],
-      id: identifier?.id || '',
-      quantity: identifier?.quantity || '',
-      contact_number: identifier?.contact_number || '',
-      email: identifier?.email || '',
-      address_from: identifier?.address_from || '',
-      address_to: identifier?.address_to || '',
+      name: identifier?.product_name || modalViewData?.product_name || '',
+      description: identifier?.description || modalViewData?.description || '',
+      images: identifier?.attachments || modalViewData?.attachments || [],
+      price: identifier?.price || modalViewData?.price || 0,
+      services: identifier?.services || modalViewData?.services || SERVICE_OPTION[0],
+      id: identifier?.id || modalViewData?.id || '',
+      quantity: identifier?.quantity || modalViewData?.quantity || '',
+      contact_number: identifier?.contact_number || modalViewData?.contact_number || '',
+      email: identifier?.email || modalViewData?.email || '',
+      address_from: identifier?.address_from || modalViewData?.address_from || '',
+      address_to: identifier?.address_to || modalViewData?.address_to || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [identifier]
   );
 
+  console.log('Default Value: ', defaultValues);
   // from current Product to identifier for edit.
   // const defaultValues = useMemo(
   //   () => ({
@@ -205,6 +209,7 @@ export default function OrderListModalForm({
       if (isEdit) {
         await dispatch(UpdateOrder(values));
         utils();
+        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       }
       reset();
       handleCloseModal();
@@ -290,7 +295,7 @@ export default function OrderListModalForm({
 
             <Card sx={{ p: 3 }}>
               <Stack spacing={3} mt={2}>
-                <RHFTextField type="number" name="phoneNumber" label="Additional Contact number #" />
+                <RHFTextField type="number" name="contact_number" label="Additional Contact number #" />
                 <RHFTextField name="email" label="Additional Email" />
               </Stack>
             </Card>

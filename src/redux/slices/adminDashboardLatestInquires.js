@@ -69,7 +69,7 @@ export function getAllDashboardlatestinquires() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await V4axios.get('/api/testing/latestinquiries');
+      const response = await V4axios.get('/api/dashboard/latestinquiries');
       dispatch(slice.actions.getDashboardSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
