@@ -222,7 +222,8 @@ export default function OrderTableRow({
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
             (row?.order_status === 'Draft' && 'error') ||
-            (row?.order_status === 'Accepted' && 'success') ||
+            (row?.order_status === 'Order Received' && 'warning') ||
+            (row?.order_status === 'Invoice Created' && 'success') ||
             (row?.order_status === 'Rejected' && 'error') ||
             // (orderStatus === 'rejected' && 'error') ||
             'error'
