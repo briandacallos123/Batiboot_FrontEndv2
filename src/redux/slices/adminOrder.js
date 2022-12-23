@@ -18,6 +18,7 @@ const initialState = {
   error: null,
   orders: { byId: {}, allIds: [] },
   ordersArr : [],
+  totalOrderStatusArr: [],
   totalData:0,
   ccc:{
     approved: 0,
@@ -41,6 +42,13 @@ const slice = createSlice({
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
+    },
+
+
+    getTotalOrderStatusArr(state, action){
+      const {data} = action.payload;
+      state.totalOrderStatusArr = data;
+      
     },
 
     // GET QUOTATION SUCCESS
@@ -78,3 +86,17 @@ export function getAllOrders(payload) {
   };
 }
 
+export function getAllOrderStatus() {
+  const {accessToken} = localStorage
+  V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await V4axios.get('/api/Get/All/Order/Total/Status');
+      dispatch(slice.actions.getTotalOrderStatusArr(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}

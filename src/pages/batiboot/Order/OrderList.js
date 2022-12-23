@@ -26,7 +26,7 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAllOrders } from '../../../redux/slices/adminOrder';
+import { getAllOrders ,getAllOrderStatus } from '../../../redux/slices/adminOrder';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -87,7 +87,7 @@ export default function OrderList() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { orders, totalData, ccc, ordersArr, isLoading } = useSelector((state) => state.adminOrder);
+  const { orders, totalData,totalOrderStatusArr ,ccc, ordersArr, isLoading } = useSelector((state) => state.adminOrder);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -196,9 +196,11 @@ export default function OrderList() {
 
   const TABS = [
     { value: 'All', label: 'All', color: 'info', count: totalData },
-    { value: 'Draft', label: 'Draft', color: 'success', count: getLengthByStatus('Draft') },
-    { value: 'Accepted', label: 'Accepted', color: 'warning', count: getLengthByStatus('Accepted') },
-    { value: 'Rejected', label: 'Rejected', color: theme.palette.error.main, count: getLengthByStatus('rejected') },
+    { value: 'Draft', label: 'Draft', color: 'success', count: totalOrderStatusArr.totalDraft },
+    { value: 'Order Received', label: 'Order Received', color: 'warning', count: totalOrderStatusArr.totalOrderReceived },
+    { value: 'Invoice Created', label: 'Invoice Created', color: theme.palette.error.main, count: totalOrderStatusArr.totalInvoiceCreated },
+    { value: 'Rejected', label: 'Rejected', color: theme.palette.error.main, count: totalOrderStatusArr.totalRejected },
+    
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -230,6 +232,7 @@ export default function OrderList() {
     console.log('payload', payload);
     console.log('payload', payload);
     dispatch(getAllOrders(payload));
+    dispatch(getAllOrderStatus());
   }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate]);
 
   /* console.log(appointmentsArr) */
@@ -359,25 +362,33 @@ export default function OrderList() {
               />
               <OrderListAnalytics
                 title="Draft"
-                total={getLengthByStatus('Draft')}
-                percent={getPercentByStatus('Draft')}
-                price={getTotalPriceByStatus('Draft')}
+                total={totalOrderStatusArr.totalDraft}
+                percent={totalOrderStatusArr.totalDraft}
+                price={totalOrderStatusArr.totalDraft}
                 icon="eva:clock-fill"
                 color={theme.palette.warning.main}
               />
               <OrderListAnalytics
-                title="Accepted"
-                total={getLengthByStatus('Accepted')}
-                percent={getPercentByStatus('Accepted')}
-                price={getTotalPriceByStatus('Accepted')}
+                title="Order Received"
+                total={totalOrderStatusArr.totalOrderReceived}
+                percent={totalOrderStatusArr.totalOrderReceived}
+                price={totalOrderStatusArr.totalOrderReceived}
                 icon="eva:checkmark-circle-2-fill"
                 color={theme.palette.success.main}
               />
               <OrderListAnalytics
+                title="Invoice Created"
+                total={totalOrderStatusArr.totalInvoiceCreated}
+                percent={totalOrderStatusArr.totalInvoiceCreated}
+                price={totalOrderStatusArr.totalInvoiceCreated}
+                icon="eva:bell-fill"
+                color={theme.palette.success.main}
+              />
+              <OrderListAnalytics
                 title="Rejected"
-                total={getLengthByStatus('Rejected')}
-                percent={getPercentByStatus('Rejected')}
-                price={getTotalPriceByStatus('Rejected')}
+                total={totalOrderStatusArr.totalRejected}
+                percent={totalOrderStatusArr.totalRejected}
+                price={totalOrderStatusArr.totalRejected}
                 icon="eva:bell-fill"
                 color={theme.palette.error.main}
               />
