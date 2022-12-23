@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { paramCase } from 'change-case';
 import { useParams, useLocation, Navigate, Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -51,7 +51,7 @@ import Scrollbar from '../../../components/Scrollbar';
 /* import UserRolesCreateForm from '../../sections/@apgit/user/user/UserRoleModal/UserCreateRoleModal'; */
 
 // ----------------------------------------------------------------------
-const STATUS_OPTION = ['Pending', 'Approve', 'Received'];
+// const STATUS_OPTION = ['Pending', 'Approve', 'Received'];
 
 export default function InquiryAndQuotationViewModal(props, row) {
   const { open, selectedValue, onClose, edit, identifier, data, handleOpenOrderModal } = props;
@@ -61,6 +61,9 @@ export default function InquiryAndQuotationViewModal(props, row) {
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
   const theme = useTheme();
   const handleCloseModal = () => onClose(selectedValue);
+  // const [nullFields, setNullFields] = useState(0);
+  const [STATUS_OPTION, setStatusOption] = useState([]);
+
   const modalStyle = {
     position: 'absolute',
     top: '100%',
@@ -81,6 +84,13 @@ export default function InquiryAndQuotationViewModal(props, row) {
       alert(error.message);
     }
   };
+
+  // (function CheckNullValue() {
+  //   const res = data.find((item) => item);
+  //   console.log('res: ', res);
+  // })();
+
+  // console.log('DATA: ', data);
   const handleCancelQuotation = async () => {
     const form = new FormData();
     form.append('email', user.email);
@@ -108,6 +118,40 @@ export default function InquiryAndQuotationViewModal(props, row) {
   const handleStatus = (event) => {
     setStatus(event.target.value);
   };
+  console.log('DATA: ', data);
+
+  const checkValue = () => {
+    // for (const key in data) {
+    //   console.log(`${key}: ${data[$key]}`);
+    // }
+    // for (const key in data) {
+    //   console.log(`${key}: ${data[$key]}`);
+    // }
+
+    const propertyNames = Object.keys(data);
+    const propertyValues = Object.values(data);
+
+    const ewan = propertyValues.filter((item) => item === null);
+
+    if (ewan.length > 1 || data.isCancel === 1) {
+      setStatusOption(['Pending', 'Received']);
+    } else {
+      setStatusOption(['Pending', 'Approve', 'Received']);
+    }
+
+    // setNullFields(ewan.length);
+
+    // if (nullFields > 1) {
+    //   setStatusOption(['Pending', 'Received']);
+    // } else {
+    //   setStatusOption(['Pending', 'Approve', 'Received']);
+    // }
+    // console.log('Nullfields length: ', nullFields);
+  };
+
+  useEffect(() => {
+    checkValue();
+  }, [data]);
 
   return (
     <DialogAnimate className="dialog-center" open={open} sx={{ px: 1, py: 3 }} fullScreen maxWidth={'md'}>
@@ -186,35 +230,40 @@ export default function InquiryAndQuotationViewModal(props, row) {
                         <Typography variant="h6" marginBottom={2}>
                           {data?.price}
                         </Typography>
-                        <Typography variant="overline" color="primary.main">
-                          Status
-                        </Typography>
-                        <Grid sx={{ marginY: 2 }}>
-                          <TextField
-                            select
-                            value={status}
-                            onChange={handleStatus}
-                            sx={{
-                              textTransform: 'capitalize',
-                            }}
-                          >
-                            {STATUS_OPTION.map((option) => (
-                              <MenuItem
-                                key={option}
-                                value={option}
+                        {data.status !== 1 && data.isOrder !== 1 && (
+                          <>
+                            <Typography variant="overline" color="primary.main">
+                              Status
+                            </Typography>
+                            <Grid sx={{ marginY: 2 }}>
+                              <TextField
+                                select
+                                value={status}
+                                onChange={handleStatus}
                                 sx={{
-                                  mx: 1,
-                                  my: 0.5,
-                                  borderRadius: 0.75,
-                                  typography: 'body2',
                                   textTransform: 'capitalize',
                                 }}
                               >
-                                {option}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </Grid>
+                                {STATUS_OPTION.map((option) => (
+                                  <MenuItem
+                                    key={option}
+                                    value={option}
+                                    sx={{
+                                      mx: 1,
+                                      my: 0.5,
+                                      borderRadius: 0.75,
+                                      typography: 'body2',
+                                      textTransform: 'capitalize',
+                                    }}
+                                  >
+                                    {option}
+                                  </MenuItem>
+                                ))}
+                              </TextField>
+                            </Grid>
+                          </>
+                        )}
+
                         <Typography variant="overline" color="primary.main">
                           Description
                         </Typography>
@@ -234,50 +283,51 @@ export default function InquiryAndQuotationViewModal(props, row) {
           </div>
 
           <div className="mpp-footer" sx={{ backgroundColor: theme.palette.primary.main }}>
-            <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
-              <Button
-                onClick={handleCloseModal}
-                variant="outlined"
-                size="small"
-                sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
-              >
-                Cancel
-              </Button>
+            {data.status !== 1 && data.isOrder !== 1 && (
+              <DialogActions sx={{ '& .MuiDialogActions-root': { padding: '50px !important' } }}>
+                <Button
+                  onClick={handleCloseModal}
+                  variant="outlined"
+                  size="small"
+                  sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
+                >
+                  Cancel
+                </Button>
 
-              {status === 'Pending' ? null : (
-                //   <Box>
-                //     {/* <Button  disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: 'primary.main',mx:2 }} variant="contained">
-                // Edit
-                // </Button> */}
-                //     <Button
-                //       onClick={handleCancelQuotation}
-                //       disabled={data.isCancel === 1}
-                //       size="small"
-                //       sx={{ backgroundColor: '#D22B2B' }}
-                //       variant="contained"
-                //     >
-                //       Cancel
-                //     </Button>
-                //   </Box>
-                <>
-                  <Button
-                    disabled={data?.isCancel === 1}
-                    size="small"
-                    sx={{ backgroundColor: 'primary.main' }}
-                    variant="contained"
-                  >
-                    save
-                  </Button>
-                  <Button
-                    disabled={data?.isCancel === 1}
-                    size="small"
-                    sx={{ backgroundColor: 'primary.main' }}
-                    variant="contained"
-                    onClick={handleOpenOrderModal}
-                  >
-                    save & Create Order
-                  </Button>
-                  {/*  action={
+                {status === 'Pending' ? null : (
+                  //   <Box>
+                  //     {/* <Button  disabled={ data.isCancel === 1 } size="large" sx={{ my: 2, backgroundColor: 'primary.main',mx:2 }} variant="contained">
+                  // Edit
+                  // </Button> */}
+                  //     <Button
+                  //       onClick={handleCancelQuotation}
+                  //       disabled={data.isCancel === 1}
+                  //       size="small"
+                  //       sx={{ backgroundColor: '#D22B2B' }}
+                  //       variant="contained"
+                  //     >
+                  //       Cancel
+                  //     </Button>
+                  //   </Box>
+                  <>
+                    <Button
+                      disabled={data?.isCancel === 1}
+                      size="small"
+                      sx={{ backgroundColor: 'primary.main' }}
+                      variant="contained"
+                    >
+                      save
+                    </Button>
+                    <Button
+                      disabled={data?.isCancel === 1}
+                      size="small"
+                      sx={{ backgroundColor: 'primary.main' }}
+                      variant="contained"
+                      onClick={handleOpenOrderModal}
+                    >
+                      save & Create Order
+                    </Button>
+                    {/*  action={
                     <Button
                       variant="contained"
                       startIcon={<Iconify icon={'eva:plus-fill'} />}
@@ -288,9 +338,10 @@ export default function InquiryAndQuotationViewModal(props, row) {
                       Add Order
                     </Button>
           } */}
-                </>
-              )}
-            </DialogActions>
+                  </>
+                )}
+              </DialogActions>
+            )}
           </div>
         </div>
       </Scrollbar>

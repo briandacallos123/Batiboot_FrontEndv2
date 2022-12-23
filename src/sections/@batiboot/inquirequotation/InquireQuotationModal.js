@@ -98,28 +98,31 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
   const [rawFile, setrawFiles] = useState(null);
+  const [isEmptyFields, setIsEmptyFields] = useState(false);
   const dispatch = useDispatch();
 
   const handleSaveAsDraft = async () => {
-    setLoadingSave(true);
+    alert('dog');
+    // setLoadingSave(true);
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      setLoadingSave(true);
-      handleCloseModal();
-      //  navigate(PATH_BATIBOOT.invoice.list);
-      //   console.log(JSON.stringify(newInvoice, null, 2));
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   await new Promise((resolve) => setTimeout(resolve, 500));
+    //   reset();
+    //   setLoadingSave(true);
+    //   handleCloseModal();
+    //   //  navigate(PATH_BATIBOOT.invoice.list);
+    //   //   console.log(JSON.stringify(newInvoice, null, 2));
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const NewProductSchema = Yup.object().shape({
+    // this is required to comment to force form fields to accept empty values.
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required'),
     images: Yup.array().min(1, 'Images is required'),
-    price: Yup.number().moreThan(0, 'Price should not be $0.00'),
+    // price: Yup.number().moreThan(0, 'Price should not be $0.00'),
   });
 
   const defaultValues = useMemo(
@@ -152,6 +155,8 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   // if (isEdit) {
   //   console.log('EDIT: ', defaultValues);
   // }
+
+  const forceFieldsToRequired = isEmptyFields ? NewProductSchema : '';
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
@@ -190,7 +195,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       const form = new FormData();
       form.append('email', user?.email);
       form.append('id', user?.id);
-      form.append('name', data.name);
+      form.append('name', data?.name || '');
       // form.append('product', data.name);
       form.append('description', data.description);
       // form.append('code', data.code);
@@ -200,18 +205,31 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       // form.append('tags', data.tags);
       // form.append('inStock', data.inStock);
       // form.append('taxes', data.taxes);
-      form.append('contact_number', data.contact);
+      form.append('contact_number', data.contact_number);
       form.append('address_from', values.invoiceFrom.name);
       form.append('address_to', values.invoiceTo.name);
       form.append('quantity', data.quantity);
       form.append('services', data.service);
-      rawFile.map((file) => form.append('images[]', file));
-      await createQuotation(form);
-      utils();
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      reset();
-      handleCloseModal();
-      setLoadingSend(false);
+      rawFile?.map((file) => form.append('images[]', file));
+
+      let isEmpty = 0;
+
+      form.forEach((item) => {
+        if (item.length === 0) {
+          alert('All fields are required');
+          isEmpty = 1;
+        }
+      });
+
+      if (isEmpty === 0) {
+        await createQuotation(form);
+        utils();
+        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+        reset();
+        handleCloseModal();
+        setLoadingSend(false);
+      }
+
       // window.location.reload();
 
       /*    navigate(PATH_BATIBOOT.invoice.list);
@@ -335,7 +353,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
             <Card sx={{ p: 3 }}>
               <Stack spacing={3} mb={2}>
                 <RHFTextField name="email" label="Email Address" />
-                <RHFTextField name="contact" label="Contact Number" />
+                <RHFTextField name="contact_number" label="Contact Number" />
               </Stack>
             </Card>
           </Stack>

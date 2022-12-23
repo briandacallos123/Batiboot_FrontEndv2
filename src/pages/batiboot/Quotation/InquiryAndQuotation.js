@@ -347,8 +347,6 @@ export default function InquireQuotation() {
     setshowSkelDatatable(!isLoading);
   }, [isLoading]);
 
-  console.log(totalData);
-
   return (
     <Page title="Batiboot: Inquire/Quotation">
       <Container maxWidth={themeStretch ? false : 'lg'}>

@@ -299,9 +299,16 @@ export default function UserModal(props) {
             >
               Cancel
             </Button>
-            <LoadingButton type="button" onClick={onSaveAsDraft} size="small" variant="contained" color="inherit">
-              Save as Draft
-            </LoadingButton>
+            {!(
+              (nameLink === 'Inquiry Quotation' && isEdit && dataEdit?.isCancel === 1) ||
+              (dataEdit?.status === 1 && dataEdit.isOrder === 1)
+            ) ? (
+              <LoadingButton type="button" onClick={onSaveAsDraft} size="small" variant="contained" color="inherit">
+                Save as Draft
+              </LoadingButton>
+            ) : (
+              ''
+            )}
             <LoadingButton type="button" onClick={onSaveChanges} size="small" variant="contained">
               {!isEdit ? `Create ${nameLink}` : 'Save Changes'}
             </LoadingButton>

@@ -65,7 +65,7 @@ export default function InquireQuotationTableRow({
   const dispatch = useDispatch();
   const [openMenu, setOpenMenuActions] = useState(null);
 
-  // console.log('RENDER!!!: ', onRender);
+  console.log('Row!!!: ', row);
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
   };
@@ -181,18 +181,17 @@ export default function InquireQuotationTableRow({
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
               <AvatarGroup max={2} spacing="small">
-              {row.attachments.map((attachment, k) => (
-                <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
-              ))}
-            </AvatarGroup>
-              
+                {row.attachments.map((attachment, k) => (
+                  <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
+                ))}
+              </AvatarGroup>
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
             {showSkeleton ? (
               <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
-              {row.product_name}
-            </Typography>
+                {row.product_name}
+              </Typography>
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
             )}
@@ -298,7 +297,7 @@ export default function InquireQuotationTableRow({
                       <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px' }} />
                     </Box>
                   )} */}
-                  <MenuItem
+                  {/* <MenuItem
                     onClick={() => {
                       handleAcceptOrder();
                       handleCloseMenu();
@@ -307,13 +306,14 @@ export default function InquireQuotationTableRow({
                   >
                     <Iconify icon={'eva:checkmark-fill'} />
                     Approve
-                  </MenuItem>
+                  </MenuItem> */}
 
                   <MenuItem
                     onClick={() => {
                       onViewRow();
                       handleCloseMenu();
                     }}
+                    sx={{ color: 'green' }}
                   >
                     <Iconify icon={'eva:eye-fill'} />
                     View

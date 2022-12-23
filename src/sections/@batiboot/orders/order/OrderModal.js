@@ -13,7 +13,7 @@ import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdor
 import { useDispatch } from 'react-redux';
 
 import { UpdateOrder } from '../../../../redux/slices/adminOrder';
-
+import { approveQuotation } from '../../../../redux/slices/adminQuotation';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // components
@@ -82,8 +82,6 @@ export default function OrderListModalForm({
     price: Yup.number().moreThan(0, 'Price should not be $0.00'),
   });
 
-  console.log('Modal View Data: ', modalViewData);
-
   const defaultValues = useMemo(
     () => ({
       name: identifier?.product_name || modalViewData?.product_name || '',
@@ -102,7 +100,6 @@ export default function OrderListModalForm({
     [identifier]
   );
 
-  console.log('Default Value: ', defaultValues);
   // from current Product to identifier for edit.
   // const defaultValues = useMemo(
   //   () => ({
@@ -151,14 +148,14 @@ export default function OrderListModalForm({
   }, [isEdit, currentProduct]);
 
   const onSubmit = async () => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.eCommerce.list);
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   await new Promise((resolve) => setTimeout(resolve, 500));
+    //   reset();
+    //   enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+    //   navigate(PATH_DASHBOARD.eCommerce.list);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const handleDrop = useCallback(
@@ -188,16 +185,16 @@ export default function OrderListModalForm({
   const handleSaveAsDraft = async () => {
     setLoadingSave(true);
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      setLoadingSave(true);
-      handleCloseModal();
-      //  navigate(PATH_BATIBOOT.invoice.list);
-      //   console.log(JSON.stringify(newInvoice, null, 2));
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   await new Promise((resolve) => setTimeout(resolve, 500));
+    //   reset();
+    //   setLoadingSave(true);
+    //   handleCloseModal();
+    //   //  navigate(PATH_BATIBOOT.invoice.list);
+    //   //   console.log(JSON.stringify(newInvoice, null, 2));
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const handleCreateAndSend = async () => {
@@ -208,12 +205,18 @@ export default function OrderListModalForm({
     try {
       if (isEdit) {
         await dispatch(UpdateOrder(values));
-        utils();
-        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       }
-      reset();
-      handleCloseModal();
-      setLoadingSend(false);
+      if (!isEdit) {
+        // brian dito yung dispatch add orders
+        console.log('test');
+
+        await dispatch(approveQuotation(values));
+        return;
+      }
+      // reset();
+      // handleCloseModal();
+      // utils();
+      // enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       /*    navigate(PATH_BATIBOOT.invoice.list);
       console.log(JSON.stringify(newInvoice, null, 2)); */
     } catch (error) {
