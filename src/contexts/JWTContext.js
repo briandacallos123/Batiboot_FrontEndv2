@@ -159,6 +159,12 @@ const handlers = {
       isAuthenticated: true,
     };
   },
+  CONTACT_US_SEND: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -186,6 +192,7 @@ const AuthContext = createContext({
   createUserRole: () => Promise.resolve(),
   createUserDepartment: () => Promise.resolve(),
   createUserDesignation: () => Promise.resolve(),
+  contactUsSend: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -645,6 +652,31 @@ function AuthProvider({ children }) {
     });
   };
 
+  const contactUsSend = async (data) => {
+    const response = await axios.post(
+      '/api/Create/Sent/Message',
+
+      data,
+
+      {
+        headers: {
+          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+        },
+      }
+    );
+    const user = response.data;
+
+    // alert(user.email)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CONTACT_US_SEND',
+      payload: {
+        user,
+      },
+    });
+  };
   const createUserDesignation = async (data) => {
     const response = await axios.post('/api/management/designation/add', data, {
       headers: {
@@ -696,6 +728,7 @@ function AuthProvider({ children }) {
         createUserRole,
         createUserDepartment,
         createUserDesignation,
+        contactUsSend,
       }}
     >
       {children}

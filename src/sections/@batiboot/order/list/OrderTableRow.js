@@ -209,7 +209,7 @@ export default function OrderTableRow({
           <TableCell align="center">
             {showSkeleton ? (
               <Typography>
-                {row.price} 
+                {row.price_per_pcs} 
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
@@ -221,15 +221,15 @@ export default function OrderTableRow({
         <Label
           variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
           color={
-            (row?.order_status === 'Draft' && 'error') ||
-            (row?.order_status === 'Order Received' && 'warning') ||
-            (row?.order_status === 'Invoice Created' && 'success') ||
-            (row?.order_status === 'Rejected' && 'error') ||
+            (row?.status === 'Draft' && 'error') ||
+            (row?.status === 'Order Received' && 'warning') ||
+            (row?.status === 'Invoice Created' && 'success') ||
+            (row?.status === 'Rejected' && 'error') ||
             // (orderStatus === 'rejected' && 'error') ||
             'error'
           }
           sx={{ textTransform: 'capitalize' }}
-        >{row?.order_status}
+        >{row?.status}
           {/* {orderStatus} */}
          {/* <span >{row.order_status}</span>  */}
         </Label>
