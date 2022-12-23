@@ -102,13 +102,14 @@ export default function InquireQuotationTableRow({
 
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <Avatar alt={`${row.product_name}`} src={row.patientdp} sx={{ mr: 2, width: '25px', height: '25px' }} />
-            ) : (
+              <Avatar alt={`${row.customer_name}`} sx={{ mr: 2, width: '25px', height: '25px' }} />
+              // <Avatar alt={`${row.customer_name}`} src={row.patientdp} sx={{ mr: 2, width: '25px', height: '25px' }} />
+              ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '25px', height: '25px', mr: 2 }} />
             )}
             {showSkeleton ? (
               <Typography noWrap sx={{ fontSize: 13 }}>
-                {row.product_name}
+                {row.customer_name}
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
@@ -165,13 +166,15 @@ export default function InquireQuotationTableRow({
 
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <Avatar alt="pic">{row.product_name.charAt(0)}</Avatar>
+              // <Avatar alt={`${row.customer_name}`} sx={{ mr: 2, width: '25px', height: '25px' }} />
+              // <Avatar alt="pic">{row.customer_name.charAt(0)}</Avatar>
+              ""
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
             )}
             {showSkeleton ? (
               <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
-                {row.product_name}
+                {row.customer_name}
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
