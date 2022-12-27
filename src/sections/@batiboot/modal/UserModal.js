@@ -66,6 +66,7 @@ export default function UserModal(props) {
   const theme = useTheme();
 
   const formRef = useRef(null);
+  const formRefDraft = useRef(null);
 
   const onSaveChanges = () => {
     if (formRef) {
@@ -74,8 +75,8 @@ export default function UserModal(props) {
   };
 
   const onSaveAsDraft = () => {
-    if (formRef) {
-      formRef.current.click();
+    if (formRefDraft) {
+      formRefDraft.current.click();
     }
   };
 
@@ -87,18 +88,19 @@ export default function UserModal(props) {
   const handleCloseModal = () => onClose(selectedValue);
 
   const Path = () => {
-    if (/* pathname === PATH_BATIBOOT.invoice.create */ nameLink === 'Invoice' && !isEdit) {
-      return (
-        <InvoiceCreate
-          isEdit={isEdit}
-          currentUser={currentUser}
-          handleCloseModal={handleCloseModal}
-          currentInvoice={currentInvoice}
-          formRef={formRef}
-          data={data}
-        />
-      );
-    }
+    // if (/* pathname === PATH_BATIBOOT.invoice.create */ nameLink === 'Invoice' && !isEdit) {
+    //   return (
+    //     <InvoiceCreate
+    //       isEdit={isEdit}
+    //       currentUser={currentUser}
+    //       handleCloseModal={handleCloseModal}
+    //       currentInvoice={currentInvoice}
+    //       formRef={formRef}
+    //       data={data}
+    //       nameLink={nameLink}
+    //     />
+    //   );
+    // }
     if (nameLink === 'Invoice' && isEdit)
       return (
         <InvoiceCreate
@@ -122,7 +124,15 @@ export default function UserModal(props) {
         />
       );
     if (nameLink === 'Inquiry Quotation' && !isEdit) {
-      return <ProductNewEditForm isEdit={isEdit} formRef={formRef} handleCloseModal={handleCloseModal} utils={utils} />;
+      return (
+        <ProductNewEditForm
+          isEdit={isEdit}
+          formRef={formRef}
+          formRefDraft={formRefDraft}
+          handleCloseModal={handleCloseModal}
+          utils={utils}
+        />
+      );
     }
     if (nameLink === 'Inquiry Quotation' && isEdit) {
       return <ProductNewEditForm isEdit={isEdit} formRef={formRef} dataEdit={dataEdit} />;

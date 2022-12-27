@@ -21,7 +21,6 @@ MultiFilePreview.propTypes = {
 
 export default function MultiFilePreview({ showPreview = false, files, onRemove, isEdit }) {
   const hasFile = files.length > 0;
-
   return (
     <List disablePadding sx={{ ...(hasFile && { my: 3 }) }}>
       <AnimatePresence>
@@ -45,7 +44,13 @@ export default function MultiFilePreview({ showPreview = false, files, onRemove,
                   border: (theme) => `solid 1px ${theme.palette.divider}`,
                 }}
               >
-                <Image alt="preview" src={`${process.env.REACT_APP_HOST_API_KEY}${file?.path}`} ratio="1/1" />
+                <Image
+                  alt="preview"
+                  src={
+                    file.preview !== undefined ? file?.preview : `${process.env.REACT_APP_HOST_API_KEY}/${file?.path}`
+                  }
+                  ratio="1/1"
+                />
 
                 {onRemove && (
                   <IconButton

@@ -91,31 +91,24 @@ ProductNewEditForm.propTypes = {
   handleCloseModal: PropTypes.func,
 };
 
-export default function ProductNewEditForm({ isEdit, currentProduct, formRef, handleCloseModal, dataEdit, utils }) {
+export default function ProductNewEditForm({
+  isEdit,
+  currentProduct,
+  formRef,
+  formRefDraft,
+  handleCloseModal,
+  dataEdit,
+  utils,
+}) {
   const navigate = useNavigate();
-  const { createQuotation, user, updateQuotation } = useAuth();
+  const { createQuotation, user, updateQuotation, createDraft } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
   const [rawFile, setrawFiles] = useState(null);
+  const [NewrawFile, setNewrawFile] = useState(null);
   const [isEmptyFields, setIsEmptyFields] = useState(false);
   const dispatch = useDispatch();
-
-  const handleSaveAsDraft = async () => {
-    alert('dog');
-    // setLoadingSave(true);
-
-    // try {
-    //   await new Promise((resolve) => setTimeout(resolve, 500));
-    //   reset();
-    //   setLoadingSave(true);
-    //   handleCloseModal();
-    //   //  navigate(PATH_BATIBOOT.invoice.list);
-    //   //   console.log(JSON.stringify(newInvoice, null, 2));
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  };
 
   const NewProductSchema = Yup.object().shape({
     // this is required to comment to force form fields to accept empty values.
@@ -131,6 +124,8 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       id: dataEdit?.id || '',
       name: dataEdit?.product_name || '',
       description: dataEdit?.description || '',
+      imagesDelete: [],
+      NewImage: [],
       images: dataEdit?.attachments || [],
       address_from: dataEdit?.address_from || '',
       address_to: dataEdit?.address_to || '',
@@ -149,7 +144,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
     }),
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentProduct]
+    [dataEdit]
   );
 
   // if (isEdit) {
@@ -179,10 +174,56 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
     // console.log('VALUES: ', values);
     setLoadingSend(true);
     try {
-      await updateQuotation(values);
+      const form = new FormData();
+      Object.entries(data).map(([key, value]) => {
+        if (key !== 'images' && key !== 'NewImage') {
+          const datKey = Array.isArray(value) ? `${key}[]` : key;
+          form.append(datKey, value);
+        }
+        return true;
+      });
+      NewrawFile?.map((file) => form.append('NewImage[]', file));
+      await updateQuotation(form);
       setLoadingSend(false);
-      window.location.reload();
+      /* window.location.reload(); */
       // utils();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSaveAsDraft = async (data) => {
+    // return;
+    setLoadingSave(true);
+
+    try {
+      const form = new FormData();
+      form.append('email', user?.email);
+      form.append('id', user?.id);
+      form.append('name', data?.name || '');
+      // form.append('product', data.name);
+      form.append('description', data.description);
+      // form.append('code', data.code);
+      // form.append('sku', data.sku);
+      form.append('price', data.price);
+      // form.append('priceSale', data.priceSale);
+      // form.append('tags', data.tags);
+      // form.append('inStock', data.inStock);
+      // form.append('taxes', data.taxes);
+      form.append('contact_number', data.contact_number);
+      form.append('address_from', values.invoiceFrom.name);
+      form.append('address_to', values.invoiceTo.name);
+      form.append('quantity', data.quantity);
+      form.append('services', data.service);
+      rawFile?.map((file) => form.append('images[]', file));
+      await createDraft(form);
+      reset();
+      setLoadingSave(true);
+      handleCloseModal();
+      enqueueSnackbar('Created Draft Successfully');
+      utils();
+      //  navigate(PATH_BATIBOOT.invoice.list);
+      //   console.log(JSON.stringify(newInvoice, null, 2));
     } catch (error) {
       console.error(error);
     }
@@ -211,6 +252,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
       form.append('quantity', data.quantity);
       form.append('services', data.service);
       rawFile?.map((file) => form.append('images[]', file));
+      console.log(data);
 
       let isEmpty = 0;
 
@@ -263,25 +305,57 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
   const handleDrop = useCallback(
     (acceptedFiles) => {
       setrawFiles(acceptedFiles);
+      setNewrawFile(acceptedFiles);
+      const NewImages = values.NewImage || [];
       const images = values.images || [];
-
-      setValue('images', [
-        ...images,
-        ...acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        ),
-      ]);
+      if (isEdit) {
+        setValue('NewImage', [
+          ...NewImages,
+          ...acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          ),
+        ]);
+        setValue('images', [
+          ...images,
+          ...acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          ),
+        ]);
+      } else {
+        setValue('images', [
+          ...images,
+          ...acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          ),
+        ]);
+      }
     },
     [setValue, values.images]
   );
 
   const handleRemoveAll = () => {
     setValue('images', []);
+    setValue('NewImage', []);
   };
 
   const handleRemove = (file) => {
+    const value = getValues('imagesDelete');
+    let existed = [];
+    if (value.length) {
+      existed = value.filter((v) => v === file?.id);
+    }
+    if (existed.length === 0) value.push(file?.id);
+    setValue('imagesDelete', value);
+
+    const filteredItemsNew = values.NewImage?.filter((_file) => _file !== file);
+    setValue('NewImage', filteredItemsNew);
+
     const filteredItems = values.images?.filter((_file) => _file !== file);
     setValue('images', filteredItems);
   };
@@ -365,7 +439,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct, formRef, ha
             onClick={handleSubmit(handleSaveAsDraft)}
             type="submit"
             sx={{ display: 'none' }}
-            ref={formRef}
+            ref={formRefDraft}
           />
 
           <LoadingButton

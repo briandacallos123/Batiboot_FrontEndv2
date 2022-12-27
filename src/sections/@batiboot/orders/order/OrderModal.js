@@ -147,6 +147,8 @@ export default function OrderListModalForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, currentProduct]);
 
+  console.log(values);
+
   const onSubmit = async () => {
     // try {
     //   await new Promise((resolve) => setTimeout(resolve, 500));

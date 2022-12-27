@@ -84,7 +84,7 @@ export default function OrderListViewModal(props) {
     setStatus(event.target.value);
   };
   const handleOpenModal = () => setOpenModal(!openModal);
-
+  console.log('edit=', isEdit);
   return (
     <>
       <Box>

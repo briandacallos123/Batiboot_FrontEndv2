@@ -165,6 +165,12 @@ const handlers = {
       isAuthenticated: true,
     };
   },
+  CREATE_DRAFT: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -193,6 +199,7 @@ const AuthContext = createContext({
   createUserDepartment: () => Promise.resolve(),
   createUserDesignation: () => Promise.resolve(),
   contactUsSend: () => Promise.resolve(),
+  createDraft: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -588,27 +595,28 @@ function AuthProvider({ children }) {
   };
 
   const createInvoice = async (data) => {
-    try {
-      const response = await axios.post('/api/orders/insert/invoice', data, {
-        headers: {
-          'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
-        },
-      });
-      const user = response.data;
+    console.log('INVOICE: ', data);
+    // try {
+    //   const response = await axios.post('/api/orders/insert/invoice', data, {
+    //     headers: {
+    //       'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+    //     },
+    //   });
+    //   const user = response.data;
 
-      // alert(user.email)
-      // alert(accessToken)
-      // setSession(accessToken);
+    //   // alert(user.email)
+    //   // alert(accessToken)
+    //   // setSession(accessToken);
 
-      dispatch({
-        type: 'CREATE_INVOICE',
-        payload: {
-          user,
-        },
-      });
-    } catch (e) {
-      alert(e.message);
-    }
+    //   dispatch({
+    //     type: 'CREATE_INVOICE',
+    //     payload: {
+    //       user,
+    //     },
+    //   });
+    // } catch (e) {
+    //   alert(e.message);
+    // }
   };
 
   const createUserRole = async (data) => {
@@ -677,6 +685,25 @@ function AuthProvider({ children }) {
       },
     });
   };
+  const createDraft = async (data) => {
+    const response = await axios.post('/api/draft/quotations', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
+    const user = response.data;
+
+    // alert(user.email)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'CREATE_DRAFT',
+      payload: {
+        user,
+      },
+    });
+  };
   const createUserDesignation = async (data) => {
     const response = await axios.post('/api/management/designation/add', data, {
       headers: {
@@ -729,6 +756,7 @@ function AuthProvider({ children }) {
         createUserDepartment,
         createUserDesignation,
         contactUsSend,
+        createDraft,
       }}
     >
       {children}
