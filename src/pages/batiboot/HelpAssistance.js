@@ -23,7 +23,6 @@ export default function HelpsAssistance() {
         <FaqsHero />
 
         <Container sx={{ mt: 15, mb: 10, position: 'relative' }}>
-
           <Typography variant="h3" sx={{ mb: 5 }}>
             Frequently asked questions
           </Typography>

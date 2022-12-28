@@ -171,6 +171,12 @@ const handlers = {
       isAuthenticated: true,
     };
   },
+  SEND_FAQ: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -200,6 +206,7 @@ const AuthContext = createContext({
   createUserDesignation: () => Promise.resolve(),
   contactUsSend: () => Promise.resolve(),
   createDraft: () => Promise.resolve(),
+  sendFaq: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -395,6 +402,24 @@ function AuthProvider({ children }) {
     const user = response.data;
     dispatch({
       type: 'UPDATEPROFILE',
+      payload: {
+        user,
+      },
+    });
+  };
+
+  const sendFaq = async (data) => {
+    const response = await axios.post('/api/Create/Sent/Message/Help/Assistance', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
+    console.log('RESPONSE DATA: ', response.data);
+    return;
+
+    const user = response.data;
+    dispatch({
+      type: 'SEND_FAQ',
       payload: {
         user,
       },
@@ -757,6 +782,7 @@ function AuthProvider({ children }) {
         createUserDesignation,
         contactUsSend,
         createDraft,
+        sendFaq,
       }}
     >
       {children}
