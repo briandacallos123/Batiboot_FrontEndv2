@@ -26,7 +26,7 @@ import {
 // redux
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getAllOrders ,getAllOrderStatus } from '../../../redux/slices/adminOrder';
+import { getAllOrders, getAllOrderStatus } from '../../../redux/slices/adminOrder';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -72,6 +72,8 @@ const SERVICE_OPTIONS = [
 
 const TABLE_HEAD = [
   { id: 'pName', label: 'Product Name', align: 'left' },
+  { id: 'blank', label: '' },
+  { id: 'customerName', label: 'Customer Name', align: 'left' },
   { id: 'orderCreated', label: 'Created At', align: 'left' },
   { id: 'serviceType', label: 'Service Type', align: 'left' },
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
@@ -87,7 +89,9 @@ export default function OrderList() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { orders, totalData,totalOrderStatusArr ,ccc, ordersArr, isLoading } = useSelector((state) => state.adminOrder);
+  const { orders, totalData, totalOrderStatusArr, ccc, ordersArr, isLoading } = useSelector(
+    (state) => state.adminOrder
+  );
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -197,10 +201,19 @@ export default function OrderList() {
   const TABS = [
     { value: 'All', label: 'All', color: 'info', count: totalData },
     { value: 'Draft', label: 'Draft', color: 'success', count: totalOrderStatusArr.totalDraft },
-    { value: 'Order Received', label: 'Order Received', color: 'warning', count: totalOrderStatusArr.totalOrderReceived },
-    { value: 'Invoice Created', label: 'Invoice Created', color: theme.palette.error.main, count: totalOrderStatusArr.totalInvoiceCreated },
+    {
+      value: 'Order Received',
+      label: 'Order Received',
+      color: 'warning',
+      count: totalOrderStatusArr.totalOrderReceived,
+    },
+    {
+      value: 'Invoice Created',
+      label: 'Invoice Created',
+      color: theme.palette.error.main,
+      count: totalOrderStatusArr.totalInvoiceCreated,
+    },
     { value: 'Rejected', label: 'Rejected', color: theme.palette.error.main, count: totalOrderStatusArr.totalRejected },
-    
   ];
 
   const [openModal, setOpenModal] = React.useState(false);
