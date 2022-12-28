@@ -67,6 +67,8 @@ const SERVICE_OPTIONS = ['All', 'Paid', 'Unpaid', 'Overdue'];
 
 const TABLE_HEAD = [
   { id: 'invoiceNumber', label: 'Client', align: 'left' },
+  { id: 'blankSpace' },
+  { id: 'customerName', label: 'Customer Name', align: 'left' },
   { id: 'createDate', label: 'Create', align: 'left' },
   { id: 'dueDate', label: 'Due', align: 'left' },
   { id: 'rateCBM', label: 'Rate/CBM', align: 'center', width: 140 },

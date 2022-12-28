@@ -46,6 +46,20 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
       </TableCell>
 
       <TableCell align="center">TR-NO-{row?.tracking_no}</TableCell>
+      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+        {/* <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>
+          {createAvatar(invoiceTo.name).name}
+        </Avatar> */}
+        {/*   <Typography variant="subtitle2" noWrap>
+            {invoiceTo.name}
+        </Typography> */}
+        <Stack>
+          <Typography variant="subtitle2" noWrap>
+            {row?.product_name}
+          </Typography>
+        </Stack>
+      </TableCell>
+      <TableCell>{''}</TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
         {/* <Avatar alt={invoiceTo.name} color={createAvatar(invoiceTo.name).color} sx={{ mr: 2 }}>

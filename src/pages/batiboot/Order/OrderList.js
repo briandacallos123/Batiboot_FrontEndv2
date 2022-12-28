@@ -72,6 +72,8 @@ const SERVICE_OPTIONS = [
 
 const TABLE_HEAD = [
   { id: 'pName', label: 'Product Name', align: 'left' },
+  { id: 'blank', label: '' },
+  { id: 'customerName', label: 'Customer Name', align: 'left' },
   { id: 'orderCreated', label: 'Created At', align: 'left' },
   { id: 'serviceType', label: 'Service Type', align: 'left' },
   { id: 'quantity ', label: 'Quantity', align: 'center', width: 140 },
