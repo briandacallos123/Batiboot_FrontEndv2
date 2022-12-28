@@ -64,8 +64,21 @@ export default function InvoiceTableRow({
           </Typography>
 
           <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
-            {row?.product_name}{/* {`INV-${invoiceNumber}`} */}
+            {row?.product_name}
+            {/* {`INV-${invoiceNumber}`} */}
           </Link>
+        </Stack>
+      </TableCell>
+      <TableCell>{''}</TableCell>
+      <TableCell sx={{ display: 'flex', alignItems: 'left' }}>
+        <Avatar alt={row?.name} color={createAvatar(row?.name).color} sx={{ mr: 2 }}>
+          {createAvatar(row?.name).name}
+        </Avatar>
+
+        <Stack>
+          <Typography variant="subtitle2" noWrap>
+            INV-{row?.invoice_number}
+          </Typography>
         </Stack>
       </TableCell>
 

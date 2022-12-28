@@ -70,6 +70,8 @@ const SERVICE_OPTIONS = [
 
 const TABLE_HEAD = [
   { id: 'trackingNo', label: 'Tracking No', align: 'left' },
+  { id: 'customerName', label: 'Customer Name', align: 'left' },
+  { id: 'blank' },
   { id: 'pName', label: 'Product Name', align: 'left' },
   { id: 'origin', label: 'Origin', align: 'left' },
   { id: 'destination', label: 'Destination', align: 'left' },

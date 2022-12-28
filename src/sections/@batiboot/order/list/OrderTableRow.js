@@ -3,9 +3,21 @@ import { useState, useEffect } from 'react';
 
 // MUI
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Checkbox, TableRow, TableCell, Typography, IconButton, Skeleton, Box, AvatarGroup, MenuItem } from '@mui/material';
+import {
+  Avatar,
+  Checkbox,
+  TableRow,
+  TableCell,
+  Typography,
+  IconButton,
+  Skeleton,
+  Box,
+  AvatarGroup,
+  MenuItem,
+} from '@mui/material';
 
 // Components
+import createAvatar from '../../../../utils/createAvatar';
 import Label from '../../../../components/Label';
 import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
@@ -59,25 +71,40 @@ export default function OrderTableRow({
     <>
       {isDesktop === false ? (
         <TableRow hover selected={selected}>
-          <TableCell padding="checkbox" >
-            <Checkbox checked={selected} onClick={onSelectRow}  size={isDesktop ? 'medium' : 'small'}/>
+          <TableCell padding="checkbox">
+            <Checkbox checked={selected} onClick={onSelectRow} size={isDesktop ? 'medium' : 'small'} />
           </TableCell>
 
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <Avatar alt={`${row.product_name}`} src={row.patientdp} sx={{ mr: 2,width: '25px', height: '25px' }} />
+              <Avatar alt={`${row.product_name}`} src={row.patientdp} sx={{ mr: 2, width: '25px', height: '25px' }} />
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '25px', height: '25px', mr: 2 }} />
             )}
             {showSkeleton ? (
-              <Typography noWrap sx={{fontSize: 13}}> 
+              <Typography noWrap sx={{ fontSize: 13 }}>
                 {row.product_name}
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
           </TableCell>
-{/* 
+          <TableCell>{''}</TableCell>
+          <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+            {showSkeleton ? (
+              <Avatar alt={`${row.product_name}`} src={row.patientdp} sx={{ mr: 2, width: '25px', height: '25px' }} />
+            ) : (
+              <Skeleton variant="circular" animation="wave" sx={{ width: '25px', height: '25px', mr: 2 }} />
+            )}
+            {showSkeleton ? (
+              <Typography noWrap sx={{ fontSize: 13 }}>
+                {row.product_name}
+              </Typography>
+            ) : (
+              <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
+            )}
+          </TableCell>
+          {/* 
           <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
             {showSkeleton ? (
               <Typography>{row.clinic_name}</Typography>
@@ -88,14 +115,14 @@ export default function OrderTableRow({
 
           <TableCell align="left">
             {showSkeleton ? (
-              <Typography sx={{fontSize: 12}}>
+              <Typography sx={{ fontSize: 12 }}>
                 {row.date_text} • {row.time_text} <span className="a-weekname">({row.day_text})</span>
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
             )}
           </TableCell>
-{/* 
+          {/* 
           <TableCell align="center">
             {showSkeleton ? (
               <Box>
@@ -166,22 +193,38 @@ export default function OrderTableRow({
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
               <AvatarGroup max={2} spacing="small">
-              {row.attachments.map((attachment,k) => (
-              <Avatar key={k} alt='pic' src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
-              ))}
+                {row.attachments.map((attachment, k) => (
+                  <Avatar key={k} alt="pic" src={`${process.env.REACT_APP_HOST_API_KEY}/${attachment.path}`} />
+                ))}
               </AvatarGroup>
-           ) : (
+            ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
             )}
             {showSkeleton ? (
-              <Typography variant="subtitle2" noWrap sx={{ml:1}}>
+              <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
                 {row.product_name}
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
             )}
           </TableCell>
-
+          <TableCell>{''}</TableCell>
+          <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+            {showSkeleton ? (
+              <Avatar alt={row?.name} color={createAvatar(row?.name).color} sx={{ mr: 2 }}>
+                {createAvatar(row?.name).name}
+              </Avatar>
+            ) : (
+              <Skeleton variant="circular" animation="wave" sx={{ width: '25px', height: '25px', mr: 2 }} />
+            )}
+            {showSkeleton ? (
+              <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
+                {row.product_name}
+              </Typography>
+            ) : (
+              <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />
+            )}
+          </TableCell>
           <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
             {showSkeleton ? (
               <Typography> {row.created_at} </Typography>
@@ -208,74 +251,72 @@ export default function OrderTableRow({
 
           <TableCell align="center">
             {showSkeleton ? (
-              <Typography>
-                {row.price_per_pcs} 
-              </Typography>
+              <Typography>{row.price_per_pcs}</Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '240px', height: '25px' }} />
             )}
           </TableCell>
 
-       
           <TableCell align="left">
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={
-            (row?.status === 'Draft' && 'error') ||
-            (row?.status === 'Order Received' && 'warning') ||
-            (row?.status === 'Invoice Created' && 'success') ||
-            (row?.status === 'Rejected' && 'error') ||
-            // (orderStatus === 'rejected' && 'error') ||
-            'error'
-          }
-          sx={{ textTransform: 'capitalize' }}
-        >{row?.status}
-          {/* {orderStatus} */}
-         {/* <span >{row.order_status}</span>  */}
-        </Label>
-      </TableCell>
+            <Label
+              variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+              color={
+                (row?.status === 'Draft' && 'error') ||
+                (row?.status === 'Order Received' && 'warning') ||
+                (row?.status === 'Invoice Created' && 'success') ||
+                (row?.status === 'Rejected' && 'error') ||
+                // (orderStatus === 'rejected' && 'error') ||
+                'error'
+              }
+              sx={{ textTransform: 'capitalize' }}
+            >
+              {row?.status}
+              {/* {orderStatus} */}
+              {/* <span >{row.order_status}</span>  */}
+            </Label>
+          </TableCell>
 
-      <TableCell align="center">
-        <TableMoreMenu
-          open={openMenu}
-          onOpen={handleOpenMenu}
-          onClose={handleCloseMenu}
-          actions={
-            <>
-              <MenuItem
-                onClick={() => {
-                  onDeleteRow();
-                  handleCloseMenu();
-                }}
-                sx={{ color: 'error.main' }}
-              >
-                <Iconify icon={'eva:trash-2-outline'} />
-                Delete
-              </MenuItem>
+          <TableCell align="center">
+            <TableMoreMenu
+              open={openMenu}
+              onOpen={handleOpenMenu}
+              onClose={handleCloseMenu}
+              actions={
+                <>
+                  <MenuItem
+                    onClick={() => {
+                      onDeleteRow();
+                      handleCloseMenu();
+                    }}
+                    sx={{ color: 'error.main' }}
+                  >
+                    <Iconify icon={'eva:trash-2-outline'} />
+                    Delete
+                  </MenuItem>
 
-              <MenuItem
-                onClick={() => {
-                  onViewRow();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:eye-fill'} />
-                View
-              </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      onViewRow();
+                      handleCloseMenu();
+                    }}
+                  >
+                    <Iconify icon={'eva:eye-fill'} />
+                    View
+                  </MenuItem>
 
-              <MenuItem
-                onClick={() => {
-                  onEditRow();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:edit-fill'} />
-                Edit
-              </MenuItem>
-            </>
-          }
-        />
-      </TableCell>
+                  <MenuItem
+                    onClick={() => {
+                      onEditRow();
+                      handleCloseMenu();
+                    }}
+                  >
+                    <Iconify icon={'eva:edit-fill'} />
+                    Edit
+                  </MenuItem>
+                </>
+              }
+            />
+          </TableCell>
         </TableRow>
       )}
     </>
