@@ -102,8 +102,8 @@ export default function InquireQuotationTableRow({
 
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
-              <Avatar alt={`${row.customer_name}`} sx={{ mr: 2, width: '25px', height: '25px' }} />
-              // <Avatar alt={`${row.customer_name}`} src={row.patientdp} sx={{ mr: 2, width: '25px', height: '25px' }} />
+              // <Avatar alt={`${row.customer_name}`} sx={{ mr: 2, width: '25px', height: '25px' }} />
+              <Avatar alt={`${row.customer_name}`} src={row.patientdp} sx={{ mr: 2, width: '25px', height: '25px' }} />
               ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '25px', height: '25px', mr: 2 }} />
             )}
@@ -167,8 +167,8 @@ export default function InquireQuotationTableRow({
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {showSkeleton ? (
               // <Avatar alt={`${row.customer_name}`} sx={{ mr: 2, width: '25px', height: '25px' }} />
-              // <Avatar alt="pic">{row.customer_name.charAt(0)}</Avatar>
-              ""
+              <Avatar alt="pic">{row.customer_name.charAt(0)}</Avatar>
+              // ""
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
             )}

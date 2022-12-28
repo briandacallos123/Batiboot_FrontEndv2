@@ -71,13 +71,10 @@ export default function InvoiceTableRow({
       </TableCell>
       <TableCell>{''}</TableCell>
       <TableCell sx={{ display: 'flex', alignItems: 'left' }}>
-        <Avatar alt={row?.name} color={createAvatar(row?.name).color} sx={{ mr: 2 }}>
-          {createAvatar(row?.name).name}
-        </Avatar>
-
+      <Avatar alt="pic">{row.customer_name.charAt(0)}</Avatar>
         <Stack>
           <Typography variant="subtitle2" noWrap>
-            INV-{row?.invoice_number}
+           {row?.customer_name}
           </Typography>
         </Stack>
       </TableCell>
