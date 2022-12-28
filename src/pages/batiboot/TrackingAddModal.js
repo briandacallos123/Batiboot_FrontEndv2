@@ -1,3 +1,4 @@
+import React, { useMemo } from 'react';
 import { paramCase } from 'change-case';
 import { useParams, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -56,23 +57,21 @@ export default function TrackingAddModal(props) {
     origin: Yup.string().required('origin is required'),
     destination: Yup.string().required('destination is required'),
     trackingNumber: Yup.string().required('trackingNumber is required'),
-    // date: Yup.string().required('date is required'),
     status: Yup.string().required('status is required'),
-    // name: Yup.string().required('Name is required'),
-    // description: Yup.string().required('Description is required'),
-    // images: Yup.array().min(1, 'Images is required'),
-    // price: Yup.number().moreThan(0, 'Price should not be $0.00'),
   });
-  // const schema = Yup.object().shape({
-  //   origin: Yup.string().required('origin is required'),
-  // });
-  const defaultValues = {
-    origin: '',
-    order_recieve_date: new Date(),
-    destination: '',
-    trackingNumber: '',
-    status: 0,
-  };
+
+  const defaultValues = useMemo(
+    () => ({
+      origin: '',
+      order_recieve_date: new Date(),
+      destination: '',
+      trackingNumber: '',
+      status: 0,
+    }),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [identifier]
+  );
 
   const methods = useForm({
     resolver: yupResolver(schema),
@@ -82,11 +81,14 @@ export default function TrackingAddModal(props) {
   const {
     control,
     handleSubmit,
+    watch,
     formState: { isSubmitting },
   } = methods;
 
+  // const values = watch();
+  // console.log(values);
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     /*   const { invoice_number: invoiceNumber, id: invoiceId, product_name: productName } = identifier;
 
     const newData = { ...data, invoiceNumber, invoiceId, productName };

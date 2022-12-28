@@ -229,6 +229,7 @@ export default function OrderList() {
   };
 
   const [Status, setStatus] = React.useState(-1);
+  
   const utils = () => {
     const payload = {};
     payload.page = page;
@@ -243,6 +244,7 @@ export default function OrderList() {
     console.log('payload', payload);
     dispatch(getAllOrders(payload));
   };
+
   useEffect(() => {
     utils();
     dispatch(getAllOrderStatus());

@@ -12,6 +12,7 @@ import { _invoiceAddressFrom, _invoiceAddressTo } from '../../../../../_mock/bat
 // components
 import Iconify from '../../../../../components/Iconify';
 import TrackingNewAddress from './TrackingNewAddress';
+import { FormProvider, RHFTextField, RHFSelect } from '../../../../../components/hook-form';
 //
 
 // ----------------------------------------------------------------------
@@ -35,10 +36,10 @@ export default function TrackingLocation() {
     >
       <Stack sx={{ width: 1 }}>
         <Stack direction="row" alignItems="center" justifyContent="space-evenly" sx={{ mb: 1 }}>
-          <Typography variant="h6" sx={{ color: 'text.disabled' }}>
+          <Typography variant="h6" sx={{ color: 'text.disabled', mr: 2 }}>
             Origin:
           </Typography>
-          <TextField size="small" name="origin" InputLabelProps={{ shrink: true }} />
+          <RHFTextField size="small" name="origin" />
 
           {/* <TrackingNewAddress open={openFrom} onClose={onCloseFrom} addressOptions={_invoiceAddressFrom} /> */}
         </Stack>
@@ -46,10 +47,10 @@ export default function TrackingLocation() {
 
       <Stack sx={{ width: 1 }}>
         <Stack direction="row" alignItems="center" justifyContent="space-evenly" sx={{ mb: 1 }}>
-          <Typography variant="h6" sx={{ color: 'text.disabled', mr: 1 }}>
+          <Typography variant="h6" sx={{ color: 'text.disabled', mr: 2 }}>
             Destination:
           </Typography>
-          <TextField size="small" name="destination" InputLabelProps={{ shrink: true }} />
+          <RHFTextField size="small" name="destination" />
 
           {/* <TrackingNewAddress open={openFrom} onClose={onCloseFrom} addressOptions={_invoiceAddressFrom} /> */}
         </Stack>

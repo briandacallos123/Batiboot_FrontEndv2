@@ -147,8 +147,6 @@ export default function OrderListModalForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, currentProduct]);
 
-  console.log(values);
-
   const onSubmit = async () => {
     // try {
     //   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -200,25 +198,19 @@ export default function OrderListModalForm({
   };
 
   const handleCreateAndSend = async () => {
-    // console.log('VALUES: ', values);
-    // console.log('isEdit: ', isEdit);
-    // setLoadingSend(true);
-
     try {
       if (isEdit) {
         await dispatch(UpdateOrder(values));
       }
       if (!isEdit) {
-        // brian dito yung dispatch add orders
-        console.log('test');
-
         await dispatch(approveQuotation(values));
         return;
       }
-      // reset();
-      // handleCloseModal();
-      // utils();
-      // enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+      reset();
+      handleCloseModal();
+      utils();
+      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+      window.location.reload();
       /*    navigate(PATH_BATIBOOT.invoice.list);
       console.log(JSON.stringify(newInvoice, null, 2)); */
     } catch (error) {

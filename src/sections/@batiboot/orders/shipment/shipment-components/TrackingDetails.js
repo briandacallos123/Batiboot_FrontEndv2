@@ -57,7 +57,6 @@ export default function TrackingDetails() {
         <Stack alignItems="flex-end" spacing={1.5}>
           <Stack direction={{ xs: 'column', md: 'row' }} sx={{ width: 1, pl: 2 }}>
             <RHFTextField
-              disabled
               name="trackingNum"
               label="Tracking Number"
               required
