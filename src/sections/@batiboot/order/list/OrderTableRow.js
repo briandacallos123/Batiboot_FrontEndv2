@@ -210,16 +210,25 @@ export default function OrderTableRow({
           </TableCell>
           <TableCell>{''}</TableCell>
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-            {showSkeleton ? (
+            {/* {showSkeleton ? (
               <Avatar alt={row?.name} color={createAvatar(row?.name).color} sx={{ mr: 2 }}>
                 {createAvatar(row?.name).name}
               </Avatar>
             ) : (
               <Skeleton variant="circular" animation="wave" sx={{ width: '25px', height: '25px', mr: 2 }} />
             )}
+            {showSkeleton ? ( */}
             {showSkeleton ? (
+              // <Avatar alt={`${row.customer_name}`} sx={{ mr: 2, width: '25px', height: '25px' }} />
+              <Avatar alt="pic">{row.customer_name.charAt(0)}</Avatar>
+              // ""
+            ) : (
+              <Skeleton variant="circular" animation="wave" sx={{ width: '40px', height: '40px', mr: 2 }} />
+            )}
+            {showSkeleton ? (
+            
               <Typography variant="subtitle2" noWrap sx={{ ml: 1 }}>
-                {row.product_name}
+                {row.customer_name}
               </Typography>
             ) : (
               <Skeleton animation="wave" sx={{ width: '110px', height: '25px' }} />

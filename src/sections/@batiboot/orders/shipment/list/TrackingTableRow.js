@@ -53,12 +53,14 @@ export default function TrackingTableRow({ row, selected, onSelectRow, onViewRow
         {/*   <Typography variant="subtitle2" noWrap>
             {invoiceTo.name}
         </Typography> */}
-        <Stack>
+        {/* <Stack>
           <Typography variant="subtitle2" noWrap>
-            {row?.product_name}
+            {row?.customer_name}
           </Typography>
-        </Stack>
+        </Stack> */}
+        <TableCell align="center">{row?.customer_name}</TableCell>
       </TableCell>
+      
       <TableCell>{''}</TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
