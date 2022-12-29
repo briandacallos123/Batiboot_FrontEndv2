@@ -111,26 +111,30 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     })),
   };
 
+  console.log('NEW NVOICE', newInvoice);
+
   const handleCreateAndSend = async () => {
-    console.log('hi');
-    return;
+    // console.log('NEW NVOICE', newInvoice);
+    // return;
     setLoadingSend(true);
 
     try {
       // await new Promise((resolve) => setTimeout(resolve, 500));
 
       // console.log(JSON.stringify(newInvoice, null, 2));
-      const dateDue = `${newInvoice.dueDate.getFullYear()}-${newInvoice.dueDate.getMonth()}-${newInvoice.dueDate.getDate()}`;
-      const dateCreate = `${newInvoice.createDate.getFullYear()}-${newInvoice.createDate.getMonth()}-${newInvoice.createDate.getDate()}`;
+      // const dateDue = `${newInvoice.dueDate.getFullYear()}-${newInvoice.dueDate.getMonth()}-${newInvoice.dueDate.getDate()}`;
+      // const dateCreate = `${newInvoice.created_at.getFullYear()}-${newInvoice.createDate.getMonth()}-${newInvoice.createDate.getDate()}`;
 
       const valData = {
         from: newInvoice.invoiceFrom.address,
         to: newInvoice.invoiceTo.address,
         invoice_number: newInvoice.invoiceNumber,
-        statusText: newInvoice.status,
+        status: newInvoice.status,
         details: JSON.stringify(newInvoice.items),
-        due_date: dateDue,
-        created_at: dateCreate,
+        due_date: newInvoice?.dueDate,
+        created_at: newInvoice?.created_at,
+        // due_date: dateDue,
+        // created_at: dateCreate,
         id: data.id,
         product_name: data.product_name,
         // id: 18,
@@ -138,10 +142,11 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
       };
 
       await createInvoice(valData);
+      console.log('nag request');
       reset();
       handleCloseModal();
       setLoadingSend(false);
-      navigate(PATH_BATIBOOT.invoice.list);
+      // navigate(PATH_BATIBOOT.invoice.list);
     } catch (error) {
       console.error(error);
     }
