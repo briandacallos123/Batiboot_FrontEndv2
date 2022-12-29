@@ -51,6 +51,7 @@ export default function UserModal(props) {
     utils,
     inquiryModalData,
     modalViewData,
+    handleTabClick,
   } = props;
 
   const { themeStretch } = useSettings();
@@ -119,8 +120,9 @@ export default function UserModal(props) {
           currentUser={currentUser}
           handleCloseModal={handleCloseModal}
           currentInvoice={currentInvoice}
-          formRef={formRef}
-          data={identifier}
+          identifier={identifier}
+          data={data}
+          formRef={formRefDraft}
         />
       );
     if (nameLink === 'Inquiry Quotation' && !isEdit) {
@@ -194,6 +196,7 @@ export default function UserModal(props) {
           handleCloseModal={handleCloseModal}
           isIdentifier={identifier}
           formRef={formRef}
+          handleTabClick={handleTabClick}
         />
       );
     }
@@ -203,7 +206,8 @@ export default function UserModal(props) {
           isEdit={isEdit}
           currentUser={currentUser}
           handleCloseModal={handleCloseModal}
-          isIdentifier={identifier}
+          identifier={identifier}
+          handleTabClick={handleTabClick}
           formRef={formRef}
         />
       );
@@ -214,8 +218,8 @@ export default function UserModal(props) {
           isEdit={isEdit}
           currentUser={currentUser}
           handleCloseModal={handleCloseModal}
-          isIdentifier={identifier}
           formRef={formRef}
+          handleTabClick={handleTabClick}
         />
       );
     }
@@ -225,8 +229,9 @@ export default function UserModal(props) {
           isEdit={isEdit}
           currentUser={currentUser}
           handleCloseModal={handleCloseModal}
-          isIdentifier={identifier}
+          identifier={identifier}
           formRef={formRef}
+          handleTabClick={handleTabClick}
         />
       );
     }

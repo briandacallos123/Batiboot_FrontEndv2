@@ -13,7 +13,7 @@ import { useSnackbar } from 'notistack';
 // routes
 import { PATH_BATIBOOT } from '../../../../routes/paths';
 // mock
-import { _invoiceAddressFrom } from '../../../../_mock/batiboot/invoice_mock/_invoice';
+import { _invoiceAddressFrom, _invoiceAddressTo } from '../../../../_mock/batiboot/invoice_mock/_invoice';
 // hook
 import useResponsive from '../../../../hooks/useResponsive';
 // components
@@ -60,6 +60,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
   });
   // const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : currentInvoice.invoice_number;
   const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : identifier?.invoice_number;
+
   const defaultValues = useMemo(
     () => ({
       invoiceNumber: id || '',
@@ -67,11 +68,11 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
       dueDate: identifier?.due_date || null,
       // address: identifier?.address || null,
       status: identifier?.status || null,
-      invoiceFrom: identifier?.address_from || _invoiceAddressFrom[0],
-      invoiceTo: identifier?.address_to || null,
+      invoiceFrom: identifier?.address_from || data?.address_from || _invoiceAddressFrom[0],
+      invoiceTo: identifier?.address_to || data?.address_to || _invoiceAddressTo[0],
       details: identifier?.details || [{ totalAmount: 0 }],
-      id: identifier?.id || '',
-      // items: currentInvoice?.items || [{ itemDescription: '', actualCBM: 0, rateCBM: 0, totalAmount: 0 }],
+      id: identifier?.id || id || '',
+      items: currentInvoice?.items || [{ itemDescription: '', actualCBM: 0, rateCBM: 0, totalAmount: 0 }],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [identifier, id]
@@ -110,24 +111,10 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     })),
   };
 
-  const handleSaveAsDraft = async () => {
-    setLoadingSave(true);
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      // reset();
-      // setLoadingSave(true);
-      // handleCloseModal();
-      // navigate(PATH_BATIBOOT.invoice.list);
-      // console.log(JSON.stringify(newInvoice, null, 2));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleCreateAndSend = async () => {
+    console.log('hi');
+    return;
     setLoadingSend(true);
-    return false;
 
     try {
       // await new Promise((resolve) => setTimeout(resolve, 500));
@@ -160,6 +147,21 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
     }
   };
 
+  const handleSaveAsDraft = async () => {
+    setLoadingSave(true);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // reset();
+      // setLoadingSave(true);
+      // handleCloseModal();
+      // navigate(PATH_BATIBOOT.invoice.list);
+      // console.log(JSON.stringify(newInvoice, null, 2));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <FormProvider methods={methods}>
       <Card>
@@ -184,7 +186,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
             <Grid item xs={12} md={8}>
               <Stack height={{ xs: '100%', md: '75vh' }}>
                 <Scrollbar>
-                  <InvoiceNewEditAddress data={data} />
+                  <InvoiceNewEditAddress />
                   <InvoiceNewEditStatusDate getValue={getValues} />
                   <InvoiceNewEditDetails />
                 </Scrollbar>
@@ -196,7 +198,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ my: 3 }}>
-        <LoadingButton
+        {/* <LoadingButton
           color="error"
           size="small"
           variant="contained"
@@ -204,7 +206,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           onClick={handleCloseModal}
           type="submit"
           sx={{ display: 'none' }}
-          ref={formRef}
+          // ref={formRef}
         />
 
         <LoadingButton
@@ -215,8 +217,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           onClick={handleSubmit(handleSaveAsDraft)}
           type="submit"
           sx={{ display: 'none' }}
-          ref={formRef}
-        />
+          // ref={formRef}
+        /> */}
 
         <LoadingButton
           size="small"

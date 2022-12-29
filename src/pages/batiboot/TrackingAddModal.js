@@ -19,6 +19,7 @@ import { DialogAnimate } from '../../components/animate';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
 import './modalStyle2.scss';
+import useAuth from '../../hooks/useAuth';
 
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
@@ -45,7 +46,7 @@ import {
 
 export default function TrackingAddModal(props) {
   const { open, selectedValue, onClose, edit, identifier, data } = props;
-
+  const { addTracking } = useAuth();
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const theme = useTheme();
@@ -54,23 +55,59 @@ export default function TrackingAddModal(props) {
   const handleCloseModal = () => onClose(selectedValue);
 
   const schema = Yup.object().shape({
-    origin: Yup.string().required('origin is required'),
-    destination: Yup.string().required('destination is required'),
-    trackingNumber: Yup.string().required('trackingNumber is required'),
-    status: Yup.string().required('status is required'),
+    // origin: Yup.string().required('origin is required'),
+    // destination: Yup.string().required('destination is required'),
+    // trackingNumber: Yup.string().required('trackingNumber is required'),
+    // status: Yup.string().required('status is required'),
   });
+  const onSubmit = async (data) => {
+    // const { invoice_number: invoiceNumber, id: invoiceId, product_name: productName, order_id: orderId } = identifier;
+    values.order_id = identifier?.order_id;
+    values.invoiceId = identifier?.id;
+
+    let newStatus = '';
+    switch (values.status) {
+      case 0:
+        newStatus = 'Pending';
+        break;
+      case 1:
+        newStatus = 'Preparing';
+        break;
+      case 2:
+        newStatus = 'Delivery in progress';
+        break;
+      case 3:
+        newStatus = 'Received';
+        break;
+      case 4:
+        newStatus = 'Not Delivered';
+        break;
+      default:
+        break;
+    }
+    values.status = newStatus;
+
+    try {
+      await addTracking(values);
+    } catch (e) {
+      console.log(e);
+    }
+    reset();
+  };
 
   const defaultValues = useMemo(
     () => ({
+      order_id: '',
       origin: '',
-      order_recieve_date: new Date(),
+      order_received_date: new Date(),
       destination: '',
       trackingNumber: '',
       status: 0,
+      invoiceId: identifier?.id || null,
     }),
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [identifier]
+    [identifier, open]
   );
 
   const methods = useForm({
@@ -79,21 +116,17 @@ export default function TrackingAddModal(props) {
   });
 
   const {
+    reset,
     control,
     handleSubmit,
     watch,
+
     formState: { isSubmitting },
   } = methods;
 
-  // const values = watch();
-  // console.log(values);
-  const onSubmit = async (data) => {
-    // console.log(data);
-    /*   const { invoice_number: invoiceNumber, id: invoiceId, product_name: productName } = identifier;
+  const values = watch();
 
-    const newData = { ...data, invoiceNumber, invoiceId, productName };
-    console.log(newData); */
-  };
+  // console.log(values);
 
   return (
     <DialogAnimate open={open} sx={{ px: 1, py: 3 }} fullScreen maxWidth={'md'}>
@@ -122,7 +155,7 @@ export default function TrackingAddModal(props) {
             </Stack>
           </DialogTitle>
         </div>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methods}>
           <div className="mpp-body">
             <Page title="Batiboot: Create Tracking">
               <Grid container>
@@ -150,7 +183,7 @@ export default function TrackingAddModal(props) {
               >
                 Cancel
               </Button>
-              <LoadingButton type="submit" size="small" variant="contained">
+              <LoadingButton type="submit" size="small" variant="contained" onClick={handleSubmit(onSubmit)}>
                 {/* {!isEdit ? `Create ${nameLink}` : 'Save Changes'}   */} Create Tracking
               </LoadingButton>
             </DialogActions>

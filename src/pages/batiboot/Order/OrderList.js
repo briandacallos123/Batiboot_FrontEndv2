@@ -231,7 +231,7 @@ export default function OrderList() {
   };
 
   const [Status, setStatus] = React.useState(-1);
-  
+
   const utils = () => {
     const payload = {};
     payload.page = page;
@@ -322,17 +322,17 @@ export default function OrderList() {
             { name: 'Order', href: PATH_BATIBOOT.order.root },
             { name: 'List' },
           ]}
-          action={
-            <Button
-              variant="contained"
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-              component={RouterLink}
-              to={PATH_BATIBOOT.order.createOrder}
-              onClick={handleOpenModal}
-            >
-              Add Order
-            </Button>
-          }
+          // action={
+          //   <Button
+          //     variant="contained"
+          //     startIcon={<Iconify icon={'eva:plus-fill'} />}
+          //     component={RouterLink}
+          //     to={PATH_BATIBOOT.order.createOrder}
+          //     onClick={handleOpenModal}
+          //   >
+          //     Add Order
+          //   </Button>
+          // }
         />
 
         <Box>
@@ -353,6 +353,7 @@ export default function OrderList() {
             onClose={handleCloseModal}
             identifier={identifier}
             data={modalViewData}
+            ordersArr={ordersArr}
           />
           }
         </Box>
@@ -568,6 +569,7 @@ export default function OrderList() {
                           // bring back this if edit do not work.
                           // onEditRow={() => handleEditRow(orders.byId[items.id].fname)}
                           onViewRow={() => handleViewRow(items)}
+                          // onViewRow={() => handleViewRow(items.id)}
                           // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
                         />

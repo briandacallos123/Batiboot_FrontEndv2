@@ -153,6 +153,12 @@ const handlers = {
       isAuthenticated: true,
     };
   },
+  UPDATE_DEPARTMENT: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
   CREATE_USER_DESIGNATION: (state, action) => {
     return {
       ...state,
@@ -172,6 +178,20 @@ const handlers = {
     };
   },
   SEND_FAQ: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
+
+  UPDATE_DESIGNATION: (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: true,
+    };
+  },
+
+  ADD_TRACKING: (state, action) => {
     return {
       ...state,
       isAuthenticated: true,
@@ -207,6 +227,9 @@ const AuthContext = createContext({
   contactUsSend: () => Promise.resolve(),
   createDraft: () => Promise.resolve(),
   sendFaq: () => Promise.resolve(),
+  updateDesignation: () => Promise.resolve(),
+  updateDeparment: () => Promise.resolve(),
+  addTracking: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -336,6 +359,42 @@ function AuthProvider({ children }) {
     });
   };
 
+  const updateDesignation = async (data) => {
+    console.log('RECEIVED DATA: ', data);
+    const response = await axios.post('/api/management/update/designation/information', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
+    const user = response.data;
+    console.log('RESPONSE DATA: ', user);
+
+    dispatch({
+      type: 'UPDATE_DESIGNATION',
+      payload: {
+        user,
+      },
+    });
+  };
+  const addTracking = async (data) => {
+    // console.log("RECEIVED DATA");
+    // return;
+    const response = await axios.post('/api/Create/Shipment', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
+    const user = response.data;
+    console.log('RESPONSE DATA: ', user);
+
+    dispatch({
+      type: 'UPDATE_DESIGNATION',
+      payload: {
+        user,
+      },
+    });
+  };
+
   const changePassword = async (token, email, password) => {
     const response = await axios.put(
       '/api/account/change-password',
@@ -414,10 +473,8 @@ function AuthProvider({ children }) {
         'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
       },
     });
-    console.log('RESPONSE DATA: ', response.data);
-    return;
-
     const user = response.data;
+
     dispatch({
       type: 'SEND_FAQ',
       payload: {
@@ -685,6 +742,27 @@ function AuthProvider({ children }) {
     });
   };
 
+  const updateDeparment = async (data) => {
+    const response = await axios.post('/api/management/update/department/information', data, {
+      headers: {
+        'x-api-key': process.env.REACT_APP_SECRET_API_KEY,
+      },
+    });
+    const user = response.data;
+    console.log('Response: ', user);
+
+    // alert(user)
+    // alert(accessToken)
+    // setSession(accessToken);
+
+    dispatch({
+      type: 'UPDATE_DEPARTMENT',
+      payload: {
+        user,
+      },
+    });
+  };
+
   const contactUsSend = async (data) => {
     const response = await axios.post(
       '/api/Create/Sent/Message',
@@ -783,6 +861,9 @@ function AuthProvider({ children }) {
         contactUsSend,
         createDraft,
         sendFaq,
+        updateDesignation,
+        updateDeparment,
+        addTracking,
       }}
     >
       {children}

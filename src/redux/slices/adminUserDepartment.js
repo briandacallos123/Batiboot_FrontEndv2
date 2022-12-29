@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // utils
-import /* axios, */ {V4axios} from '../../utils/axios';
+import { /* axios, */ V4axios } from '../../utils/axios';
 //
 import { dispatch } from '../store';
 
@@ -17,16 +17,16 @@ const initialState = {
   isLoading: false,
   error: null,
   usersDepartment: { byId: {}, allIds: [] },
-  usersDepartmentArr : [],
-  totalData:0,
-  ccc:{
+  usersDepartmentArr: [],
+  totalData: 0,
+  ccc: {
     active: 0,
     banned: 0,
   },
 };
 
 const slice = createSlice({
-  name:'adminUserDepartment',
+  name: 'adminUserDepartment',
   initialState,
   reducers: {
     // START LOADING
@@ -42,13 +42,13 @@ const slice = createSlice({
 
     // GET QUOTATION SUCCESS
     getUsersDepartmentSuccess(state, action) {
-      const {data,total,ccc} = action.payload;
+      const { data, total, ccc } = action.payload;
       state.isLoading = false;
       state.usersDepartment.byId = objFromArray(data);
       state.usersDepartment.allIds = Object.keys(state.usersDepartment.byId);
       state.usersDepartmentArr = data;
       state.totalData = total;
-      state.ccc  = ccc;
+      state.ccc = ccc;
     },
   },
 });
@@ -60,9 +60,9 @@ export default slice.reducer;
 // ----------------------------------------------------------------------
 
 export function getAllUsersDepartment(payload) {
-  const {accessToken} = localStorage
+  const { accessToken } = localStorage;
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
@@ -75,9 +75,9 @@ export function getAllUsersDepartment(payload) {
 }
 
 export function DeleteDepartments(payload) {
-  const {accessToken} = localStorage
+  const { accessToken } = localStorage;
   V4axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
+  //   V4axios.defaults.headers.common.x_api_key = process.env.REACT_APP_SECRET_API_KEY;
   return async () => {
     dispatch(slice.actions.startLoading());
     try {

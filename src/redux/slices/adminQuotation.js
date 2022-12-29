@@ -108,6 +108,7 @@ export function getAllQuotations(payload) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await V4axios.post('/api/quotations/all', payload);
+      console.log(response);
       dispatch(slice.actions.getQuotationSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

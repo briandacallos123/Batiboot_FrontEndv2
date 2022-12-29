@@ -149,9 +149,8 @@ export default function UserDesignation() {
   };
 
   const handleEditRow = (id) => {
-    console.log('ID: ', id);
     setIsEdit(!isEdit);
-    // setIdentifier(id)
+    setIdentifier(id);
     handleOpenModal();
   };
   const [modalViewData, setModalViewData] = useState([]);
@@ -239,22 +238,6 @@ export default function UserDesignation() {
   /* console.log(appointmentsArr) */
 
   const handleTabClick = (type) => {
-    // resetPage();
-    // let status = 0;
-    // switch (type) {
-    //   case 'all':
-    //     setStatus(type);
-    //     break;
-    //   case 'active':
-    //     setStatus(type);
-    //     break;
-    //   case 'banned':
-    //     setStatus(type);
-    //     break;
-    //   default:
-    //     setStatus(type);
-    //     break;
-    // }
     setStatus(type);
     const payload = {};
     payload.page = page;
@@ -265,8 +248,6 @@ export default function UserDesignation() {
     payload.startDate = filterStartDate;
     payload.endDate = filterEndDate;
     dispatch(getAllUsersDesignation(payload));
-    // dispatch(getAllUsersDesignation(payload));
-    // dispatch(getAllRoles());
   };
 
   // Skeleton
@@ -280,6 +261,10 @@ export default function UserDesignation() {
       }
     }
   }, [ordersData]);
+
+  useEffect(() => {
+    handleTabClick();
+  }, []);
 
   useEffect(() => {
     setOrdersData(usersDesignation);
@@ -316,6 +301,7 @@ export default function UserDesignation() {
             identifier={identifier}
             pathname={pathname}
             nameLink={'Designations'}
+            handleTabClick={handleTabClick}
           />
           {
             /*  <OrderCreateModal 

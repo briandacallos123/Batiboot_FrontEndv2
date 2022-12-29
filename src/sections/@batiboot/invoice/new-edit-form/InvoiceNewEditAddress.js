@@ -33,8 +33,6 @@ export default function InvoiceNewEditAddress(prop) {
     formState: { errors },
   } = useFormContext();
 
-  console.log('addressFrom SA ORDERS EDIT: ', addressFrom);
-
   const upMd = useResponsive('up', 'md');
 
   const values = watch();
@@ -44,7 +42,9 @@ export default function InvoiceNewEditAddress(prop) {
   const { toggle: openTo, onOpen: onOpenTo, onClose: onCloseTo } = useToggle();
 
   const { invoiceFrom, invoiceTo } = values;
-
+  console.log('invoiceFrom: ', invoiceFrom);
+  console.log('invoiceTo: ', invoiceTo);
+  console.log('values: ', values);
   return (
     <Stack
       spacing={{ xs: 2, md: 5 }}
@@ -70,12 +70,12 @@ export default function InvoiceNewEditAddress(prop) {
             addressOptions={_invoiceAddressFrom}
           />
         </Stack>
-
-        {isEdit ? (
+        <AddressInfo name={invoiceFrom} />
+        {/* {isEdit ? (
           <AddressInfo name={invoiceFrom} address={addressFrom} />
         ) : (
           <AddressInfo name={invoiceFrom} address={addressFrom} />
-        )}
+        )} */}
       </Stack>
 
       <Stack sx={{ width: 1 }}>
@@ -100,6 +100,7 @@ export default function InvoiceNewEditAddress(prop) {
             addressOptions={_invoiceAddressTo}
           />
         </Stack>
+        <AddressInfo name={invoiceTo} />
 
         {/* {invoiceTo ? (
           <AddressInfo name={invoiceTo} address={invoiceTo} />
@@ -121,9 +122,15 @@ AddressInfo.propTypes = {
   phone: PropTypes.string,
 };
 
-function AddressInfo({ name, address, phone }) {
+function AddressInfo({ name }) {
   return (
     <>
+      <Typography variant="body2" sx={{ mt: 1, mb: 0.5 }}>
+        {name?.name}
+      </Typography>
+      <Typography variant="body2" sx={{ mt: 1, mb: 0.5 }}>
+        {name?.address}
+      </Typography>
       {/* <Typography variant="subtitle2">{name ?? ''}</Typography>
       <Typography variant="body2" sx={{ mt: 1, mb: 0.5 }}>
         {address ?? ''}

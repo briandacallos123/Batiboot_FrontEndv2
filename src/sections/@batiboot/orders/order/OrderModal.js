@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { UpdateOrder } from '../../../../redux/slices/adminOrder';
 import { approveQuotation } from '../../../../redux/slices/adminQuotation';
 // routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
+import { PATH_DASHBOARD, PATH_BATIBOOT } from '../../../../routes/paths';
 // components
 import {
   FormProvider,
@@ -82,23 +82,51 @@ export default function OrderListModalForm({
     price: Yup.number().moreThan(0, 'Price should not be $0.00'),
   });
 
+  // console.log('MODAL VIEW DATA: ', data);
+
+  const handleCreateAndSend = async () => {
+    setLoadingSave(true);
+    try {
+      if (isEdit) {
+        await dispatch(UpdateOrder(values));
+        reset();
+        setLoadingSave(false);
+        handleCloseModal();
+        utils();
+        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+      }
+      if (!isEdit) {
+        await dispatch(approveQuotation(values));
+        reset();
+        setLoadingSave(false);
+        navigate(PATH_BATIBOOT.order.list);
+        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const defaultValues = useMemo(
     () => ({
-      name: identifier?.product_name || modalViewData?.product_name || '',
-      description: identifier?.description || modalViewData?.description || '',
-      images: identifier?.attachments || modalViewData?.attachments || [],
-      price: identifier?.price || modalViewData?.price || 0,
-      services: identifier?.services || modalViewData?.services || SERVICE_OPTION[0],
-      id: identifier?.id || modalViewData?.id || '',
-      quantity: identifier?.quantity || modalViewData?.quantity || '',
-      contact_number: identifier?.contact_number || modalViewData?.contact_number || '',
-      email: identifier?.email || modalViewData?.email || '',
-      address_from: identifier?.address_from || modalViewData?.address_from || '',
-      address_to: identifier?.address_to || modalViewData?.address_to || '',
+      name: identifier?.product_name || data?.product_name || '',
+      description: identifier?.description || data?.description || '',
+      images: identifier?.attachments || data?.attachments || [],
+      price: identifier?.price_per_pcs || data?.price || 0,
+      services: identifier?.services || data?.services || SERVICE_OPTION[0],
+      id: identifier?.id || data?.id || '',
+      quantity: identifier?.quantity || data?.quantity || '',
+      contact_number: identifier?.contact_number || data?.contact_number || '',
+      email: identifier?.email || data?.email || '',
+      address_from: identifier?.address_from || data?.address_from || '',
+      address_to: identifier?.address_to || data?.address_to || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [identifier]
   );
+
+  console.log('identifier ', identifier);
+  console.log('data ', data);
 
   // from current Product to identifier for edit.
   // const defaultValues = useMemo(
@@ -197,27 +225,6 @@ export default function OrderListModalForm({
     // }
   };
 
-  const handleCreateAndSend = async () => {
-    try {
-      if (isEdit) {
-        await dispatch(UpdateOrder(values));
-      }
-      if (!isEdit) {
-        await dispatch(approveQuotation(values));
-        return;
-      }
-      reset();
-      handleCloseModal();
-      utils();
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      window.location.reload();
-      /*    navigate(PATH_BATIBOOT.invoice.list);
-      console.log(JSON.stringify(newInvoice, null, 2)); */
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3} sx={{ pb: 10 }}>
@@ -276,8 +283,8 @@ export default function OrderListModalForm({
                   ))}
                 </RHFSelect>
                 <RHFTextField
-                  name="price"
                   label="Price per piece"
+                  name="price"
                   placeholder="0.00"
                   value={getValues('price') === 0 ? '' : getValues('price')}
                   onChange={(event) => setValue('price', Number(event.target.value))}

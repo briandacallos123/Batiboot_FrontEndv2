@@ -27,7 +27,7 @@ import {
 // eslint-disable-next-line
 import { useDispatch, useSelector } from '../../../redux/store';
 import { getAllRoles } from '../../../redux/slices/getRole';
-import { getAllUsersDepartment, DeleteDepartments} from '../../../redux/slices/adminUserDepartment';
+import { getAllUsersDepartment, DeleteDepartments } from '../../../redux/slices/adminUserDepartment';
 
 import useAuth from '../../../hooks/useAuth';
 // routes
@@ -59,13 +59,9 @@ import UserModal from '../../../sections/@batiboot/modal/UserModal';
 
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@batiboot/invoice/list';
 
-
-
 // ----------------------------------------------------------------------
 
-
 const TABLE_HEAD = [
-
   { id: 'department', label: 'Department', align: 'center' },
   // { id: 'user', label: 'user', align: 'left' },
   { id: 'status', label: 'Status', align: 'center' },
@@ -79,17 +75,16 @@ export default function UserDesignation() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const { themeStretch } = useSettings();
-  const { usersDepartment, totalData, ccc, usersDepartmentArr, isLoading } = useSelector((state) => state.adminUserDepartment);
-  const { roles, rolesArr,  } = useSelector((state) => state.getRole);
+  const { usersDepartment, totalData, ccc, usersDepartmentArr, isLoading } = useSelector(
+    (state) => state.adminUserDepartment
+  );
+  const { roles, rolesArr } = useSelector((state) => state.getRole);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const SERVICE_OPTIONS = [
-    {id: "All", name:"All"}
-  ];
+  const SERVICE_OPTIONS = [{ id: 'All', name: 'All' }];
 
-  
   const {
     dense,
     page,
@@ -155,10 +150,10 @@ export default function UserDesignation() {
 
   const handleEditRow = (id) => {
     setIsEdit(!isEdit);
-    // setIdentifier(id)
+    setIdentifier(id);
     handleOpenModal();
   };
-const [modalViewData, setModalViewData] = useState([]);
+  const [modalViewData, setModalViewData] = useState([]);
   const handleViewRow = (data) => {
     // navigate(PATH_BATIBOOT.invoice.view(id));
 
@@ -166,9 +161,8 @@ const [modalViewData, setModalViewData] = useState([]);
     //  setIdentifier(id)
     handleOpenViewModal();
     setModalViewData(data);
-    
   };
-console.log("filter servies", filterService);
+  console.log('filter servies', filterService);
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
@@ -200,7 +194,7 @@ console.log("filter servies", filterService);
   // const getPercentByStatus = (inquireQuoStatus) => (getLengthByStatus(inquireQuoStatus) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'info', count: ccc.active+ccc.banned},
+    { value: 'all', label: 'All', color: 'info', count: ccc.active + ccc.banned },
     { value: 'active', label: 'Active', color: 'success', count: ccc.active },
     { value: 'banned', label: 'Banned', color: 'error', count: ccc.banned },
   ];
@@ -219,14 +213,14 @@ console.log("filter servies", filterService);
     setIdentifier('');
   };
 
-  const [Status, setStatus] = React.useState("all");
+  const [Status, setStatus] = React.useState('all');
 
-  const utils = async() => {
+  const utils = async () => {
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
     // // payload.status = Status;
-    payload.services =filterService;
+    payload.services = filterService;
     // console.log(filterService);
     payload.search = filterName;
     payload.startDate = filterStartDate;
@@ -237,32 +231,14 @@ console.log("filter servies", filterService);
     await dispatch(getAllRoles());
   };
 
-  useEffect(async() => {
-
+  useEffect(async () => {
     utils();
-    
-  }, [dispatch, page, rowsPerPage,filterService, filterName, filterStartDate, filterEndDate, Status]);
+  }, [dispatch, page, rowsPerPage, filterService, filterName, filterStartDate, filterEndDate, Status]);
 
   /* console.log(appointmentsArr) */
 
   const handleTabClick = (type) => {
-    // resetPage();
-    // let status = 0;
-    // switch (type) {
-    //   case 'all':
-    //     setStatus(type);
-    //     break;
-    //   case 'active':
-    //     setStatus(type);
-    //     break;
-    //   case 'banned':
-    //     setStatus(type);
-    //     break;
-    //   default:
-    //     setStatus(type);
-    //     break;
-    // }
-  setStatus(type);
+    setStatus(type);
     const payload = {};
     payload.page = page;
     payload.rowcount = rowsPerPage;
@@ -274,8 +250,6 @@ console.log("filter servies", filterService);
     dispatch(getAllUsersDepartment(payload));
     // dispatch(getAllRoles());
   };
-
- 
 
   // Skeleton
   const [ordersData, setOrdersData] = useState({});
@@ -290,22 +264,27 @@ console.log("filter servies", filterService);
   }, [ordersData]);
 
   useEffect(() => {
+    handleTabClick();
+  }, []);
+
+  useEffect(() => {
     setOrdersData(usersDepartment);
   }, [usersDepartment]);
 
+  // useEffect(()=>{
+  //   handleTabClick()
+  // },[])
 
   const [showSkelDatatable, setshowSkelDatatable] = useState(false);
   useEffect(() => {
     setshowSkelDatatable(!isLoading);
   }, [isLoading]);
 
-
-
   return (
     <Page title="Batiboot: Departments">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-            heading="Department"
+          heading="Department"
           links={[
             { name: 'Dashboard', href: PATH_BATIBOOT.root },
             { name: 'User', href: PATH_BATIBOOT.user.root },
@@ -313,12 +292,10 @@ console.log("filter servies", filterService);
           ]}
           action={
             <Button variant="contained" onClick={handleOpenModal} startIcon={<Iconify icon={'eva:plus-fill'} />}>
-               Add Department
+              Add Department
             </Button>
           }
         />
-
-   
 
         <Box>
           {/* UserRolesCreate Modal */}
@@ -329,8 +306,9 @@ console.log("filter servies", filterService);
             identifier={identifier}
             pathname={pathname}
             nameLink={'Department'}
+            handleTabClick={handleTabClick}
           />
-            {
+          {
             /*  <OrderCreateModal 
            open={openModal}
            onClose={handleCloseModal} 
@@ -342,8 +320,7 @@ console.log("filter servies", filterService);
           }
         </Box>
 
-
-   <Card sx={{ mb: 5 }}>
+        <Card sx={{ mb: 5 }}>
           <Scrollbar>
             <Stack
               direction="row"
@@ -366,7 +343,7 @@ console.log("filter servies", filterService);
                 <UserListAnalytics
                   title="Active"
                   total={ccc.active}
-                  percent={(ccc.active * 100) / (ccc.active+ccc.banned)}
+                  percent={(ccc.active * 100) / (ccc.active + ccc.banned)}
                   icon="eva:checkmark-circle-2-fill"
                   color={theme.palette.success.main}
                 />
@@ -378,7 +355,7 @@ console.log("filter servies", filterService);
                 <UserListAnalytics
                   title="Inactive"
                   total={ccc.banned}
-                  percent={(ccc.banned * 100) / (ccc.active+ccc.banned)}
+                  percent={(ccc.banned * 100) / (ccc.active + ccc.banned)}
                   icon="eva:bell-fill"
                   color={theme.palette.error.main}
                 />
@@ -389,9 +366,7 @@ console.log("filter servies", filterService);
           </Scrollbar>
         </Card>
 
-
         <Card>
-          
           {showSkel ? (
             <Tabs
               allowScrollButtonsMobile
@@ -412,7 +387,6 @@ console.log("filter servies", filterService);
                 />
               ))}
             </Tabs>
-
           ) : (
             <Stack direction="row" spacing={3} sx={{ pl: 2, pt: 1, pb: 1 }}>
               <Box sx={{ display: 'flex' }}>
@@ -434,8 +408,6 @@ console.log("filter servies", filterService);
                 <Skeleton animation="wave" sx={{ width: '40px', height: '40px', mr: 0.5 }} />
                 <Skeleton animation="wave" sx={{ width: '60px', height: '25px', mt: 1 }} />
               </Box>
-
-             
             </Stack>
           )}
 
@@ -501,9 +473,6 @@ console.log("filter servies", filterService);
               )}
 
               <Table size={dense ? 'small' : 'medium'}>
-              
-              
-
                 {/* <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <InquireQuoTableRow
@@ -522,10 +491,10 @@ console.log("filter servies", filterService);
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody> */}
 
-              <TableHeadCustom
+                <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
-                  headLabel={ TABLE_HEAD }
+                  headLabel={TABLE_HEAD}
                   rowCount={tableData.length}
                   numSelected={selected.length}
                   onSort={onSort}
@@ -539,7 +508,7 @@ console.log("filter servies", filterService);
 
                 <TableBody>
                   {/* && showSkelDatatable */}
-                  {showSkel 
+                  {showSkel
                     ? usersDepartmentArr.map((items) => (
                         <UserDepartmentTableRow
                           // isDesktop={isDesktop}
@@ -549,13 +518,14 @@ console.log("filter servies", filterService);
                           selected={selected.includes(items.id)}
                           onSelectRow={() => onSelectRow(items.id)}
                           onDeleteRow={() => handleDeleteRow(items.id)}
-                          onEditRow={() => handleEditRow(usersDepartment.byId[items.id].fname)}
+                          onEditRow={() => handleEditRow(items)}
+                          // onEditRow={() => handleEditRow(usersDepartment.byId[items.id].fname)}
                           onViewRow={() => handleViewRow(items)}
                           // onEditRow={() => handleEditRow(items.id)}
                           // handleClickOpen={handleClickOpen}
                         />
                       ))
-                    : [...Array(rowsPerPage)].map((i,k) => <QuotationSkeleton key={k}/>)}
+                    : [...Array(rowsPerPage)].map((i, k) => <QuotationSkeleton key={k} />)}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, totalData)} />
 

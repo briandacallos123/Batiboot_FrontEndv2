@@ -382,13 +382,13 @@ export default function InquireQuotation() {
             dataEdit={dataEdit}
             utils={utils}
           />
-          <UserModal
+          {/* <UserModal
             modalViewData={modalViewData}
             open={orderModal}
             onClose={handleCloseModal}
             nameLink={'Order List'}
             utils={utils}
-          />
+          /> */}
 
           {
             /* <InquireAndQuotationCreateModal

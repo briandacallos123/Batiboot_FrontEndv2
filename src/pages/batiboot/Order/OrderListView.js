@@ -55,13 +55,14 @@ const STATUS_OPTION = ['Pending', 'Approve', 'Reject'];
 export default function OrderListViewModal(props) {
   const [openModal, setOpenModal] = React.useState(false);
   const { user } = useAuth();
-  const { open, selectedValue, onClose, isView, identifier, data } = props;
+  const { open, selectedValue, onClose, isView, identifier, data, ordersArr } = props;
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const { loading = false } = props;
   const currentInvoice = _invoices.find((invoice) => invoice.id === identifier);
   const theme = useTheme();
 
+  console.log('ordersArr: ', ordersArr);
   const handleCloseModal = () => {
     onClose(selectedValue);
     setIsEdit(false);
@@ -84,7 +85,6 @@ export default function OrderListViewModal(props) {
     setStatus(event.target.value);
   };
   const handleOpenModal = () => setOpenModal(!openModal);
-  console.log('edit=', isEdit);
   return (
     <>
       <Box>
