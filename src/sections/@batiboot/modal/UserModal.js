@@ -122,7 +122,7 @@ export default function UserModal(props) {
           currentInvoice={currentInvoice}
           identifier={identifier}
           data={data}
-          formRef={formRefDraft}
+          formRef={formRef}
         />
       );
     if (nameLink === 'Inquiry Quotation' && !isEdit) {

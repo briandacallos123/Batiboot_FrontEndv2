@@ -119,8 +119,7 @@ export default function TrackingAddModal(props) {
     }
     values.status = newStatus;
     values.status = 0;
-    // console.log('VALUES.status : ', values.status);
-    // return;
+
     try {
       await addTracking(values);
     } catch (e) {

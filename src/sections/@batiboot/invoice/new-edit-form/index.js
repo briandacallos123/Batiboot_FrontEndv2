@@ -53,10 +53,10 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
   const [loadingSend, setLoadingSend] = useState(false);
 
   const NewUserSchema = Yup.object().shape({
-    createDate: Yup.string().nullable().required('Create date is required'),
-    dueDate: Yup.string().nullable().required('Due date is required'),
-    invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
-    status: Yup.string().nullable().required('Status is required'),
+    // createDate: Yup.string().nullable().required('Create date is required'),
+    // dueDate: Yup.string().nullable().required('Due date is required'),
+    // invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
+    // status: Yup.string().nullable().required('Status is required'),
   });
   // const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : currentInvoice.invoice_number;
   const id = !isEdit ? 'INV-'.concat(Math.floor(Math.random() * 9999999)) : identifier?.invoice_number;
@@ -198,7 +198,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ my: 3 }}>
-        {/* <LoadingButton
+        <LoadingButton
           color="error"
           size="small"
           variant="contained"
@@ -218,7 +218,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice, handleClose
           type="submit"
           sx={{ display: 'none' }}
           // ref={formRef}
-        /> */}
+        />
 
         <LoadingButton
           size="small"
