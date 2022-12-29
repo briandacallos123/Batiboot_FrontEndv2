@@ -99,7 +99,7 @@ export default function TrackingDetails() {
 
             {/* <TextField size="small" label="Status" InputLabelProps={{ shrink: true }} /> */}
             <Grid sx={{ marginY: 2 }}>
-              <RHFSelect label="Tracking Status" name="status">
+              <RHFSelect label="Tracking Status" name="status_id">
                 {STATUS_OPTION.map((option, key) => (
                   <option value={key}>{option}</option>
                 ))}

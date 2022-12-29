@@ -60,6 +60,38 @@ export default function TrackingAddModal(props) {
     // trackingNumber: Yup.string().required('trackingNumber is required'),
     // status: Yup.string().required('status is required'),
   });
+
+  const defaultValues = useMemo(
+    () => ({
+      order_id: '',
+      origin: '',
+      order_received_date: new Date(),
+      destination: '',
+      trackingNumber: '',
+      status_id: '',
+      invoiceId: identifier?.id || null,
+    }),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [identifier]
+  );
+
+  const methods = useForm({
+    resolver: yupResolver(schema),
+    defaultValues,
+  });
+
+  const {
+    reset,
+    control,
+    handleSubmit,
+    watch,
+
+    formState: { isSubmitting },
+  } = methods;
+
+  const values = watch();
+
   const onSubmit = async (data) => {
     // const { invoice_number: invoiceNumber, id: invoiceId, product_name: productName, order_id: orderId } = identifier;
     values.order_id = identifier?.order_id;
@@ -86,7 +118,9 @@ export default function TrackingAddModal(props) {
         break;
     }
     values.status = newStatus;
-
+    values.status = 0;
+    // console.log('VALUES.status : ', values.status);
+    // return;
     try {
       await addTracking(values);
     } catch (e) {
@@ -94,37 +128,6 @@ export default function TrackingAddModal(props) {
     }
     reset();
   };
-
-  const defaultValues = useMemo(
-    () => ({
-      order_id: '',
-      origin: '',
-      order_received_date: new Date(),
-      destination: '',
-      trackingNumber: '',
-      status: 0,
-      invoiceId: identifier?.id || null,
-    }),
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [identifier, open]
-  );
-
-  const methods = useForm({
-    resolver: yupResolver(schema),
-    defaultValues,
-  });
-
-  const {
-    reset,
-    control,
-    handleSubmit,
-    watch,
-
-    formState: { isSubmitting },
-  } = methods;
-
-  const values = watch();
 
   // console.log(values);
 
